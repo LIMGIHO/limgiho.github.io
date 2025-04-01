@@ -7,12 +7,12 @@ version: 2
 
 # Personal info
 name: 임기호
-title: 웹 개발자
+title: 풀스택 개발자
 email: Lasid84@naver.com
 # email_title: Email (Email title override)
 # phone: Your phone number (optional)
 # phone_title: Phone (Phone title override)
-website: https://limgiho.github.io/
+# website: https://limgiho.github.io/
 # website_title: Web (Website title override)
 
 # Dark Mode (true/false/never)
@@ -50,15 +50,23 @@ additional_links:
 
 # About Section
 # about_title: About Me (Use this to override about section title)
+# about_profile_image: images/tulipBulbs.png
+# about_content: | # this will include new lines to allow paragraphs
+#   Write an awesome description about yourself here, this supports markdown, so you can add [links](http://foobar.com) and highlight things <mark>like this</mark>.
+
+#   You can even add paragraphs by using empty lines like this and add anything else [markdown](https://www.markdownguide.org/getting-started#what-is-markdown) supports such as
+#     - Lists
+#     - Tables
+#     - <a href="google.com">Links</a>
+#     - Images ![alt text](/images/landscape-trees.jpg "Trees")
+
 about_profile_image: images/tulipBulbs.png
 about_content: | # this will include new lines to allow paragraphs
-  Write an awesome description about yourself here, this supports markdown, so you can add [links](http://foobar.com) and highlight things <mark>like this</mark>.
+  NodeJS & TypeScript, C# & .NET 기반의 14년차 개발자로 제조업과 물류업 등 다양한 산업 분야에서 웹 및 데스크톱 애플리케이션 개발을 주도해왔습니다. 
+  기존의 비효율적인 업무를 분석하고 개선하여 데이터 처리 자동화를 통해 월 500시간 이상의 업무를 절감했고, 
+  특정 업무의 처리 속도를 기존 10분에서 5초로 120배 향상시킨 성과가 있습니다. 회사와 팀 전체의 효율성과 성장을 우선시하며, 
+  복잡한 레거시 시스템을 효율적으로 통합하고 최적화하여 업무 환경을 실질적으로 개선하는 데 꾸준히 기여해왔습니다.
 
-  You can even add paragraphs by using empty lines like this and add anything else [markdown](https://www.markdownguide.org/getting-started#what-is-markdown) supports such as
-    - Lists
-    - Tables
-    - <a href="google.com">Links</a>
-    - Images ![alt text](/images/landscape-trees.jpg "Trees")
 
 content:
   - title: Projects # Title for the section
