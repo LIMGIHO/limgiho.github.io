@@ -1,0 +1,16 @@
+/* _includes/section-list.html 파일 내 h4 제목에 적용 (필요에 따라 더 구체적인 선택자 사용 가능) */
+
+.highlight-black {
+    background-color: black;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+.layout-top-middle.details {
+    text-align: center;
+}
+
+.layout-top-middle.details {
+    font-size: 1.2em !important;
+}
