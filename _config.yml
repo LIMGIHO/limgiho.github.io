@@ -118,9 +118,9 @@ content:
         quote: |
         description: |
           <ul>
-            <li><a href="https://velog.io/@lasid84/%EC%9B%B9-%EA%B8%B0%EB%B0%98-%ED%86%B5%ED%95%A9%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%B5%AC%EC%B6%95-%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8-%ED%86%B5%ED%95%A9%EA%B3%BC-%EC%B5%9C%EC%A0%81%ED%99%94-%EA%B2%BD%ED%97%98-%EA%B3%B5%EC%9C%A0" target="_blank">웹 기반 사내 통합 시스템 구축 프로젝트 전체 리드 (2023.09 ~ 현재)</a></li>     
+            <li><a href="https://velog.io/@lasid84/%EC%9B%B9%ED%86%B5%ED%95%A9-%EC%B5%9C%EC%A0%81%ED%99%94" target="_blank">웹 기반 사내 통합 시스템 구축 프로젝트 전체 리드 (2023.09 ~ 현재)</a></li>     
+            <li><a href="https://velog.io/@사용자명" target="_blank">RPA 프로젝트 전체 리드</a> (2024.08 ~ 2024.12)</li>
             <li><a href="https://velog.io/@사용자명" target="_blank">회계 프로그램 리뉴얼 전체 리드</a> (2023.01 ~ 2023.07)</li>   
-            <li><a href="https://velog.io/@사용자명" target="_blank">RPA 프로젝트 전체 리드</a> (2022.08 ~ 2022.12)</li>
             <li>국내 8개 법인 운반비 전산화 프로젝트 전체 리드 (2020.04 ~ 2020.12)</li>
             <li>국내외 MES시스템 리뉴얼 및 SAP연동 프로젝트 개발파트 리드 (2019.01 ~ 2019.12)</li>
           </ul>
@@ -130,7 +130,7 @@ content:
         quote: |
         description: |
           <ul>
-            <li>파편화 된 사내 전체 시스템(C#,VB6, Oracle Forms, React => TS & NextJS & Express) 마이그레이션 (2023.09 ~ 현재)</li>     
+            <li>파편화 된 사내 시스템(C#,VB6, Oracle Forms, React => TS & NextJS & Express) 마이그레이션 (2023.09 ~ 현재)</li>     
             <li>DBMS(Oracle, MySQL, PostgreSQL => PostgreSQL) 마이그레이션 (2023.01 ~ 2023.07)</li>   
             <li>MES시스템(VB6 => C#) 리뉴얼 및 SAP연동 (2019.01 ~ 2019.12)</li>
           </ul>
@@ -151,7 +151,7 @@ content:
         description: |
           <ul>
             <li>일 20만건의 외부 데이터 스크래핑 처리</li>   
-            <li>성능∙확장성∙유지보수성 고려한 아키텍처 구성</li>
+            <li><a href="https://velog.io/@lasid84/API-%EC%84%9C%EB%B2%84 target="_blank">성능∙확장성∙유지보수성 고려한 아키텍처 구성</a></li>
           </ul>
 
   - title: Skill # Title for the section
