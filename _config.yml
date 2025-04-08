@@ -145,15 +145,6 @@ content:
             <li>일 100만 건 이상의 SPC 측정 데이터 처리 프로그램 개발</li>
           </ul>
 
-      - title: 견고한 데이터 구조 및 애플리케이션 설계
-        layout: top-middle
-        quote: |
-        description: |
-          <ul>
-            <li>일 20만건의 외부 데이터 스크래핑 처리</li>   
-            <li><a href="https://velog.io/@lasid84/API-%EC%84%9C%EB%B2%84 target="_blank">성능∙확장성∙유지보수성 고려한 아키텍처 구성</a></li>
-          </ul>
-
   - title: Skill # Title for the section
     layout: list # Type of content section (list/text)
     content:
