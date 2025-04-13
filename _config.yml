@@ -18,6 +18,7 @@ website_title: 경력기술서
 # Dark Mode (true/false/never)
 darkmode: false
 
+
 # Social links
 # twitter_username: jekyllrb
 github_username:  limgiho
@@ -61,7 +62,7 @@ additional_links:
 #     - <a href="google.com">Links</a>
 #     - Images ![alt text](/images/landscape-trees.jpg "Trees")
 
-about_profile_image: images/tulipBulbs.png
+about_profile_image: images/AttackonTitan.png
 about_content: | # this will include new lines to allow paragraphs
   Node.js & TypeScript, C# & .NET 기반의 **14년차 풀스택 개발자**입니다. 제조 및 물류 등 다양한 산업군에서 **웹 및 데스크톱 애플리케이션**을 주도적으로 개발해 왔으며,
   레거시 시스템 통합, 자동화, 데이터 최적화에 강점을 가지고 있습니다. 
@@ -69,7 +70,10 @@ about_content: | # this will include new lines to allow paragraphs
   Oracle, MySQL, PostgreSQL 등 주요 RDBMS 환경에서 데이터 설계, 마이그레이션, 성능 튜닝까지 폭넓게 대응할 수 있습니다.
 
   저는 사용자와 팀의 효율을 함께 높이는 개발자를 지향합니다. 기술을 앞세우기보다 사용자 환경에 실제로 도움 되는 개발을 우선하며, 조직의 방향과 팀워크를 고려한 **커뮤니케이션과 협업**에도 강점을 가지고 있습니다.
-
+  <br>
+  <br>
+  <br>
+  <br>
 
 content: 
   - title: Experience # Title for the section
@@ -92,6 +96,8 @@ content:
             <li>PostgreSQL 성능 튜닝 및 장애 대응</li>
             <li><a href="https://velog.io/@lasid84/개발환경개선" target="_blank">코드리뷰 & 개발환경 개선</a></li>
           </ul>
+          <br>
+          <br>
 
       - layout: left
         border: weak  # Value of `weak` will display a weak border below this item. # Any 
@@ -111,11 +117,12 @@ content:
             <li>2017년 과장 <span class="highlight-black">특진</span></li>
             <li>2021년 <span class="highlight-black">우수사원</span> 표창</li>
           </ul>
+          <br>
 
-  - title: 역량
+  - title: <br>역량
     layout: list
     content: #| # this will include new lines to allow paragraphs
-      - title: 개발 파트 매니징
+      - title: <br>개발 파트 매니징
         layout: top-middle
         quote: |
         description: |
@@ -126,8 +133,9 @@ content:
             <li>국내 8개 법인 운반비 전산화 프로젝트 전체 리드 (2020.04 ~ 2020.12)</li>
             <li>국내외 MES시스템 리뉴얼 및 SAP연동 프로젝트 개발파트 리드 (2019.01 ~ 2019.12)</li>
           </ul>
+          <br>
 
-      - title: 레거시 시스템 리팩토링/리엔지니어링
+      - title: <br>레거시 시스템 리팩토링/리엔지니어링
         layout: top-middle
         quote: |
         description: |
@@ -136,8 +144,9 @@ content:
             <li>DBMS(Oracle, MySQL, PostgreSQL => PostgreSQL) 마이그레이션 (2023.01 ~ 2023.07)</li>   
             <li>MES시스템(VB6 => C#) 리뉴얼 및 SAP연동 (2019.01 ~ 2019.12)</li>
           </ul>
+          <br>
 
-      - title: 대용량 데이터 처리 및 성능 개선
+      - title: <br>대용량 데이터 처리 및 성능 개선
         layout: top-middle
         quote: |
         description: |
@@ -146,6 +155,8 @@ content:
             <li>약 1000만건 데이터 마이그레이션 및 Slow Query 튜닝</li>     
             <li>일 100만 건 이상의 SPC 측정 데이터 처리 프로그램 개발</li>
           </ul>
+          <br>
+          <br>
 
   - title: Skill # Title for the section
     layout: list # Type of content section (list/text)
