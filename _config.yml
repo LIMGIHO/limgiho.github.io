@@ -8,13 +8,13 @@ version: 2
 # Personal info
 name: 임기호
 title: 풀스택 개발자
+website: https://limgiho.github.io
 email: Lasid84@naver.com
 # email_title: Email (Email title override)
 # phone: Your phone number (optional)
 # phone_title: Phone (Phone title override)
 # website: https://limgiho.github.io/
-# website_title: Web (Website title override)
-
+website_title: 경력기술서
 # Dark Mode (true/false/never)
 darkmode: false
 
@@ -32,12 +32,13 @@ github_username:  limgiho
 # youtube_username: jekyll
 # orcid_username: 0000-0000-0000-0000
 # googlescholar_username: D847cGsAAAAJ
+velog_username: lasid84
 
 # Additional icon links
 additional_links:
-- title: Link name
-  icon: https://velog.io/favicon.ico
-  url: https://velog.io/@lasid84
+# - title: Link name
+#   icon: https://velog.io/favicon.ico
+#   url: https://velog.io/@lasid84
 # - title: another link
 #   icon: font awesome brand icon name (eg. fab fa-twitter) (https://fontawesome.com/icons?d=gallery&s=brands&m=free)
 #   url: Link url (eg. https://google.com)
@@ -119,8 +120,8 @@ content:
         quote: |
         description: |
           <ul>
-            <li><a href="https://velog.io/@lasid84/%EC%9B%B9%ED%86%B5%ED%95%A9-%EC%B5%9C%EC%A0%81%ED%99%94" target="_blank">웹 기반 사내 통합 시스템 구축 프로젝트 전체 리드 (2023.09 ~ 현재)</a></li>     
-            <li>RPA 프로젝트 전체 리드 (2024.08 ~ 2024.12)</li>
+            <li><a href="https://velog.io/@lasid84/%EC%9B%B9%ED%86%B5%ED%95%A9-%EC%B5%9C%EC%A0%81%ED%99%94"  target="_blank">웹 기반 사내 통합 시스템 구축 프로젝트 전체 리드 (2023.09 ~ 현재)</a></li>     
+            <li><a href="https://velog.io/@lasid84/RPA%ED%94%84%EB%A1%9C%EC%A0%9D%ED%8A%B8%EA%B5%AC%EC%B6%95" target="_blang">RPA 프로젝트 전체 리드 (2024.08 ~ 2024.12)</a></li>
             <li>회계 프로그램 리뉴얼 전체 리드 (2023.01 ~ 2023.07)</li>   
             <li>국내 8개 법인 운반비 전산화 프로젝트 전체 리드 (2020.04 ~ 2020.12)</li>
             <li>국내외 MES시스템 리뉴얼 및 SAP연동 프로젝트 개발파트 리드 (2019.01 ~ 2019.12)</li>
