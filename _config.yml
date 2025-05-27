@@ -7,7 +7,7 @@ version: 2
 
 # Personal info
 name: 임기호
-title: 풀스택 개발자
+title: 웹 개발자
 website: https://limgiho.github.io
 email: Lasid84@naver.com
 # email_title: Email (Email title override)
@@ -64,9 +64,10 @@ additional_links:
 
 about_profile_image: images/AttackonTitan.png
 about_content: | # this will include new lines to allow paragraphs
-  Node.js & TypeScript, C# & .NET 기반의 **14년차 풀스택 개발자**입니다. 제조 및 물류 등 다양한 산업군에서 **웹 및 데스크톱 애플리케이션**을 주도적으로 개발해 왔으며,
+  Node.js & TypeScript, C# & .NET 기반의 개발자입니다. 제조 및 물류 등 다양한 산업군에서 **웹 및 데스크톱 애플리케이션**을 주도적으로 개발해 왔으며,
   레거시 시스템 통합, 자동화, 데이터 최적화에 강점을 가지고 있습니다. 
-  반복 업무 자동화를 통해 **월 1200시간 이상의 업무 절감**, **10분 걸리던 작업을 5초로 단축**시키는 등 업무 효율을 높이는 개발 경험을 다수 보유하고 있습니다.
+  기존 C#, VB 등으로 구축된 다양한 레거시 애플리케이션을 **Next.js 및 Express 기반의 Node.js 환경으로 성공적으로 통합**하여, 운영 효율성과 유지보수성을 크게 향상시켰습니다.
+  반복 업무 자동화를 통해 **월 1200시간 이상의 업무 절감**, **10분 걸리던 작업을 5초로 단축**시키는 등 업무 효율을 높이는 개발 경험이 있습니다.
   Oracle, MySQL, PostgreSQL 등 주요 RDBMS 환경에서 데이터 설계, 마이그레이션, 성능 튜닝까지 폭넓게 대응할 수 있습니다.
 
   저는 사용자와 팀의 효율을 함께 높이는 개발자를 지향합니다. 기술을 앞세우기보다 사용자 환경에 실제로 도움 되는 개발을 우선하며, 조직의 방향과 팀워크를 고려한 **커뮤니케이션과 협업**에도 강점을 가지고 있습니다.
@@ -164,6 +165,16 @@ content:
       - layout: left
         border: weak  # Value of `weak` will display a weak border below this item. # Any 
                       # other value (or no value) means no border will be displayed
+        title: Frontend(Web & Desktop)
+        description: | # this will include new lines to allow paragraphs
+          <ul>
+            <li>React(Next.js) & TypeScript, Zustand</li>
+            <li>Windows Forms(C#)</li>
+          </ul>
+
+      - layout: left
+        border: weak  # Value of `weak` will display a weak border below this item. # Any 
+                      # other value (or no value) means no border will be displayed
         title: Backend
         description: | # this will include new lines to allow paragraphs
           <ul>
@@ -182,16 +193,6 @@ content:
             <li>TurboRepo, pnpm, Worker Threads, PM2</li>
             <li>Windows Server, Linux CentOS</li>
             <li>Nginx</li>
-          </ul>
-
-      - layout: left
-        border: weak  # Value of `weak` will display a weak border below this item. # Any 
-                      # other value (or no value) means no border will be displayed
-        title: Frontend(Web & Desktop)
-        description: | # this will include new lines to allow paragraphs
-          <ul>
-            <li>React(Next.js) & TypeScript, Zustand</li>
-            <li>Windows Forms(C#)</li>
           </ul>
 
   # - title: Experience # Title for the section
