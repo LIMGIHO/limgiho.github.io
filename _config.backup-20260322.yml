@@ -1,0 +1,252 @@
+# Site
+repository: Git repository where your resume will be hosted, only required if you are hosting on GitHub (eg. sproogen/modern-resume-theme)
+# favicon: Directory of your favicon (eg. images/favicon.ico)(optional)
+
+# Content configuration version
+version: 2
+
+# Personal info
+name: 임기호
+title: 개발자
+website: https://limgiho.github.io
+email: Lasid84@naver.com
+# email_title: Email (Email title override)
+# phone: Your phone number (optional)
+# phone_title: Phone (Phone title override)
+# website: https://limgiho.github.io/
+website_title: 경력기술서
+# Dark Mode (true/false/never)
+darkmode: false
+
+
+# Social links
+# twitter_username: jekyllrb
+github_username:  limgiho
+# stackoverflow_username: "00000001"
+# dribbble_username: jekyll
+# facebook_username: jekyll
+# flickr_username: jekyll
+# instagram_username: jekyll
+# linkedin_username: jekyll
+# xing_username: jekyll
+# pinterest_username: jekyll
+# youtube_username: jekyll
+# orcid_username: 0000-0000-0000-0000
+# googlescholar_username: D847cGsAAAAJ
+velog_username: lasid84
+
+# Additional icon links
+additional_links:
+# - title: Link name
+#   icon: https://velog.io/favicon.ico
+#   url: https://velog.io/@lasid84
+# - title: another link
+#   icon: font awesome brand icon name (eg. fab fa-twitter) (https://fontawesome.com/icons?d=gallery&s=brands&m=free)
+#   url: Link url (eg. https://google.com)
+
+# Google Analytics and Tag Manager
+# Using more than one of these may cause issues with reporting
+# gtm: "GTM-0000000"
+# gtag: "UA-00000000-0"
+# google_analytics: "UA-00000000-0"
+
+# About Section
+# about_title: About Me (Use this to override about section title)
+# about_profile_image: images/tulipBulbs.png
+# about_content: | # this will include new lines to allow paragraphs
+#   Write an awesome description about yourself here, this supports markdown, so you can add [links](http://foobar.com) and highlight things <mark>like this</mark>.
+
+#   You can even add paragraphs by using empty lines like this and add anything else [markdown](https://www.markdownguide.org/getting-started#what-is-markdown) supports such as
+#     - Lists
+#     - Tables
+#     - <a href="google.com">Links</a>
+#     - Images ![alt text](/images/landscape-trees.jpg "Trees")
+
+about_profile_image: images/AttackonTitan.png
+about_content: | # this will include new lines to allow paragraphs
+  Node.js & TypeScript, C# & .NET 기반의 개발자입니다. 제조 및 물류 등 다양한 산업군에서 **웹 및 데스크톱 애플리케이션**을 주도적으로 개발해 왔으며,
+  레거시 시스템 통합, 자동화, 데이터 최적화에 강점을 가지고 있습니다. 
+  기존 C#, VB 등으로 구축된 다양한 레거시 애플리케이션을 **Next.js 및 Express 기반의 Node.js 환경으로 성공적으로 통합**하여, 운영 효율성과 유지보수성을 크게 향상시켰습니다.
+  반복 업무 자동화를 통해 **월 1200시간 이상의 업무 절감**, **10분 걸리던 작업을 5초로 단축**시키는 등 업무 효율을 높이는 개발 경험이 있습니다.
+  Oracle, MySQL, PostgreSQL 등 주요 RDBMS 환경에서 데이터 설계, 마이그레이션, 성능 튜닝까지 폭넓게 대응할 수 있습니다.
+
+  저는 사용자와 팀의 효율을 함께 높이는 개발자를 지향합니다. 기술을 앞세우기보다 사용자 환경에 실제로 도움 되는 개발을 우선하며, 조직의 방향과 팀워크를 고려한 **커뮤니케이션과 협업**에도 강점을 가지고 있습니다.
+  <br>
+  <br>
+  <br>
+  <br>
+
+content: 
+  - title: Experience # Title for the section
+    layout: list # Type of content section (list/text)
+    content:
+      - layout: left
+        border: weak  # Value of `weak` will display a weak border below this item. # Any 
+                      # other value (or no value) means no border will be displayed
+        title: (주)케이더블유이코리아
+        link: https://www.kwe.com/
+        link_text: www.kwe.com
+        sub_title: 소프트웨어 엔지니어
+        caption: 2022.01 ~ 현재
+        quote: >
+          연매출 2,634억원의 국제 종합 물류기업
+        description: | # this will include new lines to allow paragraphs
+          <ul>
+            <li><strong>15종의 레거시 시스템 및 3종의 DBMS</strong>를 분석∙파악 후 <a href="https://velog.io/@lasid84/웹통합-최적화" target="_blank">웹 기반 통합 시스템</a>으로 전환해 중복 업무를 감소</li>
+            <li>외부 데이터 연동을 위한 <a href="https://velog.io/@lasid84/배치-프로젝트" target="_blank">스크래핑 시스템</a> 설계 및 구축</li>
+            <li>PostgreSQL 성능 튜닝 및 장애 대응</li>
+            <li><a href="https://velog.io/@lasid84/개발환경개선" target="_blank">코드리뷰 & 개발환경 개선</a></li>
+          </ul>
+          <br>
+          <br>
+
+      - layout: left
+        border: weak  # Value of `weak` will display a weak border below this item. # Any 
+                      # other value (or no value) means no border will be displayed
+        title: 일진글로벌
+        link: www.iljin.com
+        link_text: www.iljin.com
+        sub_title: C# & .Net개발자
+        caption: 2010.12 ~ 2021.12
+        quote: >
+          연매출 1조 314억원의 베어링 제조기업
+        description: | # this will include new lines to allow paragraphs
+          <ul>
+            <li>VB6/Oracle 기반 MES 레거시 <strong>분석∙파악</strong> 후, <strong>C# & .NET으로 재개발</strong> 및 <strong>SAP 연동 자동화</strong> 구축</li>
+            <li>슬로바키아 공장 MES 업그레이드(VB6 → C# .NET) <strong>프로젝트 팀 리드</strong>를 맡아, 한국 본사 및 현지 인력들과의 <strong>일정∙이슈 조율</strong> 및 개발 총괄</li>
+            <li>통계적 공정관리 이상현상 알림 시스템 개발(일 평균 100만 건 데이터 실시간 분석)</li>
+            <li>2017년 과장 <span class="highlight-black">특진</span></li>
+            <li>2021년 <span class="highlight-black">우수사원</span> 표창</li>
+          </ul>
+          <br>
+
+  - title: <br>역량
+    layout: list
+    content: #| # this will include new lines to allow paragraphs
+      - title: <br>개발 파트 매니징
+        layout: top-middle
+        quote: |
+        description: |
+          <ul>
+            <li><a href="https://velog.io/@lasid84/웹통합-최적화"  target="_blank">웹 기반 사내 통합 시스템 구축 프로젝트 전체 리드 (2023.09 ~ 현재)</a></li>     
+            <li><a href="https://velog.io/@lasid84/RPA프로젝트구축" target="_blang">RPA 프로젝트 전체 리드 (2024.08 ~ 2024.12)</a></li>
+            <li>회계 프로그램 리뉴얼 전체 리드 (2023.01 ~ 2023.07)</li>   
+            <li>국내 8개 법인 운반비 전산화 프로젝트 전체 리드 (2020.04 ~ 2020.12)</li>
+            <li>국내외 MES시스템 리뉴얼 및 SAP연동 프로젝트 개발파트 리드 (2019.01 ~ 2019.12)</li>
+          </ul>
+          <br>
+
+      - title: <br>레거시 시스템 리팩토링/리엔지니어링
+        layout: top-middle
+        quote: |
+        description: |
+          <ul>
+            <li>파편화 된 사내 시스템(C#,VB6, Oracle Forms, React => TS & NextJS & Express) 마이그레이션 (2023.09 ~ 현재)</li>     
+            <li>DBMS(Oracle, MySQL, PostgreSQL => PostgreSQL) 마이그레이션 (2023.01 ~ 2023.07)</li>   
+            <li>MES시스템(VB6 => C#) 리뉴얼 및 SAP연동 (2019.01 ~ 2019.12)</li>
+          </ul>
+          <br>
+
+      - title: <br>대용량 데이터 처리 및 성능 개선
+        layout: top-middle
+        quote: |
+        description: |
+          <ul>
+            <li>DBMS 프로시저 형상관리 및 Slow Query 알람 시스템 구축(2024.09 ~ 2024.12)</li>   
+            <li>약 1000만건 데이터 마이그레이션 및 Slow Query 튜닝</li>     
+            <li>일 100만 건 이상의 SPC 측정 데이터 처리 프로그램 개발</li>
+          </ul>
+          <br>
+          <br>
+
+  - title: Skill # Title for the section
+    layout: list # Type of content section (list/text)
+    content:
+      - layout: left
+        border: weak  # Value of `weak` will display a weak border below this item. # Any 
+                      # other value (or no value) means no border will be displayed
+        title: Frontend(Web & Desktop)
+        description: | # this will include new lines to allow paragraphs
+          <ul>
+            <li>React(Next.js) & TypeScript, Zustand</li>
+            <li>Windows Forms(C#)</li>
+          </ul>
+
+      - layout: left
+        border: weak  # Value of `weak` will display a weak border below this item. # Any 
+                      # other value (or no value) means no border will be displayed
+        title: Backend
+        description: | # this will include new lines to allow paragraphs
+          <ul>
+            <li>NodeJS & TypeScript, Express</li>
+            <li>Puppeteer, Proxy, Reflect</li>
+            <li>.NET(C#, 4.5, 6), WCF/gRPC</li>
+            <li>Oracle, PostgreSQL, MySQL</li>
+          </ul>
+      
+      - layout: left
+        border: weak  # Value of `weak` will display a weak border below this item. # Any 
+                      # other value (or no value) means no border will be displayed
+        title: DevOps
+        description: | # this will include new lines to allow paragraphs
+          <ul>
+            <li>TurboRepo, pnpm, Worker Threads, PM2</li>
+            <li>Windows Server, Linux CentOS</li>
+            <li>Nginx</li>
+          </ul>
+
+  # - title: Experience # Title for the section
+  #   layout: list # Type of content section (list/text)
+  #   content:
+  #     - layout: left
+  #       border: weak  # Value of `weak` will display a weak border below this item. # Any 
+  #                     # other value (or no value) means no border will be displayed
+  #       title: (주)케이더블유이코리아
+  #       link: https://www.kwe.com/
+  #       link_text: www.kwe.com
+  #       sub_title: 풀스택 개발자
+  #       caption: 2022.01 ~ 현재
+  #       quote: >
+  #         연매출 2,634억원의 국제 종합 물류기업
+  #       description: | # this will include new lines to allow paragraphs
+  #         <ul>
+  #           <li><strong>10종의 레거시 시스템 및 3종의 DBMS</strong>를 분석∙파악 후 <a href="https://velog.io/@사용자명" target="_blank">웹 기반 통합 시스템</a>으로 전환해 중복 업무를 크게 감소시킴</li>
+  #           <li>글로벌 시스템 연동을 위한 <a href="google.com">스크래핑 시스템</a> 설계 및 구축</li>
+  #           <li>PostgreSQL 성능 튜닝 및 장애 대응</li>
+  #           <li>코드리뷰 & 아키텍처 개선 등 개발환경 개선</li>
+  #         </ul>
+
+
+  # <div class="layout-top-middle details"><h4>레거시 개발 파트 매니징 / 프로젝트 리드</h4>
+  #   <a href="https://www.notion.so/5badc2ba03904832bce8fdf3dc4a407b" target="_blank" class="link">https://www.notion.so/5badc2ba03904832bce8fdf3dc4a407b</a>
+  #   <p class="quote">2022.01.17 ~ 현재</p>
+  # </div>
+  # <li>2021년 <span class="highlight-black">우수사원</span> 표창</li>
+
+# Footer
+footer_show_references: true
+# references_title: References on request (Override references text)
+
+# Build settings
+# theme: modern-resume-theme (Use this is you are hosting your resume yourself)
+# remote_theme: sproogen/modern-resume-theme (Use this if you are hosting your resume on GitHub)
+
+sass:
+  sass_dir: _sass
+  style: compressed
+
+plugins:
+ - jekyll-seo-tag
+
+exclude : [
+  "Gemfile",
+  "Gemfile.lock",
+  "node_modules",
+  "vendor/bundle/",
+  "vendor/cache/",
+  "vendor/gems/",
+  "vendor/ruby/",
+  "lib/",
+  "scripts/",
+  "docker-compose.yml",
+  ]

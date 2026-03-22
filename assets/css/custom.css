@@ -14,3 +14,132 @@
 .layout-top-middle.details {
     font-size: 1.2em !important;
 }
+
+.container {
+    margin-top: 72px;
+}
+
+.intro-container {
+    margin-top: 56px;
+}
+
+.intro-container h3,
+.list-container h3,
+.text-container h3 {
+    position: relative;
+    font-size: 2.8rem;
+    font-weight: 600;
+    color: inherit;
+    text-align: left;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(34, 34, 34, 0.14);
+}
+
+.intro-container h3::after,
+.list-container h3::after,
+.text-container h3::after {
+    content: "";
+    display: block;
+    width: 68px;
+    height: 4px;
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    background: currentColor;
+    border-radius: 999px;
+}
+
+.layout {
+    margin-top: 1.75rem;
+    align-items: flex-start;
+}
+
+.list-container .layout:first-of-type,
+.text-container .layout:first-of-type {
+    margin-top: 0;
+}
+
+.border-weak {
+    padding-bottom: 24px;
+    border-bottom: 1px dashed rgba(34, 34, 34, 0.18);
+}
+
+.layout-left .details,
+.layout-right .details {
+    margin-bottom: 0;
+}
+
+.layout .details h4 {
+    font-size: 2.1rem;
+    font-weight: 600;
+    line-height: 1.28;
+    margin-bottom: 0.35rem;
+}
+
+.layout .details p,
+.layout .content p,
+.layout .content ul,
+.intro-container p {
+    text-align: left;
+}
+
+.layout .content ul {
+    margin-bottom: 0;
+    padding-left: 1.4em;
+}
+
+.layout .content li + li {
+    margin-top: 0.45rem;
+}
+
+p.quote {
+    padding: 0.5rem 0 0.9rem;
+    margin-bottom: 1rem;
+    text-align: left;
+    font-style: normal;
+    color: rgba(34, 34, 34, 0.72);
+    border-bottom: 1px dashed rgba(34, 34, 34, 0.12);
+}
+
+.dark .intro-container h3,
+.dark .list-container h3,
+.dark .text-container h3 {
+    border-bottom-color: rgba(230, 230, 230, 0.28);
+}
+
+.dark .border-weak {
+    border-bottom-color: rgba(230, 230, 230, 0.24);
+}
+
+.dark p.quote {
+    color: rgba(230, 230, 230, 0.8);
+    border-bottom-color: rgba(230, 230, 230, 0.18);
+}
+
+@media screen and (max-width: 767px) {
+    .container {
+        margin-top: 56px;
+    }
+
+    .intro-container h3,
+    .list-container h3,
+    .text-container h3 {
+        font-size: 2.35rem;
+        margin-bottom: 24px;
+        padding-bottom: 12px;
+    }
+
+    .layout .details h4 {
+        font-size: 1.9rem;
+    }
+
+    .layout {
+        margin-top: 1.5rem;
+    }
+
+    .border-weak {
+        padding-bottom: 18px;
+    }
+}

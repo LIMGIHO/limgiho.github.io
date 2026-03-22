@@ -34,6 +34,7 @@ GEM
       http_parser.rb (~> 0)
     ethon (0.16.0)
       ffi (>= 1.15.0)
+    eventmachine (1.2.7)
     eventmachine (1.2.7-x64-mingw32)
     execjs (2.10.0)
     faraday (2.8.1)
@@ -41,6 +42,7 @@ GEM
       faraday-net_http (>= 2.0, < 3.1)
       ruby2_keywords (>= 0.0.4)
     faraday-net_http (3.0.2)
+    ffi (1.17.1)
     ffi (1.17.1-x64-mingw32)
     forwardable-extended (2.6.0)
     gemoji (3.0.1)
@@ -224,11 +226,15 @@ GEM
       rb-inotify (~> 0.9, >= 0.9.10)
     logger (1.6.6)
     mercenary (0.3.6)
+    mini_portile2 (2.8.9)
     minima (2.5.1)
       jekyll (>= 3.5, < 5.0)
       jekyll-feed (~> 0.9)
       jekyll-seo-tag (~> 2.1)
     minitest (5.25.5)
+    nokogiri (1.15.7)
+      mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
     nokogiri (1.15.7-x64-mingw32)
       racc (~> 1.4)
     octokit (4.25.1)
@@ -267,15 +273,21 @@ GEM
     tzinfo (1.2.11)
       thread_safe (~> 0.1)
     unicode-display_width (1.8.0)
+    webrick (1.9.2)
     yell (2.2.2)
     zeitwerk (2.6.18)
 
 PLATFORMS
+  ruby
   x64-mingw32
 
 DEPENDENCIES
   html-proofer (~> 3.9)
   modern-resume-theme!
+  webrick (~> 1.8)
+
+RUBY VERSION
+   ruby 3.1.6p260
 
 BUNDLED WITH
    2.1.4
