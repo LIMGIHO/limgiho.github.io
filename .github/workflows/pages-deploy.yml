@@ -31,10 +31,25 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
-      - name: Build site
+      - name: Build default site
         env:
           JEKYLL_ENV: production
-        run: bundle exec jekyll build
+        run: bundle exec jekyll build --config _config.yml --destination _site
+
+      - name: Build Kurly site
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build --config _config.kurly.yml --baseurl /kurly --destination _site/kurly
+
+      - name: Build 42dot site
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build --config _config.42dot.yml --baseurl /42dot --destination _site/42dot
+
+      - name: Build Woowahan site
+        env:
+          JEKYLL_ENV: production
+        run: bundle exec jekyll build --config _config.woowahan.yml --baseurl /woowahan --destination _site/woowahan
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
