@@ -84,6 +84,7 @@ content:
           4개 시스템 통합, 수작업 10분 -> 5초 단축, 라이선스 비용 절감, 소수 인원으로도 안정적인 전사 시스템 운영 기반 확보.
 
       - layout: left
+        border: weak
         title: 세금계산서 프로그램 리뉴얼 및 DB 전환
         sub_title: KWE Korea
         caption: 2023.01 - 2023.07
@@ -103,6 +104,26 @@ content:
 
           **결과**  
           유지보수성과 확장성 강화, 라이선스 비용 절감, 대규모 데이터 이전 자동화.
+
+      - layout: left
+        title: 글로벌 시스템 데이터 입력 자동화
+        sub_title: KWE Korea
+        caption: 2024.08 - 2024.12
+        quote: C#, WinForms, OCR, SQLite
+        description: |
+          **역할**  
+          설치형 글로벌 시스템의 반복 입력 작업을 줄이기 위한 자동화 프로그램 개발을 담당했습니다.
+
+          **문제**  
+          글로벌 시스템의 데이터 입력 작업에 과도한 시간이 소요되어 업무팀의 야근이 빈번하게 발생하고 있었습니다.
+
+          **주요 수행 내용**
+          - C# 기반 매크로 프로그램을 개발했습니다.
+          - 글로벌 시스템 화면의 글자와 위치 정보를 캡처하고, SQLite에 좌표를 저장하는 방식을 적용했습니다.
+          - 저장된 좌표와 OCR 인식을 바탕으로 일부 데이터 입력 흐름을 자동화했습니다.
+
+          **결과**  
+          월 1,200시간 절감, 입력 누락과 오입력 가능성 감소.
 
   - title: Experience
     layout: list
@@ -224,7 +245,7 @@ content:
           - Google 로그인, 데이터 저장 및 동기화, 광고, 구독 결제 등 운영에 필요한 외부 연동을 구성했습니다.
 
 # Footer
-footer_show_references: true
+footer_show_references: false
 
 # Build settings
 sass:
