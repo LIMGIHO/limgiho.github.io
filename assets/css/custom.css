@@ -49,6 +49,39 @@
     bottom: -2px;
     background: currentColor;
     border-radius: 999px;
+    transform-origin: left center;
+    transform: scaleX(1);
+    opacity: 1;
+}
+
+.intro-container h3.is-underline-animating::after,
+.list-container h3.is-underline-animating::after,
+.text-container h3.is-underline-animating::after {
+    animation: section-underline-on-scroll 2.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+}
+
+@keyframes section-underline-on-scroll {
+    0%,
+    12% {
+        transform: scaleX(0.08);
+        opacity: 0.2;
+    }
+
+    48% {
+        transform: scaleX(0.9);
+        opacity: 0.96;
+    }
+
+    78% {
+        transform: scaleX(1.05);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
 }
 
 .layout {
@@ -158,6 +191,22 @@ p.quote {
     background: rgba(230, 189, 92, 0.16);
     border-color: rgba(230, 189, 92, 0.34);
     color: rgba(255, 235, 179, 0.95);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .intro-container h3.is-underline-animating::after,
+    .list-container h3.is-underline-animating::after,
+    .text-container h3.is-underline-animating::after {
+        animation: none;
+    }
+}
+
+@media print {
+    .intro-container h3.is-underline-animating::after,
+    .list-container h3.is-underline-animating::after,
+    .text-container h3.is-underline-animating::after {
+        animation: none;
+    }
 }
 
 @media screen and (max-width: 767px) {
