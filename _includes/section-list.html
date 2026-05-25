@@ -7,6 +7,12 @@
         {%- if item.link_text -%}{{ item.link_text }}{%- else -%}{{ item.link }}{%- endif -%}
       </a>
       {%- endif -%}
+      {%- if item.link2 -%}
+       ·
+      {% include a.html href=item.link2 class="link" %}
+        {%- if item.link2_text -%}{{ item.link2_text }}{%- else -%}{{ item.link2 }}{%- endif -%}
+      </a>
+      {%- endif -%}
       
       {%- if item.sub_title -%}<p><b>{{ item.sub_title }}</b></p>{%- endif -%}
       {%- if item.caption -%}<p>{{ item.caption }}</p>{%- endif -%}
