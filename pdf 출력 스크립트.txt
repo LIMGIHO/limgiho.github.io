@@ -1,0 +1,7 @@
+cd ~/Desktop/Source/resume-pdf-builder
+
+# 화면 그대로 (기본)
+npm run build:open
+
+# A4 분할 버전
+npm run build:a4:open
