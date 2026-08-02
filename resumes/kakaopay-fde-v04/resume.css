@@ -194,7 +194,7 @@ a {
 }
 
 .project {
-  padding: 4.5mm 0;
+  padding: 5mm 0;
   border-bottom: 1px solid var(--line);
   break-inside: avoid;
 }
@@ -208,7 +208,7 @@ a {
   grid-template-columns: 1fr auto;
   align-items: end;
   gap: 6mm;
-  margin-bottom: 2.5mm;
+  margin-bottom: 2.8mm;
 }
 
 .project-period {
@@ -232,7 +232,7 @@ a {
 
 .project-details {
   display: grid;
-  gap: 1.5mm;
+  gap: 1.7mm;
 }
 
 .project-details > div {
@@ -243,14 +243,14 @@ a {
 
 .project-details dt {
   color: #4a4e53;
-  font-size: 8.7pt;
+  font-size: 8.9pt;
   font-weight: 700;
 }
 
 .project-details dd {
   color: #35393e;
-  font-size: 9.1pt;
-  line-height: 1.46;
+  font-size: 9.45pt;
+  line-height: 1.48;
 }
 
 .career-section {
@@ -288,7 +288,7 @@ a {
 .career header p,
 .career time {
   color: var(--muted);
-  font-size: 8.1pt;
+  font-size: 8.5pt;
 }
 
 .career time {
@@ -305,8 +305,8 @@ a {
 .career li {
   padding-left: 0.5mm;
   color: #3f4348;
-  font-size: 8.6pt;
-  line-height: 1.4;
+  font-size: 9pt;
+  line-height: 1.43;
 }
 
 .skill-list {
@@ -322,20 +322,20 @@ a {
 }
 
 .skill-list dt {
-  font-size: 8.6pt;
+  font-size: 8.9pt;
   font-weight: 700;
 }
 
 .skill-list dd {
   color: var(--muted);
-  font-size: 8.3pt;
+  font-size: 8.7pt;
 }
 
 .stack-section p {
   padding-top: 2.5mm;
   color: #3f4348;
-  font-size: 8.8pt;
-  line-height: 1.44;
+  font-size: 9.1pt;
+  line-height: 1.47;
 }
 
 .personal-project {
@@ -347,14 +347,14 @@ a {
 
 .personal-project h3 {
   margin-bottom: 0.7mm;
-  font-size: 9.7pt;
+  font-size: 10.1pt;
 }
 
 .personal-project p,
 .personal-more {
   color: #4a4e53;
-  font-size: 8.4pt;
-  line-height: 1.43;
+  font-size: 8.9pt;
+  line-height: 1.46;
 }
 
 .personal-more {
@@ -366,7 +366,7 @@ a {
   align-content: start;
   gap: 0.7mm;
   color: var(--muted);
-  font-size: 7.8pt;
+  font-size: 8.2pt;
   text-align: right;
 }
 
@@ -380,6 +380,10 @@ a {
 
 .page-career .samsung-project {
   padding: 3.8mm 0;
+}
+
+.page-career .samsung-project .project-details dd {
+  font-size: 9.35pt;
 }
 
 .page-career .resume-section {
