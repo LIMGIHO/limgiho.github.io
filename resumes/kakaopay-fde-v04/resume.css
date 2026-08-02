@@ -137,20 +137,54 @@ a {
 
 .history-list {
   list-style: none;
+  padding-top: 4mm;
 }
 
 .history-list li {
+  position: relative;
   display: grid;
-  grid-template-columns: 27mm 1fr;
-  gap: 5mm;
-  padding: 3.2mm 0;
-  border-bottom: 1px solid var(--line);
+  grid-template-columns: 20mm 1fr;
+  gap: 8mm;
+  padding: 0 0 4.2mm;
+}
+
+.history-list li::before {
+  position: absolute;
+  top: 3.2mm;
+  bottom: -0.6mm;
+  left: 23mm;
+  width: 1px;
+  background: var(--line);
+  content: "";
+}
+
+.history-list li:last-child {
+  padding-bottom: 0;
+}
+
+.history-list li:last-child::before {
+  display: none;
+}
+
+.history-list li::after {
+  position: absolute;
+  top: 1.1mm;
+  left: 21.9mm;
+  width: 2.2mm;
+  height: 2.2mm;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  background: var(--accent);
+  content: "";
+  print-color-adjust: exact;
+  -webkit-print-color-adjust: exact;
 }
 
 .history-list time {
   color: var(--muted);
   font-size: 9pt;
   font-weight: 650;
+  text-align: right;
 }
 
 .history-list h3 {
@@ -214,7 +248,7 @@ a {
 .project-period {
   margin-bottom: 0.7mm;
   color: var(--subtle);
-  font-size: 8pt;
+  font-size: 8.4pt;
 }
 
 .project h3 {
@@ -225,7 +259,7 @@ a {
 .project-tech {
   max-width: 76mm;
   color: var(--muted);
-  font-size: 7.5pt;
+  font-size: 8.1pt;
   line-height: 1.35;
   text-align: right;
 }
@@ -243,13 +277,13 @@ a {
 
 .project-details dt {
   color: #4a4e53;
-  font-size: 8.9pt;
+  font-size: 9.2pt;
   font-weight: 700;
 }
 
 .project-details dd {
   color: #35393e;
-  font-size: 9.45pt;
+  font-size: 9.8pt;
   line-height: 1.48;
 }
 
@@ -305,7 +339,7 @@ a {
 .career li {
   padding-left: 0.5mm;
   color: #3f4348;
-  font-size: 9pt;
+  font-size: 9.2pt;
   line-height: 1.43;
 }
 
@@ -328,7 +362,7 @@ a {
 
 .skill-list dd {
   color: var(--muted);
-  font-size: 8.7pt;
+  font-size: 8.9pt;
 }
 
 .stack-section p {
@@ -353,7 +387,7 @@ a {
 .personal-project p,
 .personal-more {
   color: #4a4e53;
-  font-size: 8.9pt;
+  font-size: 9.1pt;
   line-height: 1.46;
 }
 
@@ -366,7 +400,7 @@ a {
   align-content: start;
   gap: 0.7mm;
   color: var(--muted);
-  font-size: 8.2pt;
+  font-size: 8.4pt;
   text-align: right;
 }
 
@@ -383,7 +417,7 @@ a {
 }
 
 .page-career .samsung-project .project-details dd {
-  font-size: 9.35pt;
+  font-size: 9.8pt;
 }
 
 .page-career .resume-section {

@@ -13,6 +13,7 @@ import fitz
 
 ROOT = Path(__file__).resolve().parents[1]
 HTML = ROOT / "resumes/kakaopay-fde-v04/index.html"
+CSS = ROOT / "resumes/kakaopay-fde-v04/resume.css"
 PDF = ROOT / "output/pdf/versions/lim-giho-kakaopay-fde-resume-v04.pdf"
 
 REQUIRED = [
@@ -23,9 +24,23 @@ REQUIRED = [
     "삼성SDS 전세기 프로젝트 IT 지원",
     "9종",
     "55개",
-    "19개",
     "하루 20건",
     "월 약 200시간 규모",
+    "글로벌 시스템 UFS+",
+    "업무 플랫폼 통합과 글로벌 물류 시스템 자동화",
+    "세계 80개국",
+    "하우스 마감",
+    "인보이스 생성",
+    "마스터 마감",
+    "월 1,200시간",
+    "프론트엔드·API·Worker·공용 라이브러리",
+    "내부 HTTP API",
+    "Playwright E2E 테스트",
+    "레거시 실데이터",
+    "RAG",
+    "텍스트가 포함된 PDF",
+    "스캔본",
+    "OCR",
     "HealthDog",
     "액션톡",
     "Local LLM",
@@ -40,7 +55,30 @@ FORBIDDEN = [
     "40개 이상의 작업 단위",
     "NestJS를 고른 이유",
     "Java/Kotlin",
+    "본사",
+    "무인 연동",
+    "AEPOS",
+    "3개 DBMS",
+    "부서를 옮겨",
+    "화면과 배치가 같은 조회 경로",
+    "벤더마다 형식",
+    "19개",
+    "판단 기준이 없는 14개",
+    "추출할 수 없는 9개",
+    "현업 정의를 기다리는 13개",
 ]
+
+MINIMUM_FONT_SIZES = {
+    ".project-tech": 8.0,
+    ".project-details dt": 9.1,
+    ".project-details dd": 9.7,
+    ".career li": 9.2,
+    ".skill-list dd": 8.9,
+    ".stack-section p": 9.1,
+    ".personal-project p": 9.1,
+    ".personal-more": 9.1,
+    ".project-links": 8.4,
+}
 
 
 def fail(message: str) -> None:
@@ -48,12 +86,47 @@ def fail(message: str) -> None:
 
 
 def check_phrases(text: str, label: str) -> None:
+    compact_text = re.sub(r"\s+", "", text)
     for phrase in REQUIRED:
-        if phrase not in text:
+        compact_phrase = re.sub(r"\s+", "", phrase)
+        if phrase not in text and compact_phrase not in compact_text:
             fail(f"{label}: required phrase missing: {phrase}")
     for phrase in FORBIDDEN:
-        if phrase in text:
+        compact_phrase = re.sub(r"\s+", "", phrase)
+        if phrase in text or compact_phrase in compact_text:
             fail(f"{label}: forbidden phrase found: {phrase}")
+
+
+def font_size_for_selector(css: str, selector: str) -> float:
+    for selector_group, declarations in re.findall(r"([^{}]+)\{([^{}]*)\}", css):
+        selectors = [item.strip() for item in selector_group.split(",")]
+        if selector not in selectors:
+            continue
+        match = re.search(r"font-size:\s*([0-9.]+)pt", declarations)
+        if match:
+            return float(match.group(1))
+    fail(f"CSS: font-size rule missing for {selector}")
+    return 0
+
+
+def check_css() -> None:
+    if not CSS.exists():
+        fail(f"CSS not found: {CSS.relative_to(ROOT)}")
+
+    css = CSS.read_text(encoding="utf-8")
+    for selector in (".history-list li::before", ".history-list li::after"):
+        if selector not in css:
+            fail(f"CSS: timeline selector missing: {selector}")
+
+    for selector, minimum in MINIMUM_FONT_SIZES.items():
+        actual = font_size_for_selector(css, selector)
+        if actual < minimum:
+            fail(
+                f"CSS: {selector} font-size {actual:g}pt is below "
+                f"the {minimum:g}pt minimum"
+            )
+
+    print("CSS checks passed")
 
 
 def check_html() -> None:
@@ -66,10 +139,11 @@ def check_html() -> None:
     footer_count = len(re.findall(r"<span>\s*limgiho\s*</span>", text))
     if footer_count != 3:
         fail(f"HTML: expected 3 limgiho footers, found {footer_count}")
-    if text.count("AEPOS") != 1:
-        fail(f"HTML: expected AEPOS once, found {text.count('AEPOS')}")
+    if len(re.findall(r"<ol class=\"history-list\">.*?</ol>", text, re.DOTALL)) != 1:
+        fail("HTML: expected one KWE timeline")
 
     print("HTML checks passed")
+    check_css()
 
 
 def check_pdf() -> None:
@@ -101,8 +175,6 @@ def check_pdf() -> None:
         check_phrases(full_text, "PDF")
         if len(re.findall(r"(?m)^limgiho\s*$", full_text)) != 3:
             fail("PDF: expected exactly 3 limgiho footer lines")
-        if full_text.count("AEPOS") != 1:
-            fail(f"PDF: expected AEPOS once, found {full_text.count('AEPOS')}")
     finally:
         document.close()
 
