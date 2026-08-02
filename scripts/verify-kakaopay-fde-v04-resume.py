@@ -28,9 +28,7 @@ REQUIRED = [
     "글로벌 시스템 UFS+",
     "업무 플랫폼 통합과 글로벌 시스템 자동화",
     "세계 80개국",
-    "하우스 마감",
     "인보이스 생성",
-    "마스터 마감",
     "월 1,200시간",
     "프론트엔드·API·Worker·공용 라이브러리",
     "내부 HTTP API",
@@ -155,6 +153,16 @@ def check_html() -> None:
         fail("HTML: expected 소개 summary heading")
     if '<h2 id="summary-title">경력 요약</h2>' in text:
         fail("HTML: legacy 경력 요약 heading found")
+    expected_automation_result = (
+        "개별 운송장 마감, 인보이스 생성, 통합 운송장 마감으로 이어지는 업무를 "
+        "자동화했습니다. 실패 건은 재시도하고 진행 상태를 추적할 수 있게 해 월 "
+        "1,200시간 상당의 반복 작업을 줄였습니다."
+    )
+    if expected_automation_result not in text:
+        fail("HTML: plain-language UFS+ automation result missing")
+    for legacy_term in ("하우스 마감", "마스터 마감"):
+        if legacy_term in text:
+            fail(f"HTML: unexplained logistics term found: {legacy_term}")
     check_phrases(text, "HTML")
 
     footer_count = len(re.findall(r"<span>\s*limgiho\s*</span>", text))
