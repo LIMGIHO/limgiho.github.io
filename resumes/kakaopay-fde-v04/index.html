@@ -26,13 +26,11 @@
 
         <section class="resume-section career-summary" aria-labelledby="summary-title">
           <h2 id="summary-title">경력 요약</h2>
-          <ul class="summary-list">
-            <li>2010년부터 제조 MES와 물류 업무 시스템을 개발하고 운영했습니다.</li>
-            <li>KWE 입사 후 부서별로 흩어진 15종 이상의 레거시를 항공·해운·재무 중심의 5개 업무 플랫폼으로 통합해 왔습니다.</li>
-            <li>세계 80개국에서 사용하는 글로벌 시스템 UFS+와 로컬 플랫폼을 연결해 하우스 마감·인보이스 생성·마스터 마감을 자동화했습니다.</li>
-            <li>최근에는 AI 에이전트로 동작하는 MVP를 먼저 제공해 현업의 예외와 미정 기준을 앞당겨 확인하고 있습니다.</li>
-            <li>온프레미스 LLM을 문서 처리와 담당자 검색(RAG)에 적용하고 있으며, 로컬시스템팀 리더로 팀원 2명과 일하고 있습니다.</li>
-          </ul>
+          <div class="summary-copy">
+            <p>제조 MES와 물류 업무 시스템을 개발하고 운영해 왔습니다. 현업의 작업 순서와 예외를 파악하고, 흩어진 프로그램과 데이터를 하나의 업무 흐름으로 정리하는 일을 주로 맡았습니다.</p>
+            <p>KWE에서는 부서별로 나뉘어 있던 15종 이상의 레거시를 항공·해운·재무 중심의 5개 업무 플랫폼으로 통합했습니다. 세계 80개국에서 사용하는 글로벌 시스템 UFS+와 로컬 플랫폼을 연결하고, 프론트엔드부터 API·Worker·데이터베이스·배포 환경까지 운영 구조를 만들고 있습니다.</p>
+            <p>최근에는 AI 에이전트로 MVP를 먼저 만들어 현업과 요구사항을 구체화하고 있습니다. 온프레미스 LLM으로 형식이 다른 물류·통관 문서의 값을 미리 정의한 JSON 스키마에 매핑하고, RAG로 담당 업무와 담당자를 찾는 기능을 개발하고 있습니다. 현재 로컬시스템팀 리더로 팀원 2명과 일하고 있습니다.</p>
+          </div>
         </section>
 
         <section class="resume-section work-history" aria-labelledby="work-history-title">
@@ -91,7 +89,7 @@
           <header class="project-header">
             <div>
               <p class="project-period">KWE Korea · 2022-현재</p>
-              <h3>업무 플랫폼 통합과 글로벌 물류 시스템 자동화</h3>
+              <h3>업무 플랫폼 통합과 글로벌 시스템 자동화</h3>
             </div>
             <p class="project-tech">Next.js · NestJS · Worker · BullMQ · PostgreSQL · Okta / Entra</p>
           </header>
@@ -143,22 +141,22 @@
           <header class="project-header">
             <div>
               <p class="project-period">KWE Korea · 2026</p>
-              <h3>온프레미스 LLM 문서 추출과 RAG 담당 업무 검색</h3>
+              <h3>온프레미스 LLM 문서 구조화와 RAG 담당 업무 검색</h3>
             </div>
             <p class="project-tech">Local LLM · RAG · OCR · Structured JSON · Vitest · On-premise</p>
           </header>
           <dl class="project-details">
             <div>
               <dt>문제</dt>
-              <dd>수출신고필증은 국가에서 발행해 양식은 일정하지만 텍스트가 포함된 PDF와 스캔본이 섞여 있었습니다. 주소·품목·수량처럼 문맥이 필요한 값은 정규표현식만으로 안정적으로 구분하기 어려웠습니다.</dd>
+              <dd>거래처별 물류·통관 문서는 양식과 항목 위치가 달랐지만 추출할 주소·품목·수량 등은 정해져 있었습니다. 텍스트가 포함된 PDF와 스캔본이 섞여 있어 하나의 방식으로 읽기도 어려웠습니다.</dd>
             </div>
             <div>
-              <dt>문서 추출</dt>
-              <dd>PDF 텍스트를 우선 추출하고 텍스트가 없는 스캔본만 OCR을 거치는 하이브리드 구조로 만들었습니다. 정규표현식을 계속 늘리는 대신 Local LLM이 주소·품목·수량 등 각 항목을 문맥으로 판별하게 해 추출 정확성을 높였습니다.</dd>
+              <dt>문서 구조화</dt>
+              <dd>PDF 텍스트를 우선 추출하고 텍스트가 없는 스캔본만 OCR을 거치는 하이브리드 구조로 만들었습니다. 양식마다 정규표현식을 추가하는 대신 미리 정의한 JSON 스키마를 두고, Local LLM이 문맥을 해석해 각 값을 지정된 JSON 키에 매핑하도록 했습니다.</dd>
             </div>
             <div>
               <dt>RAG 검색</dt>
-              <dd>담당 업무 데이터는 RAG로 검색해 질문과 가까운 업무 근거와 담당자 후보를 함께 제시합니다. 모델이 담당자를 임의로 만들지 않도록 검색된 후보 안에서만 답하고, 결과가 불확실하면 사용자가 다시 확인하는 human-in-the-loop 구조입니다.</dd>
+              <dd>담당 업무 데이터는 RAG로 검색해 질문과 관련된 업무 근거와 담당자 후보를 함께 제시합니다. 모델이 담당자를 임의로 만들지 않도록 검색된 후보 안에서만 답하고, 결과가 불확실하면 사용자가 다시 확인하는 human-in-the-loop 구조입니다.</dd>
             </div>
             <div>
               <dt>검증</dt>

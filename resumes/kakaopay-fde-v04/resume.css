@@ -135,6 +135,17 @@ a {
   line-height: 1.5;
 }
 
+.summary-copy {
+  display: grid;
+  gap: 2mm;
+  padding-top: 3.5mm;
+}
+
+.summary-copy p {
+  color: #35393e;
+  line-height: 1.55;
+}
+
 .history-list {
   list-style: none;
   padding-top: 4mm;
