@@ -17,7 +17,6 @@ CSS = ROOT / "resumes/kakaopay-fde-v04/resume.css"
 PDF = ROOT / "output/pdf/versions/lim-giho-kakaopay-fde-resume-v04.pdf"
 
 REQUIRED = [
-    "경력 요약",
     "KWE 주요 업무",
     "주요 결과",
     "주요 프로젝트",
@@ -152,6 +151,10 @@ def check_html() -> None:
         fail(f"HTML not found: {HTML.relative_to(ROOT)}")
 
     text = HTML.read_text(encoding="utf-8")
+    if '<h2 id="summary-title">소개</h2>' not in text:
+        fail("HTML: expected 소개 summary heading")
+    if '<h2 id="summary-title">경력 요약</h2>' in text:
+        fail("HTML: legacy 경력 요약 heading found")
     check_phrases(text, "HTML")
 
     footer_count = len(re.findall(r"<span>\s*limgiho\s*</span>", text))
@@ -159,6 +162,15 @@ def check_html() -> None:
         fail(f"HTML: expected 3 limgiho footers, found {footer_count}")
     if len(re.findall(r"<ol class=\"history-list\">.*?</ol>", text, re.DOTALL)) != 1:
         fail("HTML: expected one KWE timeline")
+
+    summary_match = re.search(
+        r'<div class="summary-copy">(.*?)</div>', text, re.DOTALL
+    )
+    if not summary_match:
+        fail("HTML: summary-copy section missing")
+    strong_count = len(re.findall(r"<strong>.*?</strong>", summary_match.group(1)))
+    if strong_count != 7:
+        fail(f"HTML: expected 7 summary highlights, found {strong_count}")
 
     print("HTML checks passed")
     check_css()
