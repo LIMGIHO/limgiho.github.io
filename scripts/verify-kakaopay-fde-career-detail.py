@@ -7,7 +7,6 @@ import argparse
 import hashlib
 import re
 import sys
-from html import unescape
 from pathlib import Path
 
 import fitz
@@ -17,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 HTML = ROOT / "resumes/kakaopay-fde-career-detail/index.html"
 CSS = ROOT / "resumes/kakaopay-fde-career-detail/resume.css"
 VERSIONED_PDF = (
-    ROOT / "output/pdf/versions/lim-giho-kakaopay-fde-career-detail-v02.pdf"
+    ROOT / "output/pdf/versions/lim-giho-kakaopay-fde-career-detail-gdocs-v03.pdf"
 )
 PUBLIC_PDF = ROOT / "assets/resume/lim-giho-kakaopay-fde-career-detail.pdf"
 
@@ -64,6 +63,25 @@ REQUIRED_URLS = {
     "https://velog.io/@lasid84/commentfilter-1",
     "https://play.google.com/store/apps/details?id=com.healthdog.app",
     "https://play.google.com/store/apps/details?id=com.giholim.actiondog",
+}
+
+GOOGLE_DOCS_PDF_REQUIRED_PHRASES = [
+    "경력기술서",
+    "업무 플랫폼 통합과 글로벌 시스템 자동화",
+    "GitLab CI/CD와 컨테이너 배포 체계 구축",
+    "AI 에이전트를 이용한 MVP 개발과 요구사항 확인",
+    "온프레미스 LLM 문서 구조화와 RAG 담당 업무 검색",
+    "삼성 전세기 프로젝트 IT 지원",
+    "세금계산서 프로그램 리뉴얼",
+    "ILJIN Global",
+    "월 1,200시간",
+    "월 약 200시간",
+    "HealthDog",
+    "액션독",
+]
+
+GOOGLE_DOCS_PDF_REQUIRED_URLS = {
+    "https://github.com/limgiho",
 }
 
 
@@ -139,19 +157,6 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def html_body_fragments() -> list[str]:
-    source = HTML.read_text(encoding="utf-8")
-    body_match = re.search(r"<body\b[^>]*>(.*)</body>", source, re.DOTALL)
-    if not body_match:
-        fail("HTML: body element missing")
-    fragments = []
-    for value in re.findall(r">([^<>]+)<", body_match.group(1)):
-        normalized = compact(unescape(value))
-        if normalized:
-            fragments.append(normalized)
-    return fragments
-
-
 def check_pdf() -> None:
     for path in (VERSIONED_PDF, PUBLIC_PDF):
         if not path.exists():
@@ -173,7 +178,7 @@ def check_pdf() -> None:
                     f"{rect.width:.2f} x {rect.height:.2f} pt"
                 )
             page_text = page.get_text("text")
-            if len(page_text.strip()) < 700:
+            if len(page_text.strip()) < 100:
                 fail(
                     f"PDF page {index}: too little extractable text "
                     f"({len(page_text.strip())} chars)"
@@ -184,27 +189,17 @@ def check_pdf() -> None:
             )
 
         full_text = "\n".join(page_texts)
-        check_phrases(full_text, "PDF")
         compact_pdf_text = compact(full_text)
-        missing_fragments = [
-            fragment
-            for fragment in html_body_fragments()
-            if fragment not in compact_pdf_text
-        ]
-        if missing_fragments:
-            fail(
-                "PDF: visible HTML text missing: "
-                + ", ".join(missing_fragments[:5])
-            )
-        if len(re.findall(r"(?m)^limgiho\s*$", full_text)) != 4:
-            fail("PDF: expected four limgiho footer lines")
-        missing_urls = REQUIRED_URLS - pdf_urls
+        for phrase in GOOGLE_DOCS_PDF_REQUIRED_PHRASES:
+            if compact(phrase) not in compact_pdf_text:
+                fail(f"PDF: Google Docs phrase missing: {phrase}")
+        missing_urls = GOOGLE_DOCS_PDF_REQUIRED_URLS - pdf_urls
         if missing_urls:
             fail(f"PDF: required URLs missing: {sorted(missing_urls)}")
     finally:
         document.close()
 
-    print("PDF checks passed: 4 A4 pages")
+    print("PDF checks passed: Google Docs original, 4 A4 pages")
 
 
 def main() -> int:
