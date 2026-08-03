@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="임기호 카카오페이 FDE 상세 경력기술서" />
+    <title>임기호 - 카카오페이 FDE 상세 경력기술서</title>
+    <link rel="stylesheet" href="resume.css" />
+  </head>
+  <body>
+    <main class="resume">
+      <section class="resume-page page-overview" aria-labelledby="profile-title">
+        <header class="identity-header">
+          <div>
+            <h1 id="profile-title">임기호</h1>
+            <p class="role-title">Software Engineer · Full-Stack · Platform · Integration</p>
+          </div>
+          <address class="contact-list">
+            <a href="mailto:lasid84@gmail.com">lasid84@gmail.com</a>
+            <a href="tel:+821054960663">010-5496-0663</a>
+            <a href="https://github.com/limgiho">github.com/limgiho</a>
+          </address>
+        </header>
+
+        <section class="intro" aria-labelledby="document-title">
+          <p class="eyebrow">카카오페이 FDE 지원</p>
+          <h2 id="document-title">상세 경력기술서</h2>
+          <p>제조 MES와 물류 업무 시스템을 개발하고 운영해 왔습니다. 현업의 작업 순서와 예외를 파악하고, 흩어진 프로그램과 데이터를 하나의 업무 흐름으로 정리하는 일을 주로 맡았습니다.</p>
+          <p>KWE에서는 로컬시스템팀 리더로 프론트엔드부터 API·Worker·데이터베이스·외부 연동·배포 환경까지 함께 담당하고 있습니다. 구축을 끝낸 기능은 운영에 적용하고, 실제 데이터에서 확인된 예외를 다음 개선에 반영합니다.</p>
+        </section>
+
+        <section class="company-overview" aria-labelledby="kwe-title">
+          <div class="section-heading heading-row">
+            <div>
+              <p class="eyebrow">2022.01–현재</p>
+              <h2 id="kwe-title">KWE Korea</h2>
+            </div>
+            <p class="company-role">전략개발부 차장 · 로컬시스템팀 리더 · 팀원 2명</p>
+          </div>
+          <ul class="summary-list">
+            <li>15종 이상의 사내 프로그램과 데이터를 단일 통합 플랫폼으로 재구성했습니다.</li>
+            <li>글로벌 물류 운영 시스템과 로컬 플랫폼을 연결해 마감·인보이스·관세청 조회 업무를 자동화했습니다.</li>
+            <li>Next.js·NestJS 웹과 API, Worker, 데이터베이스, GitLab CI/CD와 컨테이너 배포 체계를 구축했습니다.</li>
+          </ul>
+          <div class="status-timeline" aria-label="KWE 프로젝트 상태">
+            <div><time>2022–현재</time><strong>통합 플랫폼</strong><span>운영·확장 중</span></div>
+            <div><time>2023</time><strong>세금계산서 리뉴얼</strong><span>완료</span></div>
+            <div><time>2025</time><strong>CI/CD·컨테이너 배포</strong><span>구축 완료·운영 중</span></div>
+            <div><time>2026</time><strong>삼성 전세기 IT 지원</strong><span>완료</span></div>
+            <div><time>2026–현재</time><strong>AI MVP·LLM·RAG</strong><span>적용·고도화 중</span></div>
+          </div>
+        </section>
+
+        <article class="project featured-project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2022–현재</p>
+              <h2>업무 플랫폼 통합과 글로벌 물류 운영 자동화</h2>
+            </div>
+            <span class="status status-active">운영·확장 중</span>
+          </header>
+          <p class="project-tech">Next.js · NestJS · PostgreSQL · Redis · BullMQ · Okta · Microsoft Entra</p>
+          <dl class="project-details">
+            <div><dt>배경</dt><dd>항공·해운·재무 업무가 15종 이상의 개별 프로그램과 서로 다른 데이터베이스에 분산돼 있었습니다. 데이터 기준이 달라 같은 정보를 다시 입력하거나 수기로 대조하는 일이 반복됐습니다.</dd></div>
+            <div><dt>구축</dt><dd>기존 화면을 복제하지 않고 업무를 도메인별로 재구성해 단일 플랫폼에 통합했습니다. 프론트엔드·API·Worker·공용 라이브러리는 처음부터 모노레포로 설계했습니다.</dd></div>
+            <div><dt>연동 구조</dt><dd>공식 API가 없는 글로벌 물류 운영 시스템(UFS+)과 연동하기 위해 Okta·Microsoft Entra 인증 흐름과 업무 요청을 HTTP 수준에서 구현했습니다. 스케줄과 BullMQ 작업 소비는 Worker로 분리하고 내부 HTTP API를 통해 처리하도록 경계를 나눴습니다.</dd></div>
+            <div><dt>완료 결과</dt><dd>개별 운송장 마감, 인보이스 생성, 통합 운송장 마감을 자동화해 월 1,200시간 상당의 반복 작업을 줄였습니다. 관세청 조회는 건당 10분에서 5초 이내로 단축했습니다.</dd></div>
+            <div><dt>현재 상태</dt><dd>구축한 기능을 운영에 적용했고, 대상 업무와 재시도·작업 상태 추적 범위를 확장하고 있습니다.</dd></div>
+          </dl>
+        </article>
+
+        <footer class="page-footer"><span>limgiho</span><span>1 / 4</span></footer>
+      </section>
+
+      <section class="resume-page page-kwe" aria-labelledby="kwe-project-title">
+        <header class="page-header">
+          <p class="eyebrow">KWE Korea</p>
+          <h1 id="kwe-project-title">구축한 체계와 현재의 확장</h1>
+        </header>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">2025</p>
+              <h2>GitLab CI/CD와 컨테이너 배포 체계 구축</h2>
+            </div>
+            <span class="status status-built">구축 완료·운영 중</span>
+          </header>
+          <p class="project-tech">GitLab CI/CD · Docker · Docker Swarm · Kaniko · Portainer</p>
+          <dl class="project-details">
+            <div><dt>전환</dt><dd>PM2 수동 배포를 GitLab CI/CD와 Docker Swarm 기반으로 전환해 테스트가 실패한 변경을 배포 전에 차단했습니다.</dd></div>
+            <div><dt>운영 기준</dt><dd>브랜치·커밋 단위 이미지와 배포 로그를 남겨 동일 이미지 재배포, 변경 이력 추적과 롤백 기준을 마련했습니다.</dd></div>
+            <div><dt>검증</dt><dd>CI fresh checkout에서만 발생한 공용 패키지 해석 문제를 재현해 테스트 환경이 source entry를 사용하도록 수정했습니다. Teams 실패 알림의 JSON escaping 문제도 정리했습니다.</dd></div>
+            <div><dt>결과</dt><dd>빌드 단계를 측정해 일반 변경을 8분에서 6분으로 줄였습니다. 권한 위험이 커지는 추가 단축안은 적용하지 않았고 Runner 분리를 후속 과제로 정했습니다.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">2026–현재</p>
+              <h2>AI 에이전트를 이용한 MVP 개발과 요구사항 확인</h2>
+            </div>
+            <span class="status status-active">적용·고도화 중</span>
+          </header>
+          <p class="project-tech">Codex · Claude Code · TDD · Playwright · 설계 문서 아카이브</p>
+          <dl class="project-details">
+            <div><dt>접근</dt><dd>회의만으로 정하기 어려운 입력 순서, 예외 데이터와 부서별 판단 기준을 작은 수직 단위의 동작하는 MVP로 먼저 구현해 현업 검증 시점을 앞당겼습니다.</dd></div>
+            <div><dt>검증</dt><dd>레거시 실데이터를 신규 화면에 직접 입력하는 Playwright E2E 테스트로 입력·저장·화면 간 흐름을 실제 사용자 경로로 확인했습니다.</dd></div>
+            <div><dt>확인 결과</dt><dd>E2E 테스트에서 데이터 마이그레이션 오류를 발견했습니다. OneDrive 문서 자동화는 세 가지 접근을 각각 MVP로 시험한 뒤 서버가 사용자 저장소를 직접 다루지 않는 권한 경계를 정했습니다.</dd></div>
+            <div><dt>현재 상태</dt><dd>확인한 예외와 판단 기준을 다음 구현에 반영하고, 프로젝트별 설계·테스트·작업 기록을 아카이브에 축적합니다.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">2026–현재</p>
+              <h2>온프레미스 LLM 문서 구조화와 RAG 담당 업무 검색</h2>
+            </div>
+            <span class="status status-progress">개발 중</span>
+          </header>
+          <p class="project-tech">Local LLM · RAG · OCR · Structured JSON · Vitest · On-premise</p>
+          <dl class="project-details">
+            <div><dt>문서 구조화</dt><dd>텍스트 PDF를 우선 추출하고 텍스트가 없는 스캔본만 OCR을 거치게 했습니다. 양식별 정규표현식 대신 Local LLM이 문맥을 해석해 값을 미리 정의한 JSON 키에 매핑하도록 구현했습니다.</dd></div>
+            <div><dt>RAG 검색</dt><dd>업무 근거와 담당자 후보를 함께 제시하고, 모델이 검색된 후보 밖의 담당자를 만들지 않게 했습니다. 결과가 불확실하면 사용자가 다시 확인하는 human-in-the-loop 구조입니다.</dd></div>
+            <div><dt>검증·보안</dt><dd>실제 PDF 회귀 테스트로 OCR 오인식과 품목 누락을 확인하고 수량·단가·금액은 산술로 교차 검증했습니다. 문서는 외부로 보내지 않고 로그에도 원문과 OCR 전문을 남기지 않습니다.</dd></div>
+            <div><dt>현재 상태</dt><dd>OCR·LLM 정확도와 운영 적용 범위를 고도화하고 있습니다.</dd></div>
+          </dl>
+        </article>
+
+        <footer class="page-footer"><span>limgiho</span><span>2 / 4</span></footer>
+      </section>
+
+      <section class="resume-page page-projects" aria-labelledby="completed-title">
+        <header class="page-header">
+          <p class="eyebrow">KWE Korea · ILJIN Global</p>
+          <h1 id="completed-title">완료 프로젝트와 구축 결과</h1>
+        </header>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2026</p>
+              <h2>삼성 전세기 프로젝트 IT 지원</h2>
+            </div>
+            <span class="status status-complete">완료</span>
+          </header>
+          <p class="project-tech">Next.js · NestJS · PostgreSQL jsonb · 실물 서류 분석</p>
+          <dl class="project-details">
+            <div><dt>범위</dt><dd>미국·중국 통관에 쓰는 실물 서류 9종과 55개 대조 항목을 분석했습니다. 1,130행의 실제 설비 리스트를 기준으로 업로드, 변경분 확인, 회차별 조회, 셀 편집과 회신 파일 생성 기능을 구현했습니다.</dd></div>
+            <div><dt>자동검증</dt><dd>CI·PL·Summary PL과 원산지증명서, SAS PO, PCF 등 9종 서류의 대조 규칙을 자동검증 MVP에 반영해 불일치와 누락을 찾도록 했습니다.</dd></div>
+            <div><dt>완료 결과</dt><dd>하루 20건 기준으로 일 1,100개, 월 22,000개 항목을 자동검증해 월 약 200시간의 수작업 확인 시간을 절감했습니다.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project compact-project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2023.01–2023.07</p>
+              <h2>세금계산서 프로그램 리뉴얼</h2>
+            </div>
+            <span class="status status-complete">완료</span>
+          </header>
+          <p class="project-tech">C# · .NET 6 · gRPC · PostgreSQL · PL/pgSQL</p>
+          <ul class="result-list">
+            <li>Oracle Forms 기반 시스템을 .NET 6과 PostgreSQL로 전환하고 Oracle 데이터 1,000만 건을 자동 이관했습니다.</li>
+            <li>건수·금액 합계와 샘플 데이터를 교차 검증해 정합성을 확인하고, 스마트빌을 연동해 국세청 신고와 매입 데이터 처리를 자동화했습니다.</li>
+          </ul>
+        </article>
+
+        <section class="company-section" aria-labelledby="iljin-title">
+          <div class="section-heading heading-row">
+            <div>
+              <p class="eyebrow">2010.12–2022.01 · 베어링 제조</p>
+              <h2 id="iljin-title">ILJIN Global</h2>
+            </div>
+            <p class="company-role">MES 개발팀 과장</p>
+          </div>
+          <p class="company-summary">국내외 공장의 MES를 개발·운영했습니다. VB6 시스템을 C#·.NET으로 전환하고 SAP와 생산·재고 데이터를 실시간으로 연계했으며, LOT 추적과 일 100만 건 이상을 분석하는 SPC 시스템을 구축했습니다.</p>
+        </section>
+
+        <article class="project compact-project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">ILJIN Global · 2020.04–2020.07</p>
+              <h2>8개 공장 운반비 전산화</h2>
+            </div>
+            <span class="status status-complete">완료</span>
+          </header>
+          <p class="project-tech">C# · ASP.NET · WinForms · WCF · Oracle · SAP</p>
+          <ul class="result-list">
+            <li>수기로 관리하던 8개 공장의 운반비 프로세스를 전산화하고 처리 기준을 표준화했습니다.</li>
+            <li>SAP와 실시간 연계해 처리와 비용 확인 흐름을 일원화했으며, 프로젝트 성과로 최우수사원 표창을 받았습니다.</li>
+          </ul>
+        </article>
+
+        <article class="project compact-project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">ILJIN Global · 2019.01–2019.12</p>
+              <h2>MES-SAP 실시간 인터페이스</h2>
+            </div>
+            <span class="status status-complete">완료</span>
+          </header>
+          <p class="project-tech">C# · ASP.NET · WinForms · WCF · Oracle · PL/SQL</p>
+          <ul class="result-list">
+            <li>ERP 도입에 맞춰 MES와 SAP 간 생산·납품·재고 이동 데이터를 실시간으로 연계했습니다.</li>
+            <li>기준정보 마이그레이션을 자동화해 중복 입력과 수작업 전송에서 발생하던 오류를 줄였습니다.</li>
+          </ul>
+        </article>
+
+        <footer class="page-footer"><span>limgiho</span><span>3 / 4</span></footer>
+      </section>
+
+      <section class="resume-page page-history" aria-labelledby="history-title">
+        <header class="page-header">
+          <p class="eyebrow">ILJIN Global · 개인 프로젝트</p>
+          <h1 id="history-title">MES 구축 경험과 개인 제품</h1>
+        </header>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">ILJIN Global · 2016.04–2017.12</p>
+              <h2>제천·슬로바키아 공장 MES 리뉴얼</h2>
+            </div>
+            <span class="status status-complete">완료</span>
+          </header>
+          <p class="project-tech">VB6 → C# .NET · ASP.NET · WinForms · WCF · Oracle 9i → 11g</p>
+          <dl class="project-details">
+            <div><dt>전환</dt><dd>기술 지원이 종료된 VB6 MES를 C#·.NET으로 전환하고 Oracle을 9i에서 11g로 업그레이드했습니다.</dd></div>
+            <div><dt>결과</dt><dd>국내외 공장의 MES 운영 안정성을 확보하고 LOT 단위 추적 체계를 구축했습니다. 프로젝트 성과로 2017년 과장 특진했습니다.</dd></div>
+          </dl>
+        </article>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">ILJIN Global · 2015.09</p>
+              <h2>SPC 이상 현상 실시간 알림</h2>
+            </div>
+            <span class="status status-complete">완료</span>
+          </header>
+          <p class="project-tech">VB6 · Oracle PL/SQL · TCP Socket</p>
+          <dl class="project-details">
+            <div><dt>탐지</dt><dd>일평균 100만 건 이상의 생산 데이터를 분석해 7가지 이상 징후를 감지했습니다.</dd></div>
+            <div><dt>대응</dt><dd>설비와 TCP Socket으로 통신하는 알림 모듈을 설계하고 SMS와 현황판을 연동해 품질 이슈에 사전 대응할 수 있게 했습니다.</dd></div>
+          </dl>
+        </article>
+
+        <section class="resume-section" aria-labelledby="personal-title">
+          <div class="section-heading">
+            <h2 id="personal-title">개인 프로젝트</h2>
+          </div>
+          <div class="personal-list">
+            <article class="personal-project">
+              <div>
+                <h3>댓글 필터 · Android / Web</h3>
+                <p>MiniLM 임베딩과 WebLLM을 Web Worker에서 실행해 댓글 분류와 요약을 단말 안에서 처리하도록 개발·출시했습니다.</p>
+              </div>
+              <nav class="project-links" aria-label="댓글 필터 링크">
+                <a href="https://play.google.com/store/apps/details?id=com.giholim.commentfilter&amp;hl=ko">Google Play</a>
+                <a href="https://merbl-filter.vercel.app/posts">Web</a>
+                <a href="https://velog.io/@lasid84/commentfilter-1">개발 기록</a>
+              </nav>
+            </article>
+            <article class="personal-project">
+              <div>
+                <h3>HealthDog · Android</h3>
+                <p>운동 기록과 통계, Google OAuth, Supabase·Firebase 동기화, AdMob 광고와 RevenueCat 구독 결제를 구현해 출시했습니다.</p>
+              </div>
+              <nav class="project-links" aria-label="HealthDog 링크"><a href="https://play.google.com/store/apps/details?id=com.healthdog.app">Google Play</a></nav>
+            </article>
+            <article class="personal-project">
+              <div>
+                <h3>액션독 · Android</h3>
+                <p>블록 하강·매치·콤보 등 게임 코어 엔진을 도메인 4계층으로 설계하고 Google OAuth, 글로벌 랭킹과 광고를 연동해 출시했습니다.</p>
+              </div>
+              <nav class="project-links" aria-label="액션독 링크"><a href="https://play.google.com/store/apps/details?id=com.giholim.actiondog">Google Play</a></nav>
+            </article>
+          </div>
+        </section>
+
+        <section class="resume-section" aria-labelledby="skills-title">
+          <div class="section-heading"><h2 id="skills-title">기술</h2></div>
+          <dl class="skill-list">
+            <div><dt>Backend</dt><dd>Node.js, TypeScript, Express, NestJS, Prisma, Redis, BullMQ, C#, .NET, WCF</dd></div>
+            <div><dt>Frontend</dt><dd>Next.js, React, Zustand, React Native, WinForms</dd></div>
+            <div><dt>Data &amp; Operations</dt><dd>PostgreSQL, Oracle, MySQL, GitLab CI/CD, Docker, Docker Swarm, Portainer, Nginx</dd></div>
+            <div><dt>AI &amp; Automation</dt><dd>Local LLM, RAG, WebLLM, OCR, Puppeteer, Playwright</dd></div>
+          </dl>
+        </section>
+
+        <footer class="page-footer"><span>limgiho</span><span>4 / 4</span></footer>
+      </section>
+    </main>
+  </body>
+</html>
