@@ -77,7 +77,7 @@ a {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12mm;
-  padding-bottom: 6mm;
+  padding-bottom: 5mm;
   border-bottom: 1px solid var(--line);
 }
 
@@ -115,6 +115,14 @@ a {
   margin-top: 6mm;
 }
 
+.page-career .resume-section {
+  margin-top: 3mm;
+}
+
+.page-summary .resume-section {
+  margin-top: 5mm;
+}
+
 .resume-section > h2 {
   padding-bottom: 2mm;
   border-bottom: 1px solid #34373b;
@@ -125,30 +133,14 @@ a {
 
 .summary-list {
   display: grid;
-  gap: 1.6mm;
-  padding: 3.5mm 0 0 5mm;
+  gap: 1.3mm;
+  padding: 3mm 0 0 5mm;
 }
 
 .summary-list li {
   padding-left: 0.5mm;
   color: #35393e;
   line-height: 1.5;
-}
-
-.summary-copy {
-  display: grid;
-  gap: 2mm;
-  padding-top: 3.5mm;
-}
-
-.summary-copy p {
-  color: #35393e;
-  line-height: 1.55;
-}
-
-.summary-copy strong {
-  color: var(--ink);
-  font-weight: 700;
 }
 
 .history-list {
@@ -164,6 +156,7 @@ a {
   padding: 0 0 4.2mm;
 }
 
+/* vertical rail between the year column and the entry */
 .history-list li::before {
   position: absolute;
   top: 3.2mm;
@@ -182,6 +175,7 @@ a {
   display: none;
 }
 
+/* node on the rail */
 .history-list li::after {
   position: absolute;
   top: 1.1mm;
@@ -218,7 +212,7 @@ a {
   display: grid;
   grid-template-columns: 52mm 1fr;
   gap: 5mm;
-  padding: 2.7mm 0;
+  padding: 2.2mm 0;
   border-bottom: 1px solid var(--line);
 }
 
@@ -233,7 +227,7 @@ a {
 }
 
 .page-header {
-  padding-bottom: 4mm;
+  padding-bottom: 3.4mm;
   border-bottom: 1px solid #34373b;
 }
 
@@ -249,6 +243,10 @@ a {
   break-inside: avoid;
 }
 
+.page-career .project {
+  padding-top: 2.5mm;
+}
+
 .project:last-of-type {
   border-bottom: 0;
 }
@@ -258,59 +256,58 @@ a {
   grid-template-columns: 1fr auto;
   align-items: end;
   gap: 6mm;
-  margin-bottom: 2.8mm;
+  margin-bottom: 3mm;
 }
 
 .project-period {
   margin-bottom: 0.7mm;
   color: var(--subtle);
-  font-size: 8.4pt;
+  font-size: 8pt;
 }
 
 .project h3 {
-  font-size: 13pt;
+  font-size: 13.2pt;
   letter-spacing: -0.025em;
 }
 
 .project-tech {
-  max-width: 76mm;
   color: var(--muted);
-  font-size: 8.1pt;
-  line-height: 1.35;
+  font-size: 7.7pt;
   text-align: right;
+  white-space: nowrap;
 }
 
 .project-details {
   display: grid;
-  gap: 1.7mm;
+  gap: 1.8mm;
 }
 
 .project-details > div {
   display: grid;
-  grid-template-columns: 19mm 1fr;
+  grid-template-columns: 22mm 1fr;
   gap: 4mm;
 }
 
 .project-details dt {
   color: #4a4e53;
-  font-size: 9.2pt;
+  font-size: 8.7pt;
   font-weight: 700;
 }
 
 .project-details dd {
   color: #35393e;
-  font-size: 9.8pt;
+  font-size: 9.2pt;
   line-height: 1.48;
 }
 
 .career-section {
-  margin-top: 4mm;
+  margin-top: 4.5mm;
 }
 
 .career-list {
   display: grid;
-  gap: 3.2mm;
-  padding-top: 3mm;
+  gap: 2.6mm;
+  padding-top: 2.4mm;
 }
 
 .career {
@@ -328,17 +325,17 @@ a {
   align-items: flex-start;
   justify-content: space-between;
   gap: 8mm;
-  margin-bottom: 1.3mm;
+  margin-bottom: 1.7mm;
 }
 
 .career h3 {
-  font-size: 10.8pt;
+  font-size: 11.2pt;
 }
 
 .career header p,
 .career time {
   color: var(--muted);
-  font-size: 8.5pt;
+  font-size: 8.2pt;
 }
 
 .career time {
@@ -348,101 +345,78 @@ a {
 
 .career ul {
   display: grid;
-  gap: 0.5mm;
+  gap: 0.8mm;
   padding-left: 4.5mm;
 }
 
 .career li {
   padding-left: 0.5mm;
   color: #3f4348;
-  font-size: 9.2pt;
-  line-height: 1.43;
+  font-size: 8.9pt;
+  line-height: 1.4;
 }
 
 .skill-list {
-  padding-top: 0.6mm;
+  padding-top: 1mm;
 }
 
 .skill-list > div {
   display: grid;
-  grid-template-columns: 29mm 1fr;
+  grid-template-columns: 34mm 1fr;
   gap: 5mm;
-  padding: 1.65mm 0;
+  padding: 1.6mm 0;
   border-bottom: 1px solid var(--line);
 }
 
 .skill-list dt {
-  font-size: 8.9pt;
+  font-size: 8.8pt;
   font-weight: 700;
 }
 
 .skill-list dd {
   color: var(--muted);
-  font-size: 8.9pt;
+  font-size: 8.5pt;
 }
 
 .stack-section p {
-  padding-top: 2.5mm;
+  padding-top: 2.2mm;
   color: #3f4348;
   font-size: 9.1pt;
-  line-height: 1.47;
+  line-height: 1.5;
 }
 
 .personal-project {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 8mm;
-  padding-top: 2.5mm;
+  padding-top: 2.2mm;
 }
 
 .personal-project h3 {
-  margin-bottom: 0.7mm;
-  font-size: 10.1pt;
+  margin-bottom: 1mm;
+  font-size: 10pt;
 }
 
-.personal-project p,
-.personal-more {
+.personal-project p {
   color: #4a4e53;
-  font-size: 9.1pt;
-  line-height: 1.46;
+  font-size: 8.8pt;
+  line-height: 1.48;
 }
 
 .personal-more {
-  margin-top: 1.5mm;
+  padding-top: 2mm;
+  color: #4a4e53;
+  font-size: 8.6pt;
+  line-height: 1.45;
 }
 
 .project-links {
   display: grid;
   align-content: start;
-  gap: 0.7mm;
+  gap: 0.9mm;
   color: var(--muted);
-  font-size: 8.4pt;
+  font-size: 8pt;
   text-align: right;
-}
-
-.page-career .page-header {
-  padding-bottom: 3mm;
-}
-
-.page-career .page-header h2 {
-  font-size: 20pt;
-}
-
-.page-career .samsung-project {
-  padding: 3.8mm 0;
-}
-
-.page-career .samsung-project .project-details dd {
-  font-size: 9.8pt;
-}
-
-.page-career .resume-section {
-  margin-top: 3.8mm;
-}
-
-.page-career .resume-section > h2 {
-  padding-bottom: 1.5mm;
-  font-size: 12.2pt;
 }
 
 .page-footer {

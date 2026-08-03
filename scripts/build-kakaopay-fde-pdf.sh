@@ -7,19 +7,72 @@ CHROME_BIN="${KAKAOPAY_RESUME_CHROME_BIN:-/Applications/Google Chrome.app/Conten
 INPUT_HTML="$ROOT_DIR/resumes/kakaopay-fde/index.html"
 OUTPUT_DIR="$ROOT_DIR/output/pdf"
 OUTPUT_PDF="$OUTPUT_DIR/lim-giho-kakaopay-fde-resume.pdf"
+PUBLIC_DIR="$ROOT_DIR/assets/resume"
+PUBLIC_PDF="$PUBLIC_DIR/lim-giho-kakaopay-fde-resume.pdf"
+PROFILE_DIR="$(mktemp -d "${TMPDIR:-/tmp}/kakaopay-fde-resume.XXXXXX")"
+TEMP_PDF="$PROFILE_DIR/resume.pdf"
+CHROME_PID=""
+
+cleanup() {
+  if [[ -n "$CHROME_PID" ]] && kill -0 "$CHROME_PID" 2>/dev/null; then
+    kill "$CHROME_PID" 2>/dev/null || true
+  fi
+  if [[ -d "$PROFILE_DIR" ]]; then
+    find "$PROFILE_DIR" -depth -delete
+  fi
+}
+trap cleanup EXIT
 
 if [[ ! -x "$CHROME_BIN" ]]; then
   echo "Chrome executable not found: $CHROME_BIN" >&2
   exit 1
 fi
 
-mkdir -p "$OUTPUT_DIR"
+mkdir -p "$OUTPUT_DIR" "$PUBLIC_DIR"
 
 "$CHROME_BIN" \
   --headless=new \
   --disable-gpu \
+  --disable-background-networking \
+  --disable-component-update \
+  --disable-default-apps \
+  --no-first-run \
+  --no-service-autorun \
   --no-pdf-header-footer \
-  --print-to-pdf="$OUTPUT_PDF" \
-  "file://$INPUT_HTML"
+  --user-data-dir="$PROFILE_DIR" \
+  --print-to-pdf="$TEMP_PDF" \
+  "file://$INPUT_HTML" &
+CHROME_PID=$!
+
+LAST_SIZE=0
+STABLE_COUNT=0
+for _ in $(seq 1 120); do
+  if [[ -s "$TEMP_PDF" ]]; then
+    CURRENT_SIZE="$(wc -c < "$TEMP_PDF" | tr -d ' ')"
+    if [[ "$CURRENT_SIZE" == "$LAST_SIZE" ]]; then
+      STABLE_COUNT=$((STABLE_COUNT + 1))
+    else
+      STABLE_COUNT=0
+      LAST_SIZE="$CURRENT_SIZE"
+    fi
+    if [[ "$STABLE_COUNT" -ge 4 ]]; then
+      break
+    fi
+  fi
+  sleep 0.25
+done
+
+if [[ "$STABLE_COUNT" -lt 4 ]]; then
+  echo "PDF generation timed out: $TEMP_PDF" >&2
+  exit 1
+fi
+
+kill "$CHROME_PID" 2>/dev/null || true
+wait "$CHROME_PID" 2>/dev/null || true
+CHROME_PID=""
+
+mv "$TEMP_PDF" "$OUTPUT_PDF"
+cp "$OUTPUT_PDF" "$PUBLIC_PDF"
 
 echo "$OUTPUT_PDF"
+echo "$PUBLIC_PDF"

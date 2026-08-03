@@ -1,0 +1,322 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="임기호 카카오페이 FDE 지원 이력서" />
+    <title>임기호 - 카카오페이 FDE 지원 이력서</title>
+    <link rel="stylesheet" href="resume.css" />
+  </head>
+  <body>
+    <main class="resume">
+      <section class="resume-page page-summary" aria-labelledby="profile-title">
+        <header class="identity-header">
+          <div class="identity">
+            <h1 id="profile-title">임기호</h1>
+            <p class="job-title">소프트웨어 엔지니어</p>
+            <p class="application-field">지원 분야 · 카카오페이 FDE</p>
+          </div>
+          <address class="contact-list">
+            <a href="mailto:lasid84@gmail.com">lasid84@gmail.com</a>
+            <a href="tel:+821054960663">010-5496-0663</a>
+            <a href="https://github.com/limgiho">github.com/limgiho</a>
+            <a href="https://limgiho.github.io/assets/resume/lim-giho-kakaopay-fde-career-detail.pdf">상세 경력기술서</a>
+          </address>
+        </header>
+
+        <section class="resume-section career-summary" aria-labelledby="summary-title">
+          <h2 id="summary-title">경력 요약</h2>
+          <ul class="summary-list">
+            <li>2010년부터 제조 MES와 물류 업무 시스템을 만들고 운영했습니다.</li>
+            <li>KWE에서는 부서마다 흩어져 있던 15종 이상의 레거시를 항공·해운·재무 중심의 5개 업무 플랫폼으로 통합했습니다.</li>
+            <li>공식 API가 없는 본사 시스템은 인증 흐름을 직접 분석해 호출 가능한 형태로 만들고, 같은 구조를 무인 배치로 확장했습니다.</li>
+            <li>2026년부터는 AI 에이전트로 MVP 주기를 줄이고, 온프레미스 LLM을 현업 문서 처리와 담당 업무 검색에 적용하고 있습니다.</li>
+            <li>현재는 로컬시스템팀 리더로 팀원 2명과 함께 통합과 자동화 과제를 진행하고 있습니다.</li>
+          </ul>
+        </section>
+
+        <section class="resume-section work-history" aria-labelledby="work-history-title">
+          <h2 id="work-history-title">KWE 주요 업무</h2>
+          <ol class="history-list">
+            <li>
+              <time>2022</time>
+              <div>
+                <h3>레거시 시스템 분석과 통합 범위 수립</h3>
+                <p>15종 이상의 사내 프로그램과 이기종 DB를 분석하고 항공·해운·재무 업무를 기준으로 통합 범위를 정했습니다.</p>
+              </div>
+            </li>
+            <li>
+              <time>2023-2025</time>
+              <div>
+                <h3>웹 기반 업무 플랫폼 구축과 본사 시스템 연동</h3>
+                <p>레거시 기능과 데이터를 5개 업무 플랫폼으로 옮기고, 공식 API가 없던 본사 UFS+ 연동을 코드로 만들었습니다.</p>
+              </div>
+            </li>
+            <li>
+              <time>2025-2026</time>
+              <div>
+                <h3>개발·운영 환경 정비</h3>
+                <p>NestJS 구조화, Worker 분리, 테스트, CI/CD와 컨테이너 배포 체계를 도입했습니다.</p>
+              </div>
+            </li>
+            <li>
+              <time>2026-현재</time>
+              <div>
+                <h3>AI를 활용한 개발과 업무 자동화</h3>
+                <p>기능별 MVP를 빠르게 구현해 현업 검증 시점을 앞당기고 온프레미스 LLM을 업무 문서 처리에 적용하고 있습니다.</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <section class="resume-section results" aria-labelledby="results-title">
+          <h2 id="results-title">주요 결과</h2>
+          <dl class="result-list">
+            <div><dt>업무 플랫폼 통합</dt><dd>15종 이상 → 5개</dd></div>
+            <div><dt>외부 시스템 조회 자동화</dt><dd>건당 10분 → 5초 이내</dd></div>
+            <div><dt>본사 UFS+ 연동</dt><dd>공식 API 없이 인증·조회·무인 배치를 코드로 표준화</dd></div>
+            <div><dt>데이터 이전</dt><dd>Oracle → PostgreSQL 1,000만 건 및 정합성 검증</dd></div>
+          </dl>
+        </section>
+
+        <footer class="page-footer"><span>limgiho</span><span>1 / 3</span></footer>
+      </section>
+
+      <section class="resume-page page-projects" aria-labelledby="projects-title">
+        <header class="page-header">
+          <h2 id="projects-title">주요 프로젝트</h2>
+        </header>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2022-현재</p>
+              <h3>업무 플랫폼 통합과 본사 시스템 무인 연동</h3>
+            </div>
+            <p class="project-tech">Next.js · NestJS · PostgreSQL · Prisma · Redis · BullMQ · Okta / Entra</p>
+          </header>
+          <dl class="project-details">
+            <div>
+              <dt>배경</dt>
+              <dd>
+                부서마다 다른 프로그램 15종 이상과 3개 DBMS를 쓰고 있었습니다. 같은 화물 정보를 시스템마다 다시 입력했고, 장애가 나면 어느 프로그램이 원인인지 확인하려고 부서를 옮겨 다녀야 했습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>판단</dt>
+              <dd>
+                기존 화면을 그대로 옮기지 않고 항공·해운 수출입과 재무라는 업무 단위로 다시 나눴습니다. 본사 UFS+는 공식 API가 없어 담당자가 매번 브라우저로 로그인해 조회하고 있었는데, 브라우저 자동화 대신 Okta와 Microsoft Entra 로그인 흐름을 HTTP 수준에서 재현하는 쪽을 택했습니다. 화면이 바뀌어도 쉽게 깨지지 않게 하기 위해서입니다.
+              </dd>
+            </div>
+            <div>
+              <dt>구현</dt>
+              <dd>
+                공통 인증과 UI, 데이터 접근, 외부 연동을 모노레포로 모으고 Express 백엔드를 NestJS 도메인 단위로 나눴습니다. UFS 조회는 인증과 분리한 workflow 계층으로 만들어 화면과 배치가 같은 경로를 쓰게 했고, 배치는 Worker와 BullMQ로 분리했습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>결과</dt>
+              <dd>
+                사람이 하던 로그인과 조회가 배치로 돌아가면서 화면과 대시보드, 야간 배치가 같은 연동 코드를 씁니다. 관세청과 화물 사이트 조회는 건당 10분에서 5초 이내로 줄었고, Oracle 1,000만 건을 PostgreSQL로 옮긴 뒤 정합성을 검증했습니다. 인증 방식은 환경 변수로 전환하게 만들어 스테이징에서 확인한 뒤 운영에 적용했고, 쿠키와 토큰, 비밀번호는 로그에 남기지 않습니다.
+              </dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2026</p>
+              <h3>AI 에이전트를 이용한 MVP 개발과 요구사항 발굴</h3>
+            </div>
+            <p class="project-tech">Codex · Claude Code · TDD · Playwright · 설계 문서 아카이브</p>
+          </header>
+          <dl class="project-details">
+            <div>
+              <dt>배경</dt>
+              <dd>
+                현업은 "시간이 오래 걸린다"고 말했지만, 실제 입력 순서와 예외 데이터, 부서별 판단 기준은 개발 후반에야
+                드러났습니다. 회의로 좁혀 보려 했어도 문서에 없는 규칙이 계속 나왔습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>판단</dt>
+              <dd>
+                요구사항 문서를 더 정교하게 쓰는 대신 동작하는 화면을 먼저 만들어 확인받기로 했습니다. 물어볼 것을 미리
+                정리해 회의에 들어가고, 답이 나오지 않은 항목은 구현하지 않고 남겨 두었습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>구현</dt>
+              <dd>
+                기능을 작은 수직 단위로 나누고 AI 에이전트를 설계 문서 작성, 구현, 테스트, 완료 근거 정리에 사용했습니다. AEPOS는 레거시 실데이터를 새 화면에 직접 입력하는 E2E 테스트를 만들었고, OneDrive 문서 자동화는 브라우저 접근 방식 세 가지를 독립 MVP로 먼저 시험했습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>발견</dt>
+              <dd>
+                실제 화면을 돌려 보는 과정에서 데이터 마이그레이션 오류를 찾았습니다. 현업 회의는 문제와 가설, 확인이 필요한 질문, 예상 난이도를 정리해 들어가 요청 목록을 우선순위로 바꿨습니다. OneDrive 자동화는 서버가 사용자 저장소를 직접 다루지 않도록 권한 경계를 먼저 정했습니다.
+              </dd>
+            </div>
+          </dl>
+        </article>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2026</p>
+              <h3>온프레미스 LLM 기반 문서 처리와 담당 업무 검색</h3>
+            </div>
+            <p class="project-tech">Local LLM · OCR · Structured JSON · Vitest · On-premise</p>
+          </header>
+          <dl class="project-details">
+            <div>
+              <dt>배경</dt>
+              <dd>
+                수출신고필증은 벤더마다 형식이 달라 정규식으로 값을 읽으면 곧 깨졌고, 스캔본은 텍스트가 아예 없었습니다.
+                담당 업무 검색은 표현이 조금만 달라져도 담당자를 찾지 못해 결국 사람에게 물어보고 있었습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>판단</dt>
+              <dd>
+                문서를 외부로 내보낼 수 없어 온프레미스 LLM만 사용했습니다. 형식이 계속 바뀌는 의미 해석은 LLM에 맡기고, 페이지 묶기와 호출, 병합처럼 결정적으로 처리해야 하는 부분은 코드가 담당하게 나눴습니다. 검색은 LLM이 담당자를 지어내지 못하도록 서버가 찾은 후보 안에서만 순위를 조정하게 제한했습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>구현</dt>
+              <dd>
+                업로드와 추출을 분리해 추출이 실패해도 업로드는 끝나게 했습니다. 신고번호별로 표지와 계속 페이지를 한 세트로 묶어 총액과 수출자 문맥을 잃지 않게 했고, 텍스트가 없는 문서만 OCR을 거치게 했습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>검증</dt>
+              <dd>
+                실제 PDF로 반복 평가와 회귀 테스트를 돌려 문맥 손실과 응답 편차, OCR 오인식을 확인했습니다. 품목 수량과 단가, 금액은 산술로 교차 확인해 원본과 대조했습니다. 신뢰하기 어려운 결과는 기존 검색으로 되돌아가고 담당자가 다시 확인하며, 로그에는 문서 원문과 OCR 전문을 남기지 않습니다. 최종 판단은 사용자가 하는 human-in-the-loop 구조입니다.
+              </dd>
+            </div>
+          </dl>
+        </article>
+
+        <footer class="page-footer"><span>limgiho</span><span>2 / 3</span></footer>
+      </section>
+
+      <section class="resume-page page-career" aria-labelledby="career-title">
+        <header class="page-header">
+          <h2 id="career-title">주요 프로젝트 · 경력 및 기술</h2>
+        </header>
+
+        <article class="project">
+          <header class="project-header">
+            <div>
+              <p class="project-period">KWE Korea · 2026</p>
+              <h3>삼성SDS 전세기 프로젝트 IT 지원</h3>
+            </div>
+            <p class="project-tech">Next.js · NestJS · jsonb · 실물 서류 분석 · 다자 협업</p>
+          </header>
+          <dl class="project-details">
+            <div>
+              <dt>배경</dt>
+              <dd>
+                벤더 서류와 설비 리스트를 담당자가 눈으로 대조하고 있었습니다. 미국과 중국의 통관 요건이 달라 확인 항목이 많았고, 설비 현황은 엑셀로 매일 공유돼 값이 누락되거나 버전이 엇갈렸습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>판단</dt>
+              <dd>
+                요청을 서류 대조와 설비 현황 관리, 프리얼럿 대조 세 갈래로 나누고 난이도와 의존 관계를 따져 설비 현황 관리부터 착수했습니다. 서류 대조는 실물 샘플로 대조 규칙이 성립하는지 확인한 뒤로 미뤘습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>구현</dt>
+              <dd>
+                설비 리스트 업로드와 변경분 확인, 회차별 조회, 셀 편집, 회신 파일 생성까지 한 바퀴를 만들었습니다. 저장 구조는 업무별 컬럼 대신 항목명을 키로 쓰는 형태로 바꿔 항목이 늘어도 스키마를 고치지 않게 했습니다.
+              </dd>
+            </div>
+            <div>
+              <dt>인계</dt>
+              <dd>
+                실물 서류를 대조하면서 현업 기준이 비어 있는 항목과 읽을 수 없는 문서를 구분해 확인 목록으로 정리했습니다. 현재 상태와 확인한 값, 남은 결정 사항은 다른 사람이 이어받을 수 있도록 인계 문서로 유지합니다.
+              </dd>
+            </div>
+          </dl>
+        </article>
+
+        <section class="resume-section career-section" aria-labelledby="experience-title">
+          <h2 id="experience-title">경력</h2>
+          <div class="career-list">
+            <article class="career">
+              <header>
+                <div>
+                  <h3>KWE Korea</h3>
+                  <p>전략개발부 차장 · 로컬시스템팀 리더 (팀원 2명) · Lead Software Engineer</p>
+                </div>
+                <time>2022.01-현재</time>
+              </header>
+              <ul>
+                <li>로컬시스템팀 리더로 팀원 2명과 개발 범위를 나눠 진행하고 있습니다.</li>
+                <li>웹과 백엔드, 데이터베이스, 본사 시스템 연동, 배포 환경을 함께 담당했습니다.</li>
+                <li>CI/CD 빌드를 8분에서 6분으로 줄였고, 의존성 변경 커밋은 오히려 느려지는 트레이드오프를 확인해 추가 최적화는 보류했습니다.</li>
+                <li>AI 기반 MVP 개발과 온프레미스 LLM 문서 처리, 담당 업무 검색 자동화를 진행하고 있습니다.</li>
+              </ul>
+            </article>
+            <article class="career">
+              <header>
+                <div>
+                  <h3>ILJIN Global</h3>
+                  <p>MES 개발팀 과장 · Software Engineer</p>
+                </div>
+                <time>2010.12-2022.01</time>
+              </header>
+              <ul>
+                <li>VB6 기반 MES를 C#·.NET 서비스로 전환하고 SAP와 생산·재고 데이터를 실시간으로 연계했습니다.</li>
+                <li>제천과 슬로바키아 공장의 MES 고도화를 담당하고 바코드 기반 LOT 추적 체계를 구축했습니다.</li>
+                <li>하루 100만 건 이상의 공정 데이터를 분석해 7가지 품질 기준의 이상 징후를 알리는 SPC 시스템을 개발했습니다.</li>
+                <li>2017년 과장 특진, 2021년 최우수사원 표창을 받았습니다.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="resume-section skill-section" aria-labelledby="skill-title">
+          <h2 id="skill-title">기술</h2>
+          <dl class="skill-list">
+            <div><dt>백엔드</dt><dd>Node.js, TypeScript, Express, NestJS, Prisma, Redis, BullMQ</dd></div>
+            <div><dt>프론트엔드</dt><dd>Next.js, React, Zustand, React Native, WinForms</dd></div>
+            <div><dt>데이터베이스</dt><dd>PostgreSQL, Oracle, MySQL, PL/SQL, PL/pgSQL, 데이터 이전·정합성 검증</dd></div>
+            <div><dt>운영</dt><dd>GitLab CI/CD, Docker, Docker Swarm, Portainer, PM2, Nginx</dd></div>
+            <div><dt>AI·자동화</dt><dd>Local LLM, WebLLM, OCR, Puppeteer, Playwright, OAuth·SAP·관세청·UFS+ 연동</dd></div>
+          </dl>
+        </section>
+
+        <section class="resume-section stack-section" aria-labelledby="stack-title">
+          <h2 id="stack-title">기술 전환 경험</h2>
+          <p>
+            VB6로 시작해 C#·.NET에서 11년을 보냈고, 이후 Node.js와 NestJS로 옮겼습니다. 두 번의 전면 전환 동안 언어는 달라졌지만 의존성 주입과 도메인 경계, 트랜잭션, 테스트와 운영 설계를 먼저 잡는 순서는 같았습니다. NestJS도 모듈과 DI, 데코레이터 구조가 엔터프라이즈 백엔드에서 검증된 방식이라 골랐습니다. 새 코드베이스에서는 문법보다 데이터 흐름과 트랜잭션 경계, 실패 지점을 먼저 봅니다.
+          </p>
+        </section>
+
+        <section class="resume-section personal-section" aria-labelledby="personal-title">
+          <h2 id="personal-title">개인 프로젝트</h2>
+          <article class="personal-project">
+            <div>
+              <h3>댓글 필터 · Android / Web</h3>
+              <p>MiniLM 임베딩과 WebLLM을 Web Worker로 실행해 댓글 분류와 요약을 단말 안에서 처리합니다.</p>
+            </div>
+            <nav class="project-links" aria-label="댓글 필터 링크">
+              <a href="https://play.google.com/store/apps/details?id=com.giholim.commentfilter&amp;hl=ko">Google Play</a>
+              <a href="https://merbl-filter.vercel.app/posts">Web</a>
+              <a href="https://velog.io/@lasid84/commentfilter-1">개발 기록</a>
+            </nav>
+          </article>
+          <p class="personal-more">
+            이 외에 HealthDog(운동 기록, 구독 결제와 광고 연동)과 액션톡(게임 코어 엔진을 도메인 4계층으로 설계)을 기획부터
+            출시까지 혼자 진행했습니다.
+          </p>
+        </section>
+
+        <footer class="page-footer"><span>limgiho</span><span>3 / 3</span></footer>
+      </section>
+    </main>
+  </body>
+</html>

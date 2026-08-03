@@ -1,0 +1,30 @@
+cd ~/Desktop/Source/resume-pdf-builder
+
+# 화면 그대로 (기본)
+npm run build:open
+
+# A4 분할 버전
+npm run build:a4:open
+
+
+
+
+
+
+
+
+
+# 1) 다른 터미널에서 jekyll serve 띄워두기
+cd ~/Desktop/Source/resume/limgiho.github.io
+bundle exec jekyll serve --config _config.naverlabs.yml
+
+# 2) PDF 빌드
+cd ~/Desktop/Source/resume-pdf-builder
+URL=http://localhost:4000 OUT=lim-giho-resume-naverlabs.pdf npm run build:open
+
+
+
+
+
+
+

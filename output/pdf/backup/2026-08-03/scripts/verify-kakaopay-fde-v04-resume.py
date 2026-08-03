@@ -15,17 +15,22 @@ ROOT = Path(__file__).resolve().parents[1]
 HTML = ROOT / "resumes/kakaopay-fde-v04/index.html"
 CSS = ROOT / "resumes/kakaopay-fde-v04/resume.css"
 PDF = ROOT / "output/pdf/versions/lim-giho-kakaopay-fde-resume-v04.pdf"
+CAREER_DOCUMENT_PDF = (
+    ROOT / "assets/resume/lim-giho-kakaopay-fde-career-detail.pdf"
+)
+CAREER_DOCUMENT_URL = (
+    "https://limgiho.github.io/assets/resume/"
+    "lim-giho-kakaopay-fde-career-detail.pdf"
+)
 
 REQUIRED = [
     "KWE 주요 업무",
     "주요 결과",
     "주요 프로젝트",
-    "삼성SDS 전세기 프로젝트 IT 지원",
     "9종",
     "55개",
     "하루 20건",
-    "월 약 200시간 규모",
-    "글로벌 시스템 UFS+",
+    "글로벌 물류 운영 시스템(UFS+)",
     "업무 플랫폼 통합과 글로벌 시스템 자동화",
     "세계 80개국",
     "인보이스 생성",
@@ -42,7 +47,7 @@ REQUIRED = [
     "스캔본",
     "OCR",
     "HealthDog",
-    "액션톡",
+    "액션독",
     "Local LLM",
     "human-in-the-loop",
     "다양한 기술 스택",
@@ -53,6 +58,11 @@ REQUIRED = [
     "글로벌 시스템 자동화와 운영 구조 개선",
     "AI 기반 검증과 업무 기능 확장",
 ]
+
+PERSONAL_PROJECT_URLS = {
+    "https://play.google.com/store/apps/details?id=com.healthdog.app",
+    "https://play.google.com/store/apps/details?id=com.giholim.actiondog",
+}
 
 FORBIDDEN = [
     "이 역할과 맞닿는",
@@ -89,9 +99,8 @@ MINIMUM_FONT_SIZES = {
     ".project-details dd": 9.7,
     ".career li": 9.2,
     ".skill-list dd": 8.9,
-    ".stack-section p": 9.1,
+    ".career-detail-link": 8.5,
     ".personal-project p": 9.1,
-    ".personal-more": 9.1,
     ".project-links": 8.4,
 }
 
@@ -153,6 +162,44 @@ def check_html() -> None:
         fail("HTML: expected 소개 summary heading")
     if '<h2 id="summary-title">경력 요약</h2>' in text:
         fail("HTML: legacy 경력 요약 heading found")
+    if text.count("UFS+") != 1:
+        fail("HTML: UFS+ should appear once with a plain-language description")
+    if "<strong>세계 80개국" in text or "<strong>UFS+</strong>" in text:
+        fail("HTML: internal system scale or name should not be emphasized")
+    if 'id="stack-title"' in text or "기술 전환 경험" in text:
+        fail("HTML: redundant technical-transition section found")
+    if text.count(CAREER_DOCUMENT_URL) != 2:
+        fail("HTML: expected career-document links in header and career section")
+    if "docs.google.com/document" in text:
+        fail("HTML: private Google Docs career-document link found")
+    if not CAREER_DOCUMENT_PDF.exists():
+        fail("HTML: linked career-document PDF asset missing")
+    career_document = fitz.open(CAREER_DOCUMENT_PDF)
+    try:
+        if not 3 <= career_document.page_count <= 6:
+            fail(
+                "HTML: expected 3-6 career-document pages, found "
+                f"{career_document.page_count}"
+            )
+        career_text = "\n".join(page.get_text("text") for page in career_document)
+        if len(career_text.strip()) < 3500:
+            fail("HTML: career-document PDF has too little extractable text")
+    finally:
+        career_document.close()
+    if '<p class="career-detail-link">' not in text:
+        fail("HTML: career-section detail link missing")
+    if '<p class="personal-more">' in text:
+        fail("HTML: personal projects should be separate linked entries")
+    for label in ("HealthDog 링크", "액션독 링크"):
+        if f'aria-label="{label}"' not in text:
+            fail(f"HTML: {label} navigation missing")
+    for url in PERSONAL_PROJECT_URLS:
+        if url not in text:
+            fail(f"HTML: personal-project URL missing: {url}")
+    if "<h3>삼성 전세기 프로젝트 IT 지원</h3>" not in text:
+        fail("HTML: expected Samsung charter project heading")
+    if "<h3>삼성SDS 전세기 프로젝트 IT 지원</h3>" in text:
+        fail("HTML: legacy Samsung SDS project heading found")
     expected_automation_result = (
         "개별 운송장 마감, 인보이스 생성, 통합 운송장 마감으로 이어지는 업무를 "
         "자동화했습니다. 실패 건은 재시도하고 진행 상태를 추적할 수 있게 해 월 "
@@ -163,6 +210,24 @@ def check_html() -> None:
     for legacy_term in ("하우스 마감", "마스터 마감"):
         if legacy_term in text:
             fail(f"HTML: unexplained logistics term found: {legacy_term}")
+    expected_cicd_result = (
+        "PM2 수동 배포를 GitLab CI/CD·Docker Swarm 기반으로 전환해 테스트가 실패한 "
+        "변경을 배포 전에 차단하고, 커밋 단위 이미지로 배포 이력과 롤백 기준을 "
+        "만들었습니다. 빌드 단계를 측정해 일반 변경은 8분에서 6분으로 줄였지만, "
+        "추가 단축안은 GitLab과 Runner가 같은 호스트에 있어 권한 위험이 커진다고 "
+        "판단해 적용하지 않고 Runner 분리를 후속안으로 계획하고 있습니다."
+    )
+    if expected_cicd_result not in text:
+        fail("HTML: CI/CD operations result missing")
+    expected_charter_impact = (
+        "하루 20건 기준으로 9종 서류의 55개 항목을 대조해 일 1,100개, 월 "
+        "22,000개 항목을 확인하는 업무입니다. 자동검증으로 월 약 200시간의 "
+        "수작업 확인 시간을 절감했습니다."
+    )
+    if expected_charter_impact not in text:
+        fail("HTML: assertive Samsung charter impact missing")
+    if "실측 절감 시간이 아니라" in text:
+        fail("HTML: defensive Samsung charter caveat found")
     check_phrases(text, "HTML")
 
     footer_count = len(re.findall(r"<span>\s*limgiho\s*</span>", text))
@@ -177,8 +242,8 @@ def check_html() -> None:
     if not summary_match:
         fail("HTML: summary-copy section missing")
     strong_count = len(re.findall(r"<strong>.*?</strong>", summary_match.group(1)))
-    if strong_count != 7:
-        fail(f"HTML: expected 7 summary highlights, found {strong_count}")
+    if strong_count != 6:
+        fail(f"HTML: expected 6 summary highlights, found {strong_count}")
 
     print("HTML checks passed")
     check_css()
@@ -194,6 +259,7 @@ def check_pdf() -> None:
             fail(f"PDF: expected 3 pages, found {document.page_count}")
 
         page_texts: list[str] = []
+        pdf_urls: set[str] = set()
         for index, page in enumerate(document, start=1):
             rect = page.rect
             if abs(rect.width - 595.28) > 2 or abs(rect.height - 841.89) > 2:
@@ -208,11 +274,19 @@ def check_pdf() -> None:
                     f"({len(page_text.strip())} chars)"
                 )
             page_texts.append(page_text)
+            pdf_urls.update(
+                link["uri"]
+                for link in page.get_links()
+                if link.get("uri")
+            )
 
         full_text = "\n".join(page_texts)
         check_phrases(full_text, "PDF")
         if len(re.findall(r"(?m)^limgiho\s*$", full_text)) != 3:
             fail("PDF: expected exactly 3 limgiho footer lines")
+        missing_urls = PERSONAL_PROJECT_URLS - pdf_urls
+        if missing_urls:
+            fail(f"PDF: personal-project URLs missing: {sorted(missing_urls)}")
     finally:
         document.close()
 
