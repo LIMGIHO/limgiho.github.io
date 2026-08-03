@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import re
 import sys
+from html import unescape
 from pathlib import Path
 
 import fitz
@@ -93,6 +94,17 @@ def check_css() -> None:
             fail(f"CSS: required selector missing: {selector}")
     if "@page" not in css or "size: A4" not in css:
         fail("CSS: A4 page rule missing")
+    compact_css = compact(css)
+    document_format_rules = {
+        "page decoration removed": ".resume-page::before{display:none;}",
+        "flat page surface": "box-shadow:none;",
+        "plain status labels": ".status{background:transparent;border:0;border-radius:0;",
+        "linear project timeline": ".status-timeline{display:block;",
+        "support label remains visible": ".intro.eyebrow{display:block;",
+    }
+    for label, rule in document_format_rules.items():
+        if compact(rule) not in compact_css:
+            fail(f"CSS: Google Docs-style rule missing: {label}")
     font_sizes = [float(value) for value in re.findall(r"font-size:\s*([0-9.]+)pt", css)]
     if not font_sizes or min(size for size in font_sizes if size >= 8) < 8:
         fail("CSS: readable font-size rules missing")
@@ -125,6 +137,19 @@ def check_html() -> None:
 
 def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def html_body_fragments() -> list[str]:
+    source = HTML.read_text(encoding="utf-8")
+    body_match = re.search(r"<body\b[^>]*>(.*)</body>", source, re.DOTALL)
+    if not body_match:
+        fail("HTML: body element missing")
+    fragments = []
+    for value in re.findall(r">([^<>]+)<", body_match.group(1)):
+        normalized = compact(unescape(value))
+        if normalized:
+            fragments.append(normalized)
+    return fragments
 
 
 def check_pdf() -> None:
@@ -160,6 +185,17 @@ def check_pdf() -> None:
 
         full_text = "\n".join(page_texts)
         check_phrases(full_text, "PDF")
+        compact_pdf_text = compact(full_text)
+        missing_fragments = [
+            fragment
+            for fragment in html_body_fragments()
+            if fragment not in compact_pdf_text
+        ]
+        if missing_fragments:
+            fail(
+                "PDF: visible HTML text missing: "
+                + ", ".join(missing_fragments[:5])
+            )
         if len(re.findall(r"(?m)^limgiho\s*$", full_text)) != 4:
             fail("PDF: expected four limgiho footer lines")
         missing_urls = REQUIRED_URLS - pdf_urls
