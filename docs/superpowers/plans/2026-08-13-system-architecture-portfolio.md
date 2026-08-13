@@ -49,14 +49,17 @@ HTML_PATH = Path(__file__).resolve().parent.parent / "assets" / "portfolio" / "a
 # 결과물에 절대 남아서는 안 되는 문자열. 회사·거래처·사내 인프라를 특정할 수 있는 것들.
 FORBIDDEN_PATTERNS = [
     (r"kream", "회사 제품명"),
-    (r"\bkwe\b", "회사 모노레포 코드명"),
+    # `\b` 는 언더스코어를 단어 문자로 보므로 AWS_KWE_PROD 같은 표기를 놓친다.
+    # 영숫자만 경계로 삼는다.
+    (r"(?<![A-Za-z0-9])kwe(?![A-Za-z0-9])", "회사 모노레포 코드명"),
     (r"samsung|삼성", "거래처명"),
     # `-apple-system` 폰트 키워드는 예외 — 앞에 하이픈이 붙은 경우만 허용한다.
-    (r"(?<!-)\bapple\b|애플", "거래처명"),
-    (r"10\.33\.34\.59", "사내 IP"),
+    (r"(?<![-A-Za-z0-9])apple(?![A-Za-z0-9])|애플", "거래처명"),
+    # 특정 IP 하나가 아니라 사설 대역 전체를 막는다.
+    (r"\b(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})\b", "사설 IP"),
     (r"\b[a-z]{4}\d{4}\b", "화면 코드"),
-    (r"\blimo\b", "사내 시스템명"),
-    (r"\bufs\b", "사내 시스템명"),
+    (r"(?<![A-Za-z0-9])limo(?![A-Za-z0-9])", "사내 시스템명"),
+    (r"(?<![A-Za-z0-9])ufs(?![A-Za-z0-9])", "사내 시스템명"),
 ]
 
 failures = []
@@ -77,6 +80,12 @@ def check_no_external_resources(text):
     for match in re.finditer(r"""(?:src|href)\s*=\s*["'](https?:)?//""", text):
         line = text.count("\n", 0, match.start()) + 1
         fail(f"외부 리소스 참조 발견 @ line {line} — 단일 파일이어야 한다")
+    # CSS 안의 외부 참조도 막는다 — url(), @import 는 속성 검사에 걸리지 않는다.
+    for match in re.finditer(
+        r"""url\(\s*["']?(?:https?:)?//|@import\s+["'](?:https?:)?//""", text, re.IGNORECASE
+    ):
+        line = text.count("\n", 0, match.start()) + 1
+        fail(f"CSS 외부 리소스 참조 발견 @ line {line} — 단일 파일이어야 한다")
 
 
 def extract_model(text):
@@ -120,11 +129,12 @@ def check_model(model):
             if not card.get(key):
                 fail(f"카드 {card.get('title', '?')!r} 에 {key} 누락")
 
-    node_ids = {node["id"] for node in model.get("nodes", [])}
+    node_ids = {node.get("id") for node in model.get("nodes", [])}
     for edge in model.get("edges", []):
         for end in ("from", "to"):
-            if edge[end] not in node_ids:
-                fail(f"엣지 {edge['id']!r} 의 {end}={edge[end]!r} 노드가 없다")
+            target = edge.get(end)
+            if target not in node_ids:
+                fail(f"엣지 {edge.get('id', '?')!r} 의 {end}={target!r} 노드가 없다")
 
 
 def check_theme_tokens(text):
@@ -216,7 +226,7 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  /* "Apple SD Gothic Neo" 는 쓰지 않는다 — 익명화 검사에 걸린다. system-ui 로 충분하다. */
+  /* 벤더 한글 폰트명은 익명화 검사에 걸리므로 쓰지 않는다. system-ui 로 충분하다. */
   font: 15px/1.6 system-ui, -apple-system, "Pretendard", "Malgun Gothic", sans-serif;
 }
 </style>
@@ -244,7 +254,7 @@ const MODEL = JSON.parse(document.getElementById('model').textContent);
 - [ ] **Step 4: 실행해서 모델 완전성만 실패하는지 확인한다**
 
 Run: `python3 scripts/verify-architecture-portfolio.py`
-Expected: `FAIL` — legacy가 0개이고 카드가 0장이라는 항목만 뜬다. 익명화·외부리소스·테마 검사는 통과해야 한다. 익명화 위반이 함께 뜬다면 스타일 블록의 폰트 이름을 확인한다.
+Expected: `FAIL (2건)` — legacy 0개, 카드 0장. 익명화·외부리소스·테마 검사는 통과해야 한다. 익명화 위반이 함께 뜬다면 스타일 블록 안에 벤더 폰트명이 남아 있는 것이다 — 금지 패턴 목록을 고치지 말고 폰트명을 지운다.
 
 - [ ] **Step 5: 커밋**
 
