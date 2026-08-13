@@ -670,7 +670,9 @@ git commit -m "feat: 설계 결정 카드 10장과 엣지 정의"
 
 ```css
 .layout { display: grid; grid-template-columns: 1fr 380px; min-height: 100vh; }
-.stage { padding: 20px 24px; }
+/* min-width: 0 이 없으면 그리드 아이템의 기본 min-width: auto 때문에 트랙이
+   SVG 폭까지 늘어나, 안쪽 .diagram-scroll 의 overflow-x 가 무력화된다. */
+.stage { padding: 20px 24px; min-width: 0; }
 .stage-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
 .stage-head h1 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
 .stage-head p { margin: 0; color: var(--muted); font-size: 14px; }
@@ -1203,7 +1205,7 @@ git commit -m "feat: Before/After 토글과 레거시 파편화 레이어"
 ```css
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
-  .stage { padding: 16px; }
+  .stage { padding: 16px; min-width: 0; }
   #panel {
     border-left: 0; border-top: 1px solid var(--border);
     max-height: none; padding: 18px 16px;
