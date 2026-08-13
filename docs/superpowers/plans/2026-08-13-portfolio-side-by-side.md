@@ -258,22 +258,51 @@ function findSelection() {
   }
 ```
 
-를 아래로 교체한다:
+를 포함해 `findSelection` 함수 **전체**를 아래로 교체한다. 기존의 `return node && {...}` /
+`return edge && {...}` 는 `undefined` 를 반환할 수 있는데, `renderPanel` 의 널 가드가
+`.panel-empty` 와 함께 사라지므로 함수 쪽을 전역(total)으로 만든다.
 
 ```js
+/** 아무것도 선택하지 않은 상태가 곧 "왜 통합인가" 카드다.
+ *  BEFORE 는 클릭 대상이 아니므로 이 카드는 기본값이어야 한다. */
+function introView() {
+  return {
+    title: '통합 이전 — 15종 파편화',
+    kicker: 'C# · VB6 · Oracle Forms · 구 React · Excel 매크로 · ASP',
+    role: '각 시스템이 DB와 외부 시스템에 직접 연결돼 있었다. 같은 업무 로직이 여러 벌 존재했다. 오른쪽 다이어그램의 노드나 화살표를 클릭하면 그 지점의 설계 판단이 열린다.',
+    structure: null,
+    cards: MODEL.toggleCards,
+  };
+}
+
+/** 항상 뷰를 돌려준다 — 못 찾으면 기본 뷰로 떨어진다. renderPanel 이 널 검사를 하지 않아도 되게. */
 function findSelection() {
-  // 아무것도 선택하지 않은 상태가 곧 "왜 통합인가" 카드다.
-  // BEFORE 는 클릭 대상이 아니므로 이 카드는 기본값이어야 한다.
-  if (!selected) {
-    return {
-      title: '통합 이전 — 15종 파편화',
-      kicker: 'C# · VB6 · Oracle Forms · 구 React · Excel 매크로 · ASP',
-      role: '각 시스템이 DB와 외부 시스템에 직접 연결돼 있었다. 같은 업무 로직이 여러 벌 존재했다. 오른쪽 다이어그램의 노드나 화살표를 클릭하면 그 지점의 설계 판단이 열린다.',
-      structure: null,
-      cards: MODEL.toggleCards,
-    };
+  if (!selected) return introView();
+
+  if (selected.type === 'node') {
+    const node = nodeById(selected.id);
+    if (node) {
+      return {
+        title: node.label, kicker: node.sub, role: node.role,
+        structure: node.structure, cards: node.cards,
+      };
+    }
+  } else {
+    const edge = MODEL.edges.find(item => item.id === selected.id);
+    if (edge) {
+      return {
+        title: `${nodeById(edge.from).label} → ${nodeById(edge.to).label}`,
+        kicker: edge.label, role: '', structure: null, cards: edge.cards,
+      };
+    }
   }
+
+  return introView();
+}
 ```
+
+아울러 `renderPanel()` 안의 `if (!view) { … class="panel-empty" … }` 가드를 삭제한다.
+`.panel-empty` 는 CSS에서도 제거되므로 남겨두면 죽은 코드가 된다.
 
 - [ ] **Step 5: 카드를 2단으로 흐르게 감싼다**
 
