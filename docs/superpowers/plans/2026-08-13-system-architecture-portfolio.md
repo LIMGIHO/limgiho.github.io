@@ -1035,7 +1035,10 @@ BEFORE는 별도 SVG가 아니라 **같은 캔버스의 다른 배치**다. 레�
 .legacy rect { fill: var(--surface); stroke: var(--warn); stroke-width: 1.3; rx: 7; stroke-dasharray: 4 3; }
 .legacy text { fill: var(--text); font-size: 11px; font-weight: 600; }
 .legacy text.tech { fill: var(--muted); font-size: 9.5px; font-weight: 400; }
-.legacy, .node, .edge, .legacy-wires { transition: opacity .4s ease; }
+.legacy, .legacy-wires { transition: opacity .4s ease; }
+/* 실제로 opacity 가 바뀌는 것은 부모 레이어다 — 전환은 여기 걸려 있어야 한다.
+   자식(.node/.edge)에 걸면 부모 opacity 변화에는 아무 효과가 없어 툭 끊긴다. */
+.legacy-layer, .nodes, .edges { transition: opacity .4s ease; }
 .hidden-layer { opacity: 0; pointer-events: none; }
 .legacy-wires path { stroke: var(--warn); stroke-width: .7; fill: none; opacity: .35; }
 .before-note {
@@ -1089,8 +1092,7 @@ BEFORE는 별도 SVG가 아니라 **같은 캔버스의 다른 배치**다. 레�
   });
 
   ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 15곳 수정'].forEach((note, index) => {
-    const text = svgEl('text', { class: 'before-note', x: 40, y: 580 + index * 0 });
-    text.setAttribute('x', 40 + index * 300);
+    const text = svgEl('text', { class: 'before-note', x: 40 + index * 300, y: 580 });
     text.textContent = `⚠ ${note}`;
     legacyLayer.appendChild(text);
   });
@@ -1105,12 +1107,21 @@ BEFORE는 별도 SVG가 아니라 **같은 캔버스의 다른 배치**다. 레�
 ```js
 let mode = 'after';
 
+/** 레이어를 숨길 때는 투명도만이 아니라 포커스·접근성 트리에서도 빼야 한다. */
+function setLayerHidden(layer, hidden) {
+  layer.classList.toggle('hidden-layer', hidden);
+  layer.setAttribute('aria-hidden', String(hidden));
+  for (const el of layer.querySelectorAll('[tabindex]')) {
+    el.setAttribute('tabindex', hidden ? '-1' : '0');
+  }
+}
+
 function setMode(next) {
   mode = next;
   const svg = document.getElementById('diagram');
-  svg.querySelector('.legacy-layer').classList.toggle('hidden-layer', mode !== 'before');
+  setLayerHidden(svg.querySelector('.legacy-layer'), mode !== 'before');
   for (const layer of [svg.querySelector('.nodes'), svg.querySelector('.edges')]) {
-    layer.classList.toggle('hidden-layer', mode !== 'after');
+    setLayerHidden(layer, mode !== 'after');
   }
   for (const button of document.querySelectorAll('.toggle button')) {
     button.setAttribute('aria-pressed', String(button.dataset.mode === mode));
