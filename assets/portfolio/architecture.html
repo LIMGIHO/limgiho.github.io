@@ -136,24 +136,22 @@ body {
 {
   "meta": {
     "project": "LogiFlow",
-    "tagline": "파편화된 15종 사내 시스템을 하나의 플랫폼으로"
+    "tagline": "파편화된 13종 사내 시스템을 하나의 플랫폼으로"
   },
   "legacy": [
-    { "id": "l1",  "label": "출고 관리",       "tech": "C# WinForms",   "placeholder": true },
-    { "id": "l2",  "label": "입고 관리",       "tech": "C# WinForms",   "placeholder": true },
-    { "id": "l3",  "label": "계근대 연동",     "tech": "VB6",           "placeholder": true },
-    { "id": "l4",  "label": "라벨 발행",       "tech": "VB6",           "placeholder": true },
-    { "id": "l5",  "label": "정산",            "tech": "Oracle Forms",  "placeholder": true },
-    { "id": "l6",  "label": "요율 관리",       "tech": "Oracle Forms",  "placeholder": true },
-    { "id": "l7",  "label": "기준정보",        "tech": "Oracle Forms",  "placeholder": true },
-    { "id": "l8",  "label": "수출 신고",       "tech": "구 React",      "placeholder": true },
-    { "id": "l9",  "label": "수입 통관",       "tech": "구 React",      "placeholder": true },
-    { "id": "l10", "label": "운송 배차",       "tech": "구 React",      "placeholder": true },
-    { "id": "l11", "label": "거래처 EDI 송수신","tech": "배치 스크립트", "placeholder": true },
-    { "id": "l12", "label": "실적 집계",       "tech": "Excel 매크로",  "placeholder": true },
-    { "id": "l13", "label": "청구서 생성",     "tech": "Excel 매크로",  "placeholder": true },
-    { "id": "l14", "label": "스케줄 조회",     "tech": "ASP",           "placeholder": true },
-    { "id": "l15", "label": "사용자·권한",     "tech": "ASP",           "placeholder": true }
+    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6" },
+    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6" },
+    { "id": "l3",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA" },
+    { "id": "l4",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA" },
+    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA" },
+    { "id": "l6",  "label": "미수 관리",               "tech": "C#" },
+    { "id": "l7",  "label": "세금계산서 관리",          "tech": "C# WinForms" },
+    { "id": "l8",  "label": "세금계산서 거래처",         "tech": "C#" },
+    { "id": "l9",  "label": "인보이스 EDI 처리",        "tech": "C#" },
+    { "id": "l10", "label": "환율 수집·등록",           "tech": "C#" },
+    { "id": "l11", "label": "B/L 출력물 생성",          "tech": "C#" },
+    { "id": "l12", "label": "자동화 모니터링",          "tech": "C#" },
+    { "id": "l13", "label": "미수 알림 메일",           "tech": "C#" }
   ],
   "nodes": [
     {
@@ -163,7 +161,7 @@ body {
       "kind": "app",
       "featured": true,
       "x": 500, "y": 70,
-      "role": "업무 화면 90여 개를 담는 단일 웹 클라이언트. 15종 레거시 UI가 여기로 수렴했다.",
+      "role": "업무 화면 90여 개를 담는 단일 웹 클라이언트. 13종 레거시 UI가 여기로 수렴했다.",
       "structure": [
         "app/            라우트 = 업무 화면",
         "  └ _features/  화면 로컬 슬라이스 (container · view)",
@@ -401,10 +399,10 @@ body {
     {
       "id": "c1",
       "title": "왜 통합인가",
-      "problem": "15종 클라이언트가 각자 DB와 외부 시스템에 직접 붙어 있었다. 같은 업무 로직이 여러 벌 존재하고, 장애가 나면 어디서 시작됐는지 추적할 수 없었다.",
+      "problem": "13종 클라이언트가 각자 DB와 외부 시스템에 직접 붙어 있었다. 같은 정산입력 자동화가 항공수출·항공수입·해운 부서별로 세 벌 따로 존재했고, 장애가 나면 어디서 시작됐는지 추적할 수 없었다.",
       "alternative": "레거시를 그대로 두고 연동 게이트웨이만 앞에 세우는 안도 검토했다. 단기 비용은 낮지만 중복 로직은 그대로 남는다.",
       "choice": "화면과 API를 하나의 플랫폼으로 수렴시키고, 외부 연동은 어댑터 한 층으로 모았다. 데이터 접근 경로를 하나로 만드는 것이 목적이었다.",
-      "result": "새 외부 시스템을 붙일 때 고쳐야 할 곳이 15곳에서 1곳이 됐다."
+      "result": "새 외부 시스템을 붙일 때 고쳐야 할 곳이 13곳에서 1곳이 됐다."
     }
   ]
 }
@@ -541,16 +539,16 @@ function renderBeforeDiagram() {
     viewBox: `0 0 ${BEFORE_VIEW.w} ${BEFORE_VIEW.h}`,
     role: 'img',
     'aria-label':
-      '통합 이전 구조. 15종의 시스템이 데이터베이스와 외부 시스템에 각자 직접 연결돼 있다.',
+      '통합 이전 구조. 13종의 시스템이 데이터베이스와 외부 시스템에 각자 직접 연결돼 있다.',
   });
 
   const boxW = 152;
   const boxH = 40;
   const sinks = [
-    { x: 90, y: 470, name: 'Oracle' },
-    { x: 225, y: 470, name: 'UNI-PASS' },
+    { x: 90, y: 470, name: 'Oracle DB' },
+    { x: 225, y: 470, name: '글로벌 시스템' },
     { x: 360, y: 470, name: '거래처 EDI' },
-    { x: 495, y: 470, name: 'FTP' },
+    { x: 495, y: 470, name: '은행 환율' },
   ];
 
   const wires = svgEl('g', { class: 'legacy-wires' });
@@ -589,7 +587,7 @@ function renderBeforeDiagram() {
     svg.appendChild(group);
   }
 
-  ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 15곳 수정'].forEach((note, index) => {
+  ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 13곳 수정'].forEach((note, index) => {
     const text = svgEl('text', { class: 'before-note', x: 24, y: 545 + index * 26 });
     text.textContent = `⚠ ${note}`;
     svg.appendChild(text);
@@ -638,8 +636,8 @@ function cardHtml(card) {
  *  BEFORE 는 클릭 대상이 아니므로 이 카드는 기본값이어야 한다. */
 function introView() {
   return {
-    title: '통합 이전 — 15종 파편화',
-    kicker: 'C# · VB6 · Oracle Forms · 구 React · Excel 매크로 · ASP',
+    title: '통합 이전 — 13종 파편화',
+    kicker: 'VB6 · C# WinForms · C# 자동화',
     role: '각 시스템이 DB와 외부 시스템에 직접 연결돼 있었다. 같은 업무 로직이 여러 벌 존재했다. 오른쪽 다이어그램의 노드나 화살표를 클릭하면 그 지점의 설계 판단이 열린다.',
     structure: null,
     cards: MODEL.toggleCards,
@@ -706,7 +704,7 @@ function mount() {
 
   const before = document.createElement('div');
   before.className = 'board board-before';
-  before.innerHTML = `<h2 class="board-label">Before — 파편화된 15종</h2>`;
+  before.innerHTML = `<h2 class="board-label">Before — 파편화된 13종</h2>`;
   before.appendChild(renderBeforeDiagram());
   boards.appendChild(before);
 

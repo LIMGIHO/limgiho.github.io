@@ -66,8 +66,8 @@ def extract_model(text):
 
 def check_model(model):
     legacy = model.get("legacy", [])
-    if len(legacy) != 15:
-        fail(f"legacy 항목은 15개여야 한다. 현재 {len(legacy)}개")
+    if len(legacy) != 13:
+        fail(f"legacy 항목은 13개여야 한다. 현재 {len(legacy)}개")
     for item in legacy:
         for key in ("id", "label", "tech"):
             if not item.get(key):
