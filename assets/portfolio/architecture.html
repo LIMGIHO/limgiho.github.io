@@ -126,6 +126,17 @@ svg#diagram { width: 100%; height: auto; display: block; }
 .before-note {
   fill: var(--warn); font-size: 12.5px; font-weight: 600;
 }
+@media (max-width: 900px) {
+  .layout { grid-template-columns: 1fr; }
+  .stage { padding: 16px; }
+  #panel {
+    border-left: 0; border-top: 1px solid var(--border);
+    max-height: none; padding: 18px 16px;
+  }
+  .stage-head h1 { font-size: 18px; }
+  svg#diagram { min-width: 720px; }
+  .diagram-scroll { overflow-x: auto; }
+}
 </style>
 </head>
 <body>
@@ -705,7 +716,10 @@ function mount() {
         <button data-mode="after" aria-pressed="true">After</button>
       </div>
     </div>`;
-  stage.appendChild(renderDiagram());
+  const scroller = document.createElement('div');
+  scroller.className = 'diagram-scroll';
+  scroller.appendChild(renderDiagram());
+  stage.appendChild(scroller);
   app.appendChild(stage);
   const panel = document.createElement('aside');
   panel.id = 'panel';
