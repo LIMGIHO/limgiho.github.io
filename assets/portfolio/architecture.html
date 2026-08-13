@@ -474,54 +474,6 @@ function renderDiagram() {
   defs.appendChild(marker);
   svg.appendChild(defs);
 
-  // BEFORE 레이어: 레거시 15개 + 얽힌 연결선 + 문제 라벨
-  const legacyLayer = svgEl('g', { class: 'legacy-layer hidden-layer' });
-  const wires = svgEl('g', { class: 'legacy-wires' });
-  const boxW = 168;
-  const boxH = 42;
-  const sinks = [
-    { x: 200, y: 500 }, { x: 420, y: 500 }, { x: 640, y: 500 }, { x: 850, y: 500 },
-  ];
-  MODEL.legacy.forEach((item, index) => {
-    const col = index % 5;
-    const row = Math.floor(index / 5);
-    const cx = 110 + col * 195;
-    const cy = 80 + row * 66;
-    for (const sink of sinks) {
-      wires.appendChild(svgEl('path', {
-        d: `M ${cx} ${cy + boxH / 2} C ${cx} ${cy + 140}, ${sink.x} ${sink.y - 140}, ${sink.x} ${sink.y - 22}`,
-      }));
-    }
-    const box = svgEl('g', { class: 'legacy' });
-    box.appendChild(svgEl('rect', { x: cx - boxW / 2, y: cy - boxH / 2, width: boxW, height: boxH }));
-    const label = svgEl('text', { x: cx, y: cy - 2, 'text-anchor': 'middle' });
-    label.textContent = item.label;
-    box.appendChild(label);
-    const tech = svgEl('text', { class: 'tech', x: cx, y: cy + 12, 'text-anchor': 'middle' });
-    tech.textContent = item.tech;
-    box.appendChild(tech);
-    legacyLayer.appendChild(box);
-  });
-  legacyLayer.insertBefore(wires, legacyLayer.firstChild);
-
-  sinks.forEach((sink, index) => {
-    const names = ['Oracle', 'UNI-PASS', '거래처 EDI', 'FTP'];
-    const group = svgEl('g', { class: 'legacy' });
-    group.appendChild(svgEl('rect', { x: sink.x - 80, y: sink.y - 20, width: 160, height: 40 }));
-    const label = svgEl('text', { x: sink.x, y: sink.y + 5, 'text-anchor': 'middle' });
-    label.textContent = names[index];
-    group.appendChild(label);
-    legacyLayer.appendChild(group);
-  });
-
-  ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 15곳 수정'].forEach((note, index) => {
-    const text = svgEl('text', { class: 'before-note', x: 40 + index * 300, y: 580 });
-    text.textContent = `⚠ ${note}`;
-    legacyLayer.appendChild(text);
-  });
-
-  svg.appendChild(legacyLayer);
-
   // 같은 노드에서 같은 쪽으로 나가는 엣지는 통로를 어긋나게 한다.
   const EDGE_LANES = { 'e-api-adp': -1, 'e-api-db': 1 };
 
@@ -588,6 +540,73 @@ function renderDiagram() {
     nodeLayer.appendChild(group);
   }
   svg.appendChild(nodeLayer);
+  return svg;
+}
+
+const BEFORE_VIEW = { w: 560, h: 660 };
+
+/** 통합 이전 구조. 라벨을 읽히게 하는 것이 목적이 아니라 "엉켜 있다"를 보여주는 것이
+ *  목적이므로, 좁은 폭에 빽빽하게 채우고 클릭 대상은 두지 않는다. */
+function renderBeforeDiagram() {
+  const svg = svgEl('svg', {
+    id: 'before-diagram',
+    viewBox: `0 0 ${BEFORE_VIEW.w} ${BEFORE_VIEW.h}`,
+    role: 'img',
+    'aria-label':
+      '통합 이전 구조. 15종의 시스템이 데이터베이스와 외부 시스템에 각자 직접 연결돼 있다.',
+  });
+
+  const boxW = 152;
+  const boxH = 40;
+  const sinks = [
+    { x: 90, y: 470, name: 'Oracle' },
+    { x: 225, y: 470, name: 'UNI-PASS' },
+    { x: 360, y: 470, name: '거래처 EDI' },
+    { x: 495, y: 470, name: 'FTP' },
+  ];
+
+  const wires = svgEl('g', { class: 'legacy-wires' });
+  const boxes = svgEl('g');
+
+  MODEL.legacy.forEach((item, index) => {
+    const col = index % 3;
+    const row = Math.floor(index / 3);
+    const cx = 100 + col * 180;
+    const cy = 60 + row * 70;
+    for (const sink of sinks) {
+      wires.appendChild(svgEl('path', {
+        d: `M ${cx} ${cy + boxH / 2} C ${cx} ${cy + 120}, ${sink.x} ${sink.y - 120}, ${sink.x} ${sink.y - 20}`,
+      }));
+    }
+    const box = svgEl('g', { class: 'legacy' });
+    box.appendChild(svgEl('rect', { x: cx - boxW / 2, y: cy - boxH / 2, width: boxW, height: boxH }));
+    const label = svgEl('text', { x: cx, y: cy - 2, 'text-anchor': 'middle' });
+    label.textContent = item.label;
+    box.appendChild(label);
+    const tech = svgEl('text', { class: 'tech', x: cx, y: cy + 12, 'text-anchor': 'middle' });
+    tech.textContent = item.tech;
+    box.appendChild(tech);
+    boxes.appendChild(box);
+  });
+
+  svg.appendChild(wires);
+  svg.appendChild(boxes);
+
+  for (const sink of sinks) {
+    const group = svgEl('g', { class: 'legacy' });
+    group.appendChild(svgEl('rect', { x: sink.x - 60, y: sink.y - 20, width: 120, height: 40 }));
+    const label = svgEl('text', { x: sink.x, y: sink.y + 5, 'text-anchor': 'middle' });
+    label.textContent = sink.name;
+    group.appendChild(label);
+    svg.appendChild(group);
+  }
+
+  ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 15곳 수정'].forEach((note, index) => {
+    const text = svgEl('text', { class: 'before-note', x: 24, y: 545 + index * 26 });
+    text.textContent = `⚠ ${note}`;
+    svg.appendChild(text);
+  });
+
   return svg;
 }
 
