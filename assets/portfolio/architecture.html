@@ -544,6 +544,9 @@ function renderBeforeDiagram() {
 
   const boxW = 152;
   const boxH = 40;
+  const COLS = 3;
+  const LAST_ROW = Math.floor((MODEL.legacy.length - 1) / COLS);
+  const LAST_ROW_COUNT = MODEL.legacy.length % COLS || COLS;
   const sinks = [
     { x: 90, y: 470, name: 'Oracle DB' },
     { x: 225, y: 470, name: '글로벌 시스템' },
@@ -555,9 +558,11 @@ function renderBeforeDiagram() {
   const boxes = svgEl('g');
 
   MODEL.legacy.forEach((item, index) => {
-    const col = index % 3;
-    const row = Math.floor(index / 3);
-    const cx = 100 + col * 180;
+    const col = index % COLS;
+    const row = Math.floor(index / COLS);
+    // 마지막 줄이 덜 찼으면 가운데로 모은다 — 왼쪽에 하나만 남으면 깨져 보인다.
+    const rowShift = row === LAST_ROW ? (COLS - LAST_ROW_COUNT) * 90 : 0;
+    const cx = 100 + col * 180 + rowShift;
     const cy = 60 + row * 70;
     for (const sink of sinks) {
       wires.appendChild(svgEl('path', {
