@@ -71,6 +71,8 @@ svg#diagram { width: 100%; height: auto; display: block; }
 .edge.clickable { cursor: pointer; }
 .edge.clickable:hover path { stroke: var(--accent); }
 .edge.is-selected path { stroke: var(--accent); stroke-width: 2.6; }
+.node:focus-visible rect, .edge:focus-visible path { stroke: var(--accent); stroke-width: 3; }
+.node:focus-visible, .edge:focus-visible { outline: none; }
 </style>
 </head>
 <body>
@@ -356,6 +358,8 @@ const MODEL = JSON.parse(document.getElementById('model').textContent);
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const NODE_W = 190;
 const NODE_H = 56;
+const LANE_GAP = 26;
+const LANE_SHIFT = 14;
 
 function svgEl(name, attrs = {}) {
   const el = document.createElementNS(SVG_NS, name);
@@ -367,23 +371,25 @@ function nodeById(id) {
   return MODEL.nodes.find(node => node.id === id);
 }
 
-/** 두 노드 중심을 잇되, 박스 경계에서 시작·종료하는 직교 경로를 만든다. */
-function edgePath(from, to) {
+/** 두 노드 중심을 잇되, 박스 경계에서 시작·종료하는 직교 경로를 만든다.
+ *  lane 은 같은 노드에서 같은 방향으로 나가는 엣지끼리 겹치지 않도록 통로를 어긋나게 한다. */
+function edgePath(from, to, lane = 0) {
   const vertical = Math.abs(to.y - from.y) > Math.abs(to.x - from.x);
   if (vertical) {
     const dir = to.y > from.y ? 1 : -1;
     const y1 = from.y + dir * (NODE_H / 2);
     const y2 = to.y - dir * (NODE_H / 2);
     if (from.x === to.x) return `M ${from.x} ${y1} L ${to.x} ${y2}`;
-    const mid = (y1 + y2) / 2;
+    const mid = (y1 + y2) / 2 + lane * LANE_GAP;
     return `M ${from.x} ${y1} L ${from.x} ${mid} L ${to.x} ${mid} L ${to.x} ${y2}`;
   }
   const dir = to.x > from.x ? 1 : -1;
   const x1 = from.x + dir * (NODE_W / 2);
   const x2 = to.x - dir * (NODE_W / 2);
-  if (from.y === to.y) return `M ${x1} ${from.y} L ${x2} ${to.y}`;
-  const mid = (x1 + x2) / 2;
-  return `M ${x1} ${from.y} L ${mid} ${from.y} L ${mid} ${to.y} L ${x2} ${to.y}`;
+  const exitY = from.y + lane * LANE_SHIFT;
+  if (from.y === to.y && lane === 0) return `M ${x1} ${from.y} L ${x2} ${to.y}`;
+  const mid = (x1 + x2) / 2 + lane * LANE_GAP;
+  return `M ${x1} ${exitY} L ${mid} ${exitY} L ${mid} ${to.y} L ${x2} ${to.y}`;
 }
 
 function renderDiagram() {
@@ -398,6 +404,9 @@ function renderDiagram() {
   defs.appendChild(marker);
   svg.appendChild(defs);
 
+  // 같은 노드에서 같은 쪽으로 나가는 엣지는 통로를 어긋나게 한다.
+  const EDGE_LANES = { 'e-api-adp': -1, 'e-api-db': 1 };
+
   const edgeLayer = svgEl('g', { class: 'edges' });
   for (const edge of MODEL.edges) {
     const from = nodeById(edge.from);
@@ -405,7 +414,7 @@ function renderDiagram() {
     const group = svgEl('g', { class: 'edge', 'data-id': edge.id });
     if (edge.featured) group.classList.add('is-featured');
     if (edge.dashed) group.classList.add('is-dashed');
-    group.appendChild(svgEl('path', { d: edgePath(from, to) }));
+    group.appendChild(svgEl('path', { d: edgePath(from, to, EDGE_LANES[edge.id] ?? 0) }));
     if (edge.label) {
       const label = svgEl('text', {
         x: (from.x + to.x) / 2 + 8,
@@ -417,7 +426,16 @@ function renderDiagram() {
     }
     if (edge.cards.length) {
       group.classList.add('clickable');
+      group.setAttribute('tabindex', '0');
+      group.setAttribute('role', 'button');
+      group.setAttribute('aria-label', `${from.label} 에서 ${to.label} 로 가는 연결 상세 보기`);
       group.addEventListener('click', () => select('edge', edge.id));
+      group.addEventListener('keydown', event => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          select('edge', edge.id);
+        }
+      });
     }
     edgeLayer.appendChild(group);
   }
@@ -460,7 +478,9 @@ let selected = null;
 function select(type, id) {
   selected = { type, id };
   for (const el of document.querySelectorAll('.node, .edge')) {
-    el.classList.toggle('is-selected', el.dataset.id === id);
+    const isSelected = el.dataset.id === id && el.classList.contains(type);
+    el.classList.toggle('is-selected', isSelected);
+    if (el.hasAttribute('role')) el.setAttribute('aria-pressed', String(isSelected));
   }
   renderPanel();
 }
