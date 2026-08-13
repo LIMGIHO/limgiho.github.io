@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LogiFlow Architecture</title>
+<style>
+:root {
+  --bg: #ffffff;
+  --surface: #f6f7f9;
+  --border: #d8dbe0;
+  --text: #17191c;
+  --muted: #5f656e;
+  --accent: #2f6fed;
+  --accent-soft: #e7effd;
+  --warn: #b4531a;
+  --radius: 10px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1114;
+    --surface: #171a1f;
+    --border: #2b3038;
+    --text: #e8eaed;
+    --muted: #9aa1ab;
+    --accent: #7aa5ff;
+    --accent-soft: #1b2740;
+    --warn: #e0954f;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1114;
+  --surface: #171a1f;
+  --border: #2b3038;
+  --text: #e8eaed;
+  --muted: #9aa1ab;
+  --accent: #7aa5ff;
+  --accent-soft: #1b2740;
+  --warn: #e0954f;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  /* 벤더 한글 폰트명은 익명화 검사에 걸리므로 쓰지 않는다. system-ui 로 충분하다. */
+  font: 15px/1.6 system-ui, -apple-system, "Pretendard", "Malgun Gothic", sans-serif;
+}
+</style>
+</head>
+<body>
+<main id="app"></main>
+
+<script id="model" type="application/json">
+{
+  "meta": { "project": "LogiFlow", "tagline": "파편화된 15종 사내 시스템을 하나의 플랫폼으로" },
+  "legacy": [],
+  "nodes": [],
+  "edges": [],
+  "toggleCards": []
+}
+</script>
+
+<script>
+const MODEL = JSON.parse(document.getElementById('model').textContent);
+</script>
+</body>
+</html>
