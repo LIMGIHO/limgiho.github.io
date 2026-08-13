@@ -47,7 +47,7 @@ body {
   font: 15px/1.6 system-ui, -apple-system, "Pretendard", "Malgun Gothic", sans-serif;
 }
 .layout { display: grid; grid-template-columns: 1fr 380px; min-height: 100vh; }
-.stage { padding: 20px 24px; }
+.stage { padding: 20px 24px; min-width: 0; }
 .stage-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
 .stage-head h1 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
 .stage-head p { margin: 0; color: var(--muted); font-size: 14px; }
@@ -128,7 +128,9 @@ svg#diagram { width: 100%; height: auto; display: block; }
 }
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
-  .stage { padding: 16px; }
+  /* 그리드 아이템의 기본 min-width: auto 가 트랙을 SVG 폭까지 늘려,
+     .diagram-scroll 의 overflow-x 를 무력화한다. 0 으로 눌러야 컨테이너가 스크롤을 먹는다. */
+  .stage { padding: 16px; min-width: 0; }
   #panel {
     border-left: 0; border-top: 1px solid var(--border);
     max-height: none; padding: 18px 16px;
