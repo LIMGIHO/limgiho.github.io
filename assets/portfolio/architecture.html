@@ -46,6 +46,31 @@ body {
   /* 폰트명은 금지어 목록(scripts/verify-architecture-portfolio.py)과 겹치지 않는 것만 쓴다. */
   font: 15px/1.6 system-ui, -apple-system, "Pretendard", "Malgun Gothic", sans-serif;
 }
+.layout { display: grid; grid-template-columns: 1fr 380px; min-height: 100vh; }
+.stage { padding: 20px 24px; }
+.stage-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+.stage-head h1 { font-size: 20px; margin: 0; letter-spacing: -0.01em; }
+.stage-head p { margin: 0; color: var(--muted); font-size: 14px; }
+svg#diagram { width: 100%; height: auto; display: block; }
+.node rect {
+  fill: var(--surface); stroke: var(--border); stroke-width: 1.5;
+  rx: 10; transition: transform .55s ease, opacity .35s ease;
+}
+.node text { fill: var(--text); font-size: 14px; font-weight: 600; }
+.node text.sub { fill: var(--muted); font-size: 11px; font-weight: 400; }
+.node { cursor: pointer; transition: transform .55s cubic-bezier(.4,0,.2,1), opacity .35s ease; }
+.node:hover rect { stroke: var(--accent); }
+.node.is-featured rect { stroke: var(--accent); stroke-width: 2.5; }
+.node.is-selected rect { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 2.5; }
+.node.kind-legacy rect { stroke-dasharray: 5 4; }
+.edge { transition: opacity .35s ease; }
+.edge path { stroke: var(--border); stroke-width: 1.6; fill: none; marker-end: url(#arrow); }
+.edge.is-featured path { stroke: var(--accent); stroke-width: 2.2; }
+.edge.is-dashed path { stroke-dasharray: 5 4; }
+.edge text { fill: var(--muted); font-size: 11px; }
+.edge.clickable { cursor: pointer; }
+.edge.clickable:hover path { stroke: var(--accent); }
+.edge.is-selected path { stroke: var(--accent); stroke-width: 2.6; }
 </style>
 </head>
 <body>
@@ -327,6 +352,140 @@ body {
 
 <script>
 const MODEL = JSON.parse(document.getElementById('model').textContent);
+
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const NODE_W = 190;
+const NODE_H = 56;
+
+function svgEl(name, attrs = {}) {
+  const el = document.createElementNS(SVG_NS, name);
+  for (const [key, value] of Object.entries(attrs)) el.setAttribute(key, value);
+  return el;
+}
+
+function nodeById(id) {
+  return MODEL.nodes.find(node => node.id === id);
+}
+
+/** 두 노드 중심을 잇되, 박스 경계에서 시작·종료하는 직교 경로를 만든다. */
+function edgePath(from, to) {
+  const vertical = Math.abs(to.y - from.y) > Math.abs(to.x - from.x);
+  if (vertical) {
+    const dir = to.y > from.y ? 1 : -1;
+    const y1 = from.y + dir * (NODE_H / 2);
+    const y2 = to.y - dir * (NODE_H / 2);
+    if (from.x === to.x) return `M ${from.x} ${y1} L ${to.x} ${y2}`;
+    const mid = (y1 + y2) / 2;
+    return `M ${from.x} ${y1} L ${from.x} ${mid} L ${to.x} ${mid} L ${to.x} ${y2}`;
+  }
+  const dir = to.x > from.x ? 1 : -1;
+  const x1 = from.x + dir * (NODE_W / 2);
+  const x2 = to.x - dir * (NODE_W / 2);
+  if (from.y === to.y) return `M ${x1} ${from.y} L ${x2} ${to.y}`;
+  const mid = (x1 + x2) / 2;
+  return `M ${x1} ${from.y} L ${mid} ${from.y} L ${mid} ${to.y} L ${x2} ${to.y}`;
+}
+
+function renderDiagram() {
+  const svg = svgEl('svg', { id: 'diagram', viewBox: '0 0 1000 620', role: 'group' });
+
+  const defs = svgEl('defs');
+  const marker = svgEl('marker', {
+    id: 'arrow', viewBox: '0 0 10 10', refX: '9', refY: '5',
+    markerWidth: '6', markerHeight: '6', orient: 'auto-start-reverse',
+  });
+  marker.appendChild(svgEl('path', { d: 'M 0 0 L 10 5 L 0 10 z', fill: 'var(--border)' }));
+  defs.appendChild(marker);
+  svg.appendChild(defs);
+
+  const edgeLayer = svgEl('g', { class: 'edges' });
+  for (const edge of MODEL.edges) {
+    const from = nodeById(edge.from);
+    const to = nodeById(edge.to);
+    const group = svgEl('g', { class: 'edge', 'data-id': edge.id });
+    if (edge.featured) group.classList.add('is-featured');
+    if (edge.dashed) group.classList.add('is-dashed');
+    group.appendChild(svgEl('path', { d: edgePath(from, to) }));
+    if (edge.label) {
+      const label = svgEl('text', {
+        x: (from.x + to.x) / 2 + 8,
+        y: (from.y + to.y) / 2 - 6,
+        'text-anchor': 'middle',
+      });
+      label.textContent = edge.label;
+      group.appendChild(label);
+    }
+    if (edge.cards.length) {
+      group.classList.add('clickable');
+      group.addEventListener('click', () => select('edge', edge.id));
+    }
+    edgeLayer.appendChild(group);
+  }
+  svg.appendChild(edgeLayer);
+
+  const nodeLayer = svgEl('g', { class: 'nodes' });
+  for (const node of MODEL.nodes) {
+    const group = svgEl('g', {
+      class: `node kind-${node.kind}`,
+      'data-id': node.id,
+      tabindex: '0',
+      role: 'button',
+      'aria-label': `${node.label} 상세 보기`,
+    });
+    if (node.featured) group.classList.add('is-featured');
+    group.appendChild(svgEl('rect', {
+      x: node.x - NODE_W / 2, y: node.y - NODE_H / 2, width: NODE_W, height: NODE_H,
+    }));
+    const title = svgEl('text', { x: node.x, y: node.y - 3, 'text-anchor': 'middle' });
+    title.textContent = node.label;
+    group.appendChild(title);
+    const sub = svgEl('text', { class: 'sub', x: node.x, y: node.y + 15, 'text-anchor': 'middle' });
+    sub.textContent = node.sub;
+    group.appendChild(sub);
+    group.addEventListener('click', () => select('node', node.id));
+    group.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        select('node', node.id);
+      }
+    });
+    nodeLayer.appendChild(group);
+  }
+  svg.appendChild(nodeLayer);
+  return svg;
+}
+
+let selected = null;
+
+function select(type, id) {
+  selected = { type, id };
+  for (const el of document.querySelectorAll('.node, .edge')) {
+    el.classList.toggle('is-selected', el.dataset.id === id);
+  }
+  renderPanel();
+}
+
+function renderPanel() { /* Task 5 에서 구현 */ }
+
+function mount() {
+  const app = document.getElementById('app');
+  app.className = 'layout';
+  const stage = document.createElement('section');
+  stage.className = 'stage';
+  stage.innerHTML = `
+    <div class="stage-head">
+      <h1>${MODEL.meta.project}</h1>
+      <p>${MODEL.meta.tagline}</p>
+    </div>`;
+  stage.appendChild(renderDiagram());
+  app.appendChild(stage);
+  const panel = document.createElement('aside');
+  panel.id = 'panel';
+  app.appendChild(panel);
+  renderPanel();
+}
+
+mount();
 </script>
 </body>
 </html>
