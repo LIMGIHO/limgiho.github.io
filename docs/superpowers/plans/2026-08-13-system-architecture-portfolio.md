@@ -408,10 +408,14 @@ git commit -m "feat: 아키텍처 포트폴리오 뼈대와 검증 스크립트"
       "x": 175, "y": 330,
       "role": "정부·상용·거래처·하드웨어를 한 경계 뒤로 모은 층.",
       "structure": [
-        "UNI-PASS (관세청)   글로벌 포워딩 시스템",
-        "Descartes (EDI)     운송관리 TMS",
-        "거래처 EDI          계근대 소켓",
-        "FTP / SFTP          LDAP · SMTP"
+        "UNI-PASS (관세청)",
+        "Descartes (EDI)",
+        "글로벌 포워딩 시스템",
+        "운송관리 TMS",
+        "거래처 EDI",
+        "계근대 소켓",
+        "FTP / SFTP",
+        "LDAP · SMTP"
       ],
       "cards": []
     },
@@ -846,6 +850,9 @@ function mount() {
   app.appendChild(stage);
   const panel = document.createElement('aside');
   panel.id = 'panel';
+  // 패널은 선택할 때마다 통째로 갈아끼우므로, 보조기술에 변경을 알린다.
+  panel.setAttribute('aria-live', 'polite');
+  panel.setAttribute('aria-label', '선택한 지점의 상세');
   app.appendChild(panel);
   renderPanel();
 }
@@ -980,7 +987,7 @@ function renderPanel() {
     : '';
   panel.innerHTML = `
     <h2 class="panel-title">${escapeHtml(view.title)}</h2>
-    <p class="panel-kicker">${escapeHtml(view.kicker || '')}</p>
+    ${view.kicker ? `<p class="panel-kicker">${escapeHtml(view.kicker)}</p>` : ''}
     ${view.role ? `<p class="panel-role">${escapeHtml(view.role)}</p>` : ''}
     ${structure}
     ${cards}`;
