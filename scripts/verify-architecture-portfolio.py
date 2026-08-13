@@ -13,14 +13,14 @@ HTML_PATH = Path(__file__).resolve().parent.parent / "assets" / "portfolio" / "a
 # 결과물에 절대 남아서는 안 되는 문자열. 회사·거래처·사내 인프라를 특정할 수 있는 것들.
 FORBIDDEN_PATTERNS = [
     (r"kream", "회사 제품명"),
-    (r"\bkwe\b", "회사 모노레포 코드명"),
+    (r"(?<![A-Za-z0-9])kwe(?![A-Za-z0-9])", "회사 모노레포 코드명"),
     (r"samsung|삼성", "거래처명"),
     # `-apple-system` 폰트 키워드는 예외 — 앞에 하이픈이 붙은 경우만 허용한다.
-    (r"(?<!-)\bapple\b|애플", "거래처명"),
-    (r"10\.33\.34\.59", "사내 IP"),
+    (r"(?<![-A-Za-z0-9])apple(?![A-Za-z0-9])|애플", "거래처명"),
+    (r"\b(?:10\.\d{1,3}\.\d{1,3}\.\d{1,3}|172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3})\b", "사설 IP"),
     (r"\b[a-z]{4}\d{4}\b", "화면 코드"),
-    (r"\blimo\b", "사내 시스템명"),
-    (r"\bufs\b", "사내 시스템명"),
+    (r"(?<![A-Za-z0-9])limo(?![A-Za-z0-9])", "사내 시스템명"),
+    (r"(?<![A-Za-z0-9])ufs(?![A-Za-z0-9])", "사내 시스템명"),
 ]
 
 failures = []
@@ -41,6 +41,10 @@ def check_no_external_resources(text):
     for match in re.finditer(r"""(?:src|href)\s*=\s*["'](https?:)?//""", text):
         line = text.count("\n", 0, match.start()) + 1
         fail(f"외부 리소스 참조 발견 @ line {line} — 단일 파일이어야 한다")
+
+    for match in re.finditer(r"""url\(\s*["']?(?:https?:)?//|@import\s+["'](?:https?:)?//""", text, re.IGNORECASE):
+        line = text.count("\n", 0, match.start()) + 1
+        fail(f"CSS 외부 리소스 참조 발견 @ line {line} — 단일 파일이어야 한다")
 
 
 def extract_model(text):
@@ -84,11 +88,12 @@ def check_model(model):
             if not card.get(key):
                 fail(f"카드 {card.get('title', '?')!r} 에 {key} 누락")
 
-    node_ids = {node["id"] for node in model.get("nodes", [])}
+    node_ids = {node.get("id") for node in model.get("nodes", [])}
     for edge in model.get("edges", []):
         for end in ("from", "to"):
-            if edge[end] not in node_ids:
-                fail(f"엣지 {edge['id']!r} 의 {end}={edge[end]!r} 노드가 없다")
+            target = edge.get(end)
+            if target not in node_ids:
+                fail(f"엣지 {edge.get('id', '?')!r} 의 {end}={target!r} 노드가 없다")
 
 
 def check_theme_tokens(text):
