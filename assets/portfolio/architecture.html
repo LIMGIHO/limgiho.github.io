@@ -53,9 +53,168 @@ body {
 
 <script id="model" type="application/json">
 {
-  "meta": { "project": "LogiFlow", "tagline": "파편화된 15종 사내 시스템을 하나의 플랫폼으로" },
-  "legacy": [],
-  "nodes": [],
+  "meta": {
+    "project": "LogiFlow",
+    "tagline": "파편화된 15종 사내 시스템을 하나의 플랫폼으로"
+  },
+  "legacy": [
+    { "id": "l1",  "label": "출고 관리",       "tech": "C# WinForms",   "placeholder": true },
+    { "id": "l2",  "label": "입고 관리",       "tech": "C# WinForms",   "placeholder": true },
+    { "id": "l3",  "label": "계근대 연동",     "tech": "VB6",           "placeholder": true },
+    { "id": "l4",  "label": "라벨 발행",       "tech": "VB6",           "placeholder": true },
+    { "id": "l5",  "label": "정산",            "tech": "Oracle Forms",  "placeholder": true },
+    { "id": "l6",  "label": "요율 관리",       "tech": "Oracle Forms",  "placeholder": true },
+    { "id": "l7",  "label": "기준정보",        "tech": "Oracle Forms",  "placeholder": true },
+    { "id": "l8",  "label": "수출 신고",       "tech": "구 React",      "placeholder": true },
+    { "id": "l9",  "label": "수입 통관",       "tech": "구 React",      "placeholder": true },
+    { "id": "l10", "label": "운송 배차",       "tech": "구 React",      "placeholder": true },
+    { "id": "l11", "label": "거래처 EDI 송수신","tech": "배치 스크립트", "placeholder": true },
+    { "id": "l12", "label": "실적 집계",       "tech": "Excel 매크로",  "placeholder": true },
+    { "id": "l13", "label": "청구서 생성",     "tech": "Excel 매크로",  "placeholder": true },
+    { "id": "l14", "label": "스케줄 조회",     "tech": "ASP",           "placeholder": true },
+    { "id": "l15", "label": "사용자·권한",     "tech": "ASP",           "placeholder": true }
+  ],
+  "nodes": [
+    {
+      "id": "web",
+      "label": "Web",
+      "sub": "Next.js",
+      "kind": "app",
+      "featured": true,
+      "x": 500, "y": 70,
+      "role": "업무 화면 90여 개를 담는 단일 웹 클라이언트. 15종 레거시 UI가 여기로 수렴했다.",
+      "structure": [
+        "app/            라우트 = 업무 화면",
+        "  └ _features/  화면 로컬 슬라이스 (container · view)",
+        "features/       화면을 넘어 공유되는 도메인 슬라이스",
+        "shared/         UI · 유틸 · API 클라이언트"
+      ],
+      "cards": []
+    },
+    {
+      "id": "api",
+      "label": "API",
+      "sub": "NestJS",
+      "kind": "app",
+      "x": 500, "y": 190,
+      "role": "모든 업무 요청과 외부 연동이 통과하는 단일 진입점.",
+      "structure": [
+        "core/      업무 도메인 (수출 · 수입 · 배치)",
+        "system/    도메인 공통 능력 (파일 · 인증 · 메일 · 출력)",
+        "external/  외부 시스템 어댑터",
+        "port/      외부를 향한 인터페이스 정의"
+      ],
+      "cards": []
+    },
+    {
+      "id": "legacyApi",
+      "label": "Legacy API",
+      "sub": "Express",
+      "kind": "legacy",
+      "x": 175, "y": 190,
+      "role": "전환 이전의 API. 신규 개발은 멈추고 모듈 단위로 이전 중이다.",
+      "structure": [
+        "라우터 단위로 신규 API에 이관",
+        "공용 라이브러리는 구 · 신 두 벌을 병행 유지"
+      ],
+      "cards": []
+    },
+    {
+      "id": "queue",
+      "label": "Queue",
+      "sub": "Redis · BullMQ",
+      "kind": "infra",
+      "x": 820, "y": 190,
+      "role": "API와 워커를 잇는 잡 큐. 업무 성격별로 큐를 분리했다.",
+      "structure": [
+        "글로벌 연동 · EDI · 알림 · 계근 소켓 · 문서추출",
+        "문서추출 큐만 동시성 1 · 락 600초"
+      ],
+      "cards": []
+    },
+    {
+      "id": "worker",
+      "label": "Worker",
+      "sub": "cron + 분산락",
+      "kind": "app",
+      "x": 820, "y": 320,
+      "role": "예약 실행과 큐 소비를 담당하는 별도 배포 단위.",
+      "structure": [
+        "scheduler/  크론 정의 · Redis 분산 락",
+        "queue/      큐 ↔ 잡 타입 매핑",
+        "worker/     잡 실행 · 타임아웃"
+      ],
+      "cards": []
+    },
+    {
+      "id": "batch",
+      "label": "Batch",
+      "sub": "스크래핑 · FTP · 엑셀",
+      "kind": "app",
+      "x": 820, "y": 445,
+      "role": "브라우저 자동화와 대용량 파일 생성처럼 무겁고 오래 걸리는 작업.",
+      "structure": [
+        "API 프로세스와 분리해 메모리 · 시간 영향 격리"
+      ],
+      "cards": []
+    },
+    {
+      "id": "llm",
+      "label": "Local LLM",
+      "sub": "온프레미스 추론",
+      "kind": "infra",
+      "x": 500, "y": 445,
+      "role": "수출입 서류에서 값을 읽어내는 사내 추론 서버. OpenAI 호환 인터페이스.",
+      "structure": [
+        "domain/  포트 인터페이스 (Symbol DI)",
+        "infra/   HTTP 어댑터",
+        "app/     문서유형별 추출 서비스 (JSON Schema 강제)"
+      ],
+      "cards": []
+    },
+    {
+      "id": "adapters",
+      "label": "External 어댑터 층",
+      "sub": "외부 8종",
+      "kind": "boundary",
+      "x": 175, "y": 330,
+      "role": "정부·상용·거래처·하드웨어를 한 경계 뒤로 모은 층.",
+      "structure": [
+        "UNI-PASS (관세청)   글로벌 포워딩 시스템",
+        "Descartes (EDI)     운송관리 TMS",
+        "거래처 EDI          계근대 소켓",
+        "FTP / SFTP          LDAP · SMTP"
+      ],
+      "cards": []
+    },
+    {
+      "id": "db",
+      "label": "Data",
+      "sub": "Oracle · MySQL · PG · ODBC",
+      "kind": "infra",
+      "x": 175, "y": 460,
+      "role": "레거시 Oracle과 신규 DB가 공존한다. 리포지토리 뒤에 숨는다.",
+      "structure": [
+        "읽기 · 쓰기 리포지토리 분리",
+        "드라이버 차이는 리포지토리 구현체 안에서 흡수"
+      ],
+      "cards": []
+    },
+    {
+      "id": "cicd",
+      "label": "CI / CD",
+      "sub": "GitLab → Kaniko → Swarm",
+      "kind": "pipeline",
+      "x": 500, "y": 560,
+      "role": "변경된 앱만 골라 빌드하고, 브랜치가 곧 환경이 되는 파이프라인.",
+      "structure": [
+        "Parent 파이프라인이 변경 감지 → 해당 앱 Child만 실행",
+        "test → build → deploy 3단 고정",
+        "dev · staging · production, 환경별 replica"
+      ],
+      "cards": []
+    }
+  ],
   "edges": [],
   "toggleCards": []
 }
