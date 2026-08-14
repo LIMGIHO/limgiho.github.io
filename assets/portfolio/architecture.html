@@ -150,7 +150,7 @@ body {
 <script id="model" type="application/json">
 {
   "meta": {
-    "tagline": "파편화된 16종 사내 시스템을 하나의 플랫폼으로",
+    "tagline": "파편화된 15종 사내 시스템을 하나의 플랫폼으로",
     "sub": "항공수출입 정산 영역 · 레거시 통합과 재설계"
   },
   "sinks": [
@@ -172,16 +172,15 @@ body {
     { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 310, "y": 212 },
     { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 212 },
     { "id": "l14", "label": "거래처 EDI",              "tech": "C#",          "db": "MySQL",      "x": 700, "y": 212 },
-    { "id": "l15", "label": "인보이스 금액 알림 메일",    "tech": "C#",                              "x": 120, "y": 270 },
-    { "id": "l16", "label": "요금 사용 알림 메일",       "tech": "C#",                              "x": 310, "y": 270 }
+    { "id": "l15", "label": "해운 부킹 관리 (eBooking)", "tech": "Web",                             "x": 500, "y": 270 }
   ],
   "legacyFlows": [
     { "from": "l1", "to": "l4" },
     { "from": "l2", "to": "l5" },
-    { "from": "l3", "to": "l6" },
+    { "from": "l3", "to": "l4" },
     { "from": "l4", "to": "global" },
     { "from": "l5", "to": "global" },
-    { "from": "l6", "to": "global" },
+    { "from": "l6", "to": "l15" },
     { "from": "bank", "to": "l7" },
     { "from": "l7", "to": "global" },
     { "from": "global", "to": "l8" },
@@ -198,7 +197,7 @@ body {
       "kind": "app",
       "featured": true,
       "x": 500, "y": 70,
-      "role": "업무 화면 90여 개를 담는 단일 웹 클라이언트. 16종 레거시 UI가 여기로 수렴했다.",
+      "role": "업무 화면 90여 개를 담는 단일 웹 클라이언트. 15종 레거시 UI가 여기로 수렴했다.",
       "structure": [
         "app/            라우트 = 업무 화면",
         "  └ _features/  화면 로컬 슬라이스 (container · view)",
@@ -436,10 +435,10 @@ body {
     {
       "id": "c1",
       "title": "왜 통합인가",
-      "problem": "16종 클라이언트가 각자 DB와 외부 시스템에 직접 붙어 있었다. 같은 정산입력 자동화가 항공수출·항공수입·해운 부서별로 세 벌 따로 존재했고, 장애가 나면 어디서 시작됐는지 추적할 수 없었다.",
+      "problem": "15종 클라이언트가 각자 DB와 외부 시스템에 직접 붙어 있었다. 같은 정산입력 자동화가 항공수출·항공수입·해운 부서별로 세 벌 따로 존재했고, 장애가 나면 어디서 시작됐는지 추적할 수 없었다.",
       "alternative": "레거시를 그대로 두고 연동 게이트웨이만 앞에 세우는 안도 검토했다. 단기 비용은 낮지만 중복 로직은 그대로 남는다.",
       "choice": "화면과 API를 하나의 플랫폼으로 수렴시키고, 외부 연동은 어댑터 한 층으로 모았다. 데이터 접근 경로를 하나로 만드는 것이 목적이었다.",
-      "result": "새 외부 시스템을 붙일 때 고쳐야 할 곳이 16곳에서 1곳이 됐다."
+      "result": "새 외부 시스템을 붙일 때 고쳐야 할 곳이 15곳에서 1곳이 됐다."
     }
   ]
 }
@@ -579,7 +578,7 @@ function renderBeforeDiagram() {
     viewBox: `0 0 ${BEFORE_VIEW.w} ${BEFORE_VIEW.h}`,
     role: 'img',
     'aria-label':
-      '통합 이전 구조. 16종의 시스템이 부서별로 나뉜 채 글로벌 시스템에 각자 붙어 있고, 세금계산서와 미수는 별도로 떨어져 있다.',
+      '통합 이전 구조. 15종의 시스템이 부서별로 나뉜 채 글로벌 시스템에 각자 붙어 있고, 세금계산서와 미수는 별도로 떨어져 있다.',
   });
 
   const defs = svgEl('defs');
@@ -690,7 +689,7 @@ function cardHtml(card) {
  *  BEFORE 는 클릭 대상이 아니므로 이 카드는 기본값이어야 한다. */
 function introView() {
   return {
-    title: '통합 이전 — 16종 파편화',
+    title: '통합 이전 — 15종 파편화',
     kicker: 'VB6 · C# WinForms · C# 자동화',
     role: '각 시스템이 DB와 외부 시스템에 직접 연결돼 있었다. 같은 업무 로직이 여러 벌 존재했다. 오른쪽 다이어그램의 노드나 화살표를 클릭하면 그 지점의 설계 판단이 열린다.',
     structure: null,
@@ -758,7 +757,7 @@ function mount() {
 
   const before = document.createElement('div');
   before.className = 'board board-before';
-  before.innerHTML = `<h2 class="board-label">Before — 파편화된 16종 (항공수출입 정산 영역)</h2>`;
+  before.innerHTML = `<h2 class="board-label">Before — 파편화된 15종 (항공수출입 정산 영역)</h2>`;
   before.appendChild(renderBeforeDiagram());
   boards.appendChild(before);
 
@@ -771,7 +770,7 @@ function mount() {
         <path d="M12 3.5v13m0 0l-5.2-5.2M12 16.5l5.2-5.2" fill="none" stroke="currentColor"
               stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      16종을 하나의 플랫폼으로 통합
+      15종을 하나의 플랫폼으로 통합
     </span>
     <span class="transition-rule to-right"></span>`;
   boards.appendChild(transition);
