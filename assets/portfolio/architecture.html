@@ -155,8 +155,7 @@ body {
   },
   "sinks": [
     { "id": "global", "label": "글로벌 시스템",   "x": 420, "y": 150, "w": 620 },
-    { "id": "bank",   "label": "은행 환율 사이트",  "x": 700, "y": 34 },
-    { "id": "ftp",    "label": "거래처 (FTP 전송)", "x": 700, "y": 270 }
+    { "id": "bank",   "label": "은행 환율 사이트",  "x": 700, "y": 34 }
   ],
   "legacy": [
     { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "db": "MySQL",      "x": 120, "y": 34 },
@@ -188,8 +187,7 @@ body {
     { "from": "global", "to": "l8" },
     { "from": "l8", "to": "l9" },
     { "from": "l9", "to": "l10" },
-    { "from": "l8", "to": "l14" },
-    { "from": "l14", "to": "ftp" },
+    { "from": "l14", "to": "global" },
     { "from": "l11", "to": "l12" }
   ],
   "nodes": [
