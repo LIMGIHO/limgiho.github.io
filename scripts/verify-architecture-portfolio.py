@@ -68,10 +68,30 @@ def check_model(model):
     legacy = model.get("legacy", [])
     if len(legacy) != 13:
         fail(f"legacy 항목은 13개여야 한다. 현재 {len(legacy)}개")
+    sinks = model.get("sinks", [])
+    if not sinks:
+        fail("sinks 목록이 비어 있다")
+    sink_ids = set()
+    for sink in sinks:
+        for key in ("id", "label"):
+            if not sink.get(key):
+                fail(f"sink 항목에 {key} 누락: {sink}")
+        sink_ids.add(sink.get("id"))
+
     for item in legacy:
         for key in ("id", "label", "tech"):
             if not item.get(key):
                 fail(f"legacy 항목에 {key} 누락: {item}")
+        targets = item.get("targets") or []
+        if not targets:
+            fail(f"legacy 항목 {item.get('label', '?')!r} 에 targets 가 없다")
+        for target in targets:
+            if target not in sink_ids:
+                fail(f"legacy 항목 {item.get('label', '?')!r} 의 target {target!r} 에 해당하는 sink 가 없다")
+
+    unused = sink_ids - {t for item in legacy for t in (item.get("targets") or [])}
+    if unused:
+        fail(f"아무도 연결하지 않는 sink 가 있다: {sorted(unused)}")
 
     cards = []
     for node in model.get("nodes", []):

@@ -138,20 +138,28 @@ body {
     "project": "LogiFlow",
     "tagline": "파편화된 13종 사내 시스템을 하나의 플랫폼으로"
   },
+  "sinks": [
+    { "id": "mysql",    "label": "MySQL" },
+    { "id": "oracle",   "label": "Oracle" },
+    { "id": "postgres", "label": "PostgreSQL" },
+    { "id": "global",   "label": "글로벌 시스템" },
+    { "id": "edi",      "label": "거래처 EDI" },
+    { "id": "bank",     "label": "은행 환율" }
+  ],
   "legacy": [
-    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6" },
-    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6" },
-    { "id": "l3",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA" },
-    { "id": "l4",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA" },
-    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA" },
-    { "id": "l6",  "label": "미수 관리",               "tech": "C#" },
-    { "id": "l7",  "label": "세금계산서 관리",          "tech": "C# WinForms" },
-    { "id": "l8",  "label": "세금계산서 거래처",         "tech": "C#" },
-    { "id": "l9",  "label": "인보이스 EDI 처리",        "tech": "C#" },
-    { "id": "l10", "label": "환율 수집·등록",           "tech": "C#" },
-    { "id": "l11", "label": "B/L 출력물 생성",          "tech": "C#" },
-    { "id": "l12", "label": "자동화 모니터링",          "tech": "C#" },
-    { "id": "l13", "label": "미수 알림 메일",           "tech": "C#" }
+    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "targets": ["mysql"] },
+    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "targets": ["mysql"] },
+    { "id": "l3",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",      "targets": ["global"] },
+    { "id": "l4",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",      "targets": ["global"] },
+    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",      "targets": ["global"] },
+    { "id": "l6",  "label": "미수 관리",               "tech": "C#",          "targets": ["postgres"] },
+    { "id": "l7",  "label": "세금계산서 관리",          "tech": "C# WinForms", "targets": ["oracle"] },
+    { "id": "l8",  "label": "세금계산서 거래처",         "tech": "C#",          "targets": ["oracle"] },
+    { "id": "l9",  "label": "인보이스 EDI 처리",        "tech": "C#",          "targets": ["global", "edi"] },
+    { "id": "l10", "label": "환율 수집·등록",           "tech": "C#",          "targets": ["bank", "postgres"] },
+    { "id": "l11", "label": "B/L 출력물 생성",          "tech": "C#",          "targets": ["postgres"] },
+    { "id": "l12", "label": "자동화 모니터링",          "tech": "C#",          "targets": ["postgres"] },
+    { "id": "l13", "label": "미수 알림 메일",           "tech": "C#",          "targets": ["postgres"] }
   ],
   "nodes": [
     {
@@ -547,12 +555,17 @@ function renderBeforeDiagram() {
   const COLS = 3;
   const LAST_ROW = Math.floor((MODEL.legacy.length - 1) / COLS);
   const LAST_ROW_COUNT = MODEL.legacy.length % COLS || COLS;
-  const sinks = [
-    { x: 90, y: 470, name: 'Oracle DB' },
-    { x: 225, y: 470, name: '글로벌 시스템' },
-    { x: 360, y: 470, name: '거래처 EDI' },
-    { x: 495, y: 470, name: '은행 환율' },
-  ];
+
+  // sink 6개를 3개씩 두 줄로. 좌표는 여기서만 계산하고 모델은 id·label 만 갖는다.
+  const SINK_W = 150;
+  const SINK_H = 36;
+  const sinkPos = new Map();
+  MODEL.sinks.forEach((sink, index) => {
+    sinkPos.set(sink.id, {
+      x: 100 + (index % 3) * 180,
+      y: 455 + Math.floor(index / 3) * 55,
+    });
+  });
 
   const wires = svgEl('g', { class: 'legacy-wires' });
   const boxes = svgEl('g');
@@ -564,9 +577,12 @@ function renderBeforeDiagram() {
     const rowShift = row === LAST_ROW ? (COLS - LAST_ROW_COUNT) * 90 : 0;
     const cx = 100 + col * 180 + rowShift;
     const cy = 60 + row * 70;
-    for (const sink of sinks) {
+    // 전부를 전부에 잇지 않는다 — 실제로 붙어 있던 곳에만 선을 긋는다.
+    for (const targetId of item.targets) {
+      const sink = sinkPos.get(targetId);
+      if (!sink) continue;
       wires.appendChild(svgEl('path', {
-        d: `M ${cx} ${cy + boxH / 2} C ${cx} ${cy + 120}, ${sink.x} ${sink.y - 120}, ${sink.x} ${sink.y - 20}`,
+        d: `M ${cx} ${cy + boxH / 2} C ${cx} ${cy + 120}, ${sink.x} ${sink.y - 120}, ${sink.x} ${sink.y - SINK_H / 2}`,
       }));
     }
     const box = svgEl('g', { class: 'legacy' });
@@ -583,17 +599,20 @@ function renderBeforeDiagram() {
   svg.appendChild(wires);
   svg.appendChild(boxes);
 
-  for (const sink of sinks) {
+  for (const sink of MODEL.sinks) {
+    const pos = sinkPos.get(sink.id);
     const group = svgEl('g', { class: 'legacy' });
-    group.appendChild(svgEl('rect', { x: sink.x - 60, y: sink.y - 20, width: 120, height: 40 }));
-    const label = svgEl('text', { x: sink.x, y: sink.y + 5, 'text-anchor': 'middle' });
-    label.textContent = sink.name;
+    group.appendChild(svgEl('rect', {
+      x: pos.x - SINK_W / 2, y: pos.y - SINK_H / 2, width: SINK_W, height: SINK_H,
+    }));
+    const label = svgEl('text', { x: pos.x, y: pos.y + 4, 'text-anchor': 'middle' });
+    label.textContent = sink.label;
     group.appendChild(label);
     svg.appendChild(group);
   }
 
   ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 13곳 수정'].forEach((note, index) => {
-    const text = svgEl('text', { class: 'before-note', x: 24, y: 545 + index * 26 });
+    const text = svgEl('text', { class: 'before-note', x: 24, y: 566 + index * 26 });
     text.textContent = `⚠ ${note}`;
     svg.appendChild(text);
   });
