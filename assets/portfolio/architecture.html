@@ -154,11 +154,11 @@ body {
     { "id": "l6",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",                          "x": 500, "y": 140 },
     { "id": "l7",  "label": "환율 수집·등록",           "tech": "C#",          "db": "PostgreSQL", "x": 700, "y": 140 },
     { "id": "l8",  "label": "인보이스 EDI 처리",        "tech": "C#",                              "x": 890, "y": 232 },
-    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 120, "y": 330 },
-    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 310, "y": 330 },
-    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 330 },
-    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 690, "y": 330 },
-    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 880, "y": 330 }
+    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 890, "y": 330 },
+    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 700, "y": 330 },
+    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 120, "y": 330 },
+    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 310, "y": 330 },
+    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 330 }
   ],
   "legacyFlows": [
     { "from": "l1", "to": "l4" },
@@ -171,6 +171,7 @@ body {
     { "from": "l7", "to": "global" },
     { "from": "global", "to": "l8" },
     { "from": "l8", "to": "edi" },
+    { "from": "l8", "to": "l9" },
     { "from": "l9", "to": "l10" },
     { "from": "l11", "to": "l12" }
   ],
