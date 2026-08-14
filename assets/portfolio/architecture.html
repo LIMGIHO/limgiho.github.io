@@ -57,14 +57,19 @@ body {
 .board-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; color: var(--muted); }
 .board-before .board-label { color: var(--warn); }
 .board svg { width: 100%; height: auto; display: block; }
-/* BEFORE 는 대비용이라 작게 둔다 — 크면 통합 이전이 주인공처럼 보인다. */
-.board-before svg { max-width: 680px; margin: 0 auto; }
-.board-before .board-label { max-width: 680px; margin-left: auto; margin-right: auto; }
+/* BEFORE 는 폭이 아니라 높이로 줄인다 — 폭을 줄이면 양옆 여백만 어색해진다. */
 
-/* 위아래가 그냥 나열이 아니라 "이것이 저것이 됐다"로 읽히게 하는 이음새. */
-.transition { display: flex; flex-direction: column; align-items: center; gap: 1px; color: var(--accent); }
-.transition-arrow { font-size: 24px; line-height: 1; }
-.transition-text { font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+/* 위아래가 나열이 아니라 "이것이 저것이 됐다"로 읽히게 하는 이음새. */
+.transition { display: flex; align-items: center; gap: 16px; padding: 2px 0; }
+.transition-rule { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--border)); }
+.transition-rule.to-right { background: linear-gradient(90deg, var(--border), transparent); }
+.transition-badge {
+  display: inline-flex; align-items: center; gap: 9px; flex: none;
+  border: 1.5px solid var(--accent); border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+  padding: 8px 20px 8px 15px;
+  font-size: 13.5px; font-weight: 700; letter-spacing: -0.01em;
+}
 .node rect {
   fill: var(--surface); stroke: var(--border); stroke-width: 1.5;
   rx: 10; transition: transform .55s ease, opacity .35s ease;
@@ -149,24 +154,24 @@ body {
     "tagline": "파편화된 13종 사내 시스템을 하나의 플랫폼으로"
   },
   "sinks": [
-    { "id": "global", "label": "글로벌 시스템",  "x": 420, "y": 232, "w": 620 },
-    { "id": "bank",   "label": "은행 환율 사이트", "x": 700, "y": 48 },
-    { "id": "edi",    "label": "거래처 EDI",     "x": 890, "y": 140 }
+    { "id": "global", "label": "글로벌 시스템",  "x": 420, "y": 168, "w": 620 },
+    { "id": "bank",   "label": "은행 환율 사이트", "x": 700, "y": 36 },
+    { "id": "edi",    "label": "거래처 EDI",     "x": 890, "y": 102 }
   ],
   "legacy": [
-    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "db": "MySQL",      "x": 120, "y": 48 },
-    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "db": "MySQL",      "x": 310, "y": 48 },
-    { "id": "l3",  "label": "자동화 모니터링",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 48 },
-    { "id": "l4",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",                          "x": 120, "y": 140 },
-    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",                          "x": 310, "y": 140 },
-    { "id": "l6",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",                          "x": 500, "y": 140 },
-    { "id": "l7",  "label": "환율 수집·등록",           "tech": "C#",          "db": "PostgreSQL", "x": 700, "y": 140 },
-    { "id": "l8",  "label": "인보이스 EDI 처리",        "tech": "C#",                              "x": 890, "y": 232 },
-    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 890, "y": 330 },
-    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 700, "y": 330 },
-    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 120, "y": 330 },
-    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 310, "y": 330 },
-    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 330 }
+    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "db": "MySQL",      "x": 120, "y": 36 },
+    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "db": "MySQL",      "x": 310, "y": 36 },
+    { "id": "l3",  "label": "자동화 모니터링",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 36 },
+    { "id": "l4",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",                          "x": 120, "y": 102 },
+    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",                          "x": 310, "y": 102 },
+    { "id": "l6",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",                          "x": 500, "y": 102 },
+    { "id": "l7",  "label": "환율 수집·등록",           "tech": "C#",          "db": "PostgreSQL", "x": 700, "y": 102 },
+    { "id": "l8",  "label": "인보이스 EDI 처리",        "tech": "C#",                              "x": 890, "y": 168 },
+    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 890, "y": 240 },
+    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 700, "y": 240 },
+    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 120, "y": 240 },
+    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 310, "y": 240 },
+    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 240 }
   ],
   "legacyFlows": [
     { "from": "l1", "to": "l4" },
@@ -559,8 +564,8 @@ function renderDiagram() {
   return svg;
 }
 
-const BEFORE_VIEW = { w: 1000, h: 400 };
-const LBOX = { w: 168, h: 46 };
+const BEFORE_VIEW = { w: 1000, h: 292 };
+const LBOX = { w: 164, h: 38 };
 
 /** 통합 이전 구조. 엑셀 원도의 실제 흐름을 따른다 —
  *  업무 시스템 → 정산입력 자동화 → 글로벌 시스템으로 수렴하고,
@@ -621,11 +626,11 @@ function renderBeforeDiagram() {
     group.appendChild(svgEl('rect', {
       x: item.x - w / 2, y: item.y - LBOX.h / 2, width: w, height: LBOX.h,
     }));
-    const label = svgEl('text', { x: item.x, y: item.y - 2, 'text-anchor': 'middle' });
+    const label = svgEl('text', { x: item.x, y: item.y - 3, 'text-anchor': 'middle' });
     label.textContent = item.label;
     group.appendChild(label);
     const detail = isSink ? '외부 시스템' : [item.tech, item.db].filter(Boolean).join(' · ');
-    const tech = svgEl('text', { class: 'tech', x: item.x, y: item.y + 13, 'text-anchor': 'middle' });
+    const tech = svgEl('text', { class: 'tech', x: item.x, y: item.y + 11, 'text-anchor': 'middle' });
     tech.textContent = detail;
     group.appendChild(tech);
     svg.appendChild(group);
@@ -635,7 +640,7 @@ function renderBeforeDiagram() {
   for (const sink of MODEL.sinks) drawBox(sink, true);
 
   ['같은 정산입력 자동화가 부서별로 세 벌', 'DB 가 세 종류로 갈림', '장애 원인 추적 불가'].forEach((note, index) => {
-    const text = svgEl('text', { class: 'before-note', x: 24 + index * 330, y: 388 });
+    const text = svgEl('text', { class: 'before-note', x: 24 + index * 330, y: 282 });
     text.textContent = `⚠ ${note}`;
     svg.appendChild(text);
   });
@@ -758,8 +763,15 @@ function mount() {
   const transition = document.createElement('div');
   transition.className = 'transition';
   transition.innerHTML = `
-    <div class="transition-arrow" aria-hidden="true">↓</div>
-    <div class="transition-text">13종을 하나의 플랫폼으로 통합</div>`;
+    <span class="transition-rule"></span>
+    <span class="transition-badge">
+      <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
+        <path d="M12 3.5v13m0 0l-5.2-5.2M12 16.5l5.2-5.2" fill="none" stroke="currentColor"
+              stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      13종을 하나의 플랫폼으로 통합
+    </span>
+    <span class="transition-rule to-right"></span>`;
   boards.appendChild(transition);
 
   const after = document.createElement('div');
