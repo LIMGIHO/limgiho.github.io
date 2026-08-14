@@ -51,8 +51,8 @@ body {
 .page-head h1 { font-size: 20px; margin: 0 0 2px; letter-spacing: -0.01em; }
 .page-head p { margin: 0; color: var(--muted); font-size: 14px; }
 
-/* 반반이 아니라 35:65 — BEFORE 는 읽히는 게 아니라 엉킨 게 보이면 된다. */
-.boards { display: grid; grid-template-columns: minmax(0, 35fr) minmax(0, 65fr); gap: 24px; padding: 0 24px 20px; align-items: start; }
+/* Before 위 · After 아래. 둘 다 전체 폭을 써야 흐름이 제대로 그려진다. */
+.boards { display: grid; grid-template-columns: 1fr; gap: 22px; padding: 0 24px 20px; align-items: start; }
 .board { min-width: 0; }
 .board-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; color: var(--muted); }
 .board-before .board-label { color: var(--warn); }
@@ -112,9 +112,11 @@ body {
 .card dd { margin: 0; font-size: 13.5px; line-height: 1.65; }
 .card dd.result { color: var(--accent); font-weight: 600; }
 .legacy rect { fill: var(--surface); stroke: var(--warn); stroke-width: 1.3; rx: 7; stroke-dasharray: 4 3; }
-.legacy text { fill: var(--text); font-size: 11px; font-weight: 600; }
-.legacy text.tech { fill: var(--muted); font-size: 9.5px; font-weight: 400; }
-.legacy-wires path { stroke: var(--warn); stroke-width: .7; fill: none; opacity: .35; }
+.legacy text { fill: var(--text); font-size: 12px; font-weight: 600; }
+.legacy text.tech { fill: var(--muted); font-size: 10px; font-weight: 400; }
+/* 외부 시스템은 실선 — 대체 대상이 아니라 붙는 상대라는 구분이 보여야 한다. */
+.legacy.is-sink rect { stroke-dasharray: none; stroke-width: 1.6; }
+.legacy-wires path { stroke: var(--warn); stroke-width: 1.1; fill: none; opacity: .55; }
 .before-note {
   fill: var(--warn); font-size: 12.5px; font-weight: 600;
 }
@@ -139,27 +141,38 @@ body {
     "tagline": "파편화된 13종 사내 시스템을 하나의 플랫폼으로"
   },
   "sinks": [
-    { "id": "mysql",    "label": "MySQL" },
-    { "id": "oracle",   "label": "Oracle" },
-    { "id": "postgres", "label": "PostgreSQL" },
-    { "id": "global",   "label": "글로벌 시스템" },
-    { "id": "edi",      "label": "거래처 EDI" },
-    { "id": "bank",     "label": "은행 환율" }
+    { "id": "global", "label": "글로벌 시스템",  "x": 420, "y": 232, "w": 620 },
+    { "id": "bank",   "label": "은행 환율 사이트", "x": 700, "y": 48 },
+    { "id": "edi",    "label": "거래처 EDI",     "x": 890, "y": 140 }
   ],
   "legacy": [
-    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "targets": ["mysql"] },
-    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "targets": ["mysql"] },
-    { "id": "l3",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",      "targets": ["global"] },
-    { "id": "l4",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",      "targets": ["global"] },
-    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",      "targets": ["global"] },
-    { "id": "l6",  "label": "미수 관리",               "tech": "C#",          "targets": ["postgres"] },
-    { "id": "l7",  "label": "세금계산서 관리",          "tech": "C# WinForms", "targets": ["oracle"] },
-    { "id": "l8",  "label": "세금계산서 거래처",         "tech": "C#",          "targets": ["oracle"] },
-    { "id": "l9",  "label": "인보이스 EDI 처리",        "tech": "C#",          "targets": ["global", "edi"] },
-    { "id": "l10", "label": "환율 수집·등록",           "tech": "C#",          "targets": ["bank", "postgres"] },
-    { "id": "l11", "label": "B/L 출력물 생성",          "tech": "C#",          "targets": ["postgres"] },
-    { "id": "l12", "label": "자동화 모니터링",          "tech": "C#",          "targets": ["postgres"] },
-    { "id": "l13", "label": "미수 알림 메일",           "tech": "C#",          "targets": ["postgres"] }
+    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "db": "MySQL",      "x": 120, "y": 48 },
+    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "db": "MySQL",      "x": 310, "y": 48 },
+    { "id": "l3",  "label": "자동화 모니터링",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 48 },
+    { "id": "l4",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",                          "x": 120, "y": 140 },
+    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",                          "x": 310, "y": 140 },
+    { "id": "l6",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",                          "x": 500, "y": 140 },
+    { "id": "l7",  "label": "환율 수집·등록",           "tech": "C#",          "db": "PostgreSQL", "x": 700, "y": 140 },
+    { "id": "l8",  "label": "인보이스 EDI 처리",        "tech": "C#",                              "x": 890, "y": 232 },
+    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 120, "y": 330 },
+    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 310, "y": 330 },
+    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 330 },
+    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 690, "y": 330 },
+    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 880, "y": 330 }
+  ],
+  "legacyFlows": [
+    { "from": "l1", "to": "l4" },
+    { "from": "l2", "to": "l5" },
+    { "from": "l3", "to": "l6" },
+    { "from": "l4", "to": "global" },
+    { "from": "l5", "to": "global" },
+    { "from": "l6", "to": "global" },
+    { "from": "bank", "to": "l7" },
+    { "from": "l7", "to": "global" },
+    { "from": "global", "to": "l8" },
+    { "from": "l8", "to": "edi" },
+    { "from": "l9", "to": "l10" },
+    { "from": "l11", "to": "l12" }
   ],
   "nodes": [
     {
@@ -537,82 +550,83 @@ function renderDiagram() {
   return svg;
 }
 
-const BEFORE_VIEW = { w: 560, h: 660 };
+const BEFORE_VIEW = { w: 1000, h: 400 };
+const LBOX = { w: 168, h: 46 };
 
-/** 통합 이전 구조. 라벨을 읽히게 하는 것이 목적이 아니라 "엉켜 있다"를 보여주는 것이
- *  목적이므로, 좁은 폭에 빽빽하게 채우고 클릭 대상은 두지 않는다. */
+/** 통합 이전 구조. 엑셀 원도의 실제 흐름을 따른다 —
+ *  업무 시스템 → 정산입력 자동화 → 글로벌 시스템으로 수렴하고,
+ *  환율·인보이스가 옆에서 붙고, 세금계산서·미수는 독립 묶음이다.
+ *  DB 는 별도 박스로 빼지 않고 기술 표기에 붙인다 — 선이 흐름을 가로지르면 다시 지저분해진다. */
 function renderBeforeDiagram() {
   const svg = svgEl('svg', {
     id: 'before-diagram',
     viewBox: `0 0 ${BEFORE_VIEW.w} ${BEFORE_VIEW.h}`,
     role: 'img',
     'aria-label':
-      '통합 이전 구조. 13종의 시스템이 데이터베이스와 외부 시스템에 각자 직접 연결돼 있다.',
+      '통합 이전 구조. 13종의 시스템이 부서별로 나뉜 채 글로벌 시스템에 각자 붙어 있고, 세금계산서와 미수는 별도로 떨어져 있다.',
   });
 
-  const boxW = 152;
-  const boxH = 40;
-  const COLS = 3;
-  const LAST_ROW = Math.floor((MODEL.legacy.length - 1) / COLS);
-  const LAST_ROW_COUNT = MODEL.legacy.length % COLS || COLS;
-
-  // sink 6개를 3개씩 두 줄로. 좌표는 여기서만 계산하고 모델은 id·label 만 갖는다.
-  const SINK_W = 150;
-  const SINK_H = 36;
-  const sinkPos = new Map();
-  MODEL.sinks.forEach((sink, index) => {
-    sinkPos.set(sink.id, {
-      x: 100 + (index % 3) * 180,
-      y: 455 + Math.floor(index / 3) * 55,
-    });
+  const defs = svgEl('defs');
+  const marker = svgEl('marker', {
+    id: 'arrow-warn', viewBox: '0 0 10 10', refX: '9', refY: '5',
+    markerWidth: '5', markerHeight: '5', orient: 'auto-start-reverse',
   });
+  marker.appendChild(svgEl('path', { d: 'M 0 0 L 10 5 L 0 10 z', fill: 'var(--warn)' }));
+  defs.appendChild(marker);
+  svg.appendChild(defs);
 
-  const wires = svgEl('g', { class: 'legacy-wires' });
-  const boxes = svgEl('g');
-
-  MODEL.legacy.forEach((item, index) => {
-    const col = index % COLS;
-    const row = Math.floor(index / COLS);
-    // 마지막 줄이 덜 찼으면 가운데로 모은다 — 왼쪽에 하나만 남으면 깨져 보인다.
-    const rowShift = row === LAST_ROW ? (COLS - LAST_ROW_COUNT) * 90 : 0;
-    const cx = 100 + col * 180 + rowShift;
-    const cy = 60 + row * 70;
-    // 전부를 전부에 잇지 않는다 — 실제로 붙어 있던 곳에만 선을 긋는다.
-    for (const targetId of item.targets) {
-      const sink = sinkPos.get(targetId);
-      if (!sink) continue;
-      wires.appendChild(svgEl('path', {
-        d: `M ${cx} ${cy + boxH / 2} C ${cx} ${cy + 120}, ${sink.x} ${sink.y - 120}, ${sink.x} ${sink.y - SINK_H / 2}`,
-      }));
-    }
-    const box = svgEl('g', { class: 'legacy' });
-    box.appendChild(svgEl('rect', { x: cx - boxW / 2, y: cy - boxH / 2, width: boxW, height: boxH }));
-    const label = svgEl('text', { x: cx, y: cy - 2, 'text-anchor': 'middle' });
-    label.textContent = item.label;
-    box.appendChild(label);
-    const tech = svgEl('text', { class: 'tech', x: cx, y: cy + 12, 'text-anchor': 'middle' });
-    tech.textContent = item.tech;
-    box.appendChild(tech);
-    boxes.appendChild(box);
-  });
-
-  svg.appendChild(wires);
-  svg.appendChild(boxes);
-
-  for (const sink of MODEL.sinks) {
-    const pos = sinkPos.get(sink.id);
-    const group = svgEl('g', { class: 'legacy' });
-    group.appendChild(svgEl('rect', {
-      x: pos.x - SINK_W / 2, y: pos.y - SINK_H / 2, width: SINK_W, height: SINK_H,
-    }));
-    const label = svgEl('text', { x: pos.x, y: pos.y + 4, 'text-anchor': 'middle' });
-    label.textContent = sink.label;
-    group.appendChild(label);
-    svg.appendChild(group);
+  const placed = new Map();
+  for (const item of [...MODEL.legacy, ...MODEL.sinks]) {
+    placed.set(item.id, { ...item, w: item.w ?? LBOX.w, h: LBOX.h });
   }
 
-  ['동일 로직 중복 구현', '장애 원인 추적 불가', '신규 연동 시 13곳 수정'].forEach((note, index) => {
-    const text = svgEl('text', { class: 'before-note', x: 24, y: 566 + index * 26 });
+  const wires = svgEl('g', { class: 'legacy-wires' });
+  for (const flow of MODEL.legacyFlows) {
+    const a = placed.get(flow.from);
+    const b = placed.get(flow.to);
+    if (!a || !b) continue;
+    const vertical = Math.abs(b.y - a.y) > Math.abs(b.x - a.x);
+    let d;
+    if (vertical) {
+      const dir = b.y > a.y ? 1 : -1;
+      const y1 = a.y + dir * (a.h / 2);
+      const y2 = b.y - dir * (b.h / 2);
+      d = a.x === b.x
+        ? `M ${a.x} ${y1} L ${b.x} ${y2}`
+        : `M ${a.x} ${y1} C ${a.x} ${(y1 + y2) / 2}, ${b.x} ${(y1 + y2) / 2}, ${b.x} ${y2}`;
+    } else {
+      const dir = b.x > a.x ? 1 : -1;
+      const x1 = a.x + dir * (a.w / 2);
+      const x2 = b.x - dir * (b.w / 2);
+      d = a.y === b.y
+        ? `M ${x1} ${a.y} L ${x2} ${b.y}`
+        : `M ${x1} ${a.y} C ${(x1 + x2) / 2} ${a.y}, ${(x1 + x2) / 2} ${b.y}, ${x2} ${b.y}`;
+    }
+    wires.appendChild(svgEl('path', { d, 'marker-end': 'url(#arrow-warn)' }));
+  }
+  svg.appendChild(wires);
+
+  const drawBox = (item, isSink) => {
+    const w = item.w ?? LBOX.w;
+    const group = svgEl('g', { class: isSink ? 'legacy is-sink' : 'legacy' });
+    group.appendChild(svgEl('rect', {
+      x: item.x - w / 2, y: item.y - LBOX.h / 2, width: w, height: LBOX.h,
+    }));
+    const label = svgEl('text', { x: item.x, y: item.y - 2, 'text-anchor': 'middle' });
+    label.textContent = item.label;
+    group.appendChild(label);
+    const detail = isSink ? '외부 시스템' : [item.tech, item.db].filter(Boolean).join(' · ');
+    const tech = svgEl('text', { class: 'tech', x: item.x, y: item.y + 13, 'text-anchor': 'middle' });
+    tech.textContent = detail;
+    group.appendChild(tech);
+    svg.appendChild(group);
+  };
+
+  for (const item of MODEL.legacy) drawBox(item, false);
+  for (const sink of MODEL.sinks) drawBox(sink, true);
+
+  ['같은 정산입력 자동화가 부서별로 세 벌', 'DB 가 세 종류로 갈림', '장애 원인 추적 불가'].forEach((note, index) => {
+    const text = svgEl('text', { class: 'before-note', x: 24 + index * 330, y: 388 });
     text.textContent = `⚠ ${note}`;
     svg.appendChild(text);
   });
@@ -728,7 +742,7 @@ function mount() {
 
   const before = document.createElement('div');
   before.className = 'board board-before';
-  before.innerHTML = `<h2 class="board-label">Before — 파편화된 13종</h2>`;
+  before.innerHTML = `<h2 class="board-label">Before — 파편화된 13종 (항공수출입 정산 영역)</h2>`;
   before.appendChild(renderBeforeDiagram());
   boards.appendChild(before);
 

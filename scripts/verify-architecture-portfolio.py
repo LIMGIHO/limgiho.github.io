@@ -78,20 +78,30 @@ def check_model(model):
                 fail(f"sink 항목에 {key} 누락: {sink}")
         sink_ids.add(sink.get("id"))
 
+    legacy_ids = set()
     for item in legacy:
         for key in ("id", "label", "tech"):
             if not item.get(key):
                 fail(f"legacy 항목에 {key} 누락: {item}")
-        targets = item.get("targets") or []
-        if not targets:
-            fail(f"legacy 항목 {item.get('label', '?')!r} 에 targets 가 없다")
-        for target in targets:
-            if target not in sink_ids:
-                fail(f"legacy 항목 {item.get('label', '?')!r} 의 target {target!r} 에 해당하는 sink 가 없다")
+        legacy_ids.add(item.get("id"))
 
-    unused = sink_ids - {t for item in legacy for t in (item.get("targets") or [])}
-    if unused:
-        fail(f"아무도 연결하지 않는 sink 가 있다: {sorted(unused)}")
+    # 흐름선은 실제 박스를 가리켜야 한다. 오타가 나면 선이 조용히 사라지므로 여기서 잡는다.
+    known = legacy_ids | sink_ids
+    flows = model.get("legacyFlows", [])
+    if not flows:
+        fail("legacyFlows 가 비어 있다")
+    connected = set()
+    for flow in flows:
+        for end in ("from", "to"):
+            target = flow.get(end)
+            if target not in known:
+                fail(f"legacyFlows 의 {end}={target!r} 에 해당하는 박스가 없다")
+            connected.add(target)
+
+    # 레거시 박스는 정말로 아무 데도 안 붙는 것이 있을 수 있다(독립 프로그램).
+    # 다만 아무도 쓰지 않는 sink 는 그릴 이유가 없으므로 잡는다.
+    for unused in sorted(sink_ids - connected):
+        fail(f"아무도 연결하지 않는 sink 가 있다: {unused!r}")
 
     cards = []
     for node in model.get("nodes", []):
