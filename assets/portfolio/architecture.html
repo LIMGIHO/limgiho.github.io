@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>LogiFlow Architecture</title>
+<title>시스템 통합 아키텍처</title>
 <style>
 :root {
   --bg: #ffffff;
@@ -125,8 +125,8 @@ body {
 .card dd { margin: 0; font-size: 13.5px; line-height: 1.65; }
 .card dd.result { color: var(--accent); font-weight: 600; }
 .legacy rect { fill: var(--surface); stroke: var(--warn); stroke-width: 1.3; rx: 7; stroke-dasharray: 4 3; }
-.legacy text { fill: var(--text); font-size: 12px; font-weight: 600; }
-.legacy text.tech { fill: var(--muted); font-size: 10px; font-weight: 400; }
+.legacy text { fill: var(--text); font-size: 11.5px; font-weight: 600; }
+.legacy text.tech { fill: var(--muted); font-size: 9.5px; font-weight: 400; }
 /* 외부 시스템은 실선 — 대체 대상이 아니라 붙는 상대라는 구분이 보여야 한다. */
 .legacy.is-sink rect { stroke-dasharray: none; stroke-width: 1.6; }
 .legacy-wires path { stroke: var(--warn); stroke-width: 1.1; fill: none; opacity: .55; }
@@ -150,28 +150,28 @@ body {
 <script id="model" type="application/json">
 {
   "meta": {
-    "project": "LogiFlow",
-    "tagline": "파편화된 13종 사내 시스템을 하나의 플랫폼으로"
+    "tagline": "파편화된 13종 사내 시스템을 하나의 플랫폼으로",
+    "sub": "항공수출입 정산 영역 · 레거시 통합과 재설계"
   },
   "sinks": [
-    { "id": "global", "label": "글로벌 시스템",  "x": 420, "y": 168, "w": 620 },
-    { "id": "bank",   "label": "은행 환율 사이트", "x": 700, "y": 36 },
-    { "id": "edi",    "label": "거래처 EDI",     "x": 890, "y": 102 }
+    { "id": "global", "label": "글로벌 시스템",  "x": 420, "y": 158, "w": 620 },
+    { "id": "bank",   "label": "은행 환율 사이트", "x": 700, "y": 34 },
+    { "id": "edi",    "label": "거래처 EDI",     "x": 890, "y": 96 }
   ],
   "legacy": [
-    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "db": "MySQL",      "x": 120, "y": 36 },
-    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "db": "MySQL",      "x": 310, "y": 36 },
-    { "id": "l3",  "label": "자동화 모니터링",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 36 },
-    { "id": "l4",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",                          "x": 120, "y": 102 },
-    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",                          "x": 310, "y": 102 },
-    { "id": "l6",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",                          "x": 500, "y": 102 },
-    { "id": "l7",  "label": "환율 수집·등록",           "tech": "C#",          "db": "PostgreSQL", "x": 700, "y": 102 },
-    { "id": "l8",  "label": "인보이스 EDI 처리",        "tech": "C#",                              "x": 890, "y": 168 },
-    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 890, "y": 240 },
-    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 700, "y": 240 },
-    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 120, "y": 240 },
-    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 310, "y": 240 },
-    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 240 }
+    { "id": "l1",  "label": "항공수출 픽업오더",        "tech": "VB6",         "db": "MySQL",      "x": 120, "y": 34 },
+    { "id": "l2",  "label": "항공수입 고객·정산",       "tech": "VB6",         "db": "MySQL",      "x": 310, "y": 34 },
+    { "id": "l3",  "label": "자동화 모니터링",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 34 },
+    { "id": "l4",  "label": "정산입력 자동화 (항공수출)", "tech": "C# RPA",                          "x": 120, "y": 96 },
+    { "id": "l5",  "label": "정산입력 자동화 (항공수입)", "tech": "C# RPA",                          "x": 310, "y": 96 },
+    { "id": "l6",  "label": "정산입력 자동화 (해운)",    "tech": "C# RPA",                          "x": 500, "y": 96 },
+    { "id": "l7",  "label": "환율 수집·등록",           "tech": "C#",          "db": "PostgreSQL", "x": 700, "y": 96 },
+    { "id": "l8",  "label": "인보이스 EDI 처리",        "tech": "C#",                              "x": 890, "y": 158 },
+    { "id": "l9",  "label": "세금계산서 관리",          "tech": "C# WinForms", "db": "Oracle",     "x": 890, "y": 226 },
+    { "id": "l10", "label": "세금계산서 거래처",         "tech": "C#",          "db": "Oracle",     "x": 700, "y": 226 },
+    { "id": "l11", "label": "미수 관리",               "tech": "C#",          "db": "PostgreSQL", "x": 120, "y": 226 },
+    { "id": "l12", "label": "미수 알림 메일",           "tech": "C#",          "db": "PostgreSQL", "x": 310, "y": 226 },
+    { "id": "l13", "label": "B/L 출력물 생성",          "tech": "C#",          "db": "PostgreSQL", "x": 500, "y": 226 }
   ],
   "legacyFlows": [
     { "from": "l1", "to": "l4" },
@@ -564,8 +564,8 @@ function renderDiagram() {
   return svg;
 }
 
-const BEFORE_VIEW = { w: 1000, h: 292 };
-const LBOX = { w: 164, h: 38 };
+const BEFORE_VIEW = { w: 1000, h: 268 };
+const LBOX = { w: 160, h: 36 };
 
 /** 통합 이전 구조. 엑셀 원도의 실제 흐름을 따른다 —
  *  업무 시스템 → 정산입력 자동화 → 글로벌 시스템으로 수렴하고,
@@ -640,7 +640,7 @@ function renderBeforeDiagram() {
   for (const sink of MODEL.sinks) drawBox(sink, true);
 
   ['같은 정산입력 자동화가 부서별로 세 벌', 'DB 가 세 종류로 갈림', '장애 원인 추적 불가'].forEach((note, index) => {
-    const text = svgEl('text', { class: 'before-note', x: 24 + index * 330, y: 282 });
+    const text = svgEl('text', { class: 'before-note', x: 24 + index * 330, y: 260 });
     text.textContent = `⚠ ${note}`;
     svg.appendChild(text);
   });
@@ -747,8 +747,8 @@ function mount() {
   const head = document.createElement('header');
   head.className = 'page-head';
   head.innerHTML = `
-    <h1>${MODEL.meta.project}</h1>
-    <p>${MODEL.meta.tagline}</p>`;
+    <h1>${MODEL.meta.tagline}</h1>
+    <p>${MODEL.meta.sub}</p>`;
   app.appendChild(head);
 
   const boards = document.createElement('section');
