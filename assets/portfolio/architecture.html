@@ -57,6 +57,14 @@ body {
 .board-label { font-size: 11px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin: 0 0 8px; color: var(--muted); }
 .board-before .board-label { color: var(--warn); }
 .board svg { width: 100%; height: auto; display: block; }
+/* BEFORE 는 대비용이라 작게 둔다 — 크면 통합 이전이 주인공처럼 보인다. */
+.board-before svg { max-width: 680px; margin: 0 auto; }
+.board-before .board-label { max-width: 680px; margin-left: auto; margin-right: auto; }
+
+/* 위아래가 그냥 나열이 아니라 "이것이 저것이 됐다"로 읽히게 하는 이음새. */
+.transition { display: flex; flex-direction: column; align-items: center; gap: 1px; color: var(--accent); }
+.transition-arrow { font-size: 24px; line-height: 1; }
+.transition-text { font-size: 12px; font-weight: 700; letter-spacing: .04em; }
 .node rect {
   fill: var(--surface); stroke: var(--border); stroke-width: 1.5;
   rx: 10; transition: transform .55s ease, opacity .35s ease;
@@ -746,6 +754,13 @@ function mount() {
   before.innerHTML = `<h2 class="board-label">Before — 파편화된 13종 (항공수출입 정산 영역)</h2>`;
   before.appendChild(renderBeforeDiagram());
   boards.appendChild(before);
+
+  const transition = document.createElement('div');
+  transition.className = 'transition';
+  transition.innerHTML = `
+    <div class="transition-arrow" aria-hidden="true">↓</div>
+    <div class="transition-text">13종을 하나의 플랫폼으로 통합</div>`;
+  boards.appendChild(transition);
 
   const after = document.createElement('div');
   after.className = 'board board-after';
