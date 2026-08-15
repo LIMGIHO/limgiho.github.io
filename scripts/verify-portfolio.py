@@ -66,7 +66,7 @@ REQUIRED_ARCHITECTURE_EDGE_FIELDS = (
 FORBIDDEN_PATTERNS = (
     re.compile(r"samsung|삼성|nerp", re.IGNORECASE),
     re.compile(r"kream", re.IGNORECASE),
-    re.compile(r"(?<![-A-Za-z0-9])apple(?![A-Za-z0-9])|애플", re.IGNORECASE),
+    re.compile(r"(?<![-A-Za-z0-9])apple(?![A-Za-z0-9])|애플(?!리케이션)", re.IGNORECASE),
     re.compile(r"(?<![A-Za-z0-9])limo(?![A-Za-z0-9])", re.IGNORECASE),
     re.compile(r"(?<![A-Za-z0-9])ufs(?![A-Za-z0-9])", re.IGNORECASE),
     re.compile(
@@ -182,7 +182,9 @@ def validate_rendered(site_dir):
             'id="journey-kwe-automation"',
             'id="journey-kwe-platform"',
             'id="flagship"',
-            'id="architecture-before-after"',
+            'id="implementation-architecture"',
+            'id="architecture-detail"',
+            "02 · 통합 업무 플랫폼 개발",
             "15종",
             "5개 업무 도메인",
             'id="automation"',
@@ -201,19 +203,33 @@ def validate_rendered(site_dir):
                 f"{profile_name} journey item count: "
                 f"{text.count('data-journey-item')} (expected 4)"
             )
-        if text.count("data-decision-id=") != 10:
+        if text.count("data-architecture-node=") != 10:
             errors.append(
-                f"{profile_name} decision count: "
-                f"{text.count('data-decision-id=')} (expected 10)"
+                f"{profile_name} architecture node count: "
+                f"{text.count('data-architecture-node=')} (expected 10)"
             )
-        if text.count("decision-card is-featured") != 3:
+        if text.count("data-architecture-mobile-node=") != 10:
             errors.append(
-                f"{profile_name} featured decision count: "
-                f"{text.count('decision-card is-featured')} (expected 3)"
+                f"{profile_name} mobile architecture node count: "
+                f"{text.count('data-architecture-mobile-node=')} (expected 10)"
             )
-        for decision_id in REQUIRED_DECISION_IDS:
-            if f'data-decision-id="{decision_id}"' not in text:
-                errors.append(f"{profile_name} decision missing: {decision_id}")
+        if text.count("data-architecture-edge=") != 10:
+            errors.append(
+                f"{profile_name} architecture edge count: "
+                f"{text.count('data-architecture-edge=')} (expected 10)"
+            )
+        for node_id in REQUIRED_ARCHITECTURE_NODE_IDS:
+            if f'data-architecture-node="{node_id}"' not in text:
+                errors.append(f"{profile_name} architecture node missing: {node_id}")
+        for phrase in (
+            "FLAGSHIP CASE",
+            "OUTCOMES",
+            "SUPPORTING EVIDENCE",
+            "ENGINEERING DECISIONS",
+            "data-decision-id",
+        ):
+            if phrase in text:
+                errors.append(f"{profile_name} retired flagship content: {phrase}")
         for pattern_text in (
             'class="portfolio-hero"',
             "개발에서 플랫폼 책임까지",

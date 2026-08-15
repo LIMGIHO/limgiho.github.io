@@ -1,56 +1,107 @@
-<figure class="architecture-figure" id="architecture-before-after">
-  <svg viewBox="0 0 1000 430" role="img" aria-labelledby="architecture-title architecture-description">
-    <title id="architecture-title">15종 레거시 시스템의 통합 플랫폼 전환 구조</title>
-    <desc id="architecture-description">분산된 업무 클라이언트, 자동화 도구, 정산 재무, 외부 연동, 이기종 데이터베이스가 Web, API, Queue, Worker, 다섯 업무 도메인과 통합 데이터 및 외부 어댑터 구조로 전환됩니다.</desc>
-    <g class="architecture-before">
-      <text class="architecture-kicker" x="42" y="44">BEFORE · 15 SYSTEMS</text>
-      <rect class="architecture-group" x="42" y="68" width="350" height="300" rx="18"></rect>
-      <rect class="architecture-node" x="70" y="100" width="132" height="54" rx="8"></rect>
-      <text x="136" y="132" text-anchor="middle">업무 클라이언트</text>
-      <rect class="architecture-node" x="230" y="100" width="132" height="54" rx="8"></rect>
-      <text x="296" y="132" text-anchor="middle">자동화 도구</text>
-      <rect class="architecture-node" x="70" y="181" width="132" height="54" rx="8"></rect>
-      <text x="136" y="213" text-anchor="middle">정산 · 재무</text>
-      <rect class="architecture-node" x="230" y="181" width="132" height="54" rx="8"></rect>
-      <text x="296" y="213" text-anchor="middle">외부 연동</text>
-      <rect class="architecture-node" x="70" y="262" width="292" height="72" rx="8"></rect>
-      <text x="216" y="293" text-anchor="middle">이기종 DB</text>
-      <text class="architecture-sub" x="216" y="314" text-anchor="middle">Oracle · MySQL · PostgreSQL</text>
-    </g>
-    <g class="architecture-transition">
-      <path d="M420 218 H500"></path>
-      <path d="M484 202 L500 218 L484 234"></path>
-      <text x="460" y="189" text-anchor="middle">점진적 전환</text>
-    </g>
-    <g class="architecture-after">
-      <text class="architecture-kicker" x="548" y="44">AFTER · INTEGRATED PLATFORM</text>
-      <rect class="architecture-group architecture-group-after" x="548" y="68" width="410" height="300" rx="18"></rect>
-      <rect class="architecture-node architecture-node-accent" x="580" y="96" width="346" height="52" rx="8"></rect>
-      <text x="753" y="127" text-anchor="middle">Web · 90+ 업무 화면</text>
-      <rect class="architecture-node" x="580" y="172" width="102" height="50" rx="8"></rect>
-      <text x="631" y="202" text-anchor="middle">API</text>
-      <rect class="architecture-node" x="702" y="172" width="102" height="50" rx="8"></rect>
-      <text x="753" y="202" text-anchor="middle">Queue</text>
-      <rect class="architecture-node" x="824" y="172" width="102" height="50" rx="8"></rect>
-      <text x="875" y="202" text-anchor="middle">Worker</text>
-      <rect class="architecture-node architecture-node-accent" x="580" y="246" width="346" height="48" rx="8"></rect>
-      <text x="753" y="275" text-anchor="middle">5개 업무 도메인</text>
-      <rect class="architecture-node" x="580" y="316" width="163" height="30" rx="7"></rect>
-      <text class="architecture-small" x="661" y="336" text-anchor="middle">통합 데이터</text>
-      <rect class="architecture-node" x="763" y="316" width="163" height="30" rx="7"></rect>
-      <text class="architecture-small" x="844" y="336" text-anchor="middle">외부 어댑터</text>
-    </g>
-  </svg>
-  <div class="architecture-mobile" id="architecture-mobile" aria-label="모바일용 아키텍처 요약">
-    <div data-mobile-architecture>
-      <span>BEFORE · 15 SYSTEMS</span>
-      <ul>{% for item in include.flagship.architecture.before %}<li>{{ item }}</li>{% endfor %}</ul>
-    </div>
-    <span class="architecture-mobile-arrow" aria-hidden="true">↓</span>
-    <div data-mobile-architecture>
-      <span>AFTER · INTEGRATED PLATFORM</span>
-      <ul>{% for item in include.flagship.architecture.after %}<li>{{ item }}</li>{% endfor %}</ul>
-    </div>
+<section class="implementation-architecture" id="implementation-architecture" aria-labelledby="architecture-heading">
+  <div class="subsection-heading architecture-heading">
+    <p class="subsection-label">시스템 구성</p>
+    <h3 id="architecture-heading">요청·작업·연동·배포가 통과하는 경계</h3>
+    <p>구성요소를 선택하면 실제 구현 범위와 구성요소 사이의 계약을 확인할 수 있습니다.</p>
   </div>
-  <figcaption>실제 시스템명과 연결 정보는 익명화하고, 15종 운영 시스템이 책임과 경계를 가진 플랫폼으로 수렴한 흐름만 표현했습니다.</figcaption>
-</figure>
+
+  <div class="architecture-legend" aria-label="아키텍처 범례">
+    <span class="legend-node legend-app">애플리케이션</span>
+    <span class="legend-node legend-infra">인프라</span>
+    <span class="legend-node legend-boundary">외부 경계</span>
+    <span class="legend-node legend-legacy">점진 이전</span>
+    <span class="legend-flow legend-sync">동기 요청</span>
+    <span class="legend-flow legend-async">비동기 작업</span>
+    <span class="legend-flow legend-delivery">배포</span>
+  </div>
+
+  <figure class="architecture-figure">
+    <svg class="architecture-map" viewBox="0 0 1200 820" role="img" aria-labelledby="architecture-title architecture-description">
+      <title id="architecture-title">통합 업무 플랫폼의 상세 시스템 구성</title>
+      <desc id="architecture-description">Web, API, Legacy API, Queue, Worker, Batch, 외부 어댑터, 사내 LLM, 데이터 저장소, CI/CD의 책임과 동기·비동기·점진 이전·배포 흐름을 나타냅니다.</desc>
+      <defs>
+        <marker id="arrow-sync" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-async" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-migration" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-delivery" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+      </defs>
+
+      <g class="architecture-boundaries">
+        {% for boundary in include.flagship.boundaries %}
+          <g class="architecture-boundary boundary-{{ boundary.id }}" data-architecture-boundary="{{ boundary.id }}">
+            <rect x="{{ boundary.x }}" y="{{ boundary.y }}" width="{{ boundary.width }}" height="{{ boundary.height }}" rx="18"></rect>
+            <text class="boundary-label" x="{{ boundary.x | plus: 18 }}" y="{{ boundary.y | plus: 25 }}">{{ boundary.label }}</text>
+            <text class="boundary-description" x="{{ boundary.x | plus: 18 }}" y="{{ boundary.y | plus: 44 }}">{{ boundary.description }}</text>
+          </g>
+        {% endfor %}
+      </g>
+
+      <g class="architecture-edges" aria-hidden="true">
+        {% for edge in include.flagship.edges %}
+          <g class="architecture-edge architecture-edge-{{ edge.flow }}" data-architecture-edge="{{ edge.id }}">
+            <path d="{{ edge.path }}" marker-end="url(#arrow-{{ edge.flow }})"></path>
+            <text x="{{ edge.label_x }}" y="{{ edge.label_y }}">{{ edge.label }}</text>
+          </g>
+        {% endfor %}
+      </g>
+
+      <g class="architecture-nodes">
+        {% for node in include.flagship.nodes %}
+          <g class="architecture-node architecture-node-{{ node.kind }}{% if forloop.first %} is-selected{% endif %}"
+             data-architecture-node="{{ node.id }}" role="button" tabindex="0"
+             aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}"
+             aria-label="{{ node.label }} 상세 보기">
+            <rect x="{{ node.x }}" y="{{ node.y }}" width="{{ node.width }}" height="{{ node.height }}" rx="10"></rect>
+            <text class="node-label" x="{{ node.x | plus: 16 }}" y="{{ node.y | plus: 28 }}">{{ node.label }}</text>
+            <text class="node-tech" x="{{ node.x | plus: 16 }}" y="{{ node.y | plus: 50 }}">{{ node.tech }}</text>
+            {% if node.id == "cicd" %}
+              <g class="pipeline-steps">
+                {% for step in include.flagship.pipeline.steps %}
+                  {% assign step_x = forloop.index0 | times: 176 | plus: 414 %}
+                  <text x="{{ step_x }}" y="{{ node.y | plus: 36 }}">{{ step }}</text>
+                  {% unless forloop.last %}<text class="pipeline-arrow" x="{{ step_x | plus: 145 }}" y="{{ node.y | plus: 36 }}">→</text>{% endunless %}
+                {% endfor %}
+              </g>
+            {% endif %}
+          </g>
+        {% endfor %}
+      </g>
+    </svg>
+
+    <div class="architecture-mobile" id="architecture-mobile" aria-label="모바일용 시스템 구성">
+      {% for node in include.flagship.nodes %}
+        <button class="architecture-mobile-node architecture-node-{{ node.kind }}{% if forloop.first %} is-selected{% endif %}"
+                type="button" data-architecture-mobile-node="{{ node.id }}"
+                aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+          <span class="mobile-node-boundary">{{ node.boundary | replace: "-", " " }}</span>
+          <strong>{{ node.label }}</strong>
+          <span>{{ node.tech }}</span>
+          <small>{{ node.summary }}</small>
+        </button>
+      {% endfor %}
+    </div>
+
+    <figcaption>실제 서비스명과 연결 정보는 익명화했습니다. 화살표의 라벨은 구성요소 사이에서 사용한 호출 또는 계약 방식입니다.</figcaption>
+  </figure>
+
+  {% assign first_node = include.flagship.nodes | first %}
+  <section class="architecture-detail" id="architecture-detail" aria-labelledby="architecture-detail-title" aria-live="polite">
+    <div class="architecture-detail-heading">
+      <p class="subsection-label">구현 상세</p>
+      <h3 id="architecture-detail-title" data-architecture-detail="label">{{ first_node.label }}</h3>
+      <p class="architecture-detail-tech" data-architecture-detail="tech">{{ first_node.tech }}</p>
+      <p data-architecture-detail="summary">{{ first_node.summary }}</p>
+    </div>
+    <dl class="architecture-detail-grid">
+      <div class="detail-wide"><dt>구현</dt><dd data-architecture-detail="implementation">{{ first_node.implementation }}</dd></div>
+      <div><dt>구조</dt><dd data-architecture-detail="structure">{{ first_node.structure }}</dd></div>
+      <div><dt>운영</dt><dd data-architecture-detail="operation">{{ first_node.operation }}</dd></div>
+      <div><dt>입력</dt><dd data-architecture-detail="inputs">{{ first_node.inputs }}</dd></div>
+      <div><dt>출력</dt><dd data-architecture-detail="outputs">{{ first_node.outputs }}</dd></div>
+      <div><dt>계약</dt><dd data-architecture-detail="contract">{{ first_node.contract }}</dd></div>
+      <div><dt>배포</dt><dd data-architecture-detail="deployment">{{ first_node.deployment }}</dd></div>
+    </dl>
+  </section>
+
+  <script type="application/json" id="architecture-data">{{ include.flagship.nodes | jsonify }}</script>
+</section>

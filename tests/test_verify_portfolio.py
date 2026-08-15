@@ -285,66 +285,65 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             errors = self.verify.validate_rendered(site_dir)
             self.assertTrue(any("career-journey" in error for error in errors))
 
-    def test_rendered_flagship_preserves_all_decisions(self):
-        profile_featured = {
-            "default": (
-                "incremental-migration",
-                "typed-boundaries",
-                "worker-contract",
-            ),
-            "kakao": (
-                "frontend-slices",
-                "typed-boundaries",
-                "incremental-migration",
-            ),
-        }
-        for profile_name, (relative_path, _theme) in self.verify.RENDERED_PROFILES.items():
+    def test_rendered_flagship_is_an_implementation_architecture(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
             text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
             self.assertIn('id="flagship"', text)
-            self.assertIn('id="architecture-before-after"', text)
-            self.assertEqual(text.count("data-decision-id="), 10)
-            self.assertEqual(text.count("decision-card is-featured"), 3)
-            for decision_id in self.verify.REQUIRED_DECISION_IDS:
-                self.assertIn(f'data-decision-id="{decision_id}"', text)
-            featured_positions = [
-                text.index(f'data-decision-id="{decision_id}"')
-                for decision_id in profile_featured[profile_name]
-            ]
-            self.assertEqual(featured_positions, sorted(featured_positions))
-            for label in ("문제", "검토", "선택", "결과"):
-                self.assertIn(f"<dt>{label}</dt>", text)
+            self.assertIn('id="implementation-architecture"', text)
+            self.assertIn('<p class="section-number">02 · 통합 업무 플랫폼 개발</p>', text)
+            self.assertEqual(text.count("data-architecture-node="), 10)
+            self.assertEqual(text.count("data-architecture-mobile-node="), 10)
+            self.assertEqual(text.count("data-architecture-edge="), 10)
+            self.assertEqual(text.count("data-architecture-boundary="), 5)
+            for node_id in self.verify.REQUIRED_ARCHITECTURE_NODE_IDS:
+                self.assertIn(f'data-architecture-node="{node_id}"', text)
+                self.assertIn(f'data-architecture-mobile-node="{node_id}"', text)
+            for phrase in (
+                "PRESENTATION",
+                "APPLICATION",
+                "ASYNC EXECUTION",
+                "INTEGRATION & DATA",
+                "DELIVERY",
+                "REST",
+                "enqueue contract",
+                "consume contract",
+                "repository",
+                "port / adapter",
+                "internal HTTP",
+                "job execution",
+                "SHA image deploy",
+            ):
+                self.assertIn(phrase, text)
+            for phrase in (
+                "FLAGSHIP CASE",
+                "OUTCOMES",
+                "SUPPORTING EVIDENCE",
+                "ENGINEERING DECISIONS",
+                "data-decision-id",
+            ):
+                self.assertNotIn(phrase, text)
 
     def test_architecture_has_readable_mobile_fallback(self):
         for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
             text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
             self.assertIn('id="architecture-mobile"', text)
-            self.assertEqual(text.count("data-mobile-architecture"), 2)
-            for phrase in ("업무 클라이언트", "Web · 90+ screens", "외부 어댑터"):
+            self.assertEqual(text.count("data-architecture-mobile-node="), 10)
+            self.assertIn('id="architecture-detail"', text)
+            for phrase in ("Web", "API", "Queue", "Worker", "External Adapters"):
                 self.assertIn(phrase, text)
 
-    def test_decision_script_restores_content_for_print(self):
-        script = (ROOT / "assets" / "js" / "portfolio.js").read_text(encoding="utf-8")
-        for phrase in (
-            "data-decision-id",
-            "aria-expanded",
-            "beforeprint",
-            "afterprint",
-            "detail.hidden",
-        ):
-            self.assertIn(phrase, script)
-
-    def test_rendered_validator_rejects_missing_decision(self):
+    def test_rendered_validator_rejects_missing_architecture_node(self):
         with tempfile.TemporaryDirectory() as directory:
             site_dir = Path(directory)
             shutil.copytree(ROOT / "_site", site_dir, dirs_exist_ok=True)
             default_html = site_dir / "index.html"
             text = default_html.read_text(encoding="utf-8")
             default_html.write_text(
-                text.replace('data-decision-id="integration"', 'data-removed="integration"', 1),
+                text.replace('data-architecture-node="web"', 'data-removed="web"', 1),
                 encoding="utf-8",
             )
             errors = self.verify.validate_rendered(site_dir)
-            self.assertTrue(any("decision" in error for error in errors))
+            self.assertTrue(any("architecture node" in error for error in errors))
 
     def test_rendered_profiles_include_lower_evidence_sections(self):
         for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
