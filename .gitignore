@@ -5,3 +5,10 @@
 _site
 *.code-workspace
 vendor
+.DS_Store
+*.log
+tmp/
+.playwright-cli/
+.superpowers/
+_workspace/
+output/playwright/

@@ -1,11 +1,6 @@
 # Site
 version: 2
 
-# Publish the detailed career PDF even though Jekyll normally ignores
-# underscore-prefixed files.
-include:
-  - _config_20260413.pdf
-
 # Personal info
 name: 임기호
 title: Software Engineer | Full-Stack · Platform · Integration
@@ -286,8 +281,7 @@ plugins:
   - jekyll-seo-tag
 
 exclude:
-  # Keep historical working files in Git without publishing them on the site.
-  - output/pdf/backup
+  # Build-only files.
   - Gemfile
   - Gemfile.lock
   - node_modules
@@ -298,5 +292,3 @@ exclude:
   - lib/
   - scripts/
   - docker-compose.yml
-  - _config.backup-20260322.yml
-  - .playwright-cli/

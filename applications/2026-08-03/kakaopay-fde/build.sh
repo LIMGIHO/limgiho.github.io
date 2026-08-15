@@ -2,13 +2,9 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-ROOT_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
 CHROME_BIN="${KAKAOPAY_RESUME_CHROME_BIN:-/Applications/Google Chrome.app/Contents/MacOS/Google Chrome}"
-INPUT_HTML="$ROOT_DIR/resumes/kakaopay-fde/index.html"
-OUTPUT_DIR="$ROOT_DIR/output/pdf"
-OUTPUT_PDF="$OUTPUT_DIR/lim-giho-kakaopay-fde-resume.pdf"
-PUBLIC_DIR="$ROOT_DIR/assets/resume"
-PUBLIC_PDF="$PUBLIC_DIR/lim-giho-kakaopay-fde-resume.pdf"
+INPUT_HTML="$SCRIPT_DIR/source/index.html"
+OUTPUT_PDF="$SCRIPT_DIR/resume.pdf"
 PROFILE_DIR="$(mktemp -d "${TMPDIR:-/tmp}/kakaopay-fde-resume.XXXXXX")"
 TEMP_PDF="$PROFILE_DIR/resume.pdf"
 CHROME_PID=""
@@ -27,8 +23,6 @@ if [[ ! -x "$CHROME_BIN" ]]; then
   echo "Chrome executable not found: $CHROME_BIN" >&2
   exit 1
 fi
-
-mkdir -p "$OUTPUT_DIR" "$PUBLIC_DIR"
 
 "$CHROME_BIN" \
   --headless=new \
@@ -72,7 +66,5 @@ wait "$CHROME_PID" 2>/dev/null || true
 CHROME_PID=""
 
 mv "$TEMP_PDF" "$OUTPUT_PDF"
-cp "$OUTPUT_PDF" "$PUBLIC_PDF"
 
 echo "$OUTPUT_PDF"
-echo "$PUBLIC_PDF"

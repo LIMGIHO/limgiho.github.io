@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import hashlib
 import sys
 
-import fitz
+try:
+    import pymupdf as fitz
+except ImportError:
+    import fitz
 
 
-ROOT = Path(__file__).resolve().parents[1]
-HTML = ROOT / "resumes/kakaopay-fde/index.html"
-CSS = ROOT / "resumes/kakaopay-fde/resume.css"
-DETAIL_PDF = ROOT / "resumes/kakaopay-fde/_config_20260413.pdf"
-OUTPUT_PDF = ROOT / "output/pdf/lim-giho-kakaopay-fde-resume.pdf"
-PUBLIC_PDF = ROOT / "assets/resume/lim-giho-kakaopay-fde-resume.pdf"
-DETAIL_URL = "https://limgiho.github.io/resumes/kakaopay-fde/_config_20260413.pdf"
+APP_DIR = Path(__file__).resolve().parent
+ROOT = APP_DIR.parents[2]
+HTML = APP_DIR / "source/index.html"
+CSS = APP_DIR / "source/resume.css"
+DETAIL_PDF = ROOT / "assets/resume/lim-giho-resume.pdf"
+OUTPUT_PDF = APP_DIR / "resume.pdf"
+DETAIL_URL = "https://limgiho.github.io/assets/resume/lim-giho-resume.pdf"
 
 REQUIRED = [
     "소개",
@@ -34,10 +36,6 @@ FORBIDDEN = [
     "기술 전환 경험",
     "IM GIHO",
 ]
-
-
-def sha256(path: Path) -> str:
-    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def verify_html() -> None:
@@ -68,8 +66,6 @@ def verify_html() -> None:
 
 def verify_pdf() -> None:
     assert OUTPUT_PDF.is_file(), f"missing final PDF: {OUTPUT_PDF}"
-    assert PUBLIC_PDF.is_file(), f"missing deployable PDF: {PUBLIC_PDF}"
-    assert sha256(OUTPUT_PDF) == sha256(PUBLIC_PDF), "output and deployable PDFs differ"
 
     doc = fitz.open(OUTPUT_PDF)
     assert doc.page_count == 3, f"expected 3 pages, got {doc.page_count}"
