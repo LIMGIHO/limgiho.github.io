@@ -16,6 +16,10 @@ RENDERED_PROFILES = {
         "theme-graphite-yellow",
     ),
 }
+PDF_PROFILES = {
+    "default": Path("assets/portfolio/lim-giho-portfolio.pdf"),
+    "kakao": Path("applications/2026-08-03/kakaopay-fde/portfolio.pdf"),
+}
 
 REQUIRED_DECISION_IDS = {
     "integration",
@@ -203,10 +207,84 @@ def validate_rendered(site_dir):
     return errors
 
 
+def validate_pdf(pdf_path, content):
+    """PDF가 제출 가능한 A4 문서이며 핵심 증거와 공개 링크를 보존하는지 확인한다."""
+    errors = []
+    pdf_path = Path(pdf_path)
+    if not pdf_path.is_file():
+        return [f"PDF missing: {pdf_path}"]
+
+    try:
+        import pymupdf as fitz
+    except ImportError:
+        return ["PyMuPDF missing: run with `uv run --with pymupdf python3 ...`"]
+
+    try:
+        document = fitz.open(pdf_path)
+    except Exception as error:
+        return [f"PDF open failed: {pdf_path} ({error})"]
+
+    if not document.page_count:
+        errors.append(f"PDF has no pages: {pdf_path}")
+        document.close()
+        return errors
+    if document.page_count > 20:
+        errors.append(f"PDF page count too high: {document.page_count}")
+
+    all_text = []
+    link_uris = set()
+    for page_number, page in enumerate(document, start=1):
+        width, height = page.rect.width, page.rect.height
+        if not (590 <= width <= 605 and 835 <= height <= 850):
+            errors.append(
+                f"page {page_number} is not A4: {width:.1f} x {height:.1f} pt"
+            )
+        page_text = page.get_text("text").strip()
+        all_text.append(page_text)
+        if len(page_text) < 100:
+            errors.append(f"page {page_number} has too little text")
+        for link in page.get_links():
+            uri = link.get("uri")
+            if uri:
+                link_uris.add(uri)
+    document.close()
+
+    text = "\n".join(all_text)
+    required_phrases = (
+        "CAREER JOURNEY",
+        "15종",
+        "BEFORE · 15 SYSTEMS",
+        "AFTER · INTEGRATED PLATFORM",
+        "Web · 90+ 업무 화면",
+        "외부 어댑터",
+        "외부 업무 시스템 입력 자동화",
+        "1,200시간",
+        "ILJIN Global",
+        "KWE Korea",
+    )
+    required_phrases += tuple(
+        decision.get("title", "")
+        for decision in content.get("flagship", {}).get("decisions", [])
+    )
+    for phrase in required_phrases:
+        if phrase and phrase not in text:
+            errors.append(f"PDF phrase missing: {phrase}")
+
+    required_links = (
+        "https://limgiho.github.io/assets/resume/lim-giho-resume.pdf",
+        "https://github.com/limgiho",
+    )
+    for required_link in required_links:
+        if not any(uri.startswith(required_link) for uri in link_uris):
+            errors.append(f"PDF link missing: {required_link}")
+    return errors
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-only", action="store_true")
     parser.add_argument("--site-dir", type=Path)
+    parser.add_argument("--pdf", action="store_true")
     args = parser.parse_args()
 
     content = load_yaml(ROOT / "_data" / "portfolio.yml")
@@ -227,6 +305,20 @@ def main():
                 print(f"  - {error}")
             return 1
         print("PASS: portfolio rendered contract")
+
+    if args.pdf:
+        pdf_errors = []
+        for profile_name, relative_path in PDF_PROFILES.items():
+            profile_errors = validate_pdf(ROOT / relative_path, content)
+            pdf_errors.extend(
+                f"{profile_name}: {error}" for error in profile_errors
+            )
+        if pdf_errors:
+            print(f"FAIL: portfolio PDF contract ({len(pdf_errors)})")
+            for error in pdf_errors:
+                print(f"  - {error}")
+            return 1
+        print("PASS: portfolio PDF contract")
     return 0
 
 

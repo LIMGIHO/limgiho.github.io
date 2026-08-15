@@ -5,7 +5,7 @@
     <p class="hero-summary">{{ include.profile.summary }}</p>
     <p class="portfolio-note">{{ include.portfolio.portfolio_note }}</p>
     <div class="hero-actions" aria-label="관련 문서와 프로필">
-      <a class="button button-primary" href="{{ include.portfolio.person.resume_url | relative_url }}">경력기술서 PDF</a>
+      <a class="button button-primary" href="{{ include.portfolio.person.resume_url | absolute_url }}">경력기술서 PDF</a>
       <a class="button" href="{{ include.portfolio.person.github_url }}">GitHub</a>
     </div>
   </div>

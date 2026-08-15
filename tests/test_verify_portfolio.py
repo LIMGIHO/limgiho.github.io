@@ -28,6 +28,11 @@ class PortfolioVerifierBootstrapTests(unittest.TestCase):
         self.assertTrue(hasattr(verify, "validate_source"))
         self.assertTrue(hasattr(verify, "REQUIRED_DECISION_IDS"))
 
+    def test_verifier_exposes_pdf_contract(self):
+        verify = load_verifier()
+        self.assertTrue(hasattr(verify, "PDF_PROFILES"))
+        self.assertTrue(hasattr(verify, "validate_pdf"))
+
     def test_load_yaml_uses_the_repository_ruby_runtime(self):
         verify = load_verifier()
         with tempfile.NamedTemporaryFile("w", suffix=".yml", encoding="utf-8") as handle:
@@ -326,6 +331,47 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             )
             errors = self.verify.validate_rendered(site_dir)
             self.assertTrue(any("theme-ice-blue" in error for error in errors))
+
+
+class PortfolioPdfContractTests(unittest.TestCase):
+    def setUp(self):
+        self.verify = load_verifier()
+
+    def test_pdf_builder_uses_local_http_and_atomic_outputs(self):
+        build_path = ROOT / "scripts" / "build-portfolio-pdf.sh"
+        self.assertTrue(build_path.is_file(), "portfolio PDF builder is missing")
+        script = build_path.read_text(encoding="utf-8")
+        for phrase in (
+            "bundle exec jekyll build",
+            "python3 -m http.server",
+            "--print-to-pdf-no-header",
+            "mktemp -d",
+            "mv",
+        ):
+            self.assertIn(phrase, script)
+        self.assertNotIn("rm -rf", script)
+
+    def test_repository_pdfs_pass_the_contract(self):
+        for profile_name, relative_path in self.verify.PDF_PROFILES.items():
+            pdf_path = ROOT / relative_path
+            self.assertTrue(pdf_path.is_file(), f"{profile_name} PDF is missing")
+        completed = subprocess.run(
+            [
+                "uv",
+                "run",
+                "--with",
+                "pymupdf",
+                "python3",
+                str(VERIFY_PATH),
+                "--pdf",
+            ],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
+        self.assertIn("PASS: portfolio PDF contract", completed.stdout)
 
 
 if __name__ == "__main__":

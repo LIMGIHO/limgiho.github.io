@@ -857,3 +857,35 @@ body.portfolio {
     text-align: center;
   }
 }
+
+@media print {
+  .architecture-figure svg {
+    display: block !important;
+  }
+
+  .automation-section .section-heading {
+    margin-bottom: 22px;
+  }
+
+  .automation-brief article {
+    padding: 14px;
+  }
+
+  .automation-flow {
+    gap: 8px;
+    margin-top: 16px;
+  }
+
+  .automation-flow li {
+    padding: 16px;
+  }
+
+  .automation-flow h3 {
+    margin: 8px 0 5px;
+  }
+
+  .automation-result {
+    margin-top: 16px;
+    padding: 16px;
+  }
+}
