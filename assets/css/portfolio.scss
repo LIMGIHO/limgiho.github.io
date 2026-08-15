@@ -131,6 +131,120 @@ body.portfolio {
   letter-spacing: -0.035em;
 }
 
+.portfolio-section {
+  padding: 72px 48px;
+  border-top: 1px solid #dce3e8;
+}
+
+.section-heading {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  column-gap: 32px;
+  margin-bottom: 42px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.045em;
+}
+
+.section-heading > p:last-child {
+  grid-column: 2;
+  max-width: 680px;
+  margin: 12px 0 0;
+  color: #66707a;
+}
+
+.section-number {
+  margin: 0;
+  color: #66707a;
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.journey-list {
+  position: relative;
+  display: grid;
+  gap: 0;
+  max-width: 880px;
+  margin: 0 0 0 180px;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-list::before {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 116px;
+  width: 1px;
+  background: #cfd8df;
+  content: "";
+}
+
+.journey-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 48px;
+  padding: 0 0 36px;
+  color: #66707a;
+}
+
+.journey-item::before {
+  position: absolute;
+  top: 8px;
+  left: 110px;
+  width: 13px;
+  height: 13px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: #9aa8b3;
+  box-shadow: 0 0 0 1px #cfd8df;
+  content: "";
+}
+
+.journey-item time {
+  padding-top: 2px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.journey-content h3 {
+  margin: 4px 0 7px;
+  color: #1d2228;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.journey-content p {
+  margin: 0;
+}
+
+.journey-meta {
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.journey-item.is-current::before {
+  background: #287dae;
+  box-shadow: 0 0 0 4px #e3f4fc;
+}
+
+.journey-item.is-current {
+  color: #34414b;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .journey-item,
+  .journey-item::before {
+    transition: color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+  }
+}
+
 @media (max-width: 760px) {
   .portfolio-hero {
     grid-template-columns: 1fr;
@@ -146,5 +260,40 @@ body.portfolio {
   .metric-item {
     min-height: 96px;
     padding: 14px;
+  }
+
+  .portfolio-section {
+    padding: 56px 22px;
+  }
+
+  .section-heading {
+    grid-template-columns: 1fr;
+    margin-bottom: 32px;
+  }
+
+  .section-heading > p:last-child {
+    grid-column: 1;
+  }
+
+  .section-number {
+    margin-bottom: 10px;
+  }
+
+  .journey-list {
+    margin-left: 0;
+  }
+
+  .journey-list::before {
+    left: 8px;
+  }
+
+  .journey-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 0 0 32px 34px;
+  }
+
+  .journey-item::before {
+    left: 2px;
   }
 }

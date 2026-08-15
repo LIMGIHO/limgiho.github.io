@@ -8,8 +8,9 @@
     <div class="portfolio-shell">
       <main id="main-content">
         {% include portfolio/hero.html portfolio=portfolio profile=profile %}
-        <div id="portfolio-sections"></div>
+        {% include portfolio/journey.html journey=portfolio.journey %}
       </main>
     </div>
+    <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>
   </body>
 </html>

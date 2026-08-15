@@ -121,10 +121,21 @@ def validate_rendered(site_dir):
             'class="portfolio-hero"',
             "/assets/resume/lim-giho-resume.pdf",
             "https://github.com/limgiho",
+            'id="career-journey"',
+            "/assets/js/portfolio.js",
+            'id="journey-iljin-foundation"',
+            'id="journey-iljin-lead"',
+            'id="journey-kwe-automation"',
+            'id="journey-kwe-platform"',
         )
         for phrase in required:
             if phrase not in text:
                 errors.append(f"{profile_name} rendered phrase missing: {phrase}")
+        if text.count("data-journey-item") != 4:
+            errors.append(
+                f"{profile_name} journey item count: "
+                f"{text.count('data-journey-item')} (expected 4)"
+            )
         for pattern in FORBIDDEN_PATTERNS:
             match = pattern.search(text)
             if match:

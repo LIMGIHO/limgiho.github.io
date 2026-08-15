@@ -1,5 +1,6 @@
 import importlib.util
 import copy
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -161,6 +162,40 @@ class PortfolioRenderedContractTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         self.assertIn("PASS: portfolio source contract", completed.stdout)
         self.assertIn("PASS: portfolio rendered contract", completed.stdout)
+
+    def test_rendered_profiles_include_four_journey_steps(self):
+        journey_ids = (
+            "iljin-foundation",
+            "iljin-lead",
+            "kwe-automation",
+            "kwe-platform",
+        )
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertIn('id="career-journey"', text)
+            self.assertEqual(text.count("data-journey-item"), 4)
+            for journey_id in journey_ids:
+                self.assertIn(f'id="journey-{journey_id}"', text)
+
+    def test_journey_script_has_accessible_fallbacks(self):
+        script_path = ROOT / "assets" / "js" / "portfolio.js"
+        self.assertTrue(script_path.is_file(), "portfolio enhancement script is missing")
+        script = script_path.read_text(encoding="utf-8")
+        for phrase in ("IntersectionObserver", "prefers-reduced-motion", "is-current"):
+            self.assertIn(phrase, script)
+
+    def test_rendered_validator_rejects_missing_journey(self):
+        with tempfile.TemporaryDirectory() as directory:
+            site_dir = Path(directory)
+            shutil.copytree(ROOT / "_site", site_dir, dirs_exist_ok=True)
+            default_html = site_dir / "index.html"
+            text = default_html.read_text(encoding="utf-8")
+            default_html.write_text(
+                text.replace('id="career-journey"', 'id="journey-removed"', 1),
+                encoding="utf-8",
+            )
+            errors = self.verify.validate_rendered(site_dir)
+            self.assertTrue(any("career-journey" in error for error in errors))
 
 
 if __name__ == "__main__":
