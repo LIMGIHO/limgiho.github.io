@@ -1,0 +1,47 @@
+<section class="portfolio-section flagship-section" id="flagship" aria-labelledby="flagship-title">
+  <header class="section-heading">
+    <p class="section-number">02 · FLAGSHIP CASE</p>
+    <h2 id="flagship-title">{{ include.flagship.title }}</h2>
+    <p>{{ include.flagship.period }} · 운영을 멈추지 않고 구조를 바꾼 통합 프로젝트</p>
+  </header>
+
+  <div class="case-brief">
+    <article><span>문제</span><p>{{ include.flagship.problem }}</p></article>
+    <article><span>제약</span><p>{{ include.flagship.constraint }}</p></article>
+    <article><span>역할</span><p>{{ include.flagship.role }}</p></article>
+  </div>
+
+  {% include portfolio/architecture.html flagship=include.flagship %}
+
+  <div class="case-outcomes">
+    <div>
+      <p class="subsection-label">OUTCOMES</p>
+      <ul>{% for outcome in include.flagship.outcomes %}<li>{{ outcome }}</li>{% endfor %}</ul>
+    </div>
+    <div>
+      <p class="subsection-label">SUPPORTING EVIDENCE</p>
+      <ul>{% for evidence in include.flagship.evidence %}<li><strong>{{ evidence.title }}</strong><span>{{ evidence.description }}</span></li>{% endfor %}</ul>
+    </div>
+  </div>
+
+  <div class="decision-section" aria-labelledby="decision-title">
+    <div class="decision-heading">
+      <p class="subsection-label">ENGINEERING DECISIONS</p>
+      <h2 id="decision-title">결과보다 판단의 근거를 남겼습니다</h2>
+      <p>문제와 대안을 먼저 적고, 왜 이 선택을 했으며 운영에서 무엇이 달라졌는지 연결합니다.</p>
+    </div>
+    <div class="decision-grid decision-grid-featured">
+      {% for decision_id in include.profile.featured_decisions %}
+        {% assign decision = include.flagship.decisions | where: "id", decision_id | first %}
+        {% include portfolio/decision-card.html decision=decision featured=true %}
+      {% endfor %}
+    </div>
+    <div class="decision-grid decision-grid-secondary">
+      {% for decision in include.flagship.decisions %}
+        {% unless include.profile.featured_decisions contains decision.id %}
+          {% include portfolio/decision-card.html decision=decision featured=false %}
+        {% endunless %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

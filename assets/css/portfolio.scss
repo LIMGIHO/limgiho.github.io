@@ -245,6 +245,253 @@ body.portfolio {
   }
 }
 
+.case-brief {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.case-brief article {
+  padding: 22px;
+  border: 1px solid #dce3e8;
+  border-radius: 8px;
+}
+
+.case-brief span,
+.subsection-label {
+  color: #66707a;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.case-brief p {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+}
+
+.architecture-figure {
+  margin: 0;
+  padding: 24px;
+  border: 1px solid #cfdce5;
+  border-radius: 12px;
+  background: #f7fafc;
+}
+
+.architecture-figure svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: #24323c;
+}
+
+.architecture-figure text {
+  fill: currentColor;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.architecture-figure .architecture-kicker {
+  fill: #66707a;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.architecture-figure .architecture-small,
+.architecture-figure .architecture-sub {
+  fill: #66707a;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.architecture-group {
+  fill: #fff;
+  stroke: #cfd8df;
+  stroke-width: 2;
+  stroke-dasharray: 6 5;
+}
+
+.architecture-group-after {
+  fill: #f0f8fc;
+  stroke: #8fc8e6;
+  stroke-dasharray: none;
+}
+
+.architecture-node {
+  fill: #fff;
+  stroke: #b9c5ce;
+  stroke-width: 1.5;
+}
+
+.architecture-node-accent {
+  fill: #e3f4fc;
+  stroke: #72b9df;
+}
+
+.architecture-transition path {
+  fill: none;
+  stroke: #287dae;
+  stroke-width: 3;
+}
+
+.architecture-transition text {
+  fill: #287dae;
+  font-size: 11px;
+}
+
+.architecture-figure figcaption {
+  margin-top: 14px;
+  color: #66707a;
+  font-size: 0.78rem;
+}
+
+.case-outcomes {
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr;
+  gap: 32px;
+  margin: 34px 0 64px;
+}
+
+.case-outcomes ul {
+  margin: 12px 0 0;
+  padding-left: 1.2rem;
+}
+
+.case-outcomes li + li {
+  margin-top: 10px;
+}
+
+.case-outcomes strong,
+.case-outcomes span {
+  display: block;
+}
+
+.case-outcomes span {
+  margin-top: 3px;
+  color: #66707a;
+  font-size: 0.82rem;
+}
+
+.decision-section {
+  padding-top: 46px;
+  border-top: 1px solid #dce3e8;
+}
+
+.decision-heading {
+  max-width: 760px;
+  margin-bottom: 28px;
+}
+
+.decision-heading h2 {
+  margin: 8px 0 10px;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.decision-heading > p:last-child {
+  color: #66707a;
+}
+
+.decision-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.decision-grid + .decision-grid {
+  margin-top: 12px;
+}
+
+.decision-grid-featured {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.decision-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 20px;
+  border: 1px solid #dce3e8;
+  border-radius: 9px;
+  background: #fff;
+}
+
+.decision-card.is-featured {
+  border-left: 4px solid #287dae;
+  background: #f7fbfd;
+}
+
+.decision-badge {
+  display: inline-block;
+  margin-bottom: 9px;
+  color: #287dae;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.decision-card h3 {
+  margin: 0;
+  font-size: 1.08rem;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+.decision-result {
+  margin: 10px 0 0;
+  color: #4d5b66;
+  font-size: 0.84rem;
+}
+
+.decision-toggle {
+  align-self: flex-start;
+  margin-top: 18px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #287dae;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.decision-detail {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #dce3e8;
+}
+
+.decision-detail dl {
+  display: grid;
+  grid-template-columns: 42px 1fr;
+  gap: 8px 10px;
+  margin: 0;
+}
+
+.decision-detail dt {
+  color: #66707a;
+  font-size: 0.7rem;
+  font-weight: 850;
+}
+
+.decision-detail dd {
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+@media print {
+  .decision-toggle {
+    display: none !important;
+  }
+
+  .decision-detail[hidden] {
+    display: block !important;
+  }
+}
+
 @media (max-width: 760px) {
   .portfolio-hero {
     grid-template-columns: 1fr;
@@ -295,5 +542,21 @@ body.portfolio {
 
   .journey-item::before {
     left: 2px;
+  }
+
+  .case-brief,
+  .case-outcomes,
+  .decision-grid,
+  .decision-grid-featured {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-figure {
+    padding: 10px;
+    overflow-x: auto;
+  }
+
+  .architecture-figure svg {
+    min-width: 700px;
   }
 }

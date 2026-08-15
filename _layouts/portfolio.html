@@ -9,6 +9,7 @@
       <main id="main-content">
         {% include portfolio/hero.html portfolio=portfolio profile=profile %}
         {% include portfolio/journey.html journey=portfolio.journey %}
+        {% include portfolio/flagship.html flagship=portfolio.flagship profile=profile %}
       </main>
     </div>
     <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>

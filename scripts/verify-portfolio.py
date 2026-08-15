@@ -127,6 +127,10 @@ def validate_rendered(site_dir):
             'id="journey-iljin-lead"',
             'id="journey-kwe-automation"',
             'id="journey-kwe-platform"',
+            'id="flagship"',
+            'id="architecture-before-after"',
+            "15종",
+            "5개 업무 도메인",
         )
         for phrase in required:
             if phrase not in text:
@@ -136,6 +140,19 @@ def validate_rendered(site_dir):
                 f"{profile_name} journey item count: "
                 f"{text.count('data-journey-item')} (expected 4)"
             )
+        if text.count("data-decision-id=") != 10:
+            errors.append(
+                f"{profile_name} decision count: "
+                f"{text.count('data-decision-id=')} (expected 10)"
+            )
+        if text.count("decision-card is-featured") != 3:
+            errors.append(
+                f"{profile_name} featured decision count: "
+                f"{text.count('decision-card is-featured')} (expected 3)"
+            )
+        for decision_id in REQUIRED_DECISION_IDS:
+            if f'data-decision-id="{decision_id}"' not in text:
+                errors.append(f"{profile_name} decision missing: {decision_id}")
         for pattern in FORBIDDEN_PATTERNS:
             match = pattern.search(text)
             if match:

@@ -197,6 +197,59 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             errors = self.verify.validate_rendered(site_dir)
             self.assertTrue(any("career-journey" in error for error in errors))
 
+    def test_rendered_flagship_preserves_all_decisions(self):
+        profile_featured = {
+            "default": (
+                "incremental-migration",
+                "typed-boundaries",
+                "worker-contract",
+            ),
+            "kakao": (
+                "frontend-slices",
+                "typed-boundaries",
+                "incremental-migration",
+            ),
+        }
+        for profile_name, (relative_path, _theme) in self.verify.RENDERED_PROFILES.items():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertIn('id="flagship"', text)
+            self.assertIn('id="architecture-before-after"', text)
+            self.assertEqual(text.count("data-decision-id="), 10)
+            self.assertEqual(text.count("decision-card is-featured"), 3)
+            for decision_id in self.verify.REQUIRED_DECISION_IDS:
+                self.assertIn(f'data-decision-id="{decision_id}"', text)
+            featured_positions = [
+                text.index(f'data-decision-id="{decision_id}"')
+                for decision_id in profile_featured[profile_name]
+            ]
+            self.assertEqual(featured_positions, sorted(featured_positions))
+            for label in ("문제", "검토", "선택", "결과"):
+                self.assertIn(f"<dt>{label}</dt>", text)
+
+    def test_decision_script_restores_content_for_print(self):
+        script = (ROOT / "assets" / "js" / "portfolio.js").read_text(encoding="utf-8")
+        for phrase in (
+            "data-decision-id",
+            "aria-expanded",
+            "beforeprint",
+            "afterprint",
+            "detail.hidden",
+        ):
+            self.assertIn(phrase, script)
+
+    def test_rendered_validator_rejects_missing_decision(self):
+        with tempfile.TemporaryDirectory() as directory:
+            site_dir = Path(directory)
+            shutil.copytree(ROOT / "_site", site_dir, dirs_exist_ok=True)
+            default_html = site_dir / "index.html"
+            text = default_html.read_text(encoding="utf-8")
+            default_html.write_text(
+                text.replace('data-decision-id="integration"', 'data-removed="integration"', 1),
+                encoding="utf-8",
+            )
+            errors = self.verify.validate_rendered(site_dir)
+            self.assertTrue(any("decision" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
