@@ -1,0 +1,21 @@
+<header class="portfolio-hero" id="top">
+  <div class="hero-copy">
+    <p class="eyebrow">{{ include.profile.eyebrow }}</p>
+    <h1>{{ include.profile.headline }}</h1>
+    <p class="hero-summary">{{ include.profile.summary }}</p>
+    <p class="portfolio-note">{{ include.portfolio.portfolio_note }}</p>
+    <div class="hero-actions" aria-label="관련 문서와 프로필">
+      <a class="button button-primary" href="{{ include.portfolio.person.resume_url | relative_url }}">경력기술서 PDF</a>
+      <a class="button" href="{{ include.portfolio.person.github_url }}">GitHub</a>
+    </div>
+  </div>
+  <dl class="metric-grid" aria-label="핵심 성과">
+    {% for metric_id in include.profile.metrics %}
+      {% assign metric = include.portfolio.metrics | where: "id", metric_id | first %}
+      <div class="metric-item">
+        <dt>{{ metric.label }}</dt>
+        <dd>{{ metric.value }}</dd>
+      </div>
+    {% endfor %}
+  </dl>
+</header>

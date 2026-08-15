@@ -1,0 +1,15 @@
+{% assign portfolio = site.data.portfolio %}
+{% assign profile = site.data.portfolio_profiles[page.portfolio_profile] %}
+<!doctype html>
+<html lang="ko">
+  {% include portfolio/head.html portfolio=portfolio profile=profile %}
+  <body class="portfolio theme-{{ profile.theme }}">
+    <a class="skip-link" href="#main-content">본문으로 이동</a>
+    <div class="portfolio-shell">
+      <main id="main-content">
+        {% include portfolio/hero.html portfolio=portfolio profile=profile %}
+        <div id="portfolio-sections"></div>
+      </main>
+    </div>
+  </body>
+</html>

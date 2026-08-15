@@ -9,6 +9,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+RENDERED_PROFILES = {
+    "default": (Path("index.html"), "theme-ice-blue"),
+    "kakao": (
+        Path("applications/2026-08-03/kakaopay-fde/portfolio/index.html"),
+        "theme-graphite-yellow",
+    ),
+}
 
 REQUIRED_DECISION_IDS = {
     "integration",
@@ -99,10 +106,39 @@ def validate_source(content, profiles):
     return errors
 
 
+def validate_rendered(site_dir):
+    errors = []
+    for profile_name, (relative_path, theme_class) in RENDERED_PROFILES.items():
+        html_path = Path(site_dir) / relative_path
+        if not html_path.is_file():
+            errors.append(f"rendered profile missing: {profile_name} ({relative_path})")
+            continue
+        text = html_path.read_text(encoding="utf-8")
+        required = (
+            'class="portfolio ',
+            theme_class,
+            'id="top"',
+            'class="portfolio-hero"',
+            "/assets/resume/lim-giho-resume.pdf",
+            "https://github.com/limgiho",
+        )
+        for phrase in required:
+            if phrase not in text:
+                errors.append(f"{profile_name} rendered phrase missing: {phrase}")
+        for pattern in FORBIDDEN_PATTERNS:
+            match = pattern.search(text)
+            if match:
+                errors.append(
+                    f"{profile_name} rendered 익명화 위반: {match.group(0)}"
+                )
+    return errors
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-only", action="store_true")
-    parser.parse_args()
+    parser.add_argument("--site-dir", type=Path)
+    args = parser.parse_args()
 
     content = load_yaml(ROOT / "_data" / "portfolio.yml")
     profiles = load_yaml(ROOT / "_data" / "portfolio_profiles.yml")
@@ -113,6 +149,15 @@ def main():
             print(f"  - {error}")
         return 1
     print("PASS: portfolio source contract")
+
+    if not args.source_only and args.site_dir:
+        rendered_errors = validate_rendered(args.site_dir)
+        if rendered_errors:
+            print(f"FAIL: portfolio rendered contract ({len(rendered_errors)})")
+            for error in rendered_errors:
+                print(f"  - {error}")
+            return 1
+        print("PASS: portfolio rendered contract")
     return 0
 
 

@@ -137,5 +137,31 @@ class PortfolioSourceContractTests(unittest.TestCase):
         self.assertIn("PASS: portfolio source contract", completed.stdout)
 
 
+class PortfolioRenderedContractTests(unittest.TestCase):
+    def setUp(self):
+        self.verify = load_verifier()
+
+    def test_rendered_contract_api_exists(self):
+        self.assertTrue(hasattr(self.verify, "RENDERED_PROFILES"))
+        self.assertTrue(hasattr(self.verify, "validate_rendered"))
+
+    def test_rendered_profiles_have_shell_and_correct_theme(self):
+        self.assertTrue(hasattr(self.verify, "validate_rendered"))
+        errors = self.verify.validate_rendered(ROOT / "_site")
+        self.assertEqual(errors, [])
+
+    def test_site_cli_reports_source_and_rendered_success(self):
+        completed = subprocess.run(
+            ["python3", str(VERIFY_PATH), "--site-dir", "_site"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        self.assertIn("PASS: portfolio source contract", completed.stdout)
+        self.assertIn("PASS: portfolio rendered contract", completed.stdout)
+
+
 if __name__ == "__main__":
     unittest.main()
