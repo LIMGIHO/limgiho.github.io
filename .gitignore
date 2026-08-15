@@ -10,5 +10,7 @@ vendor
 tmp/
 .playwright-cli/
 .superpowers/
+__pycache__/
+*.pyc
 _workspace/
 output/playwright/
