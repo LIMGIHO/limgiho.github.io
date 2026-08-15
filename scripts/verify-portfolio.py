@@ -177,6 +177,29 @@ def validate_rendered(site_dir):
                 errors.append(
                     f"{profile_name} rendered 익명화 위반: {match.group(0)}"
                 )
+
+    css_path = Path(site_dir) / "assets" / "css" / "portfolio.css"
+    if not css_path.is_file():
+        errors.append("compiled portfolio css missing")
+        return errors
+    css = css_path.read_text(encoding="utf-8")
+    for token in (
+        "--accent",
+        "--accent-soft",
+        "--ink",
+        "--muted",
+        "--rule",
+        ".theme-ice-blue",
+        ".theme-graphite-yellow",
+        "prefers-reduced-motion: reduce",
+        "@media print",
+        "@page",
+    ):
+        if token not in css:
+            errors.append(f"compiled css contract missing: {token}")
+    for forbidden in ("transition: all", "@import url", "url(http"):
+        if forbidden in css:
+            errors.append(f"compiled css forbidden pattern: {forbidden}")
     return errors
 
 

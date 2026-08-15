@@ -226,6 +226,14 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             for label in ("문제", "검토", "선택", "결과"):
                 self.assertIn(f"<dt>{label}</dt>", text)
 
+    def test_architecture_has_readable_mobile_fallback(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertIn('id="architecture-mobile"', text)
+            self.assertEqual(text.count("data-mobile-architecture"), 2)
+            for phrase in ("업무 클라이언트", "Web · 90+ screens", "외부 어댑터"):
+                self.assertIn(phrase, text)
+
     def test_decision_script_restores_content_for_print(self):
         script = (ROOT / "assets" / "js" / "portfolio.js").read_text(encoding="utf-8")
         for phrase in (
@@ -285,6 +293,39 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             )
             errors = self.verify.validate_rendered(site_dir)
             self.assertTrue(any("automation" in error for error in errors))
+
+    def test_compiled_css_has_themes_motion_and_print_contracts(self):
+        css_path = ROOT / "_site" / "assets" / "css" / "portfolio.css"
+        self.assertTrue(css_path.is_file())
+        css = css_path.read_text(encoding="utf-8")
+        for phrase in (
+            "--accent",
+            "--accent-soft",
+            "--ink",
+            "--muted",
+            "--rule",
+            ".theme-ice-blue",
+            ".theme-graphite-yellow",
+            "prefers-reduced-motion: reduce",
+            "@media print",
+            "@page",
+        ):
+            self.assertIn(phrase, css)
+        for forbidden in ("transition: all", "@import url", "url(http"):
+            self.assertNotIn(forbidden, css)
+
+    def test_rendered_validator_rejects_missing_theme_css(self):
+        with tempfile.TemporaryDirectory() as directory:
+            site_dir = Path(directory)
+            shutil.copytree(ROOT / "_site", site_dir, dirs_exist_ok=True)
+            css_path = site_dir / "assets" / "css" / "portfolio.css"
+            css = css_path.read_text(encoding="utf-8")
+            css_path.write_text(
+                css.replace(".theme-ice-blue", ".theme-removed", 1),
+                encoding="utf-8",
+            )
+            errors = self.verify.validate_rendered(site_dir)
+            self.assertTrue(any("theme-ice-blue" in error for error in errors))
 
 
 if __name__ == "__main__":
