@@ -1,0 +1,141 @@
+import importlib.util
+import copy
+import subprocess
+import tempfile
+import unittest
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+VERIFY_PATH = ROOT / "scripts" / "verify-portfolio.py"
+
+
+def load_verifier():
+    spec = importlib.util.spec_from_file_location("verify_portfolio", VERIFY_PATH)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class PortfolioVerifierBootstrapTests(unittest.TestCase):
+    def test_verifier_module_exists(self):
+        self.assertTrue(VERIFY_PATH.is_file(), "portfolio verifier module is missing")
+
+    def test_verifier_exposes_source_contract(self):
+        verify = load_verifier()
+        self.assertTrue(hasattr(verify, "load_yaml"))
+        self.assertTrue(hasattr(verify, "validate_source"))
+        self.assertTrue(hasattr(verify, "REQUIRED_DECISION_IDS"))
+
+    def test_load_yaml_uses_the_repository_ruby_runtime(self):
+        verify = load_verifier()
+        with tempfile.NamedTemporaryFile("w", suffix=".yml", encoding="utf-8") as handle:
+            handle.write("profile:\n  theme: ice-blue\n")
+            handle.flush()
+            self.assertEqual(
+                verify.load_yaml(Path(handle.name)),
+                {"profile": {"theme": "ice-blue"}},
+            )
+
+
+class PortfolioSourceContractTests(unittest.TestCase):
+    def setUp(self):
+        self.verify = load_verifier()
+        decision_ids = {
+            "integration",
+            "frontend-slices",
+            "typed-boundaries",
+            "incremental-migration",
+            "worker-contract",
+            "distributed-cron",
+            "private-llm",
+            "llm-evaluation",
+            "adapter-boundary",
+            "affected-deploy",
+        }
+        self.content = {
+            "metrics": [
+                {"id": "legacy-integration", "source": "경력기술서"},
+                {"id": "work-screens", "source": "아키텍처"},
+            ],
+            "flagship": {
+                "decisions": [
+                    {
+                        "id": decision_id,
+                        "title": decision_id,
+                        "problem": "문제",
+                        "alternative": "검토",
+                        "choice": "선택",
+                        "result": "결과",
+                    }
+                    for decision_id in sorted(decision_ids)
+                ]
+            },
+            "automation": {"title": "외부 업무 시스템 입력 자동화"},
+        }
+        self.profiles = {
+            "default": {
+                "metrics": ["legacy-integration"],
+                "featured_decisions": ["incremental-migration"],
+            },
+            "kakao": {
+                "metrics": ["work-screens"],
+                "featured_decisions": ["frontend-slices"],
+            },
+        }
+
+    def test_valid_contract_has_no_errors(self):
+        self.assertEqual(self.verify.validate_source(self.content, self.profiles), [])
+
+    def test_all_ten_decisions_are_required(self):
+        self.assertEqual(
+            {item["id"] for item in self.content["flagship"]["decisions"]},
+            self.verify.REQUIRED_DECISION_IDS,
+        )
+
+    def test_unknown_profile_reference_fails(self):
+        profiles = copy.deepcopy(self.profiles)
+        profiles["default"]["featured_decisions"].append("missing-decision")
+        errors = self.verify.validate_source(self.content, profiles)
+        self.assertTrue(any("missing-decision" in error for error in errors))
+
+    def test_missing_metric_source_fails(self):
+        content = copy.deepcopy(self.content)
+        content["metrics"][0]["source"] = ""
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("source" in error for error in errors))
+
+    def test_proprietary_client_name_fails(self):
+        content = copy.deepcopy(self.content)
+        content["automation"]["title"] = "삼성 NERP 자동화"
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("익명화" in error for error in errors))
+
+    def test_incomplete_decision_fails(self):
+        content = copy.deepcopy(self.content)
+        del content["flagship"]["decisions"][0]["alternative"]
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("alternative" in error for error in errors))
+
+    def test_repository_canonical_source_is_valid(self):
+        content_path = ROOT / "_data" / "portfolio.yml"
+        profiles_path = ROOT / "_data" / "portfolio_profiles.yml"
+        self.assertTrue(content_path.is_file(), "canonical portfolio data is missing")
+        self.assertTrue(profiles_path.is_file(), "portfolio profile data is missing")
+        content = self.verify.load_yaml(content_path)
+        profiles = self.verify.load_yaml(profiles_path)
+        self.assertEqual(self.verify.validate_source(content, profiles), [])
+
+    def test_source_only_cli_reports_success(self):
+        completed = subprocess.run(
+            ["python3", str(VERIFY_PATH), "--source-only"],
+            cwd=ROOT,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        self.assertIn("PASS: portfolio source contract", completed.stdout)
+
+
+if __name__ == "__main__":
+    unittest.main()
