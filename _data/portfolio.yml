@@ -34,13 +34,13 @@ journey:
     period: 2010–2015
     company: ILJIN Global
     role: Software Engineer
-    title: 제조 현장의 데이터를 시스템으로 연결
+    title: MES·ERP 업무 시스템 개발
     description: 생산 데이터 수집과 MES·ERP 업무 시스템을 개발하며 제조 현장의 흐름을 익혔습니다.
   - id: iljin-lead
     period: 2016–2022
     company: ILJIN Global
     role: Project Lead
-    title: 국내외 공장 MES 고도화를 리드
+    title: 국내외 공장 MES 고도화
     description: 노후 클라이언트를 현대화하고 국내외 공장의 추적성과 실시간 ERP 연계를 구축했습니다.
   - id: kwe-automation
     period: 2022–2023
@@ -52,7 +52,7 @@ journey:
     period: 2023–현재
     company: KWE Korea
     role: Lead Software Engineer
-    title: 레거시를 통합 플랫폼으로 전환
+    title: 통합 업무 플랫폼 개발 및 운영
     description: 15종 운영 시스템을 분석하고 웹·API·Worker·데이터 경계를 갖춘 단일 플랫폼으로 전환하고 있습니다.
 
 flagship:

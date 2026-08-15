@@ -121,11 +121,9 @@ def validate_rendered(site_dir):
         required = (
             'class="portfolio ',
             theme_class,
-            'id="top"',
-            'class="portfolio-hero"',
-            "/assets/resume/lim-giho-resume.pdf",
-            "https://github.com/limgiho",
             'id="career-journey"',
+            '<h2 id="journey-title">주요 경력</h2>',
+            "제조·물류 시스템을 개발하고 운영해 온 경험을 시간순으로 정리했습니다.",
             "/assets/js/portfolio.js",
             'id="journey-iljin-foundation"',
             'id="journey-iljin-lead"',
@@ -165,6 +163,8 @@ def validate_rendered(site_dir):
             if f'data-decision-id="{decision_id}"' not in text:
                 errors.append(f"{profile_name} decision missing: {decision_id}")
         for pattern_text in (
+            'class="portfolio-hero"',
+            "개발에서 플랫폼 책임까지",
             "skill-bar",
             "progress-bar",
             "aria-valuenow",

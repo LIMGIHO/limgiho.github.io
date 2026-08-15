@@ -182,6 +182,21 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             for journey_id in journey_ids:
                 self.assertIn(f'id="journey-{journey_id}"', text)
 
+    def test_rendered_profiles_start_with_factual_career_journey(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertNotIn('class="portfolio-hero"', text)
+            self.assertIn('<h2 id="journey-title">주요 경력</h2>', text)
+            self.assertIn(
+                "제조·물류 시스템을 개발하고 운영해 온 경험을 시간순으로 정리했습니다.",
+                text,
+            )
+            self.assertNotIn("개발에서 플랫폼 책임까지", text)
+            self.assertLess(
+                text.index('id="career-journey"'),
+                text.index('id="flagship"'),
+            )
+
     def test_journey_script_has_accessible_fallbacks(self):
         script_path = ROOT / "assets" / "js" / "portfolio.js"
         self.assertTrue(script_path.is_file(), "portfolio enhancement script is missing")
