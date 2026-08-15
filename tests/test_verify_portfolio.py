@@ -272,6 +272,40 @@ class PortfolioRenderedContractTests(unittest.TestCase):
         for phrase in ("IntersectionObserver", "prefers-reduced-motion", "is-current"):
             self.assertIn(phrase, script)
 
+    def test_architecture_script_supports_mouse_and_keyboard_selection(self):
+        script = (ROOT / "assets" / "js" / "portfolio.js").read_text(encoding="utf-8")
+        for phrase in (
+            "initArchitecture",
+            "data-architecture-node",
+            "data-architecture-mobile-node",
+            "architecture-data",
+            "aria-pressed",
+            "event.key === 'Enter'",
+            "event.key === ' '",
+            "data-architecture-detail",
+            "is-related",
+        ):
+            self.assertIn(phrase, script)
+        for retired in ("initDecisionCards", "data-decision-id", "beforeprint"):
+            self.assertNotIn(retired, script)
+
+    def test_architecture_styles_cover_kinds_flows_and_mobile_layout(self):
+        styles = (ROOT / "assets" / "css" / "portfolio.scss").read_text(encoding="utf-8")
+        for selector in (
+            ".architecture-node-app",
+            ".architecture-node-infra",
+            ".architecture-node-boundary",
+            ".architecture-node-legacy",
+            ".architecture-node-pipeline",
+            ".architecture-edge-sync",
+            ".architecture-edge-async",
+            ".architecture-edge-migration",
+            ".architecture-edge-delivery",
+            ".architecture-detail-grid",
+            ".architecture-mobile-node",
+        ):
+            self.assertIn(selector, styles)
+
     def test_rendered_validator_rejects_missing_journey(self):
         with tempfile.TemporaryDirectory() as directory:
             site_dir = Path(directory)
@@ -294,6 +328,8 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertEqual(text.count("data-architecture-node="), 10)
             self.assertEqual(text.count("data-architecture-mobile-node="), 10)
             self.assertEqual(text.count("data-architecture-edge="), 10)
+            self.assertEqual(text.count("data-edge-from="), 10)
+            self.assertEqual(text.count("data-edge-to="), 10)
             self.assertEqual(text.count("data-architecture-boundary="), 5)
             for node_id in self.verify.REQUIRED_ARCHITECTURE_NODE_IDS:
                 self.assertIn(f'data-architecture-node="{node_id}"', text)

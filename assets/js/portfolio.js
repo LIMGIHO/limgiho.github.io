@@ -20,54 +20,67 @@ function initJourney(root) {
   items.forEach((item) => observer.observe(item));
 }
 
-function initDecisionCards(root) {
-  const cards = [...root.querySelectorAll('[data-decision-id]')];
-  const printState = new Map();
+function initArchitecture(root) {
+  const dataElement = root.querySelector('#architecture-data');
+  const triggers = [...root.querySelectorAll(
+    '[data-architecture-node], [data-architecture-mobile-node]'
+  )];
+  const edges = [...root.querySelectorAll('[data-architecture-edge]')];
+  const detailFields = [...root.querySelectorAll('[data-architecture-detail]')];
+  if (!dataElement || !triggers.length || !detailFields.length) return;
 
-  cards.forEach((card) => {
-    const button = card.querySelector('.decision-toggle');
-    const detail = card.querySelector('.decision-detail');
-    if (!button || !detail) return;
+  let nodes;
+  try {
+    nodes = JSON.parse(dataElement.textContent);
+  } catch (_error) {
+    return;
+  }
+  const nodesById = new Map(nodes.map((node) => [node.id, node]));
 
-    if (!card.classList.contains('is-featured')) {
-      button.setAttribute('aria-expanded', 'false');
-      button.textContent = '판단 과정 보기';
-      detail.hidden = true;
-    }
+  function selectNode(nodeId) {
+    const node = nodesById.get(nodeId);
+    if (!node) return;
 
-    button.addEventListener('click', () => {
-      const expanded = button.getAttribute('aria-expanded') === 'true';
-      button.setAttribute('aria-expanded', String(!expanded));
-      button.textContent = expanded ? '판단 과정 보기' : '판단 과정 접기';
-      detail.hidden = expanded;
+    triggers.forEach((trigger) => {
+      const triggerId = trigger.dataset.architectureNode
+        || trigger.dataset.architectureMobileNode;
+      const selected = triggerId === nodeId;
+      trigger.classList.toggle('is-selected', selected);
+      trigger.setAttribute('aria-pressed', String(selected));
+    });
+
+    edges.forEach((edge) => {
+      const related = edge.dataset.edgeFrom === nodeId || edge.dataset.edgeTo === nodeId;
+      edge.classList.toggle('is-related', related);
+    });
+
+    detailFields.forEach((field) => {
+      const key = field.dataset.architectureDetail;
+      if (Object.prototype.hasOwnProperty.call(node, key)) {
+        field.textContent = Array.isArray(node[key]) ? node[key].join(' · ') : node[key];
+      }
+    });
+  }
+
+  triggers.forEach((trigger) => {
+    const selectTrigger = () => {
+      selectNode(
+        trigger.dataset.architectureNode || trigger.dataset.architectureMobileNode
+      );
+    };
+    trigger.addEventListener('click', selectTrigger);
+    trigger.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        selectTrigger();
+      }
     });
   });
 
-  window.addEventListener('beforeprint', () => {
-    cards.forEach((card) => {
-      const button = card.querySelector('.decision-toggle');
-      const detail = card.querySelector('.decision-detail');
-      if (!button || !detail) return;
-      printState.set(detail, detail.hidden);
-      detail.hidden = false;
-      button.setAttribute('aria-expanded', 'true');
-    });
-  });
-
-  window.addEventListener('afterprint', () => {
-    cards.forEach((card) => {
-      const button = card.querySelector('.decision-toggle');
-      const detail = card.querySelector('.decision-detail');
-      if (!button || !detail || !printState.has(detail)) return;
-      detail.hidden = printState.get(detail);
-      button.setAttribute('aria-expanded', String(!detail.hidden));
-      button.textContent = detail.hidden ? '판단 과정 보기' : '판단 과정 접기';
-    });
-    printState.clear();
-  });
+  selectNode(nodes[0]?.id);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   initJourney(document);
-  initDecisionCards(document);
+  initArchitecture(document);
 });

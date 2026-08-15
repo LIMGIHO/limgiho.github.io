@@ -198,245 +198,381 @@ body.portfolio {
   }
 }
 
-.case-brief {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin-bottom: 32px;
-}
-
-.case-brief article {
-  padding: 22px;
-  border: 1px solid var(--rule);
-  border-radius: 8px;
-}
-
-.case-brief span,
 .subsection-label {
+  margin: 0;
   color: var(--muted);
   font-size: 0.7rem;
   font-weight: 850;
   letter-spacing: 0.12em;
 }
 
-.case-brief p {
-  margin: 10px 0 0;
-  font-size: 0.92rem;
+.subsection-heading {
+  margin-bottom: 22px;
+}
+
+.subsection-heading h3 {
+  margin: 7px 0 0;
+  font-size: clamp(1.45rem, 2.4vw, 2rem);
+  line-height: 1.3;
+  letter-spacing: -0.035em;
+}
+
+.subsection-heading > p:last-child:not(.subsection-label) {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
+.architecture-scope {
+  margin-bottom: 60px;
+}
+
+.architecture-scope-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-block: 1px solid var(--rule);
+  list-style: none;
+}
+
+.architecture-scope-list li {
+  min-height: 112px;
+  padding: 22px 15px;
+  border-left: 1px solid var(--rule);
+}
+
+.architecture-scope-list li:first-child {
+  border-left: 0;
+}
+
+.architecture-scope-list strong,
+.architecture-scope-list span {
+  display: block;
+}
+
+.architecture-scope-list strong {
+  color: var(--accent-strong);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.architecture-scope-list span {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.implementation-architecture {
+  padding-top: 48px;
+  border-top: 1px solid var(--rule);
+}
+
+.architecture-heading {
+  max-width: 760px;
+}
+
+.architecture-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.architecture-legend span {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.legend-node::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--accent);
+  border-radius: 3px;
+  background: var(--paper);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.legend-infra::before {
+  border-color: var(--muted);
+  background: var(--surface);
+}
+
+.legend-boundary::before {
+  border-style: dashed;
+  border-color: var(--accent-strong);
+}
+
+.legend-legacy::before {
+  border-style: dashed;
+  border-color: var(--muted);
+  background: var(--page);
+}
+
+.legend-flow::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  border-top: 2px solid var(--accent);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.legend-async::before {
+  border-color: var(--accent-strong);
+  border-top-style: dashed;
+}
+
+.legend-delivery::before {
+  border-color: var(--muted);
+  border-top-style: dotted;
 }
 
 .architecture-figure {
   margin: 0;
-  padding: 24px;
+  padding: 14px;
   border: 1px solid var(--rule);
   border-radius: 12px;
   background: var(--surface);
 }
 
-.architecture-figure svg {
+.architecture-map {
   display: block;
   width: 100%;
   height: auto;
   color: var(--ink);
 }
 
-.architecture-figure text {
-  fill: currentColor;
-  font-size: 14px;
-  font-weight: 700;
-}
-
-.architecture-figure .architecture-kicker {
-  fill: var(--muted);
-  font-size: 12px;
-  letter-spacing: 0.08em;
-}
-
-.architecture-figure .architecture-small,
-.architecture-figure .architecture-sub {
-  fill: var(--muted);
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.architecture-group {
-  fill: #fff;
-  stroke: var(--rule);
-  stroke-width: 2;
-  stroke-dasharray: 6 5;
-}
-
-.architecture-group-after {
-  fill: var(--accent-soft);
-  stroke: var(--accent);
-  stroke-dasharray: none;
-}
-
-.architecture-node {
-  fill: #fff;
+.architecture-boundary rect {
+  fill: rgba(255, 255, 255, 0.55);
   stroke: var(--rule);
   stroke-width: 1.5;
 }
 
-.architecture-node-accent {
+.architecture-boundary .boundary-label {
+  fill: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+}
+
+.architecture-boundary .boundary-description {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.architecture-edge path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.architecture-edge text {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-linejoin: round;
+  stroke-width: 5px;
+}
+
+.architecture-edge-sync path {
+  stroke: var(--accent);
+}
+
+.architecture-edge-async path {
+  stroke: var(--accent-strong);
+  stroke-dasharray: 7 5;
+}
+
+.architecture-edge-migration path {
+  stroke: var(--muted);
+  stroke-dasharray: 4 5;
+}
+
+.architecture-edge-delivery path {
+  stroke: var(--muted);
+  stroke-dasharray: 2 5;
+}
+
+.architecture-edge.is-related path {
+  stroke-width: 4;
+}
+
+.architecture-edge.is-related text {
+  fill: var(--ink);
+}
+
+#arrow-sync path {
+  fill: var(--accent);
+}
+
+#arrow-async path {
+  fill: var(--accent-strong);
+}
+
+#arrow-migration path,
+#arrow-delivery path {
+  fill: var(--muted);
+}
+
+.architecture-node {
+  cursor: pointer;
+  outline: none;
+}
+
+.architecture-node rect {
+  fill: var(--paper);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.architecture-node-app rect {
+  fill: var(--paper);
+  stroke: var(--accent);
+}
+
+.architecture-node-infra rect {
+  fill: var(--surface);
+  stroke: var(--muted);
+}
+
+.architecture-node-boundary rect {
+  fill: var(--paper);
+  stroke: var(--accent-strong);
+  stroke-dasharray: 5 3;
+}
+
+.architecture-node-legacy rect {
+  fill: var(--page);
+  stroke: var(--muted);
+  stroke-dasharray: 5 4;
+}
+
+.architecture-node-pipeline rect {
   fill: var(--accent-soft);
   stroke: var(--accent);
 }
 
-.architecture-transition path {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 3;
+.architecture-node.is-selected rect,
+.architecture-node:focus rect {
+  stroke: var(--accent-strong);
+  stroke-width: 3.5;
 }
 
-.architecture-transition text {
-  fill: var(--accent);
-  font-size: 11px;
+.architecture-node .node-label {
+  fill: var(--ink);
+  font-size: 15px;
+  font-weight: 850;
+  pointer-events: none;
+}
+
+.architecture-node .node-tech {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+  pointer-events: none;
+}
+
+.pipeline-steps text {
+  fill: var(--accent-strong);
+  font-size: 10px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.pipeline-steps .pipeline-arrow {
+  fill: var(--muted);
 }
 
 .architecture-figure figcaption {
-  margin-top: 14px;
+  margin-top: 10px;
   color: var(--muted);
-  font-size: 0.78rem;
+  font-size: 0.75rem;
 }
 
 .architecture-mobile {
   display: none;
 }
 
-.case-outcomes {
+.architecture-detail {
   display: grid;
-  grid-template-columns: 0.9fr 1.1fr;
-  gap: 32px;
-  margin: 34px 0 64px;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.8fr);
+  gap: 30px;
+  margin-top: 18px;
+  padding: 28px;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  background: var(--paper);
 }
 
-.case-outcomes ul {
-  margin: 12px 0 0;
-  padding-left: 1.2rem;
+.architecture-detail-heading h3 {
+  margin: 7px 0 2px;
+  font-size: 1.55rem;
+  letter-spacing: -0.035em;
 }
 
-.case-outcomes li + li {
-  margin-top: 10px;
+.architecture-detail-heading > p:last-child {
+  margin: 14px 0 0;
+  color: var(--ink);
+  font-size: 0.9rem;
 }
 
-.case-outcomes strong,
-.case-outcomes span {
-  display: block;
+.architecture-detail-tech {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
-.case-outcomes span {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 0.82rem;
+.architecture-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+  margin: 0;
 }
 
-.decision-section {
-  padding-top: 46px;
+.architecture-detail-grid > div {
+  padding: 11px 0;
   border-top: 1px solid var(--rule);
 }
 
-.decision-heading {
-  max-width: 760px;
-  margin-bottom: 28px;
+.architecture-detail-grid > div:nth-child(-n + 2) {
+  border-top: 0;
 }
 
-.decision-heading h2 {
-  margin: 8px 0 10px;
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-  line-height: 1.2;
-  letter-spacing: -0.04em;
+.architecture-detail-grid .detail-wide {
+  grid-column: 1 / -1;
 }
 
-.decision-heading > p:last-child {
+.architecture-detail-grid dt {
   color: var(--muted);
-}
-
-.decision-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.decision-grid + .decision-grid {
-  margin-top: 12px;
-}
-
-.decision-grid-featured {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.decision-card {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 20px;
-  border: 1px solid var(--rule);
-  border-radius: 9px;
-  background: #fff;
-}
-
-.decision-card.is-featured {
-  border-left: 4px solid var(--accent);
-  background: var(--surface);
-}
-
-.decision-badge {
-  display: inline-block;
-  margin-bottom: 9px;
-  color: var(--accent);
   font-size: 0.68rem;
   font-weight: 850;
   letter-spacing: 0.08em;
 }
 
-.decision-card h3 {
-  margin: 0;
-  font-size: 1.08rem;
-  line-height: 1.35;
-  letter-spacing: -0.025em;
-}
-
-.decision-result {
-  margin: 10px 0 0;
-  color: var(--muted);
-  font-size: 0.84rem;
-}
-
-.decision-toggle {
-  align-self: flex-start;
-  margin-top: 18px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--accent);
-  font: inherit;
-  font-size: 0.78rem;
-  font-weight: 800;
-  cursor: pointer;
-}
-
-.decision-detail {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--rule);
-}
-
-.decision-detail dl {
-  display: grid;
-  grid-template-columns: 42px 1fr;
-  gap: 8px 10px;
-  margin: 0;
-}
-
-.decision-detail dt {
-  color: var(--muted);
-  font-size: 0.7rem;
-  font-weight: 850;
-}
-
-.decision-detail dd {
-  margin: 0;
-  font-size: 0.78rem;
+.architecture-detail-grid dd {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
 }
 
 @page {
@@ -462,9 +598,9 @@ body.portfolio {
   }
 
   .portfolio-section,
-  .decision-card,
   .journey-item,
   .architecture-figure,
+  .architecture-detail,
   .automation-flow li,
   .experience-item,
   .technology-grid article,
@@ -472,13 +608,8 @@ body.portfolio {
     break-inside: avoid;
   }
 
-  .decision-toggle,
   .screen-only {
     display: none !important;
-  }
-
-  .decision-detail[hidden] {
-    display: block !important;
   }
 
   .architecture-mobile {
@@ -689,10 +820,6 @@ body.portfolio {
     left: 2px;
   }
 
-  .case-brief,
-  .case-outcomes,
-  .decision-grid,
-  .decision-grid-featured,
   .automation-brief,
   .automation-flow,
   .technology-grid,
@@ -709,53 +836,102 @@ body.portfolio {
     padding: 10px;
   }
 
-  .architecture-figure svg {
+  .architecture-map {
     display: none;
   }
 
   .architecture-mobile {
     display: grid;
-    gap: 10px;
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 
-  .architecture-mobile > div {
-    padding: 16px;
+  .architecture-mobile-node {
+    display: grid;
+    grid-template-columns: minmax(88px, 0.55fr) minmax(0, 1.45fr);
+    gap: 2px 12px;
+    width: 100%;
+    padding: 14px;
     border: 1px solid var(--rule);
     border-radius: 8px;
     background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
   }
 
-  .architecture-mobile span {
-    color: var(--accent);
+  .architecture-mobile-node.is-selected,
+  .architecture-mobile-node:focus-visible {
+    border-color: var(--accent);
+    box-shadow: inset 3px 0 0 var(--accent);
+    outline: none;
+  }
+
+  .architecture-mobile-node .mobile-node-boundary {
+    grid-row: 1 / span 3;
+    align-self: center;
+    color: var(--muted);
     font-size: 0.7rem;
     font-weight: 850;
+    line-height: 1.3;
     letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
-  .architecture-mobile ul {
-    display: grid;
+  .architecture-mobile-node strong {
+    font-size: 1rem;
+  }
+
+  .architecture-mobile-node > span:not(.mobile-node-boundary) {
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .architecture-mobile-node small {
+    color: var(--muted);
+    font-size: 0.74rem;
+  }
+
+  .architecture-scope-list {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-    margin: 12px 0 0;
-    padding: 0;
-    list-style: none;
   }
 
-  .architecture-mobile li {
-    padding: 8px;
-    border-radius: 5px;
-    background: var(--surface);
-    font-size: 0.76rem;
-    text-align: center;
+  .architecture-scope-list li {
+    min-height: 96px;
+    border-bottom: 1px solid var(--rule);
   }
 
-  .architecture-mobile-arrow {
-    text-align: center;
+  .architecture-scope-list li:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .architecture-scope-list li:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .architecture-detail {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 22px 18px;
+  }
+
+  .architecture-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-detail-grid > div,
+  .architecture-detail-grid > div:nth-child(-n + 2) {
+    border-top: 1px solid var(--rule);
+  }
+
+  .architecture-detail-grid > div:first-child {
+    border-top: 0;
   }
 }
 
 @media print {
-  .architecture-figure svg {
+  .architecture-map {
     display: block !important;
   }
 

@@ -38,7 +38,8 @@
 
       <g class="architecture-edges" aria-hidden="true">
         {% for edge in include.flagship.edges %}
-          <g class="architecture-edge architecture-edge-{{ edge.flow }}" data-architecture-edge="{{ edge.id }}">
+          <g class="architecture-edge architecture-edge-{{ edge.flow }}"
+             data-architecture-edge="{{ edge.id }}" data-edge-from="{{ edge.from }}" data-edge-to="{{ edge.to }}">
             <path d="{{ edge.path }}" marker-end="url(#arrow-{{ edge.flow }})"></path>
             <text x="{{ edge.label_x }}" y="{{ edge.label_y }}">{{ edge.label }}</text>
           </g>

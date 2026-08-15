@@ -124,7 +124,7 @@ flagship:
       contract: TypeScript DTO · HTTP status · 공통 오류 형식
       deployment: Web 컨테이너 독립 배포
       x: 450
-      y: 65
+      y: 82
       width: 300
       height: 70
     - id: legacy-api
@@ -141,7 +141,7 @@ flagship:
       contract: 기존 REST 규격 유지 · 모듈별 전환
       deployment: 전환 기간 별도 컨테이너 유지
       x: 280
-      y: 215
+      y: 230
       width: 240
       height: 72
     - id: api
@@ -158,7 +158,7 @@ flagship:
       contract: DTO validation · Symbol port · 공통 job package
       deployment: API 컨테이너 수평 확장
       x: 680
-      y: 215
+      y: 230
       width: 240
       height: 72
     - id: external
@@ -175,7 +175,7 @@ flagship:
       contract: Port interface · timeout · retry policy
       deployment: API 또는 Worker 배포 단위에 포함
       x: 65
-      y: 390
+      y: 420
       width: 210
       height: 82
     - id: local-llm
@@ -192,7 +192,7 @@ flagship:
       contract: Internal HTTP · JSON Schema
       deployment: 사내망 추론 서버 독립 운영
       x: 300
-      y: 390
+      y: 420
       width: 210
       height: 82
     - id: data
@@ -209,7 +209,7 @@ flagship:
       contract: Repository interface · transaction boundary
       deployment: 관리형 DB와 기존 DB 병행 운영
       x: 165
-      y: 530
+      y: 550
       width: 240
       height: 82
     - id: queue
@@ -226,8 +226,8 @@ flagship:
       contract: Shared typed job contract
       deployment: Redis 인프라 독립 운영
       x: 605
-      y: 390
-      width: 210
+      y: 420
+      width: 190
       height: 82
     - id: worker
       label: Worker
@@ -242,9 +242,9 @@ flagship:
       outputs: Batch 실행 · 외부 어댑터 호출 · 처리 결과
       contract: Shared job package · idempotency key
       deployment: Worker 컨테이너 다중 replica
-      x: 890
-      y: 390
-      width: 210
+      x: 900
+      y: 420
+      width: 200
       height: 82
     - id: batch
       label: Batch
@@ -259,9 +259,9 @@ flagship:
       outputs: 외부 입력 결과 · 처리 로그 · 산출 파일
       contract: Job command · execution result
       deployment: 작업 특성별 실행 이미지 분리
-      x: 890
-      y: 530
-      width: 210
+      x: 900
+      y: 550
+      width: 200
       height: 82
     - id: cicd
       label: CI/CD
@@ -286,7 +286,7 @@ flagship:
       to: api
       flow: sync
       label: REST
-      path: M600 135 V185 H800 V215
+      path: M600 152 V190 H800 V230
       label_x: 676
       label_y: 177
     - id: api-data
@@ -294,73 +294,73 @@ flagship:
       to: data
       flow: sync
       label: repository
-      path: M680 250 C565 292 420 474 285 530
-      label_x: 475
-      label_y: 390
+      path: M720 302 V334 H535 V516 H285 V550
+      label_x: 390
+      label_y: 508
     - id: api-external
       from: api
       to: external
       flow: sync
       label: port / adapter
-      path: M680 238 C525 270 385 350 275 415
-      label_x: 445
-      label_y: 319
+      path: M680 250 H560 V336 H170 V420
+      label_x: 365
+      label_y: 327
     - id: api-llm
       from: api
       to: local-llm
       flow: sync
       label: internal HTTP
-      path: M800 287 C735 334 620 415 510 431
-      label_x: 646
-      label_y: 369
+      path: M800 302 V342 H405 V420
+      label_x: 575
+      label_y: 334
     - id: legacy-api
       from: legacy-api
       to: api
       flow: migration
       label: module migration
-      path: M520 251 H680
+      path: M520 266 H680
       label_x: 600
-      label_y: 241
+      label_y: 256
     - id: api-queue
       from: api
       to: queue
       flow: async
       label: enqueue contract
-      path: M920 251 C1032 292 916 356 815 410
-      label_x: 936
-      label_y: 329
+      path: M920 266 H1115 V342 H700 V420
+      label_x: 900
+      label_y: 334
     - id: queue-worker
       from: queue
       to: worker
       flow: async
       label: consume contract
-      path: M815 431 H890
-      label_x: 853
-      label_y: 421
+      path: M795 461 H900
+      label_x: 807
+      label_y: 450
     - id: worker-batch
       from: worker
       to: batch
       flow: async
       label: job execution
-      path: M995 472 V530
-      label_x: 1005
-      label_y: 505
+      path: M1000 502 V550
+      label_x: 1010
+      label_y: 531
     - id: worker-external
       from: worker
       to: external
       flow: async
       label: port / adapter
-      path: M890 456 C760 648 430 648 275 456
+      path: M900 486 C760 646 430 646 275 486
       label_x: 575
-      label_y: 630
+      label_y: 638
     - id: cicd-runtime
       from: cicd
       to: web
       flow: delivery
       label: SHA image deploy
-      path: M1140 749 H1178 V100 H750
-      label_x: 1080
-      label_y: 741
+      path: M1140 749 H1160 V117 H750
+      label_x: 1024
+      label_y: 680
   pipeline:
     steps:
       - 변경 앱 감지
