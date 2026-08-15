@@ -57,101 +57,316 @@ journey:
 
 flagship:
   id: integrated-platform
-  title: 15종 레거시 시스템을 단일 플랫폼으로
+  title: 통합 업무 플랫폼 개발
   period: 2023–현재
-  legacy_count: 15
-  domain_count: 5
-  problem: 15종 이상의 프로그램과 3종의 DBMS가 각자 업무와 외부 연동을 품고 있어 변경과 장애의 영향 범위를 파악하기 어려웠습니다.
-  constraint: 매일 사용하는 운영 시스템이므로 업무를 중단하거나 전체 기능을 한 번에 재작성할 수 없었습니다.
-  role: 기존 시스템 분석, 목표 구조 설계, 웹·API 구현, 데이터 전환, 단계별 배포와 운영을 주도했습니다.
-  outcomes:
-    - 15종의 분산된 시스템을 5개 업무 도메인의 단일 웹 플랫폼으로 수렴
-    - 외부 조회 업무를 건당 10분에서 5초 이내로 단축
-    - 변경 경계와 배포 계약을 코드와 빌드 단계에서 검증
-  evidence:
-    - id: database-migration
-      title: 1,000만 건 이상 이기종 데이터 이관과 교차 검증
-      description: Oracle과 PostgreSQL 양쪽 데이터를 자동 비교해 누락과 불일치를 검증했습니다.
-    - id: backend-modernization
-      title: Express에서 NestJS 모듈 구조로 점진적 전환
-      description: 운영 중인 구 API를 유지한 채 도메인 단위로 신규 구조에 이전했습니다.
-    - id: delivery-standardization
-      title: 테스트 게이트와 변경 경로 기반 CI/CD 표준화
-      description: 실패한 테스트가 배포로 이어지지 않고 변경된 앱만 빌드되도록 구성했습니다.
-  architecture:
-    before:
-      - 업무 클라이언트
-      - 자동화 도구
-      - 정산·재무
-      - 외부 연동
-      - 이기종 DB
-    after:
-      - Web · 90+ screens
-      - API · Queue · Worker
-      - 5개 업무 도메인
-      - 통합 데이터
-      - 외부 어댑터
-  decisions:
-    - id: integration
-      title: 왜 통합인가
-      problem: 15종 클라이언트가 각자 DB와 외부 시스템에 직접 붙어 있었습니다. 같은 정산입력 자동화가 업무별로 여러 벌 존재했고, 장애가 나면 어디서 시작됐는지 추적하기 어려웠습니다.
-      alternative: 레거시를 그대로 두고 연동 게이트웨이만 앞에 세우는 안도 검토했습니다. 단기 비용은 낮지만 중복 로직은 그대로 남습니다.
-      choice: 화면과 API를 하나의 플랫폼으로 수렴시키고, 외부 연동은 어댑터 한 층으로 모았습니다. 데이터 접근 경로를 하나로 만드는 것이 목적이었습니다.
-      result: 새 외부 시스템을 붙일 때 고쳐야 할 곳이 15곳에서 1곳이 됐습니다.
-    - id: frontend-slices
-      title: 클린 아키텍처를 프론트에 넣으려다 접었다
-      problem: 백엔드에서 레이어 분리로 효과를 봤기에 같은 구조를 프론트에 이식했습니다. 그런데 화면 하나를 고치려면 여러 폴더를 오가야 했고, 레이어 대부분이 통과만 하는 껍데기가 됐습니다.
-      alternative: 레이어를 유지하고 규칙을 더 촘촘히 만드는 방향도 시도했습니다. 규칙이 늘수록 신규 화면 작성 비용만 올라갔습니다.
-      choice: 업무 화면 90여 개는 화면 자체가 업무 단위였습니다. 화면 폴더 안에 로컬 슬라이스를 두고, 화면을 넘어 재사용되는 것만 도메인 슬라이스로 올렸습니다.
-      result: 화면 수정이 폴더 하나 안에서 끝나고 삭제도 폴더 단위로 수행할 수 있게 됐습니다.
-    - id: typed-boundaries
-      title: 경계를 규칙이 아니라 타입으로 지켰다
-      problem: 폴더로 계층을 나눠도 시간이 지나면 도메인이 인프라를 직접 호출합니다. 코드 리뷰만으로 막는 데는 한계가 있었습니다.
-      alternative: 린트 규칙으로 import 경로를 막는 방법도 있었습니다. 우회가 쉽고 위반 시점이 늦었습니다.
-      choice: 도메인은 Symbol 포트만 알고 구현체는 모듈 등록에서 주입했습니다. 확장되는 지점은 유형 목록을 키로 가진 레코드 타입으로 두어 새 유형의 핸들러가 빠지면 컴파일되지 않게 했습니다.
-      result: 등록을 잊은 채 배포되는 사고를 구조적으로 차단했습니다.
-    - id: incremental-migration
-      title: 한 번에 갈아엎지 않았다
-      problem: 레거시 API는 매일 쓰이는 운영 시스템이었습니다. 전면 재작성은 멈출 수 없는 업무를 볼모로 잡는 일이었습니다.
-      alternative: 기능 동결 후 일괄 전환도 검토했습니다. 전환 기간 동안 개선 요청을 모두 거절해야 했습니다.
-      choice: 구 API를 살려둔 채 모듈 단위로 신규 API에 이전했습니다. 공용 라이브러리도 구·신 두 벌을 병행하고 신규 기능은 신규 구조에만 넣었습니다.
-      result: 운영 중단 없이 전환했고, 어느 시점에 멈춰도 시스템이 동작하도록 유지했습니다.
-    - id: worker-contract
-      title: 배포 단위가 다른 둘 사이의 계약
-      problem: 잡을 넣는 API와 꺼내 쓰는 Worker가 따로 배포됩니다. 페이로드 필드 하나를 바꾸면 배포 순서에 따라 런타임 오류가 발생했습니다.
-      alternative: 메시지에 버전을 붙여 양쪽에서 분기하는 방법도 검토했습니다. 분기가 쌓이면 제거하기 어려워집니다.
-      choice: 큐 이름, 잡 타입, 페이로드, 내부 라우트를 한 패키지에 모으고 양쪽이 그것만 참조하게 했습니다. 계약을 바꾸면 두 앱이 함께 컴파일 대상이 됩니다.
-      result: 계약 위반이 런타임이 아니라 빌드 단계에서 드러납니다.
-    - id: distributed-cron
-      title: replica를 늘리자 크론이 두 번 돌았다
-      problem: 가용성을 위해 Worker를 2대로 늘렸더니 예약 작업이 양쪽에서 동시에 실행되어 집계가 중복 반영됐습니다.
-      alternative: Worker 한 대를 예약 실행 전담으로 고정할 수 있었지만, 그 한 대가 멈추면 전체 예약 실행이 중단됩니다.
-      choice: 실행 직전 Redis에 TTL을 가진 키를 NX로 선점하게 했습니다. 선점에 성공한 한 대만 실행하고 나머지는 넘어갑니다.
-      result: Worker 수가 늘어도 잡은 한 번만 실행되고, 한 대가 멈춰도 남은 대가 이어받습니다.
-    - id: private-llm
-      title: 서류를 밖으로 내보낼 수 없었다
-      problem: 수출입 서류에는 거래처 단가와 신고 정보가 들어 있어 외부 API로 전송할 수 없었습니다.
-      alternative: 사람이 계속 입력하거나 규칙 기반 파서를 만들 수 있었지만, 거래처마다 다른 서식을 규칙만으로 감당하기 어려웠습니다.
-      choice: 사내망에 OpenAI 호환 추론 서버를 두었습니다. 출력은 JSON Schema로 제한하고 형식이 정해진 값은 정규식으로 교차 검증하며, 텍스트 품질이 낮은 PDF만 OCR로 넘겼습니다.
-      result: 서류가 사내망을 벗어나지 않고 스키마를 벗어난 응답은 파싱 단계에서 차단됩니다.
-    - id: llm-evaluation
-      title: 믿지 않고 측정했다
-      problem: 모델 출력은 매번 같지 않아 잘 되는 것 같다는 느낌만으로 운영에 올릴 수 없었습니다.
-      alternative: 샘플 몇 건을 눈으로 확인하는 방식은 실패율이 낮을수록 문제를 발견하기 어렵습니다.
-      choice: 같은 문서를 반복 추출해 결과를 DB에 적재하는 평가 하네스를 만들고 프롬프트나 모델을 바꿀 때마다 실행했습니다. OCR은 자식 프로세스로 분리해 장시간 메모리 증가도 막았습니다.
-      result: 추출 신뢰도를 수치로 비교할 수 있고, 장시간 운영에서도 API 메모리가 안정적으로 유지됩니다.
-    - id: adapter-boundary
-      title: 외부 8종을 한 경계 뒤로
-      problem: 공공 통관 API, 상용 EDI 플랫폼, 거래처 전문, 계근대 하드웨어까지 연동 방식이 제각각이었고 각 시스템이 필요할 때마다 직접 연결했습니다.
-      alternative: 공통 클라이언트 하나로 추상화하는 방법도 검토했지만 HTTP, FTP, 소켓을 하나로 묶으면 억지 추상화가 됩니다.
-      choice: 추상화를 강요하지 않고 위치만 통일했습니다. 외부와 통신하는 코드는 어댑터 층에 두고 도메인은 포트 인터페이스만 봅니다.
-      result: 외부 장애와 사양 변경이 도메인으로 새지 않고, 연동 하나를 교체해도 도메인 코드는 유지됩니다.
-    - id: affected-deploy
-      title: 모노레포에서 바뀐 것만 배포한다
-      problem: 여러 앱이 한 저장소에 있어 커밋 하나에도 전체가 빌드됐고, 대기 시간이 길며 무관한 앱까지 재배포됐습니다.
-      alternative: 앱마다 저장소를 나누면 공용 패키지의 버전 관리 비용이 커집니다.
-      choice: 부모 파이프라인이 변경 경로를 감지해 해당 앱의 자식 파이프라인만 실행했습니다. 빌드가 생성한 커밋 SHA 이미지 태그를 배포가 그대로 사용합니다.
-      result: 무관한 앱은 실행되지 않고 운영 중인 이미지와 커밋의 관계를 태그로 추적할 수 있습니다.
+  description: 분산되어 있던 운영 시스템을 웹·API·비동기 실행·외부 연동·데이터·배포 경계로 나누어 하나의 플랫폼으로 전환했습니다.
+  scope_summary:
+    - value: "15종"
+      label: 운영 시스템 분석·전환
+    - value: "90+"
+      label: 업무 화면 구현
+    - value: "5개"
+      label: 업무 도메인 분리
+    - value: "8종"
+      label: 외부 시스템 연동
+    - value: "4단계"
+      label: API·Queue·Worker·Batch
+    - value: "변경 앱만"
+      label: CI/CD 빌드·배포
+  boundaries:
+    - id: presentation
+      label: PRESENTATION
+      description: 사용자 업무 화면
+      x: 360
+      y: 28
+      width: 480
+      height: 126
+    - id: application
+      label: APPLICATION
+      description: 동기 요청과 도메인 로직
+      x: 240
+      y: 174
+      width: 720
+      height: 146
+    - id: integration-data
+      label: INTEGRATION & DATA
+      description: 외부 경계와 영속 데이터
+      x: 30
+      y: 350
+      width: 510
+      height: 300
+    - id: async-execution
+      label: ASYNC EXECUTION
+      description: 비동기 작업과 예약 실행
+      x: 570
+      y: 350
+      width: 600
+      height: 300
+    - id: delivery
+      label: DELIVERY
+      description: 변경 감지부터 운영 배포까지
+      x: 30
+      y: 690
+      width: 1140
+      height: 105
+  nodes:
+    - id: web
+      label: Web
+      tech: Next.js · React · TypeScript
+      kind: app
+      boundary: presentation
+      summary: 5개 업무 도메인의 90여 개 화면
+      implementation: 화면 단위 로컬 슬라이스와 공통 도메인 슬라이스를 분리하고, 서버 상태와 화면 상태의 책임을 나눴습니다.
+      structure: 도메인 라우트 · 화면 로컬 모듈 · 공통 UI · API client
+      operation: 기능별 오류 경계를 두고 배포 후 화면 단위로 확인할 수 있게 구성했습니다.
+      inputs: 사용자 입력 · 조회 조건 · 첨부 문서
+      outputs: REST 요청 · 업무 결과 화면 · 파일 다운로드
+      contract: TypeScript DTO · HTTP status · 공통 오류 형식
+      deployment: Web 컨테이너 독립 배포
+      x: 450
+      y: 65
+      width: 300
+      height: 70
+    - id: legacy-api
+      label: Legacy API
+      tech: Express · Node.js
+      kind: legacy
+      boundary: application
+      summary: 운영을 유지하며 모듈 단위로 축소
+      implementation: 기존 기능을 동결하지 않고 업무 모듈별로 신규 API에 이전했습니다.
+      structure: 기존 route · service · 공용 라이브러리
+      operation: 신규 기능은 신규 API에만 추가하고 이전 완료 모듈은 호출 경로부터 제거했습니다.
+      inputs: 기존 Web 요청 · 레거시 호출
+      outputs: 기존 응답 · 신규 API 위임
+      contract: 기존 REST 규격 유지 · 모듈별 전환
+      deployment: 전환 기간 별도 컨테이너 유지
+      x: 280
+      y: 215
+      width: 240
+      height: 72
+    - id: api
+      label: API
+      tech: NestJS · TypeScript
+      kind: app
+      boundary: application
+      summary: 5개 도메인의 동기 요청 처리
+      implementation: 도메인 서비스가 데이터·외부 시스템 구현체를 직접 알지 않도록 포트와 어댑터로 분리했습니다.
+      structure: Controller · Application Service · Domain · Port · Adapter
+      operation: 요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다.
+      inputs: Web REST 요청 · Worker 내부 요청
+      outputs: Repository 호출 · 외부 연동 · Queue job
+      contract: DTO validation · Symbol port · 공통 job package
+      deployment: API 컨테이너 수평 확장
+      x: 680
+      y: 215
+      width: 240
+      height: 72
+    - id: external
+      label: External Adapters
+      tech: HTTP · FTP · Socket · EDI
+      kind: boundary
+      boundary: integration-data
+      summary: 유형이 다른 외부 연동 8종
+      implementation: 통신 방식을 하나로 억지 추상화하지 않고 각 구현을 어댑터로 격리했습니다.
+      structure: 공공 API · 업무 플랫폼 · 거래처 전문 · 현장 장비 어댑터
+      operation: 외부 오류를 내부 오류 형식으로 변환하고 재시도 가능 여부를 구분했습니다.
+      inputs: 도메인 포트 호출 · Worker 작업
+      outputs: 외부 요청 · 표준화된 내부 응답
+      contract: Port interface · timeout · retry policy
+      deployment: API 또는 Worker 배포 단위에 포함
+      x: 65
+      y: 390
+      width: 210
+      height: 82
+    - id: local-llm
+      label: Local LLM
+      tech: On-prem inference · OCR
+      kind: boundary
+      boundary: integration-data
+      summary: 문서 추출을 사내망 안에서 처리
+      implementation: 추론 서버를 내부 HTTP 경계로 분리하고 JSON Schema와 정규식으로 결과를 교차 검증했습니다.
+      structure: PDF text extraction · OCR fallback · schema parser · evaluation harness
+      operation: 저품질 문서만 OCR로 전환하고 반복 평가 결과를 저장해 변경 전후를 비교했습니다.
+      inputs: 수출입 문서 · 추출 스키마
+      outputs: 검증된 구조화 데이터 · 실패 사유
+      contract: Internal HTTP · JSON Schema
+      deployment: 사내망 추론 서버 독립 운영
+      x: 300
+      y: 390
+      width: 210
+      height: 82
+    - id: data
+      label: Data
+      tech: PostgreSQL · Oracle · MySQL · ODBC
+      kind: infra
+      boundary: integration-data
+      summary: 운영 데이터와 이관 검증 저장소
+      implementation: Repository 경계 안에서 DBMS별 접근을 분리하고 1,000만 건 이상 이관 데이터를 양쪽에서 교차 검증했습니다.
+      structure: 업무 schema · migration job · source/target comparator
+      operation: 건수, 키, 합계와 필드 값을 단계별로 비교해 누락과 불일치를 기록했습니다.
+      inputs: Repository query · 이관 원천 데이터
+      outputs: 업무 데이터 · 정합성 검증 결과
+      contract: Repository interface · transaction boundary
+      deployment: 관리형 DB와 기존 DB 병행 운영
+      x: 165
+      y: 530
+      width: 240
+      height: 82
+    - id: queue
+      label: Queue
+      tech: Redis · BullMQ
+      kind: infra
+      boundary: async-execution
+      summary: API와 Worker 사이 작업 전달
+      implementation: 큐 이름, 작업 유형과 payload 타입을 공용 계약 패키지로 묶었습니다.
+      structure: queue registry · typed payload · retry/backoff policy
+      operation: 실패 횟수와 재시도 간격을 작업별로 정의하고 처리 상태를 추적했습니다.
+      inputs: API enqueue
+      outputs: Worker consume · retry · failed job
+      contract: Shared typed job contract
+      deployment: Redis 인프라 독립 운영
+      x: 605
+      y: 390
+      width: 210
+      height: 82
+    - id: worker
+      label: Worker
+      tech: NestJS · BullMQ · Redis lock
+      kind: app
+      boundary: async-execution
+      summary: 비동기·예약 작업 실행 조정
+      implementation: 작업 핸들러를 유형별로 등록하고 Redis NX·TTL 잠금으로 다중 replica의 중복 실행을 막았습니다.
+      structure: consumer · handler registry · scheduler · distributed lock
+      operation: API와 별도 확장하며 실패 작업의 원인과 재처리 위치를 남겼습니다.
+      inputs: Queue job · cron schedule
+      outputs: Batch 실행 · 외부 어댑터 호출 · 처리 결과
+      contract: Shared job package · idempotency key
+      deployment: Worker 컨테이너 다중 replica
+      x: 890
+      y: 390
+      width: 210
+      height: 82
+    - id: batch
+      label: Batch
+      tech: Node.js · C# · Browser automation
+      kind: app
+      boundary: async-execution
+      summary: 파일·수집·입력 자동화 실행
+      implementation: 스크래핑, FTP, Excel, 외부 화면 입력을 실행 단위로 분리하고 입력 전 검증 단계를 공통화했습니다.
+      structure: validator · executor · result recorder · retry tool
+      operation: 성공 위치와 실패 원인을 기록해 중복 없이 이어서 재처리할 수 있게 했습니다.
+      inputs: Worker job · 문서 · 전송 파일
+      outputs: 외부 입력 결과 · 처리 로그 · 산출 파일
+      contract: Job command · execution result
+      deployment: 작업 특성별 실행 이미지 분리
+      x: 890
+      y: 530
+      width: 210
+      height: 82
+    - id: cicd
+      label: CI/CD
+      tech: GitLab CI · Kaniko · Docker Swarm
+      kind: pipeline
+      boundary: delivery
+      summary: 변경된 앱만 테스트·빌드·배포
+      implementation: 부모 파이프라인이 변경 경로를 판별해 해당 앱의 자식 파이프라인만 실행하도록 구성했습니다.
+      structure: affected detection → Test → Kaniko Build → Swarm Deploy
+      operation: 테스트 실패 시 배포를 차단하고 커밋 SHA 이미지 태그로 실행 버전을 추적했습니다.
+      inputs: Git diff · commit SHA · pipeline variables
+      outputs: 검증된 컨테이너 이미지 · Swarm service update
+      contract: 동일 SHA 태그 build/deploy · test gate
+      deployment: 앱별 child pipeline
+      x: 60
+      y: 720
+      width: 1080
+      height: 58
+  edges:
+    - id: web-api
+      from: web
+      to: api
+      flow: sync
+      label: REST
+      path: M600 135 V185 H800 V215
+      label_x: 676
+      label_y: 177
+    - id: api-data
+      from: api
+      to: data
+      flow: sync
+      label: repository
+      path: M680 250 C565 292 420 474 285 530
+      label_x: 475
+      label_y: 390
+    - id: api-external
+      from: api
+      to: external
+      flow: sync
+      label: port / adapter
+      path: M680 238 C525 270 385 350 275 415
+      label_x: 445
+      label_y: 319
+    - id: api-llm
+      from: api
+      to: local-llm
+      flow: sync
+      label: internal HTTP
+      path: M800 287 C735 334 620 415 510 431
+      label_x: 646
+      label_y: 369
+    - id: legacy-api
+      from: legacy-api
+      to: api
+      flow: migration
+      label: module migration
+      path: M520 251 H680
+      label_x: 600
+      label_y: 241
+    - id: api-queue
+      from: api
+      to: queue
+      flow: async
+      label: enqueue contract
+      path: M920 251 C1032 292 916 356 815 410
+      label_x: 936
+      label_y: 329
+    - id: queue-worker
+      from: queue
+      to: worker
+      flow: async
+      label: consume contract
+      path: M815 431 H890
+      label_x: 853
+      label_y: 421
+    - id: worker-batch
+      from: worker
+      to: batch
+      flow: async
+      label: job execution
+      path: M995 472 V530
+      label_x: 1005
+      label_y: 505
+    - id: worker-external
+      from: worker
+      to: external
+      flow: async
+      label: port / adapter
+      path: M890 456 C760 648 430 648 275 456
+      label_x: 575
+      label_y: 630
+    - id: cicd-runtime
+      from: cicd
+      to: web
+      flow: delivery
+      label: SHA image deploy
+      path: M1140 749 H1178 V100 H750
+      label_x: 1080
+      label_y: 741
+  pipeline:
+    steps:
+      - 변경 앱 감지
+      - Test
+      - Kaniko Build
+      - Swarm Deploy
 
 automation:
   id: external-workflow-automation

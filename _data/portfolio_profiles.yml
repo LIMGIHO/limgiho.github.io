@@ -4,7 +4,6 @@ default:
   headline: 복잡한 운영을 하나의 흐름으로 바꿉니다
   summary: 레거시, 반복 업무, 데이터 단절을 통합 플랫폼과 자동화로 해결해 온 풀스택 엔지니어입니다.
   metrics: [legacy-integration, lookup-time, automation-hours, migration-volume]
-  featured_decisions: [incremental-migration, typed-boundaries, worker-contract]
   show_additional_work: true
 
 kakao:
@@ -13,5 +12,4 @@ kakao:
   headline: 복잡한 업무를 명확한 제품 경험으로 바꿉니다
   summary: 대규모 업무 화면과 도메인 경계를 설계하며 운영 가능한 프론트엔드 구조를 만들어 왔습니다.
   metrics: [work-screens, legacy-integration, lookup-time, migration-volume]
-  featured_decisions: [frontend-slices, typed-boundaries, incremental-migration]
   show_additional_work: true

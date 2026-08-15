@@ -21,18 +21,48 @@ PDF_PROFILES = {
     "kakao": Path("applications/2026-08-03/kakaopay-fde/portfolio.pdf"),
 }
 
-REQUIRED_DECISION_IDS = {
-    "integration",
-    "frontend-slices",
-    "typed-boundaries",
-    "incremental-migration",
-    "worker-contract",
-    "distributed-cron",
-    "private-llm",
-    "llm-evaluation",
-    "adapter-boundary",
-    "affected-deploy",
+REQUIRED_ARCHITECTURE_NODE_IDS = {
+    "web",
+    "api",
+    "legacy-api",
+    "queue",
+    "worker",
+    "batch",
+    "external",
+    "local-llm",
+    "data",
+    "cicd",
 }
+REQUIRED_ARCHITECTURE_FLOWS = {"sync", "async", "migration", "delivery"}
+REQUIRED_ARCHITECTURE_NODE_FIELDS = (
+    "id",
+    "label",
+    "tech",
+    "kind",
+    "boundary",
+    "summary",
+    "implementation",
+    "structure",
+    "operation",
+    "inputs",
+    "outputs",
+    "contract",
+    "deployment",
+    "x",
+    "y",
+    "width",
+    "height",
+)
+REQUIRED_ARCHITECTURE_EDGE_FIELDS = (
+    "id",
+    "from",
+    "to",
+    "flow",
+    "label",
+    "path",
+    "label_x",
+    "label_y",
+)
 FORBIDDEN_PATTERNS = (
     re.compile(r"samsung|삼성|nerp", re.IGNORECASE),
     re.compile(r"kream", re.IGNORECASE),
@@ -78,16 +108,41 @@ def validate_source(content, profiles):
         if not metric.get("source"):
             errors.append(f"metric source missing: {metric.get('id')}")
 
-    decisions = content.get("flagship", {}).get("decisions", [])
-    decision_ids = {decision.get("id") for decision in decisions}
-    if decision_ids != REQUIRED_DECISION_IDS:
-        errors.append(f"decision ids mismatch: {sorted(decision_ids)}")
-    for decision in decisions:
-        for key in ("id", "title", "problem", "alternative", "choice", "result"):
-            if not decision.get(key):
+    flagship = content.get("flagship", {})
+    if not flagship.get("scope_summary"):
+        errors.append("flagship scope_summary missing")
+
+    nodes = flagship.get("nodes", [])
+    node_ids = {node.get("id") for node in nodes}
+    if node_ids != REQUIRED_ARCHITECTURE_NODE_IDS:
+        errors.append(f"architecture node ids mismatch: {sorted(node_ids)}")
+    for node in nodes:
+        for key in REQUIRED_ARCHITECTURE_NODE_FIELDS:
+            if node.get(key) in (None, ""):
                 errors.append(
-                    f"decision {decision.get('id', '?')} field missing: {key}"
+                    f"architecture node {node.get('id', '?')} field missing: {key}"
                 )
+
+    edges = flagship.get("edges", [])
+    flows = {edge.get("flow") for edge in edges}
+    if flows != REQUIRED_ARCHITECTURE_FLOWS:
+        errors.append(f"architecture flows mismatch: {sorted(flows)}")
+    for edge in edges:
+        for key in REQUIRED_ARCHITECTURE_EDGE_FIELDS:
+            if edge.get(key) in (None, ""):
+                errors.append(
+                    f"architecture edge {edge.get('id', '?')} field missing: {key}"
+                )
+        for endpoint in ("from", "to"):
+            endpoint_id = edge.get(endpoint)
+            if endpoint_id and endpoint_id not in node_ids:
+                errors.append(
+                    f"architecture edge {edge.get('id', '?')} unknown {endpoint}: "
+                    f"{endpoint_id}"
+                )
+
+    if not flagship.get("pipeline", {}).get("steps"):
+        errors.append("architecture pipeline steps missing")
 
     for profile_name in ("default", "kakao"):
         profile = profiles.get(profile_name)
@@ -97,9 +152,6 @@ def validate_source(content, profiles):
         for metric_id in profile.get("metrics", []):
             if metric_id not in metric_ids:
                 errors.append(f"unknown metric in {profile_name}: {metric_id}")
-        for decision_id in profile.get("featured_decisions", []):
-            if decision_id not in decision_ids:
-                errors.append(f"unknown decision in {profile_name}: {decision_id}")
 
     public_text = "\n".join(flatten_strings(content))
     for pattern in FORBIDDEN_PATTERNS:

@@ -26,7 +26,8 @@ class PortfolioVerifierBootstrapTests(unittest.TestCase):
         verify = load_verifier()
         self.assertTrue(hasattr(verify, "load_yaml"))
         self.assertTrue(hasattr(verify, "validate_source"))
-        self.assertTrue(hasattr(verify, "REQUIRED_DECISION_IDS"))
+        self.assertTrue(hasattr(verify, "REQUIRED_ARCHITECTURE_NODE_IDS"))
+        self.assertTrue(hasattr(verify, "REQUIRED_ARCHITECTURE_FLOWS"))
 
     def test_verifier_exposes_pdf_contract(self):
         verify = load_verifier()
@@ -47,17 +48,35 @@ class PortfolioVerifierBootstrapTests(unittest.TestCase):
 class PortfolioSourceContractTests(unittest.TestCase):
     def setUp(self):
         self.verify = load_verifier()
-        decision_ids = {
-            "integration",
-            "frontend-slices",
-            "typed-boundaries",
-            "incremental-migration",
-            "worker-contract",
-            "distributed-cron",
-            "private-llm",
-            "llm-evaluation",
-            "adapter-boundary",
-            "affected-deploy",
+        node_ids = {
+            "web",
+            "api",
+            "legacy-api",
+            "queue",
+            "worker",
+            "batch",
+            "external",
+            "local-llm",
+            "data",
+            "cicd",
+        }
+        node_fields = {
+            "label": "구성요소",
+            "tech": "기술",
+            "kind": "app",
+            "boundary": "application",
+            "summary": "요약",
+            "implementation": "구현",
+            "structure": "구조",
+            "operation": "운영",
+            "inputs": "입력",
+            "outputs": "출력",
+            "contract": "계약",
+            "deployment": "배포",
+            "x": 10,
+            "y": 10,
+            "width": 100,
+            "height": 70,
         }
         self.content = {
             "metrics": [
@@ -65,45 +84,88 @@ class PortfolioSourceContractTests(unittest.TestCase):
                 {"id": "work-screens", "source": "아키텍처"},
             ],
             "flagship": {
-                "decisions": [
+                "scope_summary": ["15종 시스템 분석", "90+ 화면 구현"],
+                "nodes": [
+                    {"id": node_id, **node_fields}
+                    for node_id in sorted(node_ids)
+                ],
+                "edges": [
                     {
-                        "id": decision_id,
-                        "title": decision_id,
-                        "problem": "문제",
-                        "alternative": "검토",
-                        "choice": "선택",
-                        "result": "결과",
-                    }
-                    for decision_id in sorted(decision_ids)
-                ]
+                        "id": "web-api",
+                        "from": "web",
+                        "to": "api",
+                        "flow": "sync",
+                        "label": "REST",
+                        "path": "M10 10 H20",
+                        "label_x": 15,
+                        "label_y": 8,
+                    },
+                    {
+                        "id": "api-queue",
+                        "from": "api",
+                        "to": "queue",
+                        "flow": "async",
+                        "label": "enqueue",
+                        "path": "M10 10 H20",
+                        "label_x": 15,
+                        "label_y": 8,
+                    },
+                    {
+                        "id": "legacy-api",
+                        "from": "legacy-api",
+                        "to": "api",
+                        "flow": "migration",
+                        "label": "module migration",
+                        "path": "M10 10 H20",
+                        "label_x": 15,
+                        "label_y": 8,
+                    },
+                    {
+                        "id": "cicd-runtime",
+                        "from": "cicd",
+                        "to": "web",
+                        "flow": "delivery",
+                        "label": "SHA image deploy",
+                        "path": "M10 10 H20",
+                        "label_x": 15,
+                        "label_y": 8,
+                    },
+                ],
+                "pipeline": {
+                    "steps": ["변경 앱 감지", "Test", "Kaniko Build", "Swarm Deploy"]
+                },
             },
             "automation": {"title": "외부 업무 시스템 입력 자동화"},
         }
         self.profiles = {
             "default": {
                 "metrics": ["legacy-integration"],
-                "featured_decisions": ["incremental-migration"],
             },
             "kakao": {
                 "metrics": ["work-screens"],
-                "featured_decisions": ["frontend-slices"],
             },
         }
 
     def test_valid_contract_has_no_errors(self):
         self.assertEqual(self.verify.validate_source(self.content, self.profiles), [])
 
-    def test_all_ten_decisions_are_required(self):
+    def test_all_ten_architecture_nodes_are_required(self):
         self.assertEqual(
-            {item["id"] for item in self.content["flagship"]["decisions"]},
-            self.verify.REQUIRED_DECISION_IDS,
+            {item["id"] for item in self.content["flagship"]["nodes"]},
+            self.verify.REQUIRED_ARCHITECTURE_NODE_IDS,
         )
 
-    def test_unknown_profile_reference_fails(self):
-        profiles = copy.deepcopy(self.profiles)
-        profiles["default"]["featured_decisions"].append("missing-decision")
-        errors = self.verify.validate_source(self.content, profiles)
-        self.assertTrue(any("missing-decision" in error for error in errors))
+    def test_all_four_architecture_flows_are_required(self):
+        self.assertEqual(
+            {item["flow"] for item in self.content["flagship"]["edges"]},
+            self.verify.REQUIRED_ARCHITECTURE_FLOWS,
+        )
+
+    def test_unknown_edge_endpoint_fails(self):
+        content = copy.deepcopy(self.content)
+        content["flagship"]["edges"][0]["to"] = "missing-node"
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("missing-node" in error for error in errors))
 
     def test_missing_metric_source_fails(self):
         content = copy.deepcopy(self.content)
@@ -117,11 +179,17 @@ class PortfolioSourceContractTests(unittest.TestCase):
         errors = self.verify.validate_source(content, self.profiles)
         self.assertTrue(any("익명화" in error for error in errors))
 
-    def test_incomplete_decision_fails(self):
+    def test_incomplete_architecture_node_fails(self):
         content = copy.deepcopy(self.content)
-        del content["flagship"]["decisions"][0]["alternative"]
+        del content["flagship"]["nodes"][0]["deployment"]
         errors = self.verify.validate_source(content, self.profiles)
-        self.assertTrue(any("alternative" in error for error in errors))
+        self.assertTrue(any("deployment" in error for error in errors))
+
+    def test_incomplete_architecture_edge_fails(self):
+        content = copy.deepcopy(self.content)
+        del content["flagship"]["edges"][0]["label"]
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("label" in error for error in errors))
 
     def test_repository_canonical_source_is_valid(self):
         content_path = ROOT / "_data" / "portfolio.yml"
