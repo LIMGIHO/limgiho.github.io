@@ -336,6 +336,11 @@ body.portfolio {
   border-top-style: dashed;
 }
 
+.legend-migration::before {
+  border-color: var(--ink);
+  border-top-style: dashed;
+}
+
 .legend-delivery::before {
   border-color: var(--muted);
   border-top-style: dotted;
@@ -402,8 +407,8 @@ body.portfolio {
 }
 
 .architecture-edge-migration path {
-  stroke: var(--muted);
-  stroke-dasharray: 4 5;
+  stroke: var(--ink);
+  stroke-dasharray: 6 3;
 }
 
 .architecture-edge-delivery path {
@@ -427,7 +432,10 @@ body.portfolio {
   fill: var(--accent-strong);
 }
 
-#arrow-migration path,
+#arrow-migration path {
+  fill: var(--ink);
+}
+
 #arrow-delivery path {
   fill: var(--muted);
 }

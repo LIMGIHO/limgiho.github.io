@@ -108,7 +108,7 @@ flagship:
       x: 30
       y: 690
       width: 1140
-      height: 105
+      height: 120
   nodes:
     - id: web
       label: Web
@@ -242,7 +242,7 @@ flagship:
       outputs: Batch 실행 · 외부 어댑터 호출 · 처리 결과
       contract: Shared job package · idempotency key
       deployment: Worker 컨테이너 다중 replica
-      x: 900
+      x: 920
       y: 420
       width: 200
       height: 82
@@ -259,7 +259,7 @@ flagship:
       outputs: 외부 입력 결과 · 처리 로그 · 산출 파일
       contract: Job command · execution result
       deployment: 작업 특성별 실행 이미지 분리
-      x: 900
+      x: 920
       y: 550
       width: 200
       height: 82
@@ -277,7 +277,7 @@ flagship:
       contract: 동일 SHA 태그 build/deploy · test gate
       deployment: 앱별 child pipeline
       x: 60
-      y: 720
+      y: 745
       width: 1080
       height: 58
   edges:
@@ -294,9 +294,9 @@ flagship:
       to: data
       flow: sync
       label: repository
-      path: M720 302 V334 H535 V516 H285 V550
-      label_x: 390
-      label_y: 508
+      path: M720 302 V334 H535 V510 H285 V550
+      label_x: 345
+      label_y: 522
     - id: api-external
       from: api
       to: external
@@ -310,55 +310,55 @@ flagship:
       to: local-llm
       flow: sync
       label: internal HTTP
-      path: M800 302 V342 H405 V420
-      label_x: 575
-      label_y: 334
+      path: M800 302 V350 H405 V420
+      label_x: 570
+      label_y: 342
     - id: legacy-api
       from: legacy-api
       to: api
       flow: migration
       label: module migration
       path: M520 266 H680
-      label_x: 600
+      label_x: 530
       label_y: 256
     - id: api-queue
       from: api
       to: queue
       flow: async
       label: enqueue contract
-      path: M920 266 H1115 V342 H700 V420
+      path: M920 266 H1115 V330 H700 V420
       label_x: 900
-      label_y: 334
+      label_y: 322
     - id: queue-worker
       from: queue
       to: worker
       flow: async
       label: consume contract
-      path: M795 461 H900
-      label_x: 807
+      path: M795 461 H920
+      label_x: 802
       label_y: 450
     - id: worker-batch
       from: worker
       to: batch
       flow: async
       label: job execution
-      path: M1000 502 V550
-      label_x: 1010
-      label_y: 531
+      path: M1020 502 V550
+      label_x: 1030
+      label_y: 528
     - id: worker-external
       from: worker
       to: external
       flow: async
       label: port / adapter
-      path: M900 486 C760 646 430 646 275 486
-      label_x: 575
-      label_y: 638
+      path: M970 502 V534 H190 V502
+      label_x: 600
+      label_y: 526
     - id: cicd-runtime
       from: cicd
       to: web
       flow: delivery
       label: SHA image deploy
-      path: M1140 749 H1160 V117 H750
+      path: M1140 753 H1160 V117 H750
       label_x: 1024
       label_y: 680
   pipeline:
