@@ -131,6 +131,13 @@ def validate_rendered(site_dir):
             'id="architecture-before-after"',
             "15종",
             "5개 업무 도메인",
+            'id="automation"',
+            'id="experience"',
+            'id="additional-work"',
+            "외부 업무 시스템 입력 자동화",
+            "1,200시간",
+            "ILJIN Global",
+            "KWE Korea",
         )
         for phrase in required:
             if phrase not in text:
@@ -153,6 +160,17 @@ def validate_rendered(site_dir):
         for decision_id in REQUIRED_DECISION_IDS:
             if f'data-decision-id="{decision_id}"' not in text:
                 errors.append(f"{profile_name} decision missing: {decision_id}")
+        for pattern_text in (
+            "skill-bar",
+            "progress-bar",
+            "aria-valuenow",
+            "문의하기",
+            "상담 신청",
+        ):
+            if pattern_text in text:
+                errors.append(
+                    f"{profile_name} forbidden presentation: {pattern_text}"
+                )
         for pattern in FORBIDDEN_PATTERNS:
             match = pattern.search(text)
             if match:

@@ -492,6 +492,168 @@ body.portfolio {
   }
 }
 
+.automation-brief {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.automation-brief article {
+  padding: 22px;
+  border-left: 3px solid #287dae;
+  background: #f7fafc;
+}
+
+.automation-brief span,
+.automation-result span {
+  display: block;
+  margin-bottom: 8px;
+  color: #66707a;
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.automation-brief p {
+  margin: 0;
+}
+
+.automation-flow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.automation-flow li {
+  padding: 24px;
+  border: 1px solid #dce3e8;
+  border-radius: 9px;
+}
+
+.automation-flow span {
+  color: #287dae;
+  font-size: 0.72rem;
+  font-weight: 850;
+}
+
+.automation-flow h3 {
+  margin: 12px 0 8px;
+  font-size: 1.2rem;
+}
+
+.automation-flow p {
+  margin: 0;
+  color: #596671;
+  font-size: 0.88rem;
+}
+
+.automation-result {
+  margin: 28px 0 0;
+  padding: 24px;
+  border-radius: 9px;
+  background: #eaf6fc;
+  font-size: 1.05rem;
+  font-weight: 750;
+}
+
+.experience-list {
+  border-top: 1px solid #dce3e8;
+}
+
+.experience-item {
+  display: grid;
+  grid-template-columns: 230px minmax(0, 1fr);
+  gap: 36px;
+  padding: 30px 0;
+  border-bottom: 1px solid #dce3e8;
+}
+
+.experience-item h3 {
+  margin: 0 0 8px;
+  font-size: 1.45rem;
+}
+
+.experience-item p,
+.experience-item ul {
+  margin-top: 0;
+}
+
+.experience-item ul {
+  padding-left: 1.2rem;
+}
+
+.experience-meta {
+  color: #66707a;
+  font-size: 0.82rem;
+}
+
+.experience-meta time {
+  color: #1d2228;
+  font-weight: 850;
+}
+
+.technology-context {
+  margin-top: 56px;
+}
+
+.technology-context > h2 {
+  margin: 0 0 22px;
+  font-size: 1.55rem;
+  letter-spacing: -0.035em;
+}
+
+.technology-grid,
+.additional-work-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.technology-grid article,
+.additional-work-list article {
+  padding: 22px;
+  border: 1px solid #dce3e8;
+  border-radius: 9px;
+}
+
+.technology-grid h3,
+.additional-work-list h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+}
+
+.technology-grid p,
+.additional-work-list p {
+  margin: 8px 0 0;
+  color: #596671;
+  font-size: 0.85rem;
+}
+
+.technology-list {
+  color: #287dae !important;
+  font-weight: 750;
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.work-links a {
+  padding: 5px 9px;
+  border: 1px solid #c6d5df;
+  border-radius: 5px;
+  color: #287dae;
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
 @media (max-width: 760px) {
   .portfolio-hero {
     grid-template-columns: 1fr;
@@ -547,8 +709,17 @@ body.portfolio {
   .case-brief,
   .case-outcomes,
   .decision-grid,
-  .decision-grid-featured {
+  .decision-grid-featured,
+  .automation-brief,
+  .automation-flow,
+  .technology-grid,
+  .additional-work-list {
     grid-template-columns: 1fr;
+  }
+
+  .experience-item {
+    grid-template-columns: 1fr;
+    gap: 10px;
   }
 
   .architecture-figure {

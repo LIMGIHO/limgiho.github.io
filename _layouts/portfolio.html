@@ -10,6 +10,11 @@
         {% include portfolio/hero.html portfolio=portfolio profile=profile %}
         {% include portfolio/journey.html journey=portfolio.journey %}
         {% include portfolio/flagship.html flagship=portfolio.flagship profile=profile %}
+        {% include portfolio/automation.html automation=portfolio.automation %}
+        {% include portfolio/experience.html experience=portfolio.experience technology_groups=portfolio.technology_groups %}
+        {% if profile.show_additional_work %}
+          {% include portfolio/additional-work.html items=portfolio.additional_work %}
+        {% endif %}
       </main>
     </div>
     <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>

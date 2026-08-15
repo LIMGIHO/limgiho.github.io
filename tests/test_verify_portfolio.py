@@ -250,6 +250,42 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             errors = self.verify.validate_rendered(site_dir)
             self.assertTrue(any("decision" in error for error in errors))
 
+    def test_rendered_profiles_include_lower_evidence_sections(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            for phrase in (
+                'id="automation"',
+                'id="experience"',
+                'id="additional-work"',
+                "외부 업무 시스템 입력 자동화",
+                "1,200시간",
+                "ILJIN Global",
+                "KWE Korea",
+                "Product &amp; Frontend",
+            ):
+                self.assertIn(phrase, text)
+            for forbidden in (
+                "skill-bar",
+                "progress-bar",
+                "aria-valuenow",
+                "문의하기",
+                "상담 신청",
+            ):
+                self.assertNotIn(forbidden, text)
+
+    def test_rendered_validator_rejects_missing_automation(self):
+        with tempfile.TemporaryDirectory() as directory:
+            site_dir = Path(directory)
+            shutil.copytree(ROOT / "_site", site_dir, dirs_exist_ok=True)
+            default_html = site_dir / "index.html"
+            text = default_html.read_text(encoding="utf-8")
+            default_html.write_text(
+                text.replace('id="automation"', 'id="automation-removed"', 1),
+                encoding="utf-8",
+            )
+            errors = self.verify.validate_rendered(site_dir)
+            self.assertTrue(any("automation" in error for error in errors))
+
 
 if __name__ == "__main__":
     unittest.main()
