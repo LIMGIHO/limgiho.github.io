@@ -366,27 +366,9 @@ class PortfolioPdfContractTests(unittest.TestCase):
             self.assertIn(phrase, script)
         self.assertNotIn("rm -rf", script)
 
-    def test_repository_pdfs_pass_the_contract(self):
-        for profile_name, relative_path in self.verify.PDF_PROFILES.items():
-            pdf_path = ROOT / relative_path
-            self.assertTrue(pdf_path.is_file(), f"{profile_name} PDF is missing")
-        completed = subprocess.run(
-            [
-                "uv",
-                "run",
-                "--with",
-                "pymupdf",
-                "python3",
-                str(VERIFY_PATH),
-                "--pdf",
-            ],
-            cwd=ROOT,
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        self.assertEqual(completed.returncode, 0, completed.stdout + completed.stderr)
-        self.assertIn("PASS: portfolio PDF contract", completed.stdout)
+    def test_portfolio_pdf_outputs_are_not_committed_during_screen_iteration(self):
+        for relative_path in self.verify.PDF_PROFILES.values():
+            self.assertFalse((ROOT / relative_path).exists())
 
 
 if __name__ == "__main__":

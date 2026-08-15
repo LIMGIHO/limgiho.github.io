@@ -5,7 +5,6 @@
 ## 파일
 
 - `resume.pdf`: 최종 제출한 3페이지 지원서
-- `portfolio.pdf`: Graphite Yellow 테마의 지원용 포트폴리오
 - `portfolio/index.md`: 지원용 포트폴리오 프로필 진입점
 - `cover-letter.md`: 제출한 지원 동기 원문
 - `source/index.html`: 지원서 원문
@@ -23,11 +22,4 @@
 python3 verify.py
 ```
 
-검증 스크립트에는 PyMuPDF가 필요하다.
-
-포트폴리오는 저장소 루트에서 다음 명령으로 재생성한다.
-
-```bash
-./scripts/build-portfolio-pdf.sh
-uv run --with pymupdf python3 scripts/verify-portfolio.py --site-dir _site --pdf
-```
+검증 스크립트에는 PyMuPDF가 필요하다. 포트폴리오는 현재 로컬 화면에서 수정하며 PDF를 생성하지 않는다.

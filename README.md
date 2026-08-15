@@ -21,16 +21,11 @@ bundle exec jekyll serve
 
 새 지원처용 페이지는 `portfolio_profile` 값만 새 프로필 키로 지정한다. 외부 공개 문구에는 고객사명, 내부 시스템명, 사설 주소와 연결 정보를 넣지 않는다.
 
-## PDF 생성과 검증
+현재는 로컬 화면에서 내용을 다듬는 단계다. PDF는 화면과 문구가 확정된 뒤 명시적으로 생성한다.
+
+화면 검증은 다음 명령으로 실행한다.
 
 ```bash
-./scripts/build-portfolio-pdf.sh
-uv run --with pymupdf python3 scripts/verify-portfolio.py --site-dir _site --pdf
+bundle exec jekyll build
+python3 scripts/verify-portfolio.py --site-dir _site
 ```
-
-생성 결과:
-
-- `assets/portfolio/lim-giho-portfolio.pdf`
-- `applications/2026-08-03/kakaopay-fde/portfolio.pdf`
-
-검증기는 공통 콘텐츠, 익명화, 렌더링 섹션, 두 테마, A4 규격, 핵심 문구와 PDF 링크를 확인한다.
