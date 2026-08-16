@@ -84,9 +84,9 @@ flagship:
     - id: application
       label: APPLICATION
       description: 동기 요청과 도메인 로직
-      x: 240
+      x: 420
       y: 174
-      width: 720
+      width: 360
       height: 146
     - id: integration-data
       label: INTEGRATION & DATA
@@ -127,23 +127,6 @@ flagship:
       y: 82
       width: 300
       height: 70
-    - id: legacy-api
-      label: Legacy API
-      tech: Express · Node.js
-      kind: legacy
-      boundary: application
-      summary: 운영을 유지하며 모듈 단위로 축소
-      implementation: 기존 기능을 동결하지 않고 업무 모듈별로 신규 API에 이전했습니다.
-      structure: 기존 route · service · 공용 라이브러리
-      operation: 신규 기능은 신규 API에만 추가하고 이전 완료 모듈은 호출 경로부터 제거했습니다.
-      inputs: 기존 Web 요청 · 레거시 호출
-      outputs: 기존 응답 · 신규 API 위임
-      contract: 기존 REST 규격 유지 · 모듈별 전환
-      deployment: 전환 기간 별도 컨테이너 유지
-      x: 280
-      y: 230
-      width: 240
-      height: 72
     - id: api
       label: API
       tech: NestJS · TypeScript
@@ -157,7 +140,7 @@ flagship:
       outputs: Repository 호출 · 외부 연동 · Queue job
       contract: DTO validation · Symbol port · 공통 job package
       deployment: API 컨테이너 수평 확장
-      x: 680
+      x: 480
       y: 230
       width: 240
       height: 72
@@ -286,15 +269,15 @@ flagship:
       to: api
       flow: sync
       label: REST
-      path: M600 152 V190 H800 V230
-      label_x: 676
-      label_y: 177
+      path: M600 152 V230
+      label_x: 608
+      label_y: 195
     - id: api-data
       from: api
       to: data
       flow: sync
       label: repository
-      path: M720 302 V334 H535 V510 H285 V550
+      path: M540 302 V334 H535 V510 H285 V550
       label_x: 345
       label_y: 522
     - id: api-external
@@ -302,31 +285,23 @@ flagship:
       to: external
       flow: sync
       label: port / adapter
-      path: M680 250 H560 V336 H170 V420
-      label_x: 365
+      path: M480 250 H400 V336 H170 V420
+      label_x: 230
       label_y: 327
     - id: api-llm
       from: api
       to: local-llm
       flow: sync
       label: internal HTTP
-      path: M800 302 V350 H405 V420
+      path: M660 302 V350 H405 V420
       label_x: 570
       label_y: 342
-    - id: legacy-api
-      from: legacy-api
-      to: api
-      flow: migration
-      label: module migration
-      path: M520 266 H680
-      label_x: 530
-      label_y: 256
     - id: api-queue
       from: api
       to: queue
       flow: async
       label: enqueue contract
-      path: M920 266 H1115 V330 H700 V420
+      path: M720 266 H1115 V330 H700 V420
       label_x: 900
       label_y: 322
     - id: queue-worker

@@ -315,12 +315,6 @@ body.portfolio {
   border-color: var(--accent-strong);
 }
 
-.legend-legacy::before {
-  border-style: dashed;
-  border-color: var(--muted);
-  background: var(--page);
-}
-
 .legend-flow::before {
   position: absolute;
   top: 50%;
@@ -333,11 +327,6 @@ body.portfolio {
 
 .legend-async::before {
   border-color: var(--accent-strong);
-  border-top-style: dashed;
-}
-
-.legend-migration::before {
-  border-color: var(--ink);
   border-top-style: dashed;
 }
 
@@ -406,11 +395,6 @@ body.portfolio {
   stroke-dasharray: 7 5;
 }
 
-.architecture-edge-migration path {
-  stroke: var(--ink);
-  stroke-dasharray: 6 3;
-}
-
 .architecture-edge-delivery path {
   stroke: var(--muted);
   stroke-dasharray: 2 5;
@@ -430,10 +414,6 @@ body.portfolio {
 
 #arrow-async path {
   fill: var(--accent-strong);
-}
-
-#arrow-migration path {
-  fill: var(--ink);
 }
 
 #arrow-delivery path {
