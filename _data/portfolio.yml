@@ -81,13 +81,6 @@ flagship:
       y: 28
       width: 480
       height: 126
-    - id: application
-      label: APPLICATION
-      description: 동기 요청과 도메인 로직
-      x: 420
-      y: 174
-      width: 360
-      height: 146
     - id: integration-data
       label: INTEGRATION & DATA
       description: 외부 경계와 영속 데이터
@@ -141,7 +134,7 @@ flagship:
       contract: DTO validation · Symbol port · 공통 job package
       deployment: API 컨테이너 수평 확장
       x: 480
-      y: 230
+      y: 215
       width: 240
       height: 72
     - id: external
@@ -269,15 +262,15 @@ flagship:
       to: api
       flow: sync
       label: REST
-      path: M600 152 V230
+      path: M600 152 V215
       label_x: 608
-      label_y: 195
+      label_y: 188
     - id: api-data
       from: api
       to: data
       flow: sync
       label: repository
-      path: M540 302 V334 H535 V510 H285 V550
+      path: M540 287 V334 H535 V510 H285 V550
       label_x: 345
       label_y: 522
     - id: api-external
@@ -285,7 +278,7 @@ flagship:
       to: external
       flow: sync
       label: port / adapter
-      path: M480 250 H400 V336 H170 V420
+      path: M480 235 H400 V336 H170 V420
       label_x: 230
       label_y: 327
     - id: api-llm
@@ -293,7 +286,7 @@ flagship:
       to: local-llm
       flow: sync
       label: internal HTTP
-      path: M660 302 V350 H405 V420
+      path: M660 287 V350 H405 V420
       label_x: 570
       label_y: 342
     - id: api-queue
@@ -301,7 +294,7 @@ flagship:
       to: queue
       flow: async
       label: enqueue contract
-      path: M720 266 H1115 V330 H700 V420
+      path: M720 251 H1115 V330 H700 V420
       label_x: 900
       label_y: 322
     - id: queue-worker
