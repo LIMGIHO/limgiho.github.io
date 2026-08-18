@@ -1,0 +1,56 @@
+<section class="architecture-transition" aria-labelledby="transition-title">
+  <div class="subsection-heading">
+    <p class="subsection-label">전환 전후</p>
+    <h3 id="transition-title">흩어진 운영 시스템을 하나의 실행 구조로 압축</h3>
+  </div>
+
+  {% assign before_item = include.flagship.scope_summary | where: "label", "운영 시스템 분석·전환" | first %}
+  {% assign before_count = before_item.value | remove: "종" | plus: 0 %}
+  {% assign after_ids = "web,api,queue,worker,batch,data" | split: "," %}
+
+  <figure class="transition-figure">
+    <svg class="transition-map" viewBox="0 0 1200 400" role="img" aria-labelledby="transition-map-title transition-map-description">
+      <title id="transition-map-title">전환 전후 시스템 구조 대조</title>
+      <desc id="transition-map-description">{{ before_count }}개로 흩어져 있던 운영 시스템이 Web, API, Queue, Worker, Batch, Data 6개 실행 단위를 가진 하나의 플랫폼 경계 안으로 통합된 모습을 나타냅니다.</desc>
+
+      <text class="transition-side-label" x="40" y="30">BEFORE</text>
+      <g class="transition-before">
+        {% for i in (0..14) %}
+          {% assign col = i | modulo: 5 %}
+          {% assign row = i | divided_by: 5 %}
+          {% assign bx = col | times: 62 | plus: 40 %}
+          {% assign by = row | times: 50 | plus: 50 %}
+          <rect x="{{ bx }}" y="{{ by }}" width="50" height="34" rx="5"></rect>
+        {% endfor %}
+      </g>
+      <text class="transition-caption" x="40" y="230">{{ before_item.value }} {{ before_item.label }}</text>
+
+      <g class="transition-arrow">
+        <path d="M520 200 H660" marker-end="url(#arrow-transition)"></path>
+        <text x="590" y="185">15 → 1</text>
+      </g>
+
+      <text class="transition-side-label" x="700" y="30">AFTER</text>
+      <rect class="transition-boundary" x="680" y="48" width="480" height="290" rx="16"></rect>
+      <text class="transition-boundary-label" x="700" y="72">단일 플랫폼</text>
+      <g class="transition-after">
+        {% for id in after_ids %}
+          {% assign node = include.flagship.nodes | where: "id", id | first %}
+          {% assign col = forloop.index0 | modulo: 3 %}
+          {% assign row = forloop.index0 | divided_by: 3 %}
+          {% assign ax = col | times: 150 | plus: 700 %}
+          {% assign ay = row | times: 90 | plus: 90 %}
+          <g class="transition-after-node">
+            <rect x="{{ ax }}" y="{{ ay }}" width="130" height="66" rx="8"></rect>
+            <text x="{{ ax | plus: 65 }}" y="{{ ay | plus: 38 }}" text-anchor="middle">{{ node.label }}</text>
+          </g>
+        {% endfor %}
+      </g>
+
+      <defs>
+        <marker id="arrow-transition" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+      </defs>
+    </svg>
+    <figcaption>왼쪽은 이름을 특정하지 않은 {{ before_count }}개 레거시 운영 시스템, 오른쪽은 같은 범위를 대체한 Web·API·Queue·Worker·Batch·Data 6개 실행 단위입니다.</figcaption>
+  </figure>
+</section>

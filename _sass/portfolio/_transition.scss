@@ -1,0 +1,114 @@
+// 전환 전후(15종 분산 → 단일 플랫폼) 다이어그램
+.architecture-transition {
+  margin-bottom: 60px;
+}
+
+.transition-figure {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.transition-map {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.transition-side-label {
+  fill: var(--muted);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.12em;
+}
+
+.transition-before rect {
+  fill: var(--page);
+  stroke: var(--muted);
+  stroke-dasharray: 4 3;
+  stroke-width: 1.3;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .transition-before rect:nth-child(3n) {
+    transform: rotate(-2.5deg);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  .transition-before rect:nth-child(3n + 1) {
+    transform: rotate(2deg);
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+}
+
+.transition-caption {
+  fill: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.transition-arrow path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 3;
+}
+
+.transition-arrow text {
+  fill: var(--accent-strong);
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 800;
+  text-anchor: middle;
+}
+
+#arrow-transition path {
+  fill: var(--accent);
+}
+
+.transition-boundary {
+  fill: none;
+  stroke: var(--accent-strong);
+  stroke-dasharray: 6 4;
+  stroke-width: 1.6;
+}
+
+.transition-boundary-label {
+  fill: var(--accent-strong);
+  font-size: 12px;
+  font-weight: 850;
+  letter-spacing: 0.1em;
+}
+
+.transition-after-node rect {
+  fill: var(--paper);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.transition-after-node text {
+  fill: var(--ink);
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.transition-figure figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 760px) {
+  .transition-figure {
+    padding: 10px;
+  }
+}
+
+@media print {
+  .architecture-transition {
+    break-inside: avoid;
+  }
+}
