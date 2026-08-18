@@ -6,6 +6,7 @@
 .transition-figure {
   margin: 0;
   padding: 14px;
+  overflow-x: auto;
   border: 1px solid var(--rule);
   border-radius: 12px;
   background: var(--surface);
@@ -104,6 +105,11 @@
 @media (max-width: 760px) {
   .transition-figure {
     padding: 10px;
+  }
+
+  .transition-map {
+    width: 1200px;
+    max-width: none;
   }
 }
 

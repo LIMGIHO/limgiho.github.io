@@ -6,6 +6,7 @@
 .document-flow-figure {
   margin: 0;
   padding: 14px;
+  overflow-x: auto;
   border: 1px solid var(--rule);
   border-radius: 12px;
   background: var(--surface);
@@ -163,6 +164,13 @@
 @media (max-width: 760px) {
   .document-flow-figure {
     padding: 10px;
+  }
+
+  // 좁은 화면에서 글자가 읽을 수 없을 만큼 줄어들지 않도록 원본 크기를
+  // 유지하고 가로 스크롤로 보게 한다(위 overflow-x: auto와 짝).
+  .document-flow-map {
+    width: 1260px;
+    max-width: none;
   }
 }
 

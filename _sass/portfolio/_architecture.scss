@@ -108,8 +108,12 @@
   border-top-style: dashed;
 }
 
+// 문서 처리·배포 플로우로 특이점이 옮겨간 뒤로는 이 런타임 그림이
+// 배경 역할이면 충분하다. 두 신규 다이어그램은 전체 폭을 그대로 쓰고,
+// 이 그림만 최대 폭을 줄여 화면 지분을 낮춘다.
 .architecture-figure {
-  margin: 0;
+  max-width: 880px;
+  margin: 0 auto;
   padding: 14px;
   border: 1px solid var(--rule);
   border-radius: 12px;

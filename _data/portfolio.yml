@@ -261,9 +261,9 @@ flagship:
       contract: 동일 SHA 태그 build/deploy · test gate
       deployment: 앱별 child pipeline
       x: 500
-      y: 730
+      y: 690
       width: 200
-      height: 90
+      height: 82
   edges:
     - id: web-api
       from: web

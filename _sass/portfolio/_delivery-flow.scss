@@ -6,6 +6,7 @@
 .delivery-flow-figure {
   margin: 0;
   padding: 14px;
+  overflow-x: auto;
   border: 1px solid var(--rule);
   border-radius: 12px;
   background: var(--surface);
@@ -162,6 +163,11 @@
 @media (max-width: 760px) {
   .delivery-flow-figure {
     padding: 10px;
+  }
+
+  .delivery-flow-map {
+    width: 1220px;
+    max-width: none;
   }
 }
 
