@@ -51,7 +51,6 @@ class PortfolioSourceContractTests(unittest.TestCase):
         node_ids = {
             "web",
             "api",
-            "legacy-api",
             "queue",
             "worker",
             "batch",
@@ -106,16 +105,6 @@ class PortfolioSourceContractTests(unittest.TestCase):
                         "to": "queue",
                         "flow": "async",
                         "label": "enqueue",
-                        "path": "M10 10 H20",
-                        "label_x": 15,
-                        "label_y": 8,
-                    },
-                    {
-                        "id": "legacy-api",
-                        "from": "legacy-api",
-                        "to": "api",
-                        "flow": "migration",
-                        "label": "module migration",
                         "path": "M10 10 H20",
                         "label_x": 15,
                         "label_y": 8,
@@ -295,11 +284,9 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             ".architecture-node-app",
             ".architecture-node-infra",
             ".architecture-node-boundary",
-            ".architecture-node-legacy",
             ".architecture-node-pipeline",
             ".architecture-edge-sync",
             ".architecture-edge-async",
-            ".architecture-edge-migration",
             ".architecture-edge-delivery",
             ".architecture-detail-grid",
             ".architecture-mobile-node",
@@ -325,18 +312,17 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertIn('id="flagship"', text)
             self.assertIn('id="implementation-architecture"', text)
             self.assertIn('<p class="section-number">02 · 통합 업무 플랫폼 개발</p>', text)
-            self.assertEqual(text.count("data-architecture-node="), 10)
-            self.assertEqual(text.count("data-architecture-mobile-node="), 10)
-            self.assertEqual(text.count("data-architecture-edge="), 10)
-            self.assertEqual(text.count("data-edge-from="), 10)
-            self.assertEqual(text.count("data-edge-to="), 10)
-            self.assertEqual(text.count("data-architecture-boundary="), 5)
+            self.assertEqual(text.count("data-architecture-node="), 9)
+            self.assertEqual(text.count("data-architecture-mobile-node="), 9)
+            self.assertEqual(text.count("data-architecture-edge="), 9)
+            self.assertEqual(text.count("data-edge-from="), 9)
+            self.assertEqual(text.count("data-edge-to="), 9)
+            self.assertEqual(text.count("data-architecture-boundary="), 4)
             for node_id in self.verify.REQUIRED_ARCHITECTURE_NODE_IDS:
                 self.assertIn(f'data-architecture-node="{node_id}"', text)
                 self.assertIn(f'data-architecture-mobile-node="{node_id}"', text)
             for phrase in (
                 "PRESENTATION",
-                "APPLICATION",
                 "ASYNC EXECUTION",
                 "INTEGRATION & DATA",
                 "DELIVERY",
@@ -363,7 +349,7 @@ class PortfolioRenderedContractTests(unittest.TestCase):
         for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
             text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
             self.assertIn('id="architecture-mobile"', text)
-            self.assertEqual(text.count("data-architecture-mobile-node="), 10)
+            self.assertEqual(text.count("data-architecture-mobile-node="), 9)
             self.assertIn('id="architecture-detail"', text)
             for phrase in ("Web", "API", "Queue", "Worker", "External Adapters"):
                 self.assertIn(phrase, text)

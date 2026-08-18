@@ -24,7 +24,6 @@ PDF_PROFILES = {
 REQUIRED_ARCHITECTURE_NODE_IDS = {
     "web",
     "api",
-    "legacy-api",
     "queue",
     "worker",
     "batch",
@@ -33,7 +32,7 @@ REQUIRED_ARCHITECTURE_NODE_IDS = {
     "data",
     "cicd",
 }
-REQUIRED_ARCHITECTURE_FLOWS = {"sync", "async", "migration", "delivery"}
+REQUIRED_ARCHITECTURE_FLOWS = {"sync", "async", "delivery"}
 REQUIRED_ARCHITECTURE_NODE_FIELDS = (
     "id",
     "label",
@@ -203,20 +202,20 @@ def validate_rendered(site_dir):
                 f"{profile_name} journey item count: "
                 f"{text.count('data-journey-item')} (expected 4)"
             )
-        if text.count("data-architecture-node=") != 10:
+        if text.count("data-architecture-node=") != 9:
             errors.append(
                 f"{profile_name} architecture node count: "
-                f"{text.count('data-architecture-node=')} (expected 10)"
+                f"{text.count('data-architecture-node=')} (expected 9)"
             )
-        if text.count("data-architecture-mobile-node=") != 10:
+        if text.count("data-architecture-mobile-node=") != 9:
             errors.append(
                 f"{profile_name} mobile architecture node count: "
-                f"{text.count('data-architecture-mobile-node=')} (expected 10)"
+                f"{text.count('data-architecture-mobile-node=')} (expected 9)"
             )
-        if text.count("data-architecture-edge=") != 10:
+        if text.count("data-architecture-edge=") != 9:
             errors.append(
                 f"{profile_name} architecture edge count: "
-                f"{text.count('data-architecture-edge=')} (expected 10)"
+                f"{text.count('data-architecture-edge=')} (expected 9)"
             )
         for node_id in REQUIRED_ARCHITECTURE_NODE_IDS:
             if f'data-architecture-node="{node_id}"' not in text:

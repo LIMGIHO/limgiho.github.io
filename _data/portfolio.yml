@@ -77,35 +77,37 @@ flagship:
     - id: presentation
       label: PRESENTATION
       description: 사용자 업무 화면
-      x: 360
-      y: 28
-      width: 480
-      height: 126
+      x: 470
+      y: 16
+      width: 260
+      height: 138
     - id: integration-data
       label: INTEGRATION & DATA
       description: 외부 경계와 영속 데이터
       x: 30
-      y: 350
-      width: 510
-      height: 300
+      y: 360
+      width: 520
+      height: 310
     - id: async-execution
       label: ASYNC EXECUTION
       description: 비동기 작업과 예약 실행
-      x: 570
-      y: 350
-      width: 600
-      height: 300
+      x: 580
+      y: 360
+      width: 590
+      height: 310
     - id: delivery
       label: DELIVERY
       description: 변경 감지부터 운영 배포까지
       x: 30
-      y: 690
+      y: 700
       width: 1140
-      height: 120
+      height: 130
   nodes:
     - id: web
       label: Web
       tech: Next.js · React · TypeScript
+      icon: nextjs
+      icon_caption: Next.js
       kind: app
       boundary: presentation
       summary: 5개 업무 도메인의 90여 개 화면
@@ -116,13 +118,15 @@ flagship:
       outputs: REST 요청 · 업무 결과 화면 · 파일 다운로드
       contract: TypeScript DTO · HTTP status · 공통 오류 형식
       deployment: Web 컨테이너 독립 배포
-      x: 450
-      y: 82
-      width: 300
-      height: 70
+      x: 525
+      y: 38
+      width: 150
+      height: 100
     - id: api
       label: API
       tech: NestJS · TypeScript
+      icon: nestjs
+      icon_caption: NestJS
       kind: app
       boundary: application
       summary: 5개 도메인의 동기 요청 처리
@@ -133,10 +137,10 @@ flagship:
       outputs: Repository 호출 · 외부 연동 · Queue job
       contract: DTO validation · Symbol port · 공통 job package
       deployment: API 컨테이너 수평 확장
-      x: 480
-      y: 215
-      width: 240
-      height: 72
+      x: 525
+      y: 200
+      width: 150
+      height: 100
     - id: external
       label: External Adapters
       tech: HTTP · FTP · Socket · EDI
@@ -151,7 +155,7 @@ flagship:
       contract: Port interface · timeout · retry policy
       deployment: API 또는 Worker 배포 단위에 포함
       x: 65
-      y: 420
+      y: 430
       width: 210
       height: 82
     - id: local-llm
@@ -167,8 +171,8 @@ flagship:
       outputs: 검증된 구조화 데이터 · 실패 사유
       contract: Internal HTTP · JSON Schema
       deployment: 사내망 추론 서버 독립 운영
-      x: 300
-      y: 420
+      x: 305
+      y: 430
       width: 210
       height: 82
     - id: data
@@ -185,12 +189,14 @@ flagship:
       contract: Repository interface · transaction boundary
       deployment: 관리형 DB와 기존 DB 병행 운영
       x: 165
-      y: 550
+      y: 575
       width: 240
       height: 82
     - id: queue
       label: Queue
       tech: Redis · BullMQ
+      icon: redis
+      icon_caption: Redis
       kind: infra
       boundary: async-execution
       summary: API와 Worker 사이 작업 전달
@@ -201,13 +207,15 @@ flagship:
       outputs: Worker consume · retry · failed job
       contract: Shared typed job contract
       deployment: Redis 인프라 독립 운영
-      x: 605
-      y: 420
-      width: 190
-      height: 82
+      x: 615
+      y: 430
+      width: 150
+      height: 100
     - id: worker
       label: Worker
       tech: NestJS · BullMQ · Redis lock
+      icon: nestjs
+      icon_caption: NestJS
       kind: app
       boundary: async-execution
       summary: 비동기·예약 작업 실행 조정
@@ -218,10 +226,10 @@ flagship:
       outputs: Batch 실행 · 외부 어댑터 호출 · 처리 결과
       contract: Shared job package · idempotency key
       deployment: Worker 컨테이너 다중 replica
-      x: 920
-      y: 420
-      width: 200
-      height: 82
+      x: 940
+      y: 430
+      width: 150
+      height: 100
     - id: batch
       label: Batch
       tech: Node.js · C# · Browser automation
@@ -235,13 +243,15 @@ flagship:
       outputs: 외부 입력 결과 · 처리 로그 · 산출 파일
       contract: Job command · execution result
       deployment: 작업 특성별 실행 이미지 분리
-      x: 920
-      y: 550
+      x: 915
+      y: 575
       width: 200
       height: 82
     - id: cicd
       label: CI/CD
       tech: GitLab CI · Kaniko · Docker Swarm
+      icon: docker
+      icon_caption: Docker Swarm
       kind: pipeline
       boundary: delivery
       summary: 변경된 앱만 테스트·빌드·배포
@@ -253,82 +263,82 @@ flagship:
       contract: 동일 SHA 태그 build/deploy · test gate
       deployment: 앱별 child pipeline
       x: 60
-      y: 745
+      y: 726
       width: 1080
-      height: 58
+      height: 60
   edges:
     - id: web-api
       from: web
       to: api
       flow: sync
       label: REST
-      path: M600 152 V215
+      path: M600 138 V200
       label_x: 608
-      label_y: 188
+      label_y: 172
     - id: api-data
       from: api
       to: data
       flow: sync
       label: repository
-      path: M540 287 V334 H535 V510 H285 V550
+      path: M560 300 V334 H535 V522 H285 V575
       label_x: 345
-      label_y: 522
+      label_y: 534
     - id: api-external
       from: api
       to: external
       flow: sync
       label: port / adapter
-      path: M480 235 H400 V336 H170 V420
-      label_x: 230
-      label_y: 327
+      path: M525 230 H380 V346 H170 V430
+      label_x: 250
+      label_y: 338
     - id: api-llm
       from: api
       to: local-llm
       flow: sync
       label: internal HTTP
-      path: M660 287 V350 H405 V420
+      path: M640 300 V366 H410 V430
       label_x: 570
-      label_y: 342
+      label_y: 358
     - id: api-queue
       from: api
       to: queue
       flow: async
       label: enqueue contract
-      path: M720 251 H1115 V330 H700 V420
-      label_x: 900
-      label_y: 322
+      path: M675 230 H1150 V400 H650 V430
+      label_x: 950
+      label_y: 392
     - id: queue-worker
       from: queue
       to: worker
       flow: async
       label: consume contract
-      path: M795 461 H920
-      label_x: 802
-      label_y: 450
+      path: M765 480 H940
+      label_x: 772
+      label_y: 469
     - id: worker-batch
       from: worker
       to: batch
       flow: async
       label: job execution
-      path: M1020 502 V550
-      label_x: 1030
-      label_y: 528
+      path: M1015 530 V575
+      label_x: 1025
+      label_y: 552
     - id: worker-external
       from: worker
       to: external
       flow: async
       label: port / adapter
-      path: M970 502 V534 H190 V502
-      label_x: 600
-      label_y: 526
+      path: M1015 530 V548 H170 V512
+      label_x: 580
+      label_y: 540
     - id: cicd-runtime
       from: cicd
       to: web
       flow: delivery
       label: SHA image deploy
-      path: M1140 753 H1160 V117 H750
-      label_x: 1024
-      label_y: 680
+      path: M1140 754 H1170 V88 H675
+      label_x: 1000
+      label_y: 692
   pipeline:
     steps:
       - 변경 앱 감지
