@@ -10,6 +10,37 @@
     <article><span>역할</span><p>{{ include.automation.role }}</p></article>
   </div>
 
+  <div class="automation-mockups" role="group" aria-label="자동화 대상 화면 예시(익명화한 레이아웃, 실데이터 아님)">
+    <figure class="automation-mockup automation-mockup-before">
+      <figcaption>자동화 이전 · 수기 입력</figcaption>
+      <div class="mockup-window">
+        <div class="mockup-titlebar"><span></span><span></span><span></span></div>
+        <div class="mockup-form">
+          <div class="mockup-field"><label>거래처코드</label><div class="mockup-input">V-0000</div></div>
+          <div class="mockup-field"><label>품목코드</label><div class="mockup-input">I-0000</div></div>
+          <div class="mockup-field"><label>수량</label><div class="mockup-input">000</div></div>
+          <div class="mockup-field"><label>단가</label><div class="mockup-input">0,000</div></div>
+          <div class="mockup-field"><label>입고일자</label><div class="mockup-input">0000-00-00</div></div>
+        </div>
+        <div class="mockup-actions"><span class="mockup-button">제출</span></div>
+      </div>
+    </figure>
+    <figure class="automation-mockup automation-mockup-after">
+      <figcaption>자동화 이후 · 검증 자동 적용</figcaption>
+      <div class="mockup-window">
+        <div class="mockup-titlebar"><span></span><span></span><span></span></div>
+        <div class="mockup-form">
+          <div class="mockup-field is-valid"><label>거래처코드</label><div class="mockup-input">V-0000</div><span class="mockup-check">✓</span></div>
+          <div class="mockup-field is-valid"><label>품목코드</label><div class="mockup-input">I-0000</div><span class="mockup-check">✓</span></div>
+          <div class="mockup-field is-valid"><label>수량</label><div class="mockup-input">000</div><span class="mockup-check">✓</span></div>
+          <div class="mockup-field is-valid"><label>단가</label><div class="mockup-input">0,000</div><span class="mockup-check">✓</span></div>
+          <div class="mockup-field is-valid"><label>입고일자</label><div class="mockup-input">0000-00-00</div><span class="mockup-check">✓</span></div>
+        </div>
+        <div class="mockup-status">검증 5/5 통과 · 자동 전송 대기</div>
+      </div>
+    </figure>
+  </div>
+
   <ol class="automation-flow">
     {% for step in include.automation.steps %}
       <li><span>0{{ forloop.index }}</span><h3>{{ step.label }}</h3><p>{{ step.description }}</p></li>

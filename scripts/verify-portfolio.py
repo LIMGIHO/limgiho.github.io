@@ -199,6 +199,8 @@ def validate_rendered(site_dir):
             'id="experience"',
             'id="additional-work"',
             "외부 업무 시스템 입력 자동화",
+            "automation-mockup-before",
+            "automation-mockup-after",
             "1,200시간",
             "ILJIN Global",
             "KWE Korea",
