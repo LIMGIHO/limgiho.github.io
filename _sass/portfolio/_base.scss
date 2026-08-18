@@ -1,0 +1,99 @@
+// 전역 리셋, 문서 셸, 인쇄 기본값
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body.portfolio {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font-family: system-ui, -apple-system, "Pretendard", "Malgun Gothic", sans-serif;
+  line-height: 1.6;
+}
+
+.portfolio-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  border-top: 5px solid var(--accent);
+  background: var(--paper);
+  box-shadow: 0 22px 70px rgba(29, 34, 40, 0.12);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  z-index: 20;
+  padding: 0.75rem 1rem;
+  background: #fff;
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 14mm 13mm 16mm;
+}
+
+@media print {
+  body.portfolio {
+    background: var(--paper);
+    font-size: 9.5pt;
+  }
+
+  .portfolio-shell {
+    width: 100%;
+    max-width: none;
+    border-top-width: 3px;
+    box-shadow: none;
+  }
+
+  .portfolio-section {
+    padding: 12mm 0;
+  }
+
+  .portfolio-section,
+  .journey-item,
+  .architecture-figure,
+  .architecture-detail,
+  .automation-flow li,
+  .experience-item,
+  .technology-grid article,
+  .additional-work-list article {
+    break-inside: avoid;
+  }
+
+  .screen-only {
+    display: none !important;
+  }
+
+  .architecture-mobile {
+    display: none !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}

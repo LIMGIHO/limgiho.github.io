@@ -1,0 +1,28 @@
+// 토큰과 테마 정의
+:root {
+  color-scheme: light;
+}
+
+.theme-ice-blue {
+  --accent: #287dae;
+  --accent-strong: #155f8d;
+  --accent-soft: #e3f4fc;
+  --surface: #f5fbfe;
+  --paper: #ffffff;
+  --page: #edf3f6;
+  --ink: #1d2228;
+  --muted: #66707a;
+  --rule: #cbe5f3;
+}
+
+.theme-graphite-yellow {
+  --accent: #8a7000;
+  --accent-strong: #5e4d00;
+  --accent-soft: #fff7cf;
+  --surface: #faf9f3;
+  --paper: #ffffff;
+  --page: #efeee9;
+  --ink: #1d2228;
+  --muted: #68675f;
+  --rule: #e3debf;
+}

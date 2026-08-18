@@ -1,0 +1,100 @@
+// 01 CAREER JOURNEY
+.journey-list {
+  position: relative;
+  display: grid;
+  gap: 0;
+  max-width: 880px;
+  margin: 0 0 0 180px;
+  padding: 0;
+  list-style: none;
+}
+
+.journey-list::before {
+  position: absolute;
+  top: 12px;
+  bottom: 12px;
+  left: 116px;
+  width: 1px;
+  background: var(--rule);
+  content: "";
+}
+
+.journey-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 92px minmax(0, 1fr);
+  gap: 48px;
+  padding: 0 0 36px;
+  color: var(--muted);
+}
+
+.journey-item::before {
+  position: absolute;
+  top: 8px;
+  left: 110px;
+  width: 13px;
+  height: 13px;
+  border: 3px solid #fff;
+  border-radius: 50%;
+  background: var(--muted);
+  box-shadow: 0 0 0 1px var(--rule);
+  content: "";
+}
+
+.journey-item time {
+  padding-top: 2px;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.journey-content h3 {
+  margin: 4px 0 7px;
+  color: var(--ink);
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+}
+
+.journey-content p {
+  margin: 0;
+}
+
+.journey-meta {
+  font-size: 0.8rem;
+  font-weight: 750;
+}
+
+.journey-item.is-current::before {
+  background: var(--accent);
+  box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.journey-item.is-current {
+  color: var(--ink);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .journey-item,
+  .journey-item::before {
+    transition: color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+  }
+}
+
+@media (max-width: 760px) {
+  .journey-list {
+    margin-left: 0;
+  }
+
+  .journey-list::before {
+    left: 8px;
+  }
+
+  .journey-item {
+    grid-template-columns: 1fr;
+    gap: 6px;
+    padding: 0 0 32px 34px;
+  }
+
+  .journey-item::before {
+    left: 2px;
+  }
+}

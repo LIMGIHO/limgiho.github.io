@@ -1,0 +1,440 @@
+// 02 통합 업무 플랫폼 · 구현 범위 요약과 아키텍처 다이어그램
+.architecture-scope {
+  margin-bottom: 60px;
+}
+
+.architecture-scope-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  margin: 0;
+  padding: 0;
+  border-block: 1px solid var(--rule);
+  list-style: none;
+}
+
+.architecture-scope-list li {
+  min-height: 112px;
+  padding: 22px 15px;
+  border-left: 1px solid var(--rule);
+}
+
+.architecture-scope-list li:first-child {
+  border-left: 0;
+}
+
+.architecture-scope-list strong,
+.architecture-scope-list span {
+  display: block;
+}
+
+.architecture-scope-list strong {
+  color: var(--accent-strong);
+  font-size: 1.45rem;
+  line-height: 1.2;
+  letter-spacing: -0.04em;
+}
+
+.architecture-scope-list span {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.4;
+}
+
+.implementation-architecture {
+  padding-top: 48px;
+  border-top: 1px solid var(--rule);
+}
+
+.architecture-heading {
+  max-width: 760px;
+}
+
+.architecture-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-bottom: 14px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 8px;
+  background: var(--paper);
+}
+
+.architecture-legend span {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 0.7rem;
+  font-weight: 750;
+}
+
+.legend-node::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--accent);
+  border-radius: 3px;
+  background: var(--paper);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.legend-infra::before {
+  border-color: var(--muted);
+  background: var(--surface);
+}
+
+.legend-boundary::before {
+  border-style: dashed;
+  border-color: var(--accent-strong);
+}
+
+.legend-flow::before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 12px;
+  border-top: 2px solid var(--accent);
+  content: "";
+  transform: translateY(-50%);
+}
+
+.legend-async::before {
+  border-color: var(--accent-strong);
+  border-top-style: dashed;
+}
+
+.legend-delivery::before {
+  border-color: var(--muted);
+  border-top-style: dotted;
+}
+
+.architecture-figure {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.architecture-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--ink);
+}
+
+.architecture-boundary rect {
+  fill: rgba(255, 255, 255, 0.55);
+  stroke: var(--rule);
+  stroke-width: 1.5;
+}
+
+.architecture-boundary .boundary-label {
+  fill: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+}
+
+.architecture-boundary .boundary-description {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.architecture-edge path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.architecture-edge text {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-linejoin: round;
+  stroke-width: 5px;
+}
+
+.architecture-edge-sync path {
+  stroke: var(--accent);
+}
+
+.architecture-edge-async path {
+  stroke: var(--accent-strong);
+  stroke-dasharray: 7 5;
+}
+
+.architecture-edge-delivery path {
+  stroke: var(--muted);
+  stroke-dasharray: 2 5;
+}
+
+.architecture-edge.is-related path {
+  stroke-width: 4;
+}
+
+.architecture-edge.is-related text {
+  fill: var(--ink);
+}
+
+#arrow-sync path {
+  fill: var(--accent);
+}
+
+#arrow-async path {
+  fill: var(--accent-strong);
+}
+
+#arrow-delivery path {
+  fill: var(--muted);
+}
+
+.architecture-node {
+  cursor: pointer;
+  outline: none;
+}
+
+.architecture-node rect {
+  fill: var(--paper);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.architecture-node-app rect {
+  fill: var(--paper);
+  stroke: var(--accent);
+}
+
+.architecture-node-infra rect {
+  fill: var(--surface);
+  stroke: var(--muted);
+}
+
+.architecture-node-boundary rect {
+  fill: var(--paper);
+  stroke: var(--accent-strong);
+  stroke-dasharray: 5 3;
+}
+
+.architecture-node-pipeline rect {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+}
+
+.architecture-node.is-selected rect,
+.architecture-node:focus rect {
+  stroke: var(--accent-strong);
+  stroke-width: 3.5;
+}
+
+.architecture-node .node-label {
+  fill: var(--ink);
+  font-size: 15px;
+  font-weight: 850;
+  pointer-events: none;
+}
+
+.architecture-node .node-tech {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+  pointer-events: none;
+}
+
+.pipeline-steps text {
+  fill: var(--accent-strong);
+  font-size: 10px;
+  font-weight: 800;
+  pointer-events: none;
+}
+
+.pipeline-steps .pipeline-arrow {
+  fill: var(--muted);
+}
+
+.architecture-figure figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+.architecture-mobile {
+  display: none;
+}
+
+.architecture-detail {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.8fr);
+  gap: 30px;
+  margin-top: 18px;
+  padding: 28px;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  background: var(--paper);
+}
+
+.architecture-detail-heading h3 {
+  margin: 7px 0 2px;
+  font-size: 1.55rem;
+  letter-spacing: -0.035em;
+}
+
+.architecture-detail-heading > p:last-child {
+  margin: 14px 0 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+}
+
+.architecture-detail-tech {
+  margin: 0;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.architecture-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 24px;
+  margin: 0;
+}
+
+.architecture-detail-grid > div {
+  padding: 11px 0;
+  border-top: 1px solid var(--rule);
+}
+
+.architecture-detail-grid > div:nth-child(-n + 2) {
+  border-top: 0;
+}
+
+.architecture-detail-grid .detail-wide {
+  grid-column: 1 / -1;
+}
+
+.architecture-detail-grid dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.architecture-detail-grid dd {
+  margin: 4px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 760px) {
+  .architecture-figure {
+    padding: 10px;
+  }
+
+  .architecture-map {
+    display: none;
+  }
+
+  .architecture-mobile {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .architecture-mobile-node {
+    display: grid;
+    grid-template-columns: minmax(88px, 0.55fr) minmax(0, 1.45fr);
+    gap: 2px 12px;
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    text-align: left;
+  }
+
+  .architecture-mobile-node.is-selected,
+  .architecture-mobile-node:focus-visible {
+    border-color: var(--accent);
+    box-shadow: inset 3px 0 0 var(--accent);
+    outline: none;
+  }
+
+  .architecture-mobile-node .mobile-node-boundary {
+    grid-row: 1 / span 3;
+    align-self: center;
+    color: var(--muted);
+    font-size: 0.7rem;
+    font-weight: 850;
+    line-height: 1.3;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .architecture-mobile-node strong {
+    font-size: 1rem;
+  }
+
+  .architecture-mobile-node > span:not(.mobile-node-boundary) {
+    color: var(--accent-strong);
+    font-size: 0.72rem;
+    font-weight: 750;
+  }
+
+  .architecture-mobile-node small {
+    color: var(--muted);
+    font-size: 0.74rem;
+  }
+
+  .architecture-scope-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .architecture-scope-list li {
+    min-height: 96px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .architecture-scope-list li:nth-child(odd) {
+    border-left: 0;
+  }
+
+  .architecture-scope-list li:nth-last-child(-n + 2) {
+    border-bottom: 0;
+  }
+
+  .architecture-detail {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 22px 18px;
+  }
+
+  .architecture-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .architecture-detail-grid > div,
+  .architecture-detail-grid > div:nth-child(-n + 2) {
+    border-top: 1px solid var(--rule);
+  }
+
+  .architecture-detail-grid > div:first-child {
+    border-top: 0;
+  }
+}
+
+@media print {
+  .architecture-map {
+    display: block !important;
+  }
+}

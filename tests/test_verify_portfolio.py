@@ -279,7 +279,11 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertNotIn(retired, script)
 
     def test_architecture_styles_cover_kinds_flows_and_mobile_layout(self):
-        styles = (ROOT / "assets" / "css" / "portfolio.scss").read_text(encoding="utf-8")
+        partial_dir = ROOT / "_sass" / "portfolio"
+        styles = "\n".join(
+            path.read_text(encoding="utf-8")
+            for path in sorted(partial_dir.glob("*.scss"))
+        )
         for selector in (
             ".architecture-node-app",
             ".architecture-node-infra",
