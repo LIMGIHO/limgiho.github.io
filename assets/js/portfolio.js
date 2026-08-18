@@ -147,9 +147,38 @@ function initNav(root) {
   sections.forEach((section) => observer.observe(section));
 }
 
+function initReveal(root) {
+  const targets = [...root.querySelectorAll('[data-reveal]')];
+  if (!targets.length) return;
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduceMotion || !('IntersectionObserver' in window)) return;
+
+  // 기본 상태는 이미 보이는 상태다. 여기서부터만 reveal-pending을 붙여
+  // 잠깐 숨겼다가 뷰포트에 들어오는 순간 되돌린다. 한 번 나타난 요소는
+  // 다시 숨기지 않는다(unobserve).
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.remove('reveal-pending');
+        entry.target.classList.add('is-revealed');
+        observer.unobserve(entry.target);
+      });
+    },
+    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+  );
+
+  targets.forEach((target) => {
+    target.classList.add('reveal-pending');
+    observer.observe(target);
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initJourney(document);
   initArchitecture(document);
   initThemeToggle(document);
   initNav(document);
+  initReveal(document);
 });

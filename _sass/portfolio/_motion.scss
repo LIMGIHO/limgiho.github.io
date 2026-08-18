@@ -1,0 +1,23 @@
+// 스크롤 등장 모션.
+// 기본 상태는 항상 "보임"이다. [data-reveal] 요소는 서버 렌더 시점에는
+// 아무 숨김 규칙도 받지 않는다. JS가 IntersectionObserver를 준비하며
+// reveal-pending 클래스를 붙일 때만 잠깐 숨김 상태를 거치고, 뷰포트에
+// 들어오면 곧바로 원래 모습으로 돌아온다. JS가 없거나 실패하면
+// reveal-pending 자체가 붙지 않으므로 모든 내용이 그대로 보인다.
+@media (prefers-reduced-motion: no-preference) {
+  [data-reveal] {
+    transition: opacity 480ms ease, transform 480ms ease;
+  }
+
+  [data-reveal].reveal-pending {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+}
+
+@media print {
+  [data-reveal].reveal-pending {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
