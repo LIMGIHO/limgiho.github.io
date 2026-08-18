@@ -1,0 +1,172 @@
+// 배포 플로우 — 02 섹션 신규 다이어그램
+.delivery-flow {
+  margin-top: 56px;
+}
+
+.delivery-flow-figure {
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.delivery-flow-map {
+  display: block;
+  width: 100%;
+  height: auto;
+  color: var(--ink);
+}
+
+.delivery-flow-boundary rect {
+  fill: rgba(255, 255, 255, 0.04);
+  stroke: var(--rule);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 4;
+}
+
+.delivery-flow-boundary .boundary-label {
+  fill: var(--accent-strong);
+  font-size: 11px;
+  font-weight: 850;
+  letter-spacing: 0.11em;
+}
+
+.delivery-flow-boundary .boundary-description {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.delivery-flow-edge path {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.2;
+}
+
+.delivery-flow-edge text {
+  fill: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-linejoin: round;
+  stroke-width: 5px;
+}
+
+.delivery-flow-edge-flow path {
+  stroke: var(--accent);
+}
+
+.delivery-flow-edge-branch-pass path {
+  stroke: var(--accent);
+  stroke-width: 2.8;
+}
+
+.delivery-flow-edge-branch-fail path {
+  stroke: var(--danger);
+  stroke-width: 2.4;
+  stroke-dasharray: 2 7;
+}
+
+.delivery-flow-edge-branch-fail text {
+  fill: var(--danger);
+  font-weight: 850;
+}
+
+.delivery-flow-edge-skip path {
+  stroke: var(--muted);
+  stroke-width: 1.6;
+  stroke-dasharray: 3 5;
+  opacity: 0.6;
+}
+
+.delivery-flow-edge-skip text {
+  opacity: 0.7;
+}
+
+#arrow-dep-flow path,
+#arrow-dep-branch-pass path {
+  fill: var(--accent);
+}
+
+#arrow-dep-branch-fail path {
+  fill: var(--danger);
+}
+
+#arrow-dep-skip path {
+  fill: var(--muted);
+  opacity: 0.6;
+}
+
+.delivery-flow-node rect {
+  fill: var(--paper);
+  stroke: var(--accent);
+  stroke-width: 1.5;
+}
+
+.delivery-flow-node-decision rect {
+  fill: var(--page);
+  stroke: var(--accent-strong);
+  stroke-dasharray: 5 3;
+}
+
+.delivery-flow-node-pass rect {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 2;
+}
+
+.delivery-flow-node-fail rect {
+  fill: var(--paper);
+  stroke: var(--danger);
+  stroke-width: 2;
+  stroke-dasharray: 3 3;
+}
+
+.delivery-flow-node-fail .node-label {
+  fill: var(--danger);
+}
+
+.delivery-flow-node-skip {
+  opacity: 0.55;
+}
+
+.delivery-flow-node-skip rect {
+  fill: var(--page);
+  stroke: var(--muted);
+  stroke-dasharray: 2 4;
+}
+
+.delivery-flow-node .node-label {
+  fill: var(--ink);
+  font-size: 13px;
+  font-weight: 850;
+  pointer-events: none;
+}
+
+.delivery-flow-node .node-detail {
+  fill: var(--muted);
+  font-size: 9.5px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.delivery-flow-figure figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+
+@media (max-width: 760px) {
+  .delivery-flow-figure {
+    padding: 10px;
+  }
+}
+
+@media print {
+  .delivery-flow {
+    break-inside: avoid;
+  }
+}

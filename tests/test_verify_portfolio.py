@@ -109,16 +109,6 @@ class PortfolioSourceContractTests(unittest.TestCase):
                         "label_x": 15,
                         "label_y": 8,
                     },
-                    {
-                        "id": "cicd-runtime",
-                        "from": "cicd",
-                        "to": "web",
-                        "flow": "delivery",
-                        "label": "SHA image deploy",
-                        "path": "M10 10 H20",
-                        "label_x": 15,
-                        "label_y": 8,
-                    },
                 ],
                 "pipeline": {
                     "steps": ["변경 앱 감지", "Test", "Kaniko Build", "Swarm Deploy"]
@@ -310,7 +300,6 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             ".architecture-node-pipeline",
             ".architecture-edge-sync",
             ".architecture-edge-async",
-            ".architecture-edge-delivery",
             ".architecture-detail-grid",
             ".architecture-mobile-node",
         ):
@@ -337,10 +326,10 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertIn('<p class="section-number">02 · 통합 업무 플랫폼 개발</p>', text)
             self.assertEqual(text.count("data-architecture-node="), 9)
             self.assertEqual(text.count("data-architecture-mobile-node="), 9)
-            self.assertEqual(text.count("data-architecture-edge="), 9)
-            self.assertEqual(text.count("data-edge-from="), 9)
-            self.assertEqual(text.count("data-edge-to="), 9)
-            self.assertEqual(text.count("data-architecture-boundary="), 4)
+            self.assertEqual(text.count("data-architecture-edge="), 8)
+            self.assertEqual(text.count("data-edge-from="), 8)
+            self.assertEqual(text.count("data-edge-to="), 8)
+            self.assertEqual(text.count("data-architecture-boundary="), 3)
             for node_id in self.verify.REQUIRED_ARCHITECTURE_NODE_IDS:
                 self.assertIn(f'data-architecture-node="{node_id}"', text)
                 self.assertIn(f'data-architecture-mobile-node="{node_id}"', text)
@@ -348,7 +337,6 @@ class PortfolioRenderedContractTests(unittest.TestCase):
                 "PRESENTATION",
                 "ASYNC EXECUTION",
                 "INTEGRATION & DATA",
-                "DELIVERY",
                 "REST",
                 "enqueue contract",
                 "consume contract",
@@ -356,7 +344,6 @@ class PortfolioRenderedContractTests(unittest.TestCase):
                 "외부 연동 호출",
                 "internal HTTP",
                 "job execution",
-                "SHA image deploy",
             ):
                 self.assertIn(phrase, text)
             for phrase in (

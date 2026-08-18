@@ -108,11 +108,6 @@
   border-top-style: dashed;
 }
 
-.legend-delivery::before {
-  border-color: var(--muted);
-  border-top-style: dotted;
-}
-
 .architecture-figure {
   margin: 0;
   padding: 14px;
@@ -173,11 +168,6 @@
   stroke-dasharray: 7 5;
 }
 
-.architecture-edge-delivery path {
-  stroke: var(--muted);
-  stroke-dasharray: 2 5;
-}
-
 .architecture-edge.is-related path {
   stroke-width: 4;
 }
@@ -192,10 +182,6 @@
 
 #arrow-async path {
   fill: var(--accent-strong);
-}
-
-#arrow-delivery path {
-  fill: var(--muted);
 }
 
 .architecture-node {
@@ -248,17 +234,6 @@
   font-size: 10px;
   font-weight: 650;
   pointer-events: none;
-}
-
-.pipeline-steps text {
-  fill: var(--accent-strong);
-  font-size: 10px;
-  font-weight: 800;
-  pointer-events: none;
-}
-
-.pipeline-steps .pipeline-arrow {
-  fill: var(--muted);
 }
 
 .architecture-figure figcaption {

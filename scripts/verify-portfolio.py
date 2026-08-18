@@ -32,7 +32,7 @@ REQUIRED_ARCHITECTURE_NODE_IDS = {
     "data",
     "cicd",
 }
-REQUIRED_ARCHITECTURE_FLOWS = {"sync", "async", "delivery"}
+REQUIRED_ARCHITECTURE_FLOWS = {"sync", "async"}
 REQUIRED_ARCHITECTURE_NODE_FIELDS = (
     "id",
     "label",
@@ -205,6 +205,12 @@ def validate_rendered(site_dir):
             "최종 실패 기록",
             "Worker 동시성 제한",
             "evaluation harness",
+            'id="delivery-flow"',
+            "변경이 어떻게 운영에 도달하나",
+            "배포 차단",
+            "여기서 경로가 끊깁니다",
+            "Kaniko Build",
+            "Swarm Rolling Update",
             'id="automation"',
             'id="experience"',
             'id="additional-work"',
@@ -238,6 +244,16 @@ def validate_rendered(site_dir):
                 f"{profile_name} document-flow edge count: "
                 f"{text.count('class=\"document-flow-edge ')} (expected 11)"
             )
+        if text.count('class="delivery-flow-node ') != 8:
+            errors.append(
+                f"{profile_name} delivery-flow node count: "
+                f"{text.count('class=\"delivery-flow-node ')} (expected 8)"
+            )
+        if text.count('class="delivery-flow-edge ') != 7:
+            errors.append(
+                f"{profile_name} delivery-flow edge count: "
+                f"{text.count('class=\"delivery-flow-edge ')} (expected 7)"
+            )
         if text.count("data-journey-item") != 4:
             errors.append(
                 f"{profile_name} journey item count: "
@@ -253,10 +269,10 @@ def validate_rendered(site_dir):
                 f"{profile_name} mobile architecture node count: "
                 f"{text.count('data-architecture-mobile-node=')} (expected 9)"
             )
-        if text.count("data-architecture-edge=") != 9:
+        if text.count("data-architecture-edge=") != 8:
             errors.append(
                 f"{profile_name} architecture edge count: "
-                f"{text.count('data-architecture-edge=')} (expected 9)"
+                f"{text.count('data-architecture-edge=')} (expected 8)"
             )
         for node_id in REQUIRED_ARCHITECTURE_NODE_IDS:
             if f'data-architecture-node="{node_id}"' not in text:
