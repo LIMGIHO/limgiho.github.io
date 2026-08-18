@@ -7,6 +7,13 @@
   <div class="additional-work-list">
     {% for item in include.items %}
       <article>
+        {% if item.screenshots %}
+          <div class="work-screenshots">
+            {% for shot in item.screenshots %}
+              <img src="{{ '/assets/portfolio/screenshots/' | append: shot.file | relative_url }}" alt="{{ shot.alt }}" loading="lazy" width="133" height="296">
+            {% endfor %}
+          </div>
+        {% endif %}
         <h3>{{ item.title }}</h3>
         <p>{{ item.summary }}</p>
         <p class="technology-list">{{ item.technologies | join: " · " }}</p>

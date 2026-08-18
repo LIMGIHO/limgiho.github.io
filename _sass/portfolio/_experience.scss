@@ -78,6 +78,19 @@
   font-weight: 750;
 }
 
+.work-screenshots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.work-screenshots img {
+  width: 72px;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
 .work-links {
   display: flex;
   flex-wrap: wrap;
