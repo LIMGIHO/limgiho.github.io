@@ -350,6 +350,186 @@ flagship:
       - Test
       - Kaniko Build
       - Swarm Deploy
+  document_flow:
+    title: 수출 문서가 어떻게 구조화 데이터가 되나
+    description: 사내망 안에서만 처리되는 문서 추출 파이프라인입니다. 재시도 가능 실패와 최종 실패를 구분하고, 동시성을 의도적으로 제한합니다.
+    boundary:
+      label: 사내망 내부 처리
+      description: 문서가 외부로 나가지 않습니다
+      x: 20
+      y: 16
+      width: 1220
+      height: 478
+    nodes:
+      - id: doc-intake
+        label: 첨부 업로드 · 큐 등록
+        detail: 등록 실패해도 업로드는 성공 · WARN 로그로 기록
+        kind: process
+        x: 40
+        y: 60
+        width: 180
+        height: 74
+      - id: doc-concurrency
+        label: Worker 동시성 제한
+        detail: 프로세스당 1건 · 레플리카 2개 → 서버 전체 최대 2건
+        kind: process
+        x: 240
+        y: 60
+        width: 180
+        height: 74
+      - id: doc-extract
+        label: PDF 텍스트 추출
+        detail: 1차 추출 시도
+        kind: process
+        x: 440
+        y: 60
+        width: 160
+        height: 74
+      - id: doc-quality
+        label: 품질 판정
+        detail: 저품질 문서만 OCR로 전환
+        kind: decision
+        x: 620
+        y: 60
+        width: 140
+        height: 74
+      - id: doc-verify
+        label: 교차 검증
+        detail: schema parser → JSON Schema + 정규식
+        kind: process
+        x: 820
+        y: 60
+        width: 190
+        height: 74
+      - id: doc-ocr
+        label: OCR 자식 프로세스
+        detail: 건별 격리 · filePath·식별자만 전달 · 타임아웃 시 SIGTERM 후 SIGKILL
+        kind: process
+        x: 610
+        y: 180
+        width: 240
+        height: 90
+      - id: doc-success
+        label: 구조화 데이터 저장
+        detail: 일부 OCR 그룹만 성공해도 성공분은 저장
+        kind: pass
+        x: 1030
+        y: 190
+        width: 170
+        height: 64
+      - id: doc-retry
+        label: 재시도
+        detail: 3회 · 30초 지수 백오프
+        kind: retry
+        x: 820
+        y: 300
+        width: 170
+        height: 64
+      - id: doc-final-fail
+        label: 최종 실패 기록
+        detail: 추출값 없음 · 재시도하지 않음
+        kind: fail
+        x: 600
+        y: 300
+        width: 190
+        height: 64
+      - id: doc-eval
+        label: evaluation harness
+        detail: 반복 평가 결과 저장 · 변경 전후 비교
+        kind: info
+        x: 820
+        y: 410
+        width: 220
+        height: 64
+    edges:
+      - id: intake-concurrency
+        from: doc-intake
+        to: doc-concurrency
+        kind: flow
+        path: M220 97 H240
+        label: ""
+        label_x: 230
+        label_y: 90
+      - id: concurrency-extract
+        from: doc-concurrency
+        to: doc-extract
+        kind: flow
+        path: M420 97 H440
+        label: ""
+        label_x: 430
+        label_y: 90
+      - id: extract-quality
+        from: doc-extract
+        to: doc-quality
+        kind: flow
+        path: M600 97 H620
+        label: ""
+        label_x: 610
+        label_y: 90
+      - id: quality-verify
+        from: doc-quality
+        to: doc-verify
+        kind: flow
+        path: M760 97 H820
+        label: 정상
+        label_x: 790
+        label_y: 88
+      - id: quality-ocr
+        from: doc-quality
+        to: doc-ocr
+        kind: branch-retry
+        path: M690 134 V180
+        label: 저품질
+        label_x: 700
+        label_y: 160
+      - id: ocr-verify
+        from: doc-ocr
+        to: doc-verify
+        kind: flow
+        path: M820 180 V134
+        label: ""
+        label_x: 895
+        label_y: 145
+      - id: verify-success
+        from: doc-verify
+        to: doc-success
+        kind: branch-pass
+        path: M1010 97 H1115 V190
+        label: 통과
+        label_x: 1060
+        label_y: 88
+      - id: verify-retry
+        from: doc-verify
+        to: doc-retry
+        kind: branch-retry
+        path: M940 134 V300
+        label: 재시도 가능 실패
+        label_x: 948
+        label_y: 160
+      - id: verify-final-fail
+        from: doc-verify
+        to: doc-final-fail
+        kind: branch-fail
+        path: M870 134 V220 H695 V300
+        label: ✕ 최종 실패(값 없음)
+        label_x: 720
+        label_y: 210
+      - id: retry-loop
+        from: doc-retry
+        to: doc-concurrency
+        kind: branch-retry
+        path: M820 332 H330 V134
+        label: 재처리
+        label_x: 400
+        label_y: 322
+      - id: verify-eval
+        from: doc-verify
+        to: doc-eval
+        kind: observe
+        path: M1005 134 V380 H930 V410
+        label: 평가 대상 기록
+        label_x: 1010
+        label_y: 260
 
 automation:
   id: external-workflow-automation

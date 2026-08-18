@@ -73,6 +73,9 @@ FORBIDDEN_PATTERNS = (
         r"172\.(?:1[6-9]|2\d|3[01])\.\d{1,3}\.\d{1,3}|"
         r"192\.168\.\d{1,3}\.\d{1,3})\b"
     ),
+    re.compile(r"expdeclcert", re.IGNORECASE),
+    # 내부 화면 코드 형태: 대문자 4자 + 숫자 4자 (예: AIRE3001)
+    re.compile(r"\b[A-Z]{4}\d{4}\b"),
 )
 
 
@@ -195,6 +198,13 @@ def validate_rendered(site_dir):
             "02 · 통합 업무 플랫폼 개발",
             "15종",
             "5개 업무 도메인",
+            'id="document-flow"',
+            "수출 문서가 어떻게 구조화 데이터가 되나",
+            "OCR 자식 프로세스",
+            "재시도 가능 실패",
+            "최종 실패 기록",
+            "Worker 동시성 제한",
+            "evaluation harness",
             'id="automation"',
             'id="experience"',
             'id="additional-work"',
@@ -217,6 +227,16 @@ def validate_rendered(site_dir):
             errors.append(
                 f"{profile_name} hero metric count: "
                 f"{text.count('data-hero-metric=')} (expected 4)"
+            )
+        if text.count('class="document-flow-node ') != 10:
+            errors.append(
+                f"{profile_name} document-flow node count: "
+                f"{text.count('class=\"document-flow-node ')} (expected 10)"
+            )
+        if text.count('class="document-flow-edge ') != 11:
+            errors.append(
+                f"{profile_name} document-flow edge count: "
+                f"{text.count('class=\"document-flow-edge ')} (expected 11)"
             )
         if text.count("data-journey-item") != 4:
             errors.append(

@@ -168,6 +168,18 @@ class PortfolioSourceContractTests(unittest.TestCase):
         errors = self.verify.validate_source(content, self.profiles)
         self.assertTrue(any("익명화" in error for error in errors))
 
+    def test_internal_system_code_fails(self):
+        content = copy.deepcopy(self.content)
+        content["automation"]["title"] = "EXPDECLCERT 처리 자동화"
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("익명화" in error for error in errors))
+
+    def test_internal_screen_code_fails(self):
+        content = copy.deepcopy(self.content)
+        content["automation"]["title"] = "AIRE3001 화면 개선"
+        errors = self.verify.validate_source(content, self.profiles)
+        self.assertTrue(any("익명화" in error for error in errors))
+
     def test_incomplete_architecture_node_fails(self):
         content = copy.deepcopy(self.content)
         del content["flagship"]["nodes"][0]["deployment"]

@@ -1,0 +1,50 @@
+<section class="document-flow" id="document-flow" aria-labelledby="document-flow-title">
+  <div class="subsection-heading">
+    <p class="subsection-label">문서 처리</p>
+    <h3 id="document-flow-title">{{ include.flow.title }}</h3>
+    <p>{{ include.flow.description }}</p>
+  </div>
+
+  <figure class="document-flow-figure">
+    <svg class="document-flow-map" viewBox="0 0 1260 520" role="img" aria-labelledby="document-flow-map-title document-flow-map-description">
+      <title id="document-flow-map-title">수출 문서를 구조화 데이터로 바꾸는 사내망 내부 처리 흐름</title>
+      <desc id="document-flow-map-description">첨부 업로드부터 큐 등록, 동시성 제한, 텍스트 추출, 품질 판정에 따른 OCR 자식 프로세스 분기, 교차 검증, 재시도 가능 실패와 최종 실패의 구분, evaluation harness까지 사내망 안에서 처리되는 과정을 나타냅니다.</desc>
+      <defs>
+        <marker id="arrow-doc-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-branch-pass" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-branch-retry" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-branch-fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-observe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+      </defs>
+
+      <g class="document-flow-boundary">
+        {% assign b = include.flow.boundary %}
+        <rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.width }}" height="{{ b.height }}" rx="18"></rect>
+        <text class="boundary-label" x="{{ b.x | plus: 18 }}" y="{{ b.y | plus: 25 }}">{{ b.label }}</text>
+        <text class="boundary-description" x="{{ b.x | plus: 18 }}" y="{{ b.y | plus: 44 }}">{{ b.description }}</text>
+      </g>
+
+      <g class="document-flow-edges" aria-hidden="true">
+        {% for edge in include.flow.edges %}
+          <g class="document-flow-edge document-flow-edge-{{ edge.kind }}">
+            <path d="{{ edge.path }}" marker-end="url(#arrow-doc-{{ edge.kind }})"></path>
+            {% if edge.label != "" %}
+              <text x="{{ edge.label_x }}" y="{{ edge.label_y }}">{{ edge.label }}</text>
+            {% endif %}
+          </g>
+        {% endfor %}
+      </g>
+
+      <g class="document-flow-nodes">
+        {% for node in include.flow.nodes %}
+          <g class="document-flow-node document-flow-node-{{ node.kind }}">
+            <rect x="{{ node.x }}" y="{{ node.y }}" width="{{ node.width }}" height="{{ node.height }}" rx="10"></rect>
+            <text class="node-label" x="{{ node.x | plus: 14 }}" y="{{ node.y | plus: 27 }}">{{ node.label }}</text>
+            <text class="node-detail" x="{{ node.x | plus: 14 }}" y="{{ node.y | plus: 46 }}">{{ node.detail }}</text>
+          </g>
+        {% endfor %}
+      </g>
+    </svg>
+    <figcaption>동그란 화살표는 순차 흐름, 주황 점선은 재시도 가능 실패, 옅은 점선은 관찰용 기록입니다. 실제 화면 코드와 내부 시스템명은 익명화했습니다.</figcaption>
+  </figure>
+</section>
