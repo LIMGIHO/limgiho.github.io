@@ -10,7 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RENDERED_PROFILES = {
-    "default": (Path("index.html"), "theme-blueprint"),
+    "default": (Path("index.html"), "theme-editorial"),
     "kakao": (
         Path("applications/2026-08-03/kakaopay-fde/portfolio/index.html"),
         "theme-editorial",
