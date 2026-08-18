@@ -202,10 +202,20 @@ def validate_rendered(site_dir):
             "1,200시간",
             "ILJIN Global",
             "KWE Korea",
+            'class="portfolio-hero"',
+            'id="hero-name"',
+            "임기호",
+            'class="hero-headline"',
+            "assets/resume/lim-giho-resume.pdf",
         )
         for phrase in required:
             if phrase not in text:
                 errors.append(f"{profile_name} rendered phrase missing: {phrase}")
+        if text.count("data-hero-metric=") != 4:
+            errors.append(
+                f"{profile_name} hero metric count: "
+                f"{text.count('data-hero-metric=')} (expected 4)"
+            )
         if text.count("data-journey-item") != 4:
             errors.append(
                 f"{profile_name} journey item count: "
@@ -239,7 +249,6 @@ def validate_rendered(site_dir):
             if phrase in text:
                 errors.append(f"{profile_name} retired flagship content: {phrase}")
         for pattern_text in (
-            'class="portfolio-hero"',
             "개발에서 플랫폼 책임까지",
             "skill-bar",
             "progress-bar",

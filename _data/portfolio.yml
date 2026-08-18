@@ -12,22 +12,27 @@ metrics:
     value: "15 → 1"
     label: 레거시 시스템 통합
     source: 기존 아키텍처 모델 및 최신 경력기술서
+    section: flagship
   - id: work-screens
     value: "90+"
     label: 통합 업무 화면
     source: 기존 아키텍처 Web 노드 역할 설명
+    section: flagship
   - id: lookup-time
     value: "10분 → 5초"
     label: 외부 정보 조회
     source: 최신 경력기술서의 Web 기반 사내 시스템 전면 통합 항목
+    section: flagship
   - id: automation-hours
     value: "월 1,200h"
     label: 반복 작업 절감
     source: 최신 경력기술서의 업무 자동화 항목
+    section: automation
   - id: migration-volume
     value: "1,000만+"
     label: 데이터 이관
     source: 최신 경력기술서의 DB 리뉴얼 항목
+    section: flagship
 
 journey:
   - id: iljin-foundation

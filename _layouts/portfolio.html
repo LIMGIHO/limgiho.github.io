@@ -8,6 +8,7 @@
     {% include portfolio/nav.html portfolio=portfolio %}
     <div class="portfolio-shell">
       <main id="main-content">
+        {% include portfolio/hero.html portfolio=portfolio profile=profile %}
         {% include portfolio/journey.html journey=portfolio.journey %}
         {% include portfolio/flagship.html flagship=portfolio.flagship profile=profile %}
         {% include portfolio/automation.html automation=portfolio.automation %}
