@@ -1,0 +1,8 @@
+<footer class="portfolio-footer" id="portfolio-footer">
+  <p class="footer-name">{{ include.portfolio.person.name }}</p>
+  <ul class="footer-links">
+    <li><a href="mailto:{{ include.portfolio.person.email }}">{{ include.portfolio.person.email }}</a></li>
+    <li><a href="{{ include.portfolio.person.github_url }}">GitHub</a></li>
+    <li><a href="{{ include.portfolio.person.resume_url | relative_url }}">이력서 PDF</a></li>
+  </ul>
+</footer>

@@ -1,28 +1,51 @@
 // 토큰과 테마 정의
+// blueprint: 어두운 배경의 설계도 톤 (기본 프로필)
+// editorial: 밝은 배경의 편집 지면 톤 (카카오페이 프로필)
 :root {
+  color-scheme: light dark;
+}
+
+.theme-blueprint {
+  color-scheme: dark;
+  --page: #0b1522;
+  --paper: #101d2e;
+  --surface: #16283d;
+  --ink: #e7edf5;
+  --muted: #9db0c8;
+  --accent: #38bdf8;
+  --accent-strong: #7dd3fc;
+  --accent-soft: #12324a;
+  --rule: #28425e;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+}
+
+.theme-editorial {
   color-scheme: light;
+  --page: #f7f2ea;
+  --paper: #fffdf8;
+  --surface: #f1ead9;
+  --ink: #262019;
+  --muted: #6b6053;
+  --accent: #9a4b08;
+  --accent-strong: #7c3a06;
+  --accent-soft: #f6e3cc;
+  --rule: #e2d6c1;
+  --font-mono: inherit;
 }
 
-.theme-ice-blue {
-  --accent: #287dae;
-  --accent-strong: #155f8d;
-  --accent-soft: #e3f4fc;
-  --surface: #f5fbfe;
-  --paper: #ffffff;
-  --page: #edf3f6;
-  --ink: #1d2228;
-  --muted: #66707a;
-  --rule: #cbe5f3;
+// 설계도 톤에서만 쓰는 옅은 격자 배경. 콘텐츠는 --paper 카드 위에 놓여
+// 대비에 영향을 주지 않는다.
+body.theme-blueprint {
+  background-image:
+    linear-gradient(rgba(125, 211, 252, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125, 211, 252, 0.06) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: -1px -1px;
+  background-color: var(--page);
 }
 
-.theme-graphite-yellow {
-  --accent: #8a7000;
-  --accent-strong: #5e4d00;
-  --accent-soft: #fff7cf;
-  --surface: #faf9f3;
-  --paper: #ffffff;
-  --page: #efeee9;
-  --ink: #1d2228;
-  --muted: #68675f;
-  --rule: #e3debf;
+@media print {
+  body.theme-blueprint {
+    background-image: none;
+  }
 }

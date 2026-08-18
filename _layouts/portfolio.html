@@ -5,6 +5,7 @@
   {% include portfolio/head.html portfolio=portfolio profile=profile %}
   <body class="portfolio theme-{{ profile.theme }}">
     <a class="skip-link" href="#main-content">본문으로 이동</a>
+    {% include portfolio/nav.html portfolio=portfolio %}
     <div class="portfolio-shell">
       <main id="main-content">
         {% include portfolio/journey.html journey=portfolio.journey %}
@@ -15,6 +16,7 @@
           {% include portfolio/additional-work.html items=portfolio.additional_work %}
         {% endif %}
       </main>
+      {% include portfolio/footer.html portfolio=portfolio %}
     </div>
     <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>
   </body>

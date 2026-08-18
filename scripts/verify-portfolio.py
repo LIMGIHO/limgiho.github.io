@@ -10,10 +10,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 RENDERED_PROFILES = {
-    "default": (Path("index.html"), "theme-ice-blue"),
+    "default": (Path("index.html"), "theme-blueprint"),
     "kakao": (
         Path("applications/2026-08-03/kakaopay-fde/portfolio/index.html"),
-        "theme-graphite-yellow",
+        "theme-editorial",
     ),
 }
 PDF_PROFILES = {
@@ -172,6 +172,15 @@ def validate_rendered(site_dir):
         required = (
             'class="portfolio ',
             theme_class,
+            'id="portfolio-nav"',
+            'data-nav-link="career-journey"',
+            'data-nav-link="flagship"',
+            'data-nav-link="automation"',
+            'data-nav-link="additional-work"',
+            "data-theme-toggle",
+            'id="portfolio-footer"',
+            "mailto:lasid84@gmail.com",
+            "https://github.com/limgiho",
             'id="career-journey"',
             '<h2 id="journey-title">주요 경력</h2>',
             "제조·물류 시스템을 개발하고 운영해 온 경험을 시간순으로 정리했습니다.",
@@ -260,8 +269,8 @@ def validate_rendered(site_dir):
         "--ink",
         "--muted",
         "--rule",
-        ".theme-ice-blue",
-        ".theme-graphite-yellow",
+        ".theme-blueprint",
+        ".theme-editorial",
         "prefers-reduced-motion: reduce",
         "@media print",
         "@page",

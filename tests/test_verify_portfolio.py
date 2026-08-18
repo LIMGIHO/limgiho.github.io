@@ -417,8 +417,8 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             "--ink",
             "--muted",
             "--rule",
-            ".theme-ice-blue",
-            ".theme-graphite-yellow",
+            ".theme-blueprint",
+            ".theme-editorial",
             "prefers-reduced-motion: reduce",
             "@media print",
             "@page",
@@ -434,11 +434,11 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             css_path = site_dir / "assets" / "css" / "portfolio.css"
             css = css_path.read_text(encoding="utf-8")
             css_path.write_text(
-                css.replace(".theme-ice-blue", ".theme-removed", 1),
+                css.replace(".theme-blueprint", ".theme-removed"),
                 encoding="utf-8",
             )
             errors = self.verify.validate_rendered(site_dir)
-            self.assertTrue(any("theme-ice-blue" in error for error in errors))
+            self.assertTrue(any("theme-blueprint" in error for error in errors))
 
 
 class PortfolioPdfContractTests(unittest.TestCase):

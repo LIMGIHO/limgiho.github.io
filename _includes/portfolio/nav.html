@@ -1,0 +1,20 @@
+<nav class="portfolio-nav" id="portfolio-nav" data-portfolio-nav aria-label="주요 섹션 이동">
+  <div class="nav-progress" aria-hidden="true">
+    <span class="nav-progress-fill" data-nav-progress-fill></span>
+  </div>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#main-content">{{ include.portfolio.person.name }}</a>
+    <ul class="nav-links">
+      <li><a href="#career-journey" data-nav-link="career-journey">경력</a></li>
+      <li><a href="#flagship" data-nav-link="flagship">플랫폼</a></li>
+      <li><a href="#automation" data-nav-link="automation">자동화</a></li>
+      <li><a href="#additional-work" data-nav-link="additional-work">개인 프로젝트</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a class="nav-resume" href="{{ include.portfolio.person.resume_url | relative_url }}">이력서 PDF</a>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">
+        <span data-theme-toggle-label>테마</span>
+      </button>
+    </div>
+  </div>
+</nav>
