@@ -147,8 +147,8 @@ flagship:
       width: 150
       height: 100
     - id: external
-      label: External Adapters
-      tech: HTTP · FTP · Socket · EDI
+      label: 외부 연동 8종
+      tech: 공공 API · 거래처 EDI 전문 · 현장 장비 소켓 · FTP
       kind: boundary
       boundary: integration-data
       summary: 유형이 다른 외부 연동 8종
@@ -164,8 +164,8 @@ flagship:
       width: 210
       height: 82
     - id: local-llm
-      label: Local LLM
-      tech: On-prem inference · OCR
+      label: 사내망 문서 추출
+      tech: 수출 문서 → 구조화 데이터
       kind: boundary
       boundary: integration-data
       summary: 문서 추출을 사내망 안에서 처리
@@ -181,7 +181,7 @@ flagship:
       width: 210
       height: 82
     - id: data
-      label: Data
+      label: 이기종 데이터
       tech: PostgreSQL · Oracle · MySQL · ODBC
       kind: infra
       boundary: integration-data
@@ -284,7 +284,7 @@ flagship:
       from: api
       to: data
       flow: sync
-      label: repository
+      label: 이기종 데이터 접근
       path: M560 300 V334 H535 V522 H285 V575
       label_x: 345
       label_y: 534
@@ -292,7 +292,7 @@ flagship:
       from: api
       to: external
       flow: sync
-      label: port / adapter
+      label: 외부 연동 호출
       path: M525 230 H380 V346 H170 V430
       label_x: 250
       label_y: 338
@@ -332,7 +332,7 @@ flagship:
       from: worker
       to: external
       flow: async
-      label: port / adapter
+      label: 외부 연동 호출
       path: M1015 530 V548 H170 V512
       label_x: 580
       label_y: 540

@@ -340,8 +340,8 @@ class PortfolioRenderedContractTests(unittest.TestCase):
                 "REST",
                 "enqueue contract",
                 "consume contract",
-                "repository",
-                "port / adapter",
+                "이기종 데이터 접근",
+                "외부 연동 호출",
                 "internal HTTP",
                 "job execution",
                 "SHA image deploy",
@@ -362,7 +362,7 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertIn('id="architecture-mobile"', text)
             self.assertEqual(text.count("data-architecture-mobile-node="), 9)
             self.assertIn('id="architecture-detail"', text)
-            for phrase in ("Web", "API", "Queue", "Worker", "External Adapters"):
+            for phrase in ("Web", "API", "Queue", "Worker", "외부 연동 8종"):
                 self.assertIn(phrase, text)
 
     def test_rendered_validator_rejects_missing_architecture_node(self):
