@@ -82,9 +82,9 @@ flagship:
     - id: presentation
       label: PRESENTATION
       description: 사용자 업무 화면
-      x: 470
+      x: 290
       y: 16
-      width: 260
+      width: 440
       height: 138
     - id: integration-data
       label: INTEGRATION & DATA
@@ -101,6 +101,25 @@ flagship:
       width: 590
       height: 190
   nodes:
+    - id: pda
+      label: 현장 PDA 앱
+      tech: Next.js · PWA
+      icon: nextjs
+      icon_caption: Next.js
+      kind: app
+      boundary: presentation
+      summary: Web과 별도로 배포되는 현장 단말용 PWA
+      implementation: Web과 같은 Next.js 기반이지만 PWA로 패키징해 현장 단말에 설치형으로 배포하고, 독립된 파이프라인으로 빌드·배포합니다.
+      structure: Next.js · PWA manifest · API client
+      operation: Web과 별도 CI/CD 파이프라인으로 빌드·배포합니다.
+      inputs: 현장 작업자 입력
+      outputs: REST 요청
+      contract: TypeScript DTO · HTTP status
+      deployment: PDA 컨테이너 독립 배포
+      x: 310
+      y: 38
+      width: 180
+      height: 100
     - id: web
       label: Web
       tech: Next.js · React · TypeScript
@@ -229,6 +248,14 @@ flagship:
       width: 150
       height: 100
   edges:
+    - id: pda-api
+      from: pda
+      to: api
+      flow: sync
+      label: REST
+      path: M400 138 V170 H560 V200
+      label_x: 420
+      label_y: 160
     - id: web-api
       from: web
       to: api
@@ -532,17 +559,17 @@ flagship:
         height: 64
       - id: dep-build
         label: Kaniko Build
-        detail: 커밋 SHA 태그 · docker socket 없이 빌드
+        detail: SHA+환경 이중 태그 · docker socket 없이
         kind: process
         x: 770
         y: 40
-        width: 190
+        width: 210
         height: 64
       - id: dep-deploy
         label: Swarm Rolling Update
-        detail: Build와 동일 SHA
+        detail: dev 1 · staging 2 · production 2 replica
         kind: pass
-        x: 990
+        x: 1000
         y: 40
         width: 190
         height: 64
@@ -599,9 +626,9 @@ flagship:
         from: dep-build
         to: dep-deploy
         kind: branch-pass
-        path: M960 72 H990
-        label: 동일 SHA 태그
-        label_x: 965
+        path: M980 72 H1000
+        label: 동일 SHA
+        label_x: 983
         label_y: 65
 
 automation:

@@ -22,6 +22,7 @@ PDF_PROFILES = {
 }
 
 REQUIRED_ARCHITECTURE_NODE_IDS = {
+    "pda",
     "web",
     "api",
     "queue",
@@ -196,6 +197,9 @@ def validate_rendered(site_dir):
             "02 · 통합 업무 플랫폼 개발",
             "15종",
             "5개 업무 도메인",
+            "현장 PDA 앱",
+            "SHA+환경 이중 태그",
+            "production 2 replica",
             'id="document-flow"',
             "수출 문서가 어떻게 구조화 데이터가 되나",
             "OCR 자식 프로세스",
@@ -257,20 +261,20 @@ def validate_rendered(site_dir):
                 f"{profile_name} journey item count: "
                 f"{text.count('data-journey-item')} (expected 4)"
             )
-        if text.count("data-architecture-node=") != 7:
+        if text.count("data-architecture-node=") != 8:
             errors.append(
                 f"{profile_name} architecture node count: "
-                f"{text.count('data-architecture-node=')} (expected 7)"
+                f"{text.count('data-architecture-node=')} (expected 8)"
             )
-        if text.count("data-architecture-mobile-node=") != 7:
+        if text.count("data-architecture-mobile-node=") != 8:
             errors.append(
                 f"{profile_name} mobile architecture node count: "
-                f"{text.count('data-architecture-mobile-node=')} (expected 7)"
+                f"{text.count('data-architecture-mobile-node=')} (expected 8)"
             )
-        if text.count("data-architecture-edge=") != 7:
+        if text.count("data-architecture-edge=") != 8:
             errors.append(
                 f"{profile_name} architecture edge count: "
-                f"{text.count('data-architecture-edge=')} (expected 7)"
+                f"{text.count('data-architecture-edge=')} (expected 8)"
             )
         for node_id in REQUIRED_ARCHITECTURE_NODE_IDS:
             if f'data-architecture-node="{node_id}"' not in text:
