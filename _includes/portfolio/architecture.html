@@ -79,13 +79,17 @@
     </div>
     <dl class="architecture-detail-grid">
       <div class="detail-wide"><dt>구현</dt><dd data-architecture-detail="implementation">{{ first_node.implementation }}</dd></div>
-      <div><dt>구조</dt><dd data-architecture-detail="structure">{{ first_node.structure }}</dd></div>
+      <div class="detail-wide"><dt>구조</dt><dd class="architecture-detail-structure" data-architecture-detail="structure">{{ first_node.structure }}</dd></div>
       <div><dt>운영</dt><dd data-architecture-detail="operation">{{ first_node.operation }}</dd></div>
       <div><dt>입력</dt><dd data-architecture-detail="inputs">{{ first_node.inputs }}</dd></div>
       <div><dt>출력</dt><dd data-architecture-detail="outputs">{{ first_node.outputs }}</dd></div>
       <div><dt>계약</dt><dd data-architecture-detail="contract">{{ first_node.contract }}</dd></div>
       <div><dt>배포</dt><dd data-architecture-detail="deployment">{{ first_node.deployment }}</dd></div>
     </dl>
+    <div class="architecture-detail-rationale" data-architecture-rationale{% unless first_node.rationale %} hidden{% endunless %}>
+      <p class="subsection-label">배경</p>
+      <p data-architecture-detail="rationale">{{ first_node.rationale }}</p>
+    </div>
   </section>
 
   <script type="application/json" id="architecture-data">{{ include.flagship.nodes | jsonify }}</script>

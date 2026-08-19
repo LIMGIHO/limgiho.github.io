@@ -16,6 +16,7 @@ function initArchitecture(root) {
   )];
   const edges = [...root.querySelectorAll('[data-architecture-edge]')];
   const detailFields = [...root.querySelectorAll('[data-architecture-detail]')];
+  const rationaleBlock = root.querySelector('[data-architecture-rationale]');
   if (!dataElement || !triggers.length || !detailFields.length) return;
 
   let nodes;
@@ -45,10 +46,18 @@ function initArchitecture(root) {
 
     detailFields.forEach((field) => {
       const key = field.dataset.architectureDetail;
-      if (Object.prototype.hasOwnProperty.call(node, key)) {
-        field.textContent = Array.isArray(node[key]) ? node[key].join(' · ') : node[key];
-      }
+      const value = node[key];
+      const hasValue = Object.prototype.hasOwnProperty.call(node, key) && value;
+      // 노드에 이 키가 없으면(예: rationale) 이전 노드의 값이 남지 않도록
+      // 반드시 비운다 — hasOwnProperty만 확인하면 이전 값이 그대로 남는다.
+      field.textContent = hasValue
+        ? (Array.isArray(value) ? value.join(' · ') : value)
+        : '';
     });
+
+    if (rationaleBlock) {
+      rationaleBlock.hidden = !node.rationale;
+    }
   }
 
   triggers.forEach((trigger) => {
