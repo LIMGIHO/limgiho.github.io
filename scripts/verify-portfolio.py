@@ -73,8 +73,9 @@ FORBIDDEN_PATTERNS = (
         r"192\.168\.\d{1,3}\.\d{1,3})\b"
     ),
     re.compile(r"expdeclcert", re.IGNORECASE),
-    # 내부 화면 코드 형태: 대문자 4자 + 숫자 4자 (예: AIRE3001)
-    re.compile(r"\b[A-Z]{4}\d{4}\b"),
+    # 내부 화면 코드 형태: 영문 4자 + 숫자 4자 (예: AIRE3001, aire3001 — 실제
+    # 디렉터리명은 소문자라 대소문자 무관하게 잡아야 한다)
+    re.compile(r"\b[A-Z]{4}\d{4}\b", re.IGNORECASE),
 )
 
 
