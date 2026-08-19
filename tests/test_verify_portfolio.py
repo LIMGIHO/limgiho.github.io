@@ -328,19 +328,20 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertEqual(text.count("data-architecture-edge="), 8)
             self.assertEqual(text.count("data-edge-from="), 8)
             self.assertEqual(text.count("data-edge-to="), 8)
-            self.assertEqual(text.count("data-architecture-boundary="), 3)
+            self.assertEqual(text.count("data-architecture-boundary="), 4)
             for node_id in self.verify.REQUIRED_ARCHITECTURE_NODE_IDS:
                 self.assertIn(f'data-architecture-node="{node_id}"', text)
                 self.assertIn(f'data-architecture-mobile-node="{node_id}"', text)
             for phrase in (
                 "PRESENTATION",
                 "ASYNC EXECUTION",
-                "INTEGRATION & DATA",
+                "DATA & INFERENCE",
+                "EXTERNAL SYSTEMS",
                 "REST",
                 "enqueue contract",
                 "consume contract",
                 "Repository 접근",
-                "외부 연동 호출",
+                "프로토콜별 어댑터로 격리",
                 "internal HTTP",
                 "내부 실행 호출",
             ):
@@ -360,7 +361,7 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertIn('id="architecture-mobile"', text)
             self.assertEqual(text.count("data-architecture-mobile-node="), 8)
             self.assertIn('id="architecture-detail"', text)
-            for phrase in ("Web", "API", "Queue", "Worker", "외부 연동 8종"):
+            for phrase in ("Web", "API", "Queue", "Worker", "외부 시스템 8종"):
                 self.assertIn(phrase, text)
 
     def test_rendered_validator_rejects_missing_architecture_node(self):

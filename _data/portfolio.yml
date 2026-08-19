@@ -85,20 +85,27 @@ flagship:
       x: 290
       y: 16
       width: 440
-      height: 138
-    - id: integration-data
-      label: INTEGRATION & DATA
-      description: 외부 경계와 영속 데이터
+      height: 190
+    - id: external-systems
+      label: EXTERNAL SYSTEMS
+      description: 우리 시스템 밖
       x: 30
-      y: 360
-      width: 520
-      height: 310
+      y: 400
+      width: 270
+      height: 190
+    - id: integration-data
+      label: DATA & INFERENCE
+      description: 영속 데이터와 사내망 추론
+      x: 310
+      y: 400
+      width: 420
+      height: 190
     - id: async-execution
       label: ASYNC EXECUTION
       description: 비동기 작업과 예약 실행
-      x: 580
-      y: 360
-      width: 590
+      x: 780
+      y: 400
+      width: 390
       height: 190
   nodes:
     - id: pda
@@ -117,8 +124,8 @@ flagship:
       contract: TypeScript DTO · HTTP status
       deployment: PDA 컨테이너 독립 배포
       x: 310
-      y: 38
-      width: 180
+      y: 86
+      width: 185
       height: 100
     - id: web
       label: Web
@@ -135,9 +142,9 @@ flagship:
       outputs: REST 요청 · 업무 결과 화면 · 파일 다운로드
       contract: TypeScript DTO · HTTP status · 공통 오류 형식
       deployment: Web 컨테이너 독립 배포
-      x: 525
-      y: 38
-      width: 150
+      x: 530
+      y: 86
+      width: 180
       height: 100
     - id: api
       label: API
@@ -154,16 +161,16 @@ flagship:
       outputs: Repository 호출 · 외부 연동 · Queue job · 배치 실행 결과
       contract: DTO validation · Symbol port · 공통 job package · 단기 인증 토큰
       deployment: API 컨테이너 수평 확장
-      x: 525
-      y: 200
-      width: 150
+      x: 530
+      y: 250
+      width: 180
       height: 100
     - id: external
-      label: 외부 연동 8종
-      tech: 공공 API · 거래처 EDI 전문 · 현장 장비 소켓 · FTP
+      label: 외부 시스템 8종
+      tech: 공공 API · 거래처 EDI · 장비 소켓 · FTP
       kind: boundary
-      boundary: integration-data
-      summary: 유형이 다른 외부 연동 8종
+      boundary: external-systems
+      summary: 우리 시스템 밖에 있는 연동 대상 8종
       implementation: 통신 방식을 하나로 억지 추상화하지 않고 각 구현을 어댑터로 격리했습니다.
       structure: 공공 API · 업무 플랫폼 · 거래처 전문 · 현장 장비 어댑터
       operation: 외부 오류를 내부 오류 형식으로 변환하고 재시도 가능 여부를 구분했습니다.
@@ -171,14 +178,14 @@ flagship:
       outputs: 외부 요청 · 표준화된 내부 응답
       contract: Port interface · timeout · retry policy
       deployment: API 또는 Worker 배포 단위에 포함
-      x: 65
-      y: 430
-      width: 210
-      height: 82
+      x: 48
+      y: 470
+      width: 234
+      height: 100
     - id: local-llm
-      label: 사내망 문서 추출
-      tech: 수출 문서 → 구조화 데이터
-      kind: boundary
+      label: 로컬 LLM
+      tech: 사내망 추론 서버 · 문서 추출 · OCR
+      kind: infra
       boundary: integration-data
       summary: 문서 추출을 사내망 안에서 처리
       implementation: 추론 서버를 내부 HTTP 경계로 분리하고 JSON Schema와 정규식으로 결과를 교차 검증했습니다.
@@ -188,10 +195,10 @@ flagship:
       outputs: 검증된 구조화 데이터 · 실패 사유
       contract: Internal HTTP · JSON Schema
       deployment: 사내망 추론 서버 독립 운영
-      x: 305
-      y: 430
-      width: 210
-      height: 82
+      x: 330
+      y: 470
+      width: 185
+      height: 100
     - id: data
       label: PostgreSQL
       tech: PostgreSQL
@@ -205,10 +212,10 @@ flagship:
       outputs: 업무 데이터 · 트랜잭션 결과
       contract: Repository interface · transaction boundary
       deployment: 관리형 PostgreSQL 단독 운영
-      x: 165
-      y: 575
-      width: 240
-      height: 82
+      x: 535
+      y: 470
+      width: 175
+      height: 100
     - id: queue
       label: 작업 계약 · 큐
       tech: Redis · BullMQ
@@ -224,13 +231,13 @@ flagship:
       outputs: Worker consume · retry · failed job
       contract: 공용 작업 계약 패키지 · typed payload
       deployment: Redis 인프라 독립 운영
-      x: 615
-      y: 430
+      x: 795
+      y: 470
       width: 150
       height: 100
     - id: worker
       label: Worker
-      tech: NestJS · BullMQ · node-cron
+      tech: NestJS · BullMQ · 스케줄러
       icon: nestjs
       icon_caption: NestJS
       kind: app
@@ -243,9 +250,9 @@ flagship:
       outputs: API 내부 엔드포인트 호출 · 인증 토큰 재발급 요청
       contract: 공용 작업 계약 패키지 · 단기 인증 토큰 · idempotency key
       deployment: Worker 컨테이너 다중 replica
-      x: 940
-      y: 430
-      width: 150
+      x: 995
+      y: 470
+      width: 165
       height: 100
   edges:
     - id: pda-api
@@ -253,65 +260,65 @@ flagship:
       to: api
       flow: sync
       label: REST
-      path: M400 138 V170 H560 V200
-      label_x: 420
-      label_y: 160
+      path: M402 186 V218 H590 V250
+      label_x: 470
+      label_y: 208
     - id: web-api
       from: web
       to: api
       flow: sync
       label: REST
-      path: M600 138 V200
-      label_x: 608
-      label_y: 172
+      path: M620 186 V250
+      label_x: 628
+      label_y: 222
     - id: api-data
       from: api
       to: data
       flow: sync
       label: Repository 접근
-      path: M560 300 V334 H535 V522 H285 V575
-      label_x: 345
-      label_y: 534
+      path: M650 350 V470
+      label_x: 662
+      label_y: 372
     - id: api-external
       from: api
       to: external
       flow: sync
-      label: 외부 연동 호출
-      path: M525 230 H380 V346 H170 V430
-      label_x: 250
-      label_y: 338
+      label: 프로토콜별 어댑터로 격리
+      path: M530 280 H250 V470
+      label_x: 330
+      label_y: 268
     - id: api-llm
       from: api
       to: local-llm
       flow: sync
       label: internal HTTP
-      path: M640 300 V366 H410 V430
-      label_x: 570
-      label_y: 358
+      path: M580 350 V380 H505 V470
+      label_x: 548
+      label_y: 368
     - id: api-queue
       from: api
       to: queue
       flow: async
       label: enqueue contract
-      path: M675 230 H1150 V400 H650 V430
-      label_x: 950
-      label_y: 392
+      path: M710 280 H760 V520 H800
+      label_x: 736
+      label_y: 268
     - id: queue-worker
       from: queue
       to: worker
       flow: async
       label: consume contract
-      path: M765 480 H940
-      label_x: 772
-      label_y: 469
+      path: M945 520 H995
+      label_x: 970
+      label_y: 458
     - id: worker-api
       from: worker
       to: api
       flow: sync
       label: 내부 실행 호출
-      path: M1015 430 V160 H675 V260
-      label_x: 850
-      label_y: 150
+      path: M1082 470 V160 H710 V250
+      label_x: 900
+      label_y: 148
   pipeline:
     steps:
       - 변경 앱 감지

@@ -128,7 +128,7 @@
 }
 
 .architecture-boundary rect {
-  fill: rgba(255, 255, 255, 0.55);
+  fill: var(--group-fill);
   stroke: var(--rule);
   stroke-width: 1.5;
 }

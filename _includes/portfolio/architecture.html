@@ -8,7 +8,7 @@
   <div class="architecture-legend" aria-label="아키텍처 범례">
     <span class="legend-node legend-app">애플리케이션</span>
     <span class="legend-node legend-infra">인프라</span>
-    <span class="legend-node legend-boundary">외부 경계</span>
+    <span class="legend-node legend-boundary">외부 시스템</span>
     <span class="legend-flow legend-sync">동기 요청</span>
     <span class="legend-flow legend-async">비동기 작업</span>
   </div>
@@ -68,8 +68,6 @@
         </button>
       {% endfor %}
     </div>
-
-    <figcaption>실제 서비스명과 연결 정보는 익명화했습니다. 화살표의 라벨은 구성요소 사이에서 사용한 호출 또는 계약 방식입니다.</figcaption>
   </figure>
 
   {% assign first_node = include.flagship.nodes | first %}
