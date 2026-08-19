@@ -326,7 +326,7 @@ flagship:
       - Kaniko Build
       - Swarm Deploy
   document_flow:
-    title: 수출 문서가 어떻게 구조화 데이터가 되나
+    title: 문서 처리
     description: 사내망 안에서만 처리되는 문서 추출 파이프라인입니다. 재시도 가능 실패와 최종 실패를 구분하고, 동시성을 의도적으로 제한합니다.
     boundary:
       label: 사내망 내부 처리
@@ -506,7 +506,7 @@ flagship:
         label_x: 1010
         label_y: 260
   delivery_flow:
-    title: 변경이 어떻게 운영에 도달하나
+    title: 배포
     description: 테스트를 통과하지 못한 변경은 그림의 구조상 배포에 물리적으로 닿지 않습니다.
     boundary:
       label: GitLab CI/CD 파이프라인
