@@ -26,11 +26,9 @@ REQUIRED_ARCHITECTURE_NODE_IDS = {
     "api",
     "queue",
     "worker",
-    "batch",
     "external",
     "local-llm",
     "data",
-    "cicd",
 }
 REQUIRED_ARCHITECTURE_FLOWS = {"sync", "async"}
 REQUIRED_ARCHITECTURE_NODE_FIELDS = (
@@ -208,7 +206,7 @@ def validate_rendered(site_dir):
             'id="delivery-flow"',
             "변경이 어떻게 운영에 도달하나",
             "배포 차단",
-            "여기서 경로가 끊깁니다",
+            "needs로 빌드 잡 자체가 시작되지 않습니다",
             "Kaniko Build",
             "Swarm Rolling Update",
             'id="automation"',
@@ -259,20 +257,20 @@ def validate_rendered(site_dir):
                 f"{profile_name} journey item count: "
                 f"{text.count('data-journey-item')} (expected 4)"
             )
-        if text.count("data-architecture-node=") != 9:
+        if text.count("data-architecture-node=") != 7:
             errors.append(
                 f"{profile_name} architecture node count: "
-                f"{text.count('data-architecture-node=')} (expected 9)"
+                f"{text.count('data-architecture-node=')} (expected 7)"
             )
-        if text.count("data-architecture-mobile-node=") != 9:
+        if text.count("data-architecture-mobile-node=") != 7:
             errors.append(
                 f"{profile_name} mobile architecture node count: "
-                f"{text.count('data-architecture-mobile-node=')} (expected 9)"
+                f"{text.count('data-architecture-mobile-node=')} (expected 7)"
             )
-        if text.count("data-architecture-edge=") != 8:
+        if text.count("data-architecture-edge=") != 7:
             errors.append(
                 f"{profile_name} architecture edge count: "
-                f"{text.count('data-architecture-edge=')} (expected 8)"
+                f"{text.count('data-architecture-edge=')} (expected 7)"
             )
         for node_id in REQUIRED_ARCHITECTURE_NODE_IDS:
             if f'data-architecture-node="{node_id}"' not in text:

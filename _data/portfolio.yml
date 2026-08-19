@@ -75,7 +75,7 @@ flagship:
     - value: "8종"
       label: 외부 시스템 연동
     - value: "4단계"
-      label: API·Queue·Worker·Batch
+      label: API→Queue→Worker→API 내부 실행
     - value: "변경 앱만"
       label: CI/CD 빌드·배포
   boundaries:
@@ -99,7 +99,7 @@ flagship:
       x: 580
       y: 360
       width: 590
-      height: 310
+      height: 190
   nodes:
     - id: web
       label: Web
@@ -127,13 +127,13 @@ flagship:
       icon_caption: NestJS
       kind: app
       boundary: application
-      summary: 5개 도메인의 동기 요청 처리
-      implementation: 도메인 서비스가 데이터·외부 시스템 구현체를 직접 알지 않도록 포트와 어댑터로 분리했습니다.
+      summary: 5개 도메인의 동기 요청 처리, Worker가 위임하는 배치 실행까지 포함
+      implementation: 도메인 서비스가 데이터·외부 시스템 구현체를 직접 알지 않도록 포트와 어댑터로 분리했습니다. Worker가 호출하는 내부 배치 실행 엔드포인트도 같은 도메인 서비스를 재사용해, 실행 로직을 별도 앱으로 중복시키지 않았습니다.
       structure: Controller · Application Service · Domain · Port · Adapter
       operation: 요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다.
-      inputs: Web REST 요청 · Worker 내부 요청
-      outputs: Repository 호출 · 외부 연동 · Queue job
-      contract: DTO validation · Symbol port · 공통 job package
+      inputs: Web REST 요청 · Worker 내부 배치 실행 요청
+      outputs: Repository 호출 · 외부 연동 · Queue job · 배치 실행 결과
+      contract: DTO validation · Symbol port · 공통 job package · 단기 인증 토큰
       deployment: API 컨테이너 수평 확장
       x: 525
       y: 200
@@ -148,7 +148,7 @@ flagship:
       implementation: 통신 방식을 하나로 억지 추상화하지 않고 각 구현을 어댑터로 격리했습니다.
       structure: 공공 API · 업무 플랫폼 · 거래처 전문 · 현장 장비 어댑터
       operation: 외부 오류를 내부 오류 형식으로 변환하고 재시도 가능 여부를 구분했습니다.
-      inputs: 도메인 포트 호출 · Worker 작업
+      inputs: 도메인 포트 호출
       outputs: 외부 요청 · 표준화된 내부 응답
       contract: Port interface · timeout · retry policy
       deployment: API 또는 Worker 배포 단위에 포함
@@ -174,36 +174,36 @@ flagship:
       width: 210
       height: 82
     - id: data
-      label: 이기종 데이터
-      tech: PostgreSQL · Oracle · MySQL · ODBC
+      label: PostgreSQL
+      tech: PostgreSQL
       kind: infra
       boundary: integration-data
-      summary: 운영 데이터와 이관 검증 저장소
-      implementation: Repository 경계 안에서 DBMS별 접근을 분리하고 1,000만 건 이상 이관 데이터를 양쪽에서 교차 검증했습니다.
-      structure: 업무 schema · migration job · source/target comparator
-      operation: 건수, 키, 합계와 필드 값을 단계별로 비교해 누락과 불일치를 기록했습니다.
-      inputs: Repository query · 이관 원천 데이터
-      outputs: 업무 데이터 · 정합성 검증 결과
+      summary: 설계해서 통합한 단일 운영 저장소
+      implementation: 여러 DBMS에 흩어져 있던 운영 데이터를 하나의 PostgreSQL 스키마로 설계해 통합했습니다. Repository 경계 안에서 도메인별 데이터 접근을 캡슐화했습니다.
+      structure: 업무 schema · Prisma repository
+      operation: Repository 인터페이스 뒤에서 도메인별 접근을 캡슐화해 단일 스키마로 운영합니다.
+      inputs: Repository query
+      outputs: 업무 데이터 · 트랜잭션 결과
       contract: Repository interface · transaction boundary
-      deployment: 관리형 DB와 기존 DB 병행 운영
+      deployment: 관리형 PostgreSQL 단독 운영
       x: 165
       y: 575
       width: 240
       height: 82
     - id: queue
-      label: Queue
+      label: 작업 계약 · 큐
       tech: Redis · BullMQ
       icon: redis
       icon_caption: Redis
       kind: infra
       boundary: async-execution
-      summary: API와 Worker 사이 작업 전달
-      implementation: 큐 이름, 작업 유형과 payload 타입을 공용 계약 패키지로 묶었습니다.
-      structure: queue registry · typed payload · retry/backoff policy
+      summary: API와 Worker가 타입이 보장된 작업 계약을 공유
+      implementation: 큐 이름, 작업 유형·상태·모드와 payload 타입을 공용 계약 패키지로 묶어 API와 Worker가 같은 타입을 참조하게 했습니다.
+      structure: queue-names · job type/status/mode · typed payload · cron catalog 생성 스크립트
       operation: 실패 횟수와 재시도 간격을 작업별로 정의하고 처리 상태를 추적했습니다.
       inputs: API enqueue
       outputs: Worker consume · retry · failed job
-      contract: Shared typed job contract
+      contract: 공용 작업 계약 패키지 · typed payload
       deployment: Redis 인프라 독립 운영
       x: 615
       y: 430
@@ -211,59 +211,23 @@ flagship:
       height: 100
     - id: worker
       label: Worker
-      tech: NestJS · BullMQ · Redis lock
+      tech: NestJS · BullMQ · node-cron
       icon: nestjs
       icon_caption: NestJS
       kind: app
       boundary: async-execution
-      summary: 비동기·예약 작업 실행 조정
-      implementation: 작업 핸들러를 유형별로 등록하고 Redis NX·TTL 잠금으로 다중 replica의 중복 실행을 막았습니다.
-      structure: consumer · handler registry · scheduler · distributed lock
-      operation: API와 별도 확장하며 실패 작업의 원인과 재처리 위치를 남겼습니다.
+      summary: 예약·큐 작업을 API 내부 엔드포인트로 전달하는 경량 트리거
+      implementation: 업무 로직이나 DB 접근을 직접 갖지 않는 경량 트리거로 설계했습니다. node-cron 스케줄과 BullMQ 큐 컨슈머가 발생시킨 작업을 단기 인증 토큰으로 검증한 뒤 API의 내부 엔드포인트에 위임합니다. 예전에 별도 실행 앱이 맡던 파일 수집·자동 입력 실행도 이 경로로 API에 흡수됐습니다.
+      structure: scheduler trigger · queue consumer · internal auth client · distributed lock
+      operation: 스케줄 실행 전 Redis 락으로 다중 replica의 중복 실행을 막고, 토큰 만료 전 재발급으로 장시간 실행에도 인증이 끊기지 않게 했습니다.
       inputs: Queue job · cron schedule
-      outputs: Batch 실행 · 외부 어댑터 호출 · 처리 결과
-      contract: Shared job package · idempotency key
+      outputs: API 내부 엔드포인트 호출 · 인증 토큰 재발급 요청
+      contract: 공용 작업 계약 패키지 · 단기 인증 토큰 · idempotency key
       deployment: Worker 컨테이너 다중 replica
       x: 940
       y: 430
       width: 150
       height: 100
-    - id: batch
-      label: Batch
-      tech: Node.js · C# · Browser automation
-      kind: app
-      boundary: async-execution
-      summary: 파일·수집·입력 자동화 실행
-      implementation: 스크래핑, FTP, Excel, 외부 화면 입력을 실행 단위로 분리하고 입력 전 검증 단계를 공통화했습니다.
-      structure: validator · executor · result recorder · retry tool
-      operation: 성공 위치와 실패 원인을 기록해 중복 없이 이어서 재처리할 수 있게 했습니다.
-      inputs: Worker job · 문서 · 전송 파일
-      outputs: 외부 입력 결과 · 처리 로그 · 산출 파일
-      contract: Job command · execution result
-      deployment: 작업 특성별 실행 이미지 분리
-      x: 915
-      y: 575
-      width: 200
-      height: 82
-    - id: cicd
-      label: CI/CD
-      tech: GitLab CI · Kaniko · Docker Swarm
-      icon: docker
-      icon_caption: Docker Swarm
-      kind: pipeline
-      boundary: delivery
-      summary: 변경된 앱만 테스트·빌드·배포
-      implementation: 부모 파이프라인이 변경 경로를 판별해 해당 앱의 자식 파이프라인만 실행하도록 구성했습니다.
-      structure: affected detection → Test → Kaniko Build → Swarm Deploy
-      operation: 테스트 실패 시 배포를 차단하고 커밋 SHA 이미지 태그로 실행 버전을 추적했습니다.
-      inputs: Git diff · commit SHA · pipeline variables
-      outputs: 검증된 컨테이너 이미지 · Swarm service update
-      contract: 동일 SHA 태그 build/deploy · test gate
-      deployment: 앱별 child pipeline
-      x: 500
-      y: 690
-      width: 200
-      height: 82
   edges:
     - id: web-api
       from: web
@@ -277,7 +241,7 @@ flagship:
       from: api
       to: data
       flow: sync
-      label: 이기종 데이터 접근
+      label: Repository 접근
       path: M560 300 V334 H535 V522 H285 V575
       label_x: 345
       label_y: 534
@@ -313,22 +277,14 @@ flagship:
       path: M765 480 H940
       label_x: 772
       label_y: 469
-    - id: worker-batch
+    - id: worker-api
       from: worker
-      to: batch
-      flow: async
-      label: job execution
-      path: M1015 530 V575
-      label_x: 1025
-      label_y: 552
-    - id: worker-external
-      from: worker
-      to: external
-      flow: async
-      label: 외부 연동 호출
-      path: M1015 530 V548 H170 V512
-      label_x: 580
-      label_y: 540
+      to: api
+      flow: sync
+      label: 내부 실행 호출
+      path: M1015 430 V160 H675 V260
+      label_x: 850
+      label_y: 150
   pipeline:
     steps:
       - 변경 앱 감지
@@ -536,7 +492,7 @@ flagship:
         height: 64
       - id: dep-detect
         label: 변경 경로 판별
-        detail: 부모 파이프라인이 판별
+        detail: 잡별 rules:changes가 감시 경로별로 판별
         kind: decision
         x: 190
         y: 40
@@ -568,7 +524,7 @@ flagship:
         height: 64
       - id: dep-blocked
         label: 배포 차단
-        detail: 여기서 경로가 끊깁니다
+        detail: needs로 빌드 잡 자체가 시작되지 않습니다
         kind: fail
         x: 610
         y: 150

@@ -6,7 +6,7 @@
 
   {% assign before_item = include.flagship.scope_summary | where: "label", "운영 시스템 분석·전환" | first %}
   {% assign before_count = before_item.value | remove: "종" | plus: 0 %}
-  {% assign after_ids = "web,api,queue,worker,batch,data" | split: "," %}
+  {% assign after_ids = "web,api,queue,worker,data" | split: "," %}
 
   <figure class="transition-figure">
     <svg class="transition-map" viewBox="0 0 1200 400" role="img" aria-labelledby="transition-map-title transition-map-description">
@@ -51,6 +51,6 @@
         <marker id="arrow-transition" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
       </defs>
     </svg>
-    <figcaption>왼쪽은 이름을 특정하지 않은 {{ before_count }}개 레거시 운영 시스템, 오른쪽은 같은 범위를 대체한 Web·API·Queue·Worker·Batch·Data 6개 실행 단위입니다.</figcaption>
+    <figcaption>왼쪽은 이름을 특정하지 않은 {{ before_count }}개 레거시 운영 시스템, 오른쪽은 같은 범위를 대체한 Web·API·Queue·Worker·PostgreSQL 5개 실행 단위입니다. Oracle·MySQL·ODBC로 흩어져 있던 데이터는 PostgreSQL 하나로 설계해 통합했고, 1,000만 건 이상을 이관하며 양쪽에서 교차 검증했습니다.</figcaption>
   </figure>
 </section>

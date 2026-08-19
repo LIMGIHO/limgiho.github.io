@@ -53,11 +53,9 @@ class PortfolioSourceContractTests(unittest.TestCase):
             "api",
             "queue",
             "worker",
-            "batch",
             "external",
             "local-llm",
             "data",
-            "cicd",
         }
         node_fields = {
             "label": "구성요소",
@@ -324,11 +322,11 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertIn('id="flagship"', text)
             self.assertIn('id="implementation-architecture"', text)
             self.assertIn('<p class="section-number">02 · 통합 업무 플랫폼 개발</p>', text)
-            self.assertEqual(text.count("data-architecture-node="), 9)
-            self.assertEqual(text.count("data-architecture-mobile-node="), 9)
-            self.assertEqual(text.count("data-architecture-edge="), 8)
-            self.assertEqual(text.count("data-edge-from="), 8)
-            self.assertEqual(text.count("data-edge-to="), 8)
+            self.assertEqual(text.count("data-architecture-node="), 7)
+            self.assertEqual(text.count("data-architecture-mobile-node="), 7)
+            self.assertEqual(text.count("data-architecture-edge="), 7)
+            self.assertEqual(text.count("data-edge-from="), 7)
+            self.assertEqual(text.count("data-edge-to="), 7)
             self.assertEqual(text.count("data-architecture-boundary="), 3)
             for node_id in self.verify.REQUIRED_ARCHITECTURE_NODE_IDS:
                 self.assertIn(f'data-architecture-node="{node_id}"', text)
@@ -340,10 +338,10 @@ class PortfolioRenderedContractTests(unittest.TestCase):
                 "REST",
                 "enqueue contract",
                 "consume contract",
-                "이기종 데이터 접근",
+                "Repository 접근",
                 "외부 연동 호출",
                 "internal HTTP",
-                "job execution",
+                "내부 실행 호출",
             ):
                 self.assertIn(phrase, text)
             for phrase in (
@@ -359,7 +357,7 @@ class PortfolioRenderedContractTests(unittest.TestCase):
         for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
             text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
             self.assertIn('id="architecture-mobile"', text)
-            self.assertEqual(text.count("data-architecture-mobile-node="), 9)
+            self.assertEqual(text.count("data-architecture-mobile-node="), 7)
             self.assertIn('id="architecture-detail"', text)
             for phrase in ("Web", "API", "Queue", "Worker", "외부 연동 8종"):
                 self.assertIn(phrase, text)
