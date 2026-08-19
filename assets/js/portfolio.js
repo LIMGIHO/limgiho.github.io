@@ -157,6 +157,10 @@ function initReveal(root) {
   // 기본 상태는 이미 보이는 상태다. 여기서부터만 reveal-pending을 붙여
   // 잠깐 숨겼다가 뷰포트에 들어오는 순간 되돌린다. 한 번 나타난 요소는
   // 다시 숨기지 않는다(unobserve).
+  // rootMargin을 아래로 넉넉히 확장해 요소가 실제로 화면에 보이기
+  // 전에 미리 나타나게 한다 — 특히 다이어그램이 여러 개 들어있는 긴
+  // 섹션(예: 통합 업무 플랫폼)이 스크롤 전까지 텅 비어 보이던 문제를
+  // 해결한다.
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
@@ -166,7 +170,7 @@ function initReveal(root) {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    { threshold: 0, rootMargin: '0px 0px 400px 0px' }
   );
 
   targets.forEach((target) => {
