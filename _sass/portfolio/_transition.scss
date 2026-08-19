@@ -96,6 +96,14 @@
   font-weight: 800;
 }
 
+.transition-note {
+  margin: 14px 0 0;
+  max-width: 62ch;
+  color: var(--ink);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
 .transition-figure figcaption {
   margin-top: 10px;
   color: var(--muted);

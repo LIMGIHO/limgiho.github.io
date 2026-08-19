@@ -11,7 +11,7 @@
   <figure class="transition-figure">
     <svg class="transition-map" viewBox="0 0 1200 400" role="img" aria-labelledby="transition-map-title transition-map-description">
       <title id="transition-map-title">전환 전후 시스템 구조 대조</title>
-      <desc id="transition-map-description">{{ before_count }}개로 흩어져 있던 운영 시스템이 Web, API, Queue, Worker, Batch, Data 6개 실행 단위를 가진 하나의 플랫폼 경계 안으로 통합된 모습을 나타냅니다.</desc>
+      <desc id="transition-map-description">{{ before_count }}개로 흩어져 있던 운영 시스템이 Web, API, Queue, Worker, PostgreSQL 5개 실행 단위를 가진 하나의 플랫폼 경계 안으로 통합된 모습을 나타냅니다.</desc>
 
       <text class="transition-side-label" x="40" y="30">BEFORE</text>
       <g class="transition-before">
@@ -51,6 +51,7 @@
         <marker id="arrow-transition" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
       </defs>
     </svg>
-    <figcaption>왼쪽은 이름을 특정하지 않은 {{ before_count }}개 레거시 운영 시스템, 오른쪽은 같은 범위를 대체한 Web·API·Queue·Worker·PostgreSQL 5개 실행 단위입니다. Oracle·MySQL·ODBC로 흩어져 있던 데이터는 PostgreSQL 하나로 설계해 통합했고, 1,000만 건 이상을 이관하며 양쪽에서 교차 검증했습니다.</figcaption>
   </figure>
+
+  <p class="transition-note">Oracle·MySQL·ODBC로 흩어져 있던 데이터는 DB 구조를 새로 설계해 PostgreSQL 하나로 통합했습니다. 1,000만 건 이상을 이관하면서 원본과 대상 양쪽에서 교차 검증했습니다.</p>
 </section>
