@@ -203,10 +203,18 @@ def validate_rendered(site_dir):
             "production 2 replica",
             'id="document-flow"',
             '<h3 id="document-flow-title">문서 처리</h3>',
-            "OCR 자식 프로세스",
-            "재시도 가능 실패",
+            "텍스트 레이어 판정",
+            "스캔본 OCR",
+            "LLM 추출",
+            "텍스트 있음",
+            "JSON Schema · 정규식",
+            "재시도 가능",
             "최종 실패 기록",
-            "Worker 동시성 제한",
+            "Worker 동시성은 프로세스당 1건",
+            "큐 등록이 실패해도 첨부 업로드는 실패시키지 않고",
+            "SIGTERM",
+            "SIGKILL",
+            "재시도는 3회",
             "evaluation harness",
             'id="delivery-flow"',
             '<h3 id="delivery-flow-title">배포</h3>',
@@ -237,15 +245,15 @@ def validate_rendered(site_dir):
                 f"{profile_name} hero metric count: "
                 f"{text.count('data-hero-metric=')} (expected 4)"
             )
-        if text.count('class="document-flow-node ') != 10:
+        if text.count('class="document-flow-node ') != 8:
             errors.append(
                 f"{profile_name} document-flow node count: "
-                f"{text.count('class=\"document-flow-node ')} (expected 10)"
+                f"{text.count('class=\"document-flow-node ')} (expected 8)"
             )
-        if text.count('class="document-flow-edge ') != 11:
+        if text.count('class="document-flow-edge ') != 9:
             errors.append(
                 f"{profile_name} document-flow edge count: "
-                f"{text.count('class=\"document-flow-edge ')} (expected 11)"
+                f"{text.count('class=\"document-flow-edge ')} (expected 9)"
             )
         if text.count('class="delivery-flow-node ') != 8:
             errors.append(

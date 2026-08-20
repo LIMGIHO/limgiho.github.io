@@ -252,6 +252,69 @@ class PortfolioSourceContractTests(unittest.TestCase):
             with self.subTest(node_id=node_id, field=field):
                 self.assertEqual(nodes[node_id][field], value)
 
+    def test_document_flow_keeps_confirmed_eight_step_pipeline(self):
+        content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
+        flow = content["flagship"]["document_flow"]
+        nodes = {node["id"]: node for node in flow["nodes"]}
+        self.assertEqual(
+            set(nodes),
+            {
+                "doc-intake",
+                "doc-layer",
+                "doc-ocr",
+                "doc-extract",
+                "doc-verify",
+                "doc-success",
+                "doc-retry",
+                "doc-final-fail",
+            },
+        )
+        expected_nodes = {
+            "doc-intake": ("첨부 업로드", "큐 등록"),
+            "doc-layer": ("텍스트 레이어 판정", ""),
+            "doc-ocr": ("스캔본 OCR", "자식 프로세스 격리"),
+            "doc-extract": ("LLM 추출", "사내망 추론"),
+            "doc-verify": ("교차 검증", "JSON Schema · 정규식"),
+            "doc-success": ("구조화 저장", "부분 성공도 저장"),
+            "doc-retry": ("재시도", "3회 · 지수 백오프"),
+            "doc-final-fail": ("최종 실패 기록", "재시도 안 함"),
+        }
+        for node_id, (label, detail) in expected_nodes.items():
+            with self.subTest(node_id=node_id):
+                self.assertEqual(nodes[node_id]["label"], label)
+                self.assertEqual(nodes[node_id]["detail"], detail)
+
+        expected_edges = {
+            ("doc-intake", "doc-layer", ""),
+            ("doc-layer", "doc-extract", "텍스트 있음"),
+            ("doc-layer", "doc-ocr", "스캔본"),
+            ("doc-ocr", "doc-extract", ""),
+            ("doc-extract", "doc-verify", ""),
+            ("doc-verify", "doc-success", "통과"),
+            ("doc-verify", "doc-retry", "재시도 가능"),
+            ("doc-verify", "doc-final-fail", "값 없음"),
+            ("doc-retry", "doc-extract", "재처리"),
+        }
+        self.assertEqual(
+            {
+                (edge["from"], edge["to"], edge["label"])
+                for edge in flow["edges"]
+            },
+            expected_edges,
+        )
+        description = "\n".join(flow["description"])
+        for phrase in (
+            "Worker 동시성은 프로세스당 1건, 운영 레플리카 2개라 서버 전체 최대 2건",
+            "큐 등록이 실패해도 첨부 업로드는 실패시키지 않고 경고 로그로 남깁니다",
+            "OCR은 자식 프로세스에서 건별로 실행하고, 부모는 파일 경로만 넘깁니다",
+            "타임아웃이면 SIGTERM 후 필요 시 SIGKILL",
+            "렌더 해상도는 실물 문서로 반복 측정해 정했습니다",
+            "300dpi에서 나던 오인식이 400dpi에서 사라졌고 처리 시간은 거의 같았습니다",
+            "재시도는 3회, 30초 지수 백오프",
+            "반복 평가 결과를 저장해 변경 전후를 비교합니다 (evaluation harness)",
+        ):
+            self.assertIn(phrase, description)
+
     def test_source_only_cli_reports_success(self):
         completed = subprocess.run(
             ["python3", str(VERIFY_PATH), "--source-only"],
@@ -459,6 +522,36 @@ class PortfolioRenderedContractTests(unittest.TestCase):
                 "스키마 변경은 마이그레이션 파일로 관리합니다.",
             ):
                 self.assertIn(phrase, text)
+
+    def test_rendered_document_flow_has_eight_nodes_and_nine_edges(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertEqual(text.count('class="document-flow-node '), 8)
+            self.assertEqual(text.count('class="document-flow-edge '), 9)
+            for phrase in (
+                "텍스트 레이어 판정",
+                "스캔본 OCR",
+                "LLM 추출",
+                "텍스트 있음",
+                "스캔본",
+                "JSON Schema · 정규식",
+                "재시도 가능",
+                "값 없음",
+                "재처리",
+                "프로세스당 1건",
+                "SIGTERM",
+                "SIGKILL",
+                "evaluation harness",
+            ):
+                self.assertIn(phrase, text)
+            for retired in (
+                "Worker 동시성 제한",
+                "품질 판정",
+                "저품질 문서만 OCR로 전환",
+                "OCR 자식 프로세스",
+            ):
+                self.assertNotIn(retired, text)
+            self.assertNotIn('class="document-flow-node-info"', text)
 
     def test_rendered_external_structure_wraps_for_mobile(self):
         for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
