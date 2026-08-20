@@ -190,6 +190,28 @@ class PortfolioSourceContractTests(unittest.TestCase):
         profiles = self.verify.load_yaml(profiles_path)
         self.assertEqual(self.verify.validate_source(content, profiles), [])
 
+    def test_architecture_claim_audit_uses_code_grounded_node_text(self):
+        content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
+        nodes = {
+            node["id"]: node for node in content["flagship"]["nodes"]
+        }
+        expected = {
+            ("worker", "contract"): "공용 작업 계약 패키지 · 단기 인증 토큰",
+            ("web", "operation"): "화면과 기능이 폴더 단위로 갈려 있어 수정 범위가 그 폴더 안에 머뭅니다.",
+            ("queue", "operation"): "큐마다 동시성과 락 유지 시간을 따로 정의했습니다. 오래 걸리는 잡만 락을 올리고 나머지는 기본값을 씁니다.",
+            ("local-llm", "implementation"): "추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 수출 문서가 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.",
+            ("local-llm", "operation"): "PDF에 텍스트 레이어가 있으면 그대로 읽고, 스캔본만 OCR로 처리합니다. 렌더 해상도는 실물 문서로 반복 측정해 정했습니다. 300dpi에서 나던 오인식이 400dpi에서 사라졌고 처리 시간은 거의 같았습니다.",
+            ("local-llm", "structure"): "텍스트 레이어 판정\n· 스캔본 OCR(전체 페이지 → 표 영역 재인식)\n· schema parser · evaluation harness",
+            ("external", "tech"): "EDI 전문 · 저울 TCP 소켓 · FTP · 스케줄 수집",
+            (
+                "external",
+                "structure",
+            ): "요청형 EDI 전송\n· 수집형 스케줄러\n  (환율·선사·항구·운임 마스터, 공휴일, 요율)\n· TCP 클라이언트로 저울 데이터 수집\n· 파일 교환",
+        }
+        for (node_id, field), value in expected.items():
+            with self.subTest(node_id=node_id, field=field):
+                self.assertEqual(nodes[node_id][field], value)
+
     def test_source_only_cli_reports_success(self):
         completed = subprocess.run(
             ["python3", str(VERIFY_PATH), "--source-only"],
@@ -363,6 +385,34 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertIn('id="architecture-detail"', text)
             for phrase in ("Web", "API", "Queue", "Worker", "외부 시스템 8종"):
                 self.assertIn(phrase, text)
+
+    def test_rendered_architecture_facts_keep_boundaries_and_layers_distinct(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            for phrase in (
+                "플랫폼 경계 밖",
+                "요청·수집·수신 세 방향",
+                "EDI 810 전문 형식",
+                "스케줄 수집",
+                "계량값",
+                "TCP 클라이언트로 저울 데이터 수집",
+            ):
+                self.assertIn(phrase, text)
+            self.assertNotIn("우리 시스템 밖", text)
+            self.assertNotIn("계량기 소켓", text)
+            self.assertNotIn("수신형", text)
+            self.assertIn("_features/<기능>/", text)
+            self.assertNotIn("features/<도메인>/", text)
+
+    def test_rendered_external_structure_wraps_for_mobile(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertIn('"structure":"요청형 EDI 전송\\n', text)
+
+    def test_rendered_local_llm_structure_keeps_long_lines_bounded(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertIn('"structure":"텍스트 레이어 판정\\n', text)
 
     def test_rendered_validator_rejects_missing_architecture_node(self):
         with tempfile.TemporaryDirectory() as directory:
