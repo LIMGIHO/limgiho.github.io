@@ -16,6 +16,7 @@ function initArchitecture(root) {
   )];
   const edges = [...root.querySelectorAll('[data-architecture-edge]')];
   const detailFields = [...root.querySelectorAll('[data-architecture-detail]')];
+  const structureField = root.querySelector('[data-architecture-detail="structure"]');
   const rationaleBlock = root.querySelector('[data-architecture-rationale]');
   if (!dataElement || !triggers.length || !detailFields.length) return;
 
@@ -54,6 +55,13 @@ function initArchitecture(root) {
         ? (Array.isArray(value) ? value.join(' · ') : value)
         : '';
     });
+
+    if (structureField) {
+      structureField.classList.toggle(
+        'architecture-detail-tree',
+        node.structure_type === 'tree'
+      );
+    }
 
     if (rationaleBlock) {
       rationaleBlock.hidden = !node.rationale;

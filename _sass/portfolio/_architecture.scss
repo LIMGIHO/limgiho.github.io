@@ -289,6 +289,7 @@
 }
 
 .architecture-detail-grid > div {
+  min-width: 0;
   padding: 11px 0;
   border-top: 1px solid var(--rule);
 }
@@ -314,7 +315,7 @@
   line-height: 1.55;
 }
 
-.architecture-detail-structure {
+.architecture-detail-tree {
   // pre-line은 줄바꿈만 보존하고 연속 공백을 하나로 합쳐 트리의 주석 열
   // 정렬이 무너진다. pre로 공백까지 그대로 살린다.
   overflow-x: auto;

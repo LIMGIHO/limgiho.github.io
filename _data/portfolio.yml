@@ -135,12 +135,18 @@ flagship:
       kind: app
       boundary: presentation
       summary: 5개 업무 도메인의 90여 개 화면
-      implementation: 화면 단위 로컬 슬라이스와 공통 도메인 슬라이스를 분리하고, 서버 상태와 화면 상태의 책임을 나눴습니다.
+      implementation: 화면 단위 로컬 슬라이스와 공통 도메인 슬라이스를 분리하고, 서버 상태와 화면 상태의 책임을 나눴습니다. 기능이 많은 화면은 그 안에서 기능별로 다시 나눴습니다.
       structure: |-
-        _features/<기능>/
-        ├─ container/   상태 · 이벤트
-        ├─ view/        표현
-        └─ hooks/
+        <도메인 화면>/
+        ├─ _container/       화면 조합 · 상태 연결
+        ├─ _features/        업무 기능 묶음
+        │  └─ <기능>/
+        │     ├─ container/  기능 상태 · 이벤트
+        │     ├─ view/       기능 표현
+        │     └─ hooks/      기능별 훅
+        ├─ _hooks/           화면 공통 훅
+        └─ _store/           화면 상태
+      structure_type: tree
       rationale: 프론트도 경계가 나뉘어 있지 않아 한 곳을 고치면 다른 화면이 깨졌습니다. API와 같은 방식으로 클린 아키텍처를 옮겨보려 했지만 상태 관리와 훅이 레이어 구분에 얹히지 않았습니다. 여러 구성을 시험한 끝에 기능 슬라이스로 나누는 FSD로 정리했습니다.
       operation: 화면과 기능이 폴더 단위로 갈려 있어 수정 범위가 그 폴더 안에 머뭅니다.
       inputs: 사용자 입력 · 조회 조건 · 첨부 문서
@@ -162,9 +168,18 @@ flagship:
       implementation: 도메인 서비스가 데이터·외부 시스템 구현체를 직접 알지 않도록 포트와 어댑터로 분리했습니다. 외부 연동이 요청·수집·수신 세 방향이고 프로토콜이 제각각이라 하나로 억지 추상화하지 않고 각 구현을 어댑터로 격리했습니다. Worker가 호출하는 내부 배치 실행 엔드포인트도 같은 도메인 서비스를 재사용해, 실행 로직을 별도 앱으로 중복시키지 않았습니다.
       structure: |-
         <모듈>/
-        ├─ adapter/              controller · dto
-        ├─ application/usecase/  업무 기능 단위
-        └─ infra/repository/     데이터 접근
+        ├─ adapter/
+        │  ├─ controller/          HTTP 진입
+        │  └─ dto/
+        ├─ application/
+        │  └─ usecase/
+        │     └─ <유스케이스>/
+        │        ├─ *.usecase.ts   업무 기능 하나
+        │        ├─ dto.ts
+        │        └─ mapper.ts
+        └─ infra/
+           └─ repository/          읽기 · 쓰기 분리
+      structure_type: tree
       rationale: 초기 API는 Express로 자유도 높게 만들었고, 경계가 나뉘어 있지 않아 한 곳을 고치면 다른 곳이 깨졌습니다. api_v2로 옮기면서 NestJS와 클린 아키텍처를 도입해 모듈마다 방향을 고정했습니다.
       operation: 요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다.
       inputs: Web REST 요청 · Worker 내부 배치 실행 요청
@@ -203,7 +218,7 @@ flagship:
       kind: infra
       boundary: integration-data
       summary: 문서 추출을 사내망 안에서 처리
-      implementation: 추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 수출 문서가 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.
+      implementation: 추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 고객사 문서라 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.
       structure: |-
         텍스트 레이어 판정
         · 스캔본 OCR(전체 페이지 → 표 영역 재인식)
@@ -222,10 +237,10 @@ flagship:
       tech: PostgreSQL
       kind: infra
       boundary: integration-data
-      summary: 설계해서 통합한 단일 운영 저장소
-      implementation: 여러 DBMS에 흩어져 있던 운영 데이터를 하나의 PostgreSQL 스키마로 설계해 통합했습니다. Repository 경계 안에서 도메인별 데이터 접근을 캡슐화했습니다.
+      summary: 여러 DBMS에서 옮겨와 하나로 합친 운영 데이터
+      implementation: 흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다. 도메인별 데이터 접근은 Repository 뒤로 숨겼습니다.
       structure: 업무 schema · Prisma repository
-      operation: Repository 인터페이스 뒤에서 도메인별 접근을 캡슐화해 단일 스키마로 운영합니다.
+      operation: 스키마 변경은 마이그레이션 파일로 관리합니다.
       inputs: Repository query
       outputs: 업무 데이터 · 트랜잭션 결과
       contract: Repository interface · transaction boundary

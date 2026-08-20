@@ -199,7 +199,7 @@ class PortfolioSourceContractTests(unittest.TestCase):
             ("worker", "contract"): "공용 작업 계약 패키지 · 단기 인증 토큰",
             ("web", "operation"): "화면과 기능이 폴더 단위로 갈려 있어 수정 범위가 그 폴더 안에 머뭅니다.",
             ("queue", "operation"): "큐마다 동시성과 락 유지 시간을 따로 정의했습니다. 오래 걸리는 잡만 락을 올리고 나머지는 기본값을 씁니다.",
-            ("local-llm", "implementation"): "추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 수출 문서가 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.",
+            ("local-llm", "implementation"): "추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 고객사 문서라 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.",
             ("local-llm", "operation"): "PDF에 텍스트 레이어가 있으면 그대로 읽고, 스캔본만 OCR로 처리합니다. 렌더 해상도는 실물 문서로 반복 측정해 정했습니다. 300dpi에서 나던 오인식이 400dpi에서 사라졌고 처리 시간은 거의 같았습니다.",
             ("local-llm", "structure"): "텍스트 레이어 판정\n· 스캔본 OCR(전체 페이지 → 표 영역 재인식)\n· schema parser · evaluation harness",
             ("external", "tech"): "EDI 전문 · 저울 TCP 소켓 · FTP · 스케줄 수집",
@@ -211,6 +211,28 @@ class PortfolioSourceContractTests(unittest.TestCase):
         for (node_id, field), value in expected.items():
             with self.subTest(node_id=node_id, field=field):
                 self.assertEqual(nodes[node_id][field], value)
+
+    def test_tree_expansion_claims_match_confirmed_source_structure(self):
+        content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
+        nodes = {
+            node["id"]: node for node in content["flagship"]["nodes"]
+        }
+        expected = {
+            ("web", "structure"): "<도메인 화면>/\n├─ _container/       화면 조합 · 상태 연결\n├─ _features/        업무 기능 묶음\n│  └─ <기능>/\n│     ├─ container/  기능 상태 · 이벤트\n│     ├─ view/       기능 표현\n│     └─ hooks/      기능별 훅\n├─ _hooks/           화면 공통 훅\n└─ _store/           화면 상태",
+            ("api", "structure"): "<모듈>/\n├─ adapter/\n│  ├─ controller/          HTTP 진입\n│  └─ dto/\n├─ application/\n│  └─ usecase/\n│     └─ <유스케이스>/\n│        ├─ *.usecase.ts   업무 기능 하나\n│        ├─ dto.ts\n│        └─ mapper.ts\n└─ infra/\n   └─ repository/          읽기 · 쓰기 분리",
+            ("web", "implementation"): "화면 단위 로컬 슬라이스와 공통 도메인 슬라이스를 분리하고, 서버 상태와 화면 상태의 책임을 나눴습니다. 기능이 많은 화면은 그 안에서 기능별로 다시 나눴습니다.",
+            ("local-llm", "implementation"): "추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 고객사 문서라 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.",
+            ("data", "summary"): "여러 DBMS에서 옮겨와 하나로 합친 운영 데이터",
+            ("data", "implementation"): "흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다. 도메인별 데이터 접근은 Repository 뒤로 숨겼습니다.",
+            ("data", "operation"): "스키마 변경은 마이그레이션 파일로 관리합니다.",
+        }
+        for (node_id, field), value in expected.items():
+            with self.subTest(node_id=node_id, field=field):
+                self.assertEqual(nodes[node_id][field], value)
+        self.assertEqual(nodes["web"]["structure_type"], "tree")
+        self.assertEqual(nodes["api"]["structure_type"], "tree")
+        for node_id in ("pda", "external", "local-llm", "data", "queue", "worker"):
+            self.assertNotIn("structure_type", nodes[node_id])
 
     def test_source_only_cli_reports_success(self):
         completed = subprocess.run(
@@ -302,6 +324,8 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             "event.key === 'Enter'",
             "event.key === ' '",
             "data-architecture-detail",
+            "structure_type",
+            "architecture-detail-tree",
             "is-related",
         ):
             self.assertIn(phrase, script)
@@ -323,6 +347,7 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             ".architecture-edge-async",
             ".architecture-detail-grid",
             ".architecture-mobile-node",
+            ".architecture-detail-tree",
         ):
             self.assertIn(selector, styles)
 
@@ -401,8 +426,21 @@ class PortfolioRenderedContractTests(unittest.TestCase):
             self.assertNotIn("우리 시스템 밖", text)
             self.assertNotIn("계량기 소켓", text)
             self.assertNotIn("수신형", text)
-            self.assertIn("_features/<기능>/", text)
+            self.assertIn("_features/", text)
+            self.assertIn("<기능>/", text)
             self.assertNotIn("features/<도메인>/", text)
+
+    def test_rendered_tree_expansion_keeps_two_tree_markers_and_new_claims(self):
+        for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
+            text = (ROOT / "_site" / relative_path).read_text(encoding="utf-8")
+            self.assertEqual(text.count('"structure_type":"tree"'), 2)
+            for phrase in (
+                "기능이 많은 화면은 그 안에서 기능별로 다시 나눴습니다.",
+                "고객사 문서라 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다.",
+                "여러 DBMS에서 옮겨와 하나로 합친 운영 데이터",
+                "스키마 변경은 마이그레이션 파일로 관리합니다.",
+            ):
+                self.assertIn(phrase, text)
 
     def test_rendered_external_structure_wraps_for_mobile(self):
         for relative_path, _theme in self.verify.RENDERED_PROFILES.values():
