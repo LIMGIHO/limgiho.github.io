@@ -51,6 +51,8 @@ REQUIRED_ARCHITECTURE_NODE_FIELDS = (
     "width",
     "height",
 )
+OPTIONAL_EXTERNAL_ARCHITECTURE_NODE_FIELDS = {"operation", "deployment"}
+OPTIONAL_DATA_ARCHITECTURE_NODE_FIELDS = {"deployment"}
 REQUIRED_ARCHITECTURE_EDGE_FIELDS = (
     "id",
     "from",
@@ -120,7 +122,11 @@ def validate_source(content, profiles):
         errors.append(f"architecture node ids mismatch: {sorted(node_ids)}")
     for node in nodes:
         for key in REQUIRED_ARCHITECTURE_NODE_FIELDS:
-            if node.get(key) in (None, ""):
+            optional_node_field = (
+                (node.get("id") == "external" and key in OPTIONAL_EXTERNAL_ARCHITECTURE_NODE_FIELDS)
+                or (node.get("id") == "data" and key in OPTIONAL_DATA_ARCHITECTURE_NODE_FIELDS)
+            )
+            if node.get(key) in (None, "") and not optional_node_field:
                 errors.append(
                     f"architecture node {node.get('id', '?')} field missing: {key}"
                 )

@@ -1,5 +1,6 @@
 import importlib.util
 import copy
+import re
 import shutil
 import subprocess
 import tempfile
@@ -223,7 +224,7 @@ class PortfolioSourceContractTests(unittest.TestCase):
             ("web", "implementation"): "화면 단위 로컬 슬라이스와 공통 도메인 슬라이스를 분리하고, 서버 상태와 화면 상태의 책임을 나눴습니다. 기능이 많은 화면은 그 안에서 기능별로 다시 나눴습니다.",
             ("local-llm", "implementation"): "추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 고객사 문서라 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. 추출 결과는 JSON Schema와 정규식으로 교차 검증합니다.",
             ("data", "summary"): "여러 DBMS에서 옮겨와 하나로 합친 운영 데이터",
-            ("data", "implementation"): "흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다. 도메인별 데이터 접근은 Repository 뒤로 숨겼습니다.",
+            ("data", "implementation"): "흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다.",
             ("data", "operation"): "스키마 변경은 마이그레이션 파일로 관리합니다.",
         }
         for (node_id, field), value in expected.items():
@@ -246,11 +247,41 @@ class PortfolioSourceContractTests(unittest.TestCase):
             ("worker", "inputs"): "큐 작업 · 예약 스케줄",
             ("worker", "outputs"): "API 내부 실행 요청",
             ("queue", "outputs"): "Worker로 전달되는 작업 · 재시도 · 실패 기록",
-            ("data", "deployment"): "PostgreSQL 단독 서버 운영",
         }
         for (node_id, field), value in expected.items():
             with self.subTest(node_id=node_id, field=field):
                 self.assertEqual(nodes[node_id][field], value)
+
+    def test_node_category_claims_keep_external_and_data_boundaries_distinct(self):
+        content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
+        nodes = {node["id"]: node for node in content["flagship"]["nodes"]}
+        self.assertEqual(
+            nodes["api"]["operation"],
+            "요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다. 외부 오류는 내부 오류 형식으로 바꾸고 재시도 가능 여부를 구분했습니다.",
+        )
+        self.assertNotIn("operation", nodes["external"])
+        self.assertNotIn("deployment", nodes["external"])
+        self.assertEqual(nodes["external"]["outputs"], "전문 응답 · 마스터 데이터 · 저울 측정값")
+        self.assertEqual(
+            nodes["data"]["implementation"],
+            "흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다.",
+        )
+        self.assertEqual(nodes["data"]["structure"], "업무 스키마 · 마이그레이션")
+        self.assertEqual(nodes["data"]["inputs"], "API의 데이터 접근")
+        self.assertEqual(nodes["data"]["contract"], "SQL · 트랜잭션 경계")
+
+    def test_external_may_omit_operation_and_deployment_only(self):
+        content = copy.deepcopy(self.content)
+        external = next(node for node in content["flagship"]["nodes"] if node["id"] == "external")
+        del external["operation"]
+        del external["deployment"]
+        self.assertEqual(self.verify.validate_source(content, self.profiles), [])
+
+    def test_data_may_omit_deployment_when_not_published(self):
+        content = copy.deepcopy(self.content)
+        data = next(node for node in content["flagship"]["nodes"] if node["id"] == "data")
+        del data["deployment"]
+        self.assertEqual(self.verify.validate_source(content, self.profiles), [])
 
     def test_document_flow_keeps_confirmed_eight_step_pipeline(self):
         content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
@@ -314,6 +345,19 @@ class PortfolioSourceContractTests(unittest.TestCase):
             "반복 평가 결과를 저장해 변경 전후를 비교합니다 (evaluation harness)",
         ):
             self.assertIn(phrase, description)
+
+    def test_document_retry_loop_routes_between_intake_and_layer_nodes(self):
+        content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
+        flow = content["flagship"]["document_flow"]
+        nodes = {node["id"]: node for node in flow["nodes"]}
+        retry_loop = next(edge for edge in flow["edges"] if edge["id"] == "retry-loop")
+        match = re.search(r"^M700 357 H(\d+) V24 H470 V70$", retry_loop["path"])
+        self.assertIsNotNone(match)
+        loop_x = int(match.group(1))
+        intake = nodes["doc-intake"]
+        layer = nodes["doc-layer"]
+        self.assertGreater(loop_x, intake["x"] + intake["width"])
+        self.assertLess(loop_x, layer["x"])
 
     def test_source_only_cli_reports_success(self):
         completed = subprocess.run(
@@ -413,6 +457,18 @@ class PortfolioRenderedContractTests(unittest.TestCase):
         for retired in ("initDecisionCards", "data-decision-id", "beforeprint"):
             self.assertNotIn(retired, script)
 
+    def test_architecture_detail_rows_support_missing_node_fields(self):
+        script = (ROOT / "assets" / "js" / "portfolio.js").read_text(encoding="utf-8")
+        template = (ROOT / "_includes" / "portfolio" / "architecture.html").read_text(encoding="utf-8")
+        for phrase in (
+            "data-architecture-detail-row",
+            "row.hidden",
+            "architecture-detail-row",
+        ):
+            self.assertIn(phrase, script + template)
+        for field in ("operation", "deployment"):
+            self.assertIn(f'data-architecture-detail-row="{field}"', template)
+
     def test_architecture_styles_cover_kinds_flows_and_mobile_layout(self):
         partial_dir = ROOT / "_sass" / "portfolio"
         styles = "\n".join(
@@ -500,7 +556,7 @@ class PortfolioRenderedContractTests(unittest.TestCase):
                 "요청·수집·수신 세 방향",
                 "EDI 810 전문 형식",
                 "스케줄 수집",
-                "계량값",
+                "저울 측정값",
                 "TCP 클라이언트로 저울 데이터 수집",
             ):
                 self.assertIn(phrase, text)

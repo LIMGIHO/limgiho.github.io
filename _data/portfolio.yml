@@ -181,7 +181,7 @@ flagship:
            └─ repository/          읽기 · 쓰기 분리
       structure_type: tree
       rationale: 초기 API는 Express로 자유도 높게 만들었고, 경계가 나뉘어 있지 않아 한 곳을 고치면 다른 곳이 깨졌습니다. NestJS와 클린 아키텍처를 도입해 모듈마다 방향을 고정했습니다.
-      operation: 요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다.
+      operation: 요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다. 외부 오류는 내부 오류 형식으로 바꾸고 재시도 가능 여부를 구분했습니다.
       inputs: Web·PDA REST 요청 · Worker 내부 배치 실행 요청
       outputs: Repository 호출 · 로컬 LLM 호출 · 외부 연동 · Queue job · 배치 실행 결과
       contract: DTO validation · Symbol port · 공통 job package · 단기 인증 토큰
@@ -203,11 +203,9 @@ flagship:
           (환율·선사·항구·운임 마스터, 공휴일, 요율)
         · TCP 클라이언트로 저울 데이터 수집
         · 파일 교환
-      operation: 외부 오류를 내부 오류 형식으로 변환하고 재시도 가능 여부를 구분했습니다.
       inputs: 플랫폼 요청 · 스케줄 수집
-      outputs: 전문 응답 · 마스터 데이터 · 계량값
+      outputs: 전문 응답 · 마스터 데이터 · 저울 측정값
       contract: EDI 810 전문 형식 · 소켓 프로토콜 · 파일 규격
-      deployment: 외부 조직이 운영
       x: 48
       y: 470
       width: 234
@@ -238,13 +236,12 @@ flagship:
       kind: infra
       boundary: integration-data
       summary: 여러 DBMS에서 옮겨와 하나로 합친 운영 데이터
-      implementation: 흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다. 도메인별 데이터 접근은 Repository 뒤로 숨겼습니다.
-      structure: 업무 schema · Prisma repository
+      implementation: 흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다.
+      structure: 업무 스키마 · 마이그레이션
       operation: 스키마 변경은 마이그레이션 파일로 관리합니다.
-      inputs: Repository query
+      inputs: API의 데이터 접근
       outputs: 업무 데이터 · 트랜잭션 결과
-      contract: Repository interface · transaction boundary
-      deployment: PostgreSQL 단독 서버 운영
+      contract: SQL · 트랜잭션 경계
       x: 535
       y: 470
       width: 175
@@ -394,7 +391,7 @@ flagship:
         kind: process
         x: 470
         y: 220
-        width: 170
+        width: 160
         height: 74
       - id: doc-extract
         label: LLM 추출
@@ -505,7 +502,7 @@ flagship:
         from: doc-retry
         to: doc-extract
         kind: branch-retry
-        path: M700 357 H185 V24 H470 V70
+        path: M700 357 H220 V24 H470 V70
         label: 재처리
         label_x: 300
         label_y: 347

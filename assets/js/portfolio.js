@@ -16,6 +16,7 @@ function initArchitecture(root) {
   )];
   const edges = [...root.querySelectorAll('[data-architecture-edge]')];
   const detailFields = [...root.querySelectorAll('[data-architecture-detail]')];
+  const detailRows = [...root.querySelectorAll('[data-architecture-detail-row]')];
   const structureField = root.querySelector('[data-architecture-detail="structure"]');
   const rationaleBlock = root.querySelector('[data-architecture-rationale]');
   if (!dataElement || !triggers.length || !detailFields.length) return;
@@ -45,12 +46,18 @@ function initArchitecture(root) {
       edge.classList.toggle('is-related', related);
     });
 
+    detailRows.forEach((row) => {
+      const key = row.dataset.architectureDetailRow;
+      const value = node[key];
+      const hasValue = Object.prototype.hasOwnProperty.call(node, key) && value;
+      row.hidden = !hasValue;
+    });
+
     detailFields.forEach((field) => {
       const key = field.dataset.architectureDetail;
       const value = node[key];
       const hasValue = Object.prototype.hasOwnProperty.call(node, key) && value;
-      // 노드에 이 키가 없으면(예: rationale) 이전 노드의 값이 남지 않도록
-      // 반드시 비운다 — hasOwnProperty만 확인하면 이전 값이 그대로 남는다.
+      // 노드에 이 키가 없으면 이전 노드의 값이 남지 않도록 반드시 비운다.
       field.textContent = hasValue
         ? (Array.isArray(value) ? value.join(' · ') : value)
         : '';
