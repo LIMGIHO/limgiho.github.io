@@ -182,8 +182,8 @@ flagship:
       structure_type: tree
       rationale: 초기 API는 Express로 자유도 높게 만들었고, 경계가 나뉘어 있지 않아 한 곳을 고치면 다른 곳이 깨졌습니다. api_v2로 옮기면서 NestJS와 클린 아키텍처를 도입해 모듈마다 방향을 고정했습니다.
       operation: 요청 검증, 권한, 공통 오류 변환과 추적 정보를 한 경계에서 처리했습니다.
-      inputs: Web REST 요청 · Worker 내부 배치 실행 요청
-      outputs: Repository 호출 · 외부 연동 · Queue job · 배치 실행 결과
+      inputs: Web·PDA REST 요청 · Worker 내부 배치 실행 요청
+      outputs: Repository 호출 · 로컬 LLM 호출 · 외부 연동 · Queue job · 배치 실행 결과
       contract: DTO validation · Symbol port · 공통 job package · 단기 인증 토큰
       deployment: API 컨테이너 수평 확장
       x: 530
@@ -204,7 +204,7 @@ flagship:
         · TCP 클라이언트로 저울 데이터 수집
         · 파일 교환
       operation: 외부 오류를 내부 오류 형식으로 변환하고 재시도 가능 여부를 구분했습니다.
-      inputs: 플랫폼 요청 · 스케줄 수집 · 장비 송신
+      inputs: 플랫폼 요청 · 스케줄 수집
       outputs: 전문 응답 · 마스터 데이터 · 계량값
       contract: EDI 810 전문 형식 · 소켓 프로토콜 · 파일 규격
       deployment: 외부 조직이 운영
@@ -244,7 +244,7 @@ flagship:
       inputs: Repository query
       outputs: 업무 데이터 · 트랜잭션 결과
       contract: Repository interface · transaction boundary
-      deployment: 관리형 PostgreSQL 단독 운영
+      deployment: PostgreSQL 단독 서버 운영
       x: 535
       y: 470
       width: 175
@@ -261,7 +261,7 @@ flagship:
       structure: queue-names · job type/status/mode · typed payload · cron catalog 생성 스크립트
       operation: 큐마다 동시성과 락 유지 시간을 따로 정의했습니다. 오래 걸리는 잡만 락을 올리고 나머지는 기본값을 씁니다.
       inputs: API enqueue
-      outputs: Worker consume · retry · failed job
+      outputs: Worker로 전달되는 작업 · 재시도 · 실패 기록
       contract: 공용 작업 계약 패키지 · typed payload
       deployment: Redis 인프라 독립 운영
       x: 795
@@ -279,8 +279,8 @@ flagship:
       implementation: 업무 로직이나 DB 접근을 직접 갖지 않는 경량 트리거로 설계했습니다. node-cron 스케줄과 BullMQ 큐 컨슈머가 발생시킨 작업을 단기 인증 토큰으로 검증한 뒤 API의 내부 엔드포인트에 위임합니다. 예전에 별도 실행 앱이 맡던 파일 수집·자동 입력 실행도 이 경로로 API에 흡수됐습니다.
       structure: scheduler trigger · queue consumer · internal auth client · distributed lock
       operation: 스케줄 실행 전 Redis 락으로 다중 replica의 중복 실행을 막고, 토큰 만료 전 재발급으로 장시간 실행에도 인증이 끊기지 않게 했습니다.
-      inputs: Queue job · cron schedule
-      outputs: API 내부 엔드포인트 호출 · 인증 토큰 재발급 요청
+      inputs: 큐 작업 · 예약 스케줄
+      outputs: API 내부 실행 요청
       contract: 공용 작업 계약 패키지 · 단기 인증 토큰
       deployment: Worker 컨테이너 다중 replica
       x: 995

@@ -234,6 +234,24 @@ class PortfolioSourceContractTests(unittest.TestCase):
         for node_id in ("pda", "external", "local-llm", "data", "queue", "worker"):
             self.assertNotIn("structure_type", nodes[node_id])
 
+    def test_architecture_io_and_deployment_claims_follow_edge_direction(self):
+        content = self.verify.load_yaml(ROOT / "_data" / "portfolio.yml")
+        nodes = {
+            node["id"]: node for node in content["flagship"]["nodes"]
+        }
+        expected = {
+            ("api", "inputs"): "Web·PDA REST 요청 · Worker 내부 배치 실행 요청",
+            ("api", "outputs"): "Repository 호출 · 로컬 LLM 호출 · 외부 연동 · Queue job · 배치 실행 결과",
+            ("external", "inputs"): "플랫폼 요청 · 스케줄 수집",
+            ("worker", "inputs"): "큐 작업 · 예약 스케줄",
+            ("worker", "outputs"): "API 내부 실행 요청",
+            ("queue", "outputs"): "Worker로 전달되는 작업 · 재시도 · 실패 기록",
+            ("data", "deployment"): "PostgreSQL 단독 서버 운영",
+        }
+        for (node_id, field), value in expected.items():
+            with self.subTest(node_id=node_id, field=field):
+                self.assertEqual(nodes[node_id][field], value)
+
     def test_source_only_cli_reports_success(self):
         completed = subprocess.run(
             ["python3", str(VERIFY_PATH), "--source-only"],
