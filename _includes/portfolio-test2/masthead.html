@@ -1,0 +1,14 @@
+<header class="test2-masthead">
+  <div class="test2-masthead-inner">
+    <a class="test2-wordmark" href="{{ '/test2/' | relative_url }}" aria-label="{{ include.portfolio.person.name }} 포트폴리오 처음으로">
+      <strong>{{ include.portfolio.person.name }}</strong>
+      <span>Platform Engineer</span>
+    </a>
+    <nav class="test2-nav" aria-label="새 포트폴리오 주요 섹션">
+      <a href="#case-01">대표 사례</a>
+      <a href="#career">경력</a>
+      <a href="#products">제품</a>
+      <a class="test2-nav-resume" href="{{ include.portfolio.person.resume_url | relative_url }}">이력서 PDF</a>
+    </nav>
+  </div>
+</header>

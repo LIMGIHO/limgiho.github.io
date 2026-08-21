@@ -22,8 +22,9 @@
       FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
     -->
     <a class="test2-skip-link" href="#test2-main">본문으로 이동</a>
+    {% include portfolio-test2/masthead.html portfolio=portfolio %}
     <main id="test2-main">
-      <h1>15개의 운영 시스템을 하나의 플랫폼으로 전환했습니다.</h1>
+      {% include portfolio-test2/hero.html portfolio=portfolio flagship=portfolio.flagship %}
     </main>
   </body>
 </html>
