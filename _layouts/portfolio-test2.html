@@ -25,6 +25,11 @@
     {% include portfolio-test2/masthead.html portfolio=portfolio %}
     <main id="test2-main">
       {% include portfolio-test2/hero.html portfolio=portfolio flagship=portfolio.flagship %}
+      {% include portfolio-test2/case-study.html flagship=portfolio.flagship %}
+      {% include portfolio-test2/operations.html flagship=portfolio.flagship automation=portfolio.automation %}
+      {% include portfolio-test2/career.html journey=portfolio.journey %}
+      {% include portfolio-test2/products.html items=portfolio.additional_work %}
     </main>
+    {% include portfolio-test2/footer.html portfolio=portfolio %}
   </body>
 </html>

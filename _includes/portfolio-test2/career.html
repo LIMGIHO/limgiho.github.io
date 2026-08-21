@@ -1,0 +1,19 @@
+<section class="test2-section test2-career" id="career" aria-labelledby="career-title">
+  <header class="test2-section-heading">
+    <h2 id="career-title">현장을 이해한 뒤<br>플랫폼을 만들었습니다</h2>
+    <p>제조 시스템에서 시작해 물류 자동화와 통합 플랫폼으로 이어진 경력입니다.</p>
+  </header>
+
+  <ol class="test2-career-ledger">
+    {% for item in include.journey %}
+      <li>
+        <time>{{ item.period }}</time>
+        <div>
+          <span>{{ item.company }} · {{ item.role }}</span>
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
+        </div>
+      </li>
+    {% endfor %}
+  </ol>
+</section>

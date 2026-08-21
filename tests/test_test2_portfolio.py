@@ -47,6 +47,22 @@ class TestTest2Portfolio(unittest.TestCase):
         self.assertNotIn("box-shadow", sources)
         self.assertIn("word-break: keep-all", sources)
 
+    def test_case_story_is_problem_decision_result_not_card_grid(self):
+        layout = (ROOT / "_layouts/portfolio-test2.html").read_text(encoding="utf-8")
+        for include in ("case-study", "operations", "career", "products", "footer"):
+            self.assertIn(f"portfolio-test2/{include}.html", layout)
+
+        case = (ROOT / "_includes/portfolio-test2/case-study.html").read_text(encoding="utf-8")
+        for label in ("문제", "제약", "결정", "결과"):
+            self.assertIn(label, case)
+        self.assertIn("<details", case)
+
+    def test_product_images_are_real_portfolio_assets(self):
+        products = (ROOT / "_includes/portfolio-test2/products.html").read_text(encoding="utf-8")
+
+        self.assertIn("assets/portfolio/screenshots", products)
+        self.assertIn("loading=\"lazy\"", products)
+
 
 if __name__ == "__main__":
     unittest.main()

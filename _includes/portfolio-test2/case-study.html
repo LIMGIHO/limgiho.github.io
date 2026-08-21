@@ -1,0 +1,54 @@
+<section class="test2-section test2-case-story" id="case-story" aria-labelledby="case-story-title">
+  <header class="test2-section-heading">
+    <h2 id="case-story-title">문제에서 결과까지,<br>한 장의 변경 기록으로</h2>
+    <p>기능 목록보다 어떤 제약을 보고 어디에 경계를 세웠는지 먼저 보여줍니다.</p>
+  </header>
+
+  <ol class="test2-decision-ledger">
+    <li>
+      <span>문제</span>
+      <strong>15종의 운영 시스템이 업무와 데이터 경계를 나눠 갖고 있었습니다.</strong>
+      <p>화면, 외부 연동, 배치와 데이터 저장 방식이 시스템마다 달라 수정 범위와 운영 책임을 한눈에 파악하기 어려웠습니다.</p>
+    </li>
+    <li>
+      <span>제약</span>
+      <strong>운영을 멈추지 않은 채 데이터와 연동 계약을 옮겨야 했습니다.</strong>
+      <p>Oracle·MySQL·ODBC에 흩어진 데이터를 새 구조로 이관하고 원본과 대상 양쪽에서 교차 검증했습니다.</p>
+    </li>
+    <li>
+      <span>결정</span>
+      <strong>업무 로직과 실행 방식이 섞이지 않도록 경계를 먼저 고정했습니다.</strong>
+      <p>Web, API, 작업 계약·Queue, Worker, PostgreSQL을 독립된 책임으로 나누고 외부 연동은 어댑터로 격리했습니다.</p>
+    </li>
+    <li>
+      <span>결과</span>
+      <strong>90여 개 업무 화면과 8종 외부 연동이 하나의 플랫폼 안에서 운영됩니다.</strong>
+      <p>1,000만 건 이상을 PostgreSQL로 이관했고, CI/CD는 테스트를 통과한 변경 앱만 빌드·배포합니다.</p>
+    </li>
+  </ol>
+
+  <div class="test2-boundary-sheet" aria-labelledby="boundary-sheet-title">
+    <div class="test2-sheet-intro">
+      <h3 id="boundary-sheet-title">경계가 책임을 설명합니다</h3>
+      <p>{{ include.flagship.description }}</p>
+    </div>
+    <div class="test2-boundary-map">
+      {% for node in include.flagship.nodes %}
+        <details class="test2-boundary-node">
+          <summary>
+            <strong>{{ node.label }}</strong>
+            <span>{{ node.tech }}</span>
+          </summary>
+          <div>
+            <p>{{ node.summary }}</p>
+            <dl>
+              <dt>입력</dt><dd>{{ node.inputs }}</dd>
+              <dt>출력</dt><dd>{{ node.outputs }}</dd>
+              <dt>계약</dt><dd>{{ node.contract }}</dd>
+            </dl>
+          </div>
+        </details>
+      {% endfor %}
+    </div>
+  </div>
+</section>

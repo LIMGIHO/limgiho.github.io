@@ -1,0 +1,11 @@
+<footer class="test2-footer">
+  <div>
+    <strong>{{ include.portfolio.person.name }}</strong>
+    <p>복잡한 운영을 검증 가능한 시스템으로 바꾸는 엔지니어</p>
+  </div>
+  <nav aria-label="연락처와 문서">
+    <a href="mailto:{{ include.portfolio.person.email }}">{{ include.portfolio.person.email }}</a>
+    <a href="{{ include.portfolio.person.github_url }}">GitHub</a>
+    <a href="{{ include.portfolio.person.resume_url | relative_url }}">이력서 PDF</a>
+  </nav>
+</footer>
