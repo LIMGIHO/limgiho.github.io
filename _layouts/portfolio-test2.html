@@ -1,0 +1,29 @@
+{% assign portfolio = site.data.portfolio %}
+{% assign profile = site.data.portfolio_profiles[page.portfolio_profile] %}
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ portfolio.person.name }} · 운영 시스템 전환 기록</title>
+    <meta name="description" content="{{ profile.summary | strip_html | escape }}">
+    <meta name="theme-color" content="#e7ebe5">
+    <link rel="canonical" href="{{ page.url | absolute_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/portfolio-test2.css' | relative_url }}">
+    <link rel="shortcut icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+  </head>
+  <body class="portfolio-test2">
+    <!--
+      THESIS: 15종 운영 시스템의 전환 과정이 첫 화면을 소유하며, 일반적인 소개형 hero와 KPI card 배열을 거부한다.
+      OWN-WORLD: 차가운 manifest paper, ink black, committed cobalt field, vermilion change mark, square rules와 ledger rows.
+      STORY: 방문자는 전환을 먼저 이해하고 문제·제약·결정·결과를 따라간 뒤 이력서와 GitHub로 이동한다.
+      FIRST VIEWPORT: 작은 masthead 아래 왼쪽은 CASE 01 제목, 오른쪽 절반 이상은 15 → 1 전환 artifact가 차지한다.
+      FORM: operations change dossier, grounded direction 1, direction seed 9d7999ee.
+      FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
+    -->
+    <a class="test2-skip-link" href="#test2-main">본문으로 이동</a>
+    <main id="test2-main">
+      <h1>15개의 운영 시스템을 하나의 플랫폼으로 전환했습니다.</h1>
+    </main>
+  </body>
+</html>
