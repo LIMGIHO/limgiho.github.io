@@ -46,6 +46,8 @@ class TestTest2Portfolio(unittest.TestCase):
         self.assertNotIn("border-radius", sources)
         self.assertNotIn("box-shadow", sources)
         self.assertIn("word-break: keep-all", sources)
+        self.assertNotIn("body.portfolio-test2::before", sources)
+        self.assertIn("border-top: 4px solid var(--test2-vermilion)", sources)
 
     def test_case_story_is_problem_decision_result_not_card_grid(self):
         layout = (ROOT / "_layouts/portfolio-test2.html").read_text(encoding="utf-8")

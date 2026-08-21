@@ -2,6 +2,7 @@
   position: sticky;
   top: 0;
   z-index: 50;
+  border-top: 4px solid var(--test2-vermilion);
   border-bottom: 1px solid var(--test2-ink);
   background: color-mix(in srgb, var(--test2-paper) 94%, transparent);
 }
