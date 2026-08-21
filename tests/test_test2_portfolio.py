@@ -49,6 +49,18 @@ class TestTest2Portfolio(unittest.TestCase):
         self.assertNotIn("body.portfolio-test2::before", sources)
         self.assertIn("border-top: 4px solid var(--test2-vermilion)", sources)
 
+    def test_change_color_is_semantic_accessible_and_has_one_authored_moment(self):
+        tokens = (ROOT / "_sass/portfolio-test2/_tokens.scss").read_text(encoding="utf-8")
+        sections = (ROOT / "_sass/portfolio-test2/_sections.scss").read_text(encoding="utf-8")
+        hero = (ROOT / "_sass/portfolio-test2/_hero.scss").read_text(encoding="utf-8")
+        footer_block = sections.split(".test2-footer {", 1)[1].split("}", 1)[0]
+
+        self.assertIn("--test2-change-text: #c42f23", tokens)
+        self.assertNotIn(".test2-career-ledger time {\n  color: var(--test2-vermilion)", sections)
+        self.assertNotIn("background: var(--test2-vermilion)", footer_block)
+        self.assertIn("@keyframes test2-decision-confirm", hero)
+        self.assertIn("cubic-bezier(0.16, 1, 0.3, 1)", hero)
+
     def test_case_story_is_problem_decision_result_not_card_grid(self):
         layout = (ROOT / "_layouts/portfolio-test2.html").read_text(encoding="utf-8")
         for include in ("case-study", "operations", "career", "products", "footer"):

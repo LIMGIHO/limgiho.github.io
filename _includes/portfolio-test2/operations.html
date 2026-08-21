@@ -12,7 +12,7 @@
     </div>
     <ol class="test2-flow-steps">
       {% for node in include.flagship.document_flow.nodes %}
-        <li>
+        <li class="is-{{ node.kind }}">
           <span>{{ forloop.index | prepend: '0' | slice: -2, 2 }}</span>
           <strong>{{ node.label }}</strong>
           {% if node.detail != "" %}<p>{{ node.detail }}</p>{% endif %}
@@ -29,7 +29,7 @@
     <div class="test2-operation-summary">
       <h3>{{ include.flagship.delivery_flow.title }}</h3>
       <p>{{ include.flagship.delivery_flow.description }}</p>
-      <strong>실패는 배포에 닿지 않음</strong>
+      <strong class="is-failure">실패는 배포에 닿지 않음</strong>
     </div>
     <ol class="test2-flow-steps">
       {% for node in include.flagship.delivery_flow.nodes %}

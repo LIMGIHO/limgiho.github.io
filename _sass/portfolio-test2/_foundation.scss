@@ -18,7 +18,7 @@ body.portfolio-test2 {
 }
 
 ::selection {
-  background: var(--test2-vermilion);
+  background: var(--test2-cobalt);
   color: #ffffff;
 }
 
@@ -30,7 +30,7 @@ a {
 
 a:focus-visible,
 summary:focus-visible {
-  outline: 3px solid var(--test2-vermilion);
+  outline: 3px solid var(--test2-cobalt);
   outline-offset: 4px;
 }
 

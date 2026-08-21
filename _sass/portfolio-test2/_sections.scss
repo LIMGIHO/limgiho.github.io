@@ -52,9 +52,13 @@
 }
 
 .test2-decision-ledger li > span {
-  color: var(--test2-vermilion);
+  color: var(--test2-muted);
   font-size: 0.78rem;
   font-weight: 900;
+}
+
+.test2-decision-ledger .is-decision > span {
+  color: var(--test2-change-text);
 }
 
 .test2-decision-ledger strong {
@@ -128,7 +132,7 @@
 
 .test2-boundary-node summary::after {
   align-self: flex-end;
-  color: var(--test2-vermilion);
+  color: var(--test2-muted);
   content: "OPEN +";
   font-family: var(--test2-mono);
   font-size: 0.62rem;
@@ -177,7 +181,7 @@
 }
 
 .test2-boundary-node dt {
-  color: var(--test2-vermilion);
+  color: var(--test2-muted);
   font-weight: 850;
 }
 
@@ -217,9 +221,13 @@
   display: inline-block;
   margin-top: 42px;
   padding: 8px 10px;
-  background: var(--test2-vermilion);
+  background: var(--test2-ink);
   color: #ffffff;
   font-size: 0.72rem;
+}
+
+.test2-operation-summary > .is-failure {
+  background: var(--test2-vermilion);
 }
 
 .test2-flow-steps {
@@ -239,9 +247,14 @@
 }
 
 .test2-flow-steps li > span {
-  color: var(--test2-vermilion);
+  color: var(--test2-muted);
   font-family: var(--test2-mono);
   font-size: 0.68rem;
+}
+
+.test2-flow-steps .is-decision > span,
+.test2-flow-steps .is-fail > span {
+  color: var(--test2-change-text);
 }
 
 .test2-flow-steps li > strong {
@@ -290,6 +303,10 @@
 .test2-operation-flow-dark .test2-operation-summary p,
 .test2-operation-flow-dark .test2-flow-steps p {
   color: #bec8c4;
+}
+
+.test2-operation-flow-dark .test2-flow-steps li > span {
+  color: #8f9d99;
 }
 
 .test2-operation-flow-dark .is-fail {
@@ -349,7 +366,7 @@
 }
 
 .test2-automation-method h4 {
-  color: var(--test2-vermilion);
+  color: var(--test2-ink);
 }
 
 .test2-automation-method details {
@@ -401,7 +418,7 @@
 }
 
 .test2-career-ledger time {
-  color: var(--test2-vermilion);
+  color: var(--test2-muted);
   font-family: var(--test2-mono);
   font-size: 0.76rem;
   font-variant-numeric: tabular-nums;
@@ -514,7 +531,7 @@
 
 .test2-product-links a:hover,
 .test2-product-links a:focus-visible {
-  color: #ff8c82;
+  color: #8fb9db;
 }
 
 .test2-footer {
@@ -525,8 +542,9 @@
   width: min(1440px, 100%);
   margin: 0 auto;
   padding: clamp(64px, 8vw, 112px) clamp(28px, 5vw, 80px);
-  background: var(--test2-vermilion);
-  color: #ffffff;
+  border-top: 1px solid var(--test2-ink);
+  background: var(--test2-sheet);
+  color: var(--test2-ink);
 }
 
 .test2-footer strong {
@@ -550,4 +568,9 @@
   min-height: 44px;
   font-size: 0.78rem;
   font-weight: 850;
+}
+
+.test2-footer a:hover,
+.test2-footer a:focus-visible {
+  color: var(--test2-cobalt);
 }
