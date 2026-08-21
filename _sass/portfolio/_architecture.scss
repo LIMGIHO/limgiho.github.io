@@ -108,11 +108,10 @@
   border-top-style: dashed;
 }
 
-// 문서 처리·배포 플로우로 특이점이 옮겨간 뒤로는 이 런타임 그림이
-// 배경 역할이면 충분하다. 두 신규 다이어그램은 전체 폭을 그대로 쓰고,
-// 이 그림만 최대 폭을 줄여 화면 지분을 낮춘다.
+// 화면 지분을 낮추려고 이 그림만 880px로 좁혔었는데, 스케일이 0.708까지
+// 떨어져 상자 안 기술명이 7px로 찍혔다. 박스 여유가 8~12 단위뿐이라
+// 폰트를 키우면 넘치므로, 다른 두 다이어그램과 같은 폭을 쓰게 되돌린다.
 .architecture-figure {
-  max-width: 880px;
   margin: 0 auto;
   padding: 14px;
   border: 1px solid var(--rule);
@@ -234,7 +233,7 @@
 }
 
 .architecture-node .node-tech {
-  fill: var(--muted);
+  fill: var(--diagram-tech);
   font-size: 10px;
   font-weight: 650;
   pointer-events: none;

@@ -2,49 +2,62 @@
   <header class="section-heading">
     <p class="section-number">03 · AUTOMATION</p>
     <h2 id="automation-title">{{ include.automation.title }}</h2>
-    <p>자동 입력 자체보다, 사람이 개입하지 않아도 안전하게 운영되는 흐름에 집중했습니다.</p>
+    <p>앞 섹션 플랫폼이 연동하는 외부 시스템 8종 가운데 하나입니다. 호출 계약을 복원해 업무 단위로 다시 묶었습니다.</p>
   </header>
 
   <div class="automation-brief">
-    <article><span>문제</span><p>{{ include.automation.problem }}</p></article>
-    <article><span>역할</span><p>{{ include.automation.role }}</p></article>
+    {% for item in include.automation.brief %}
+      <article><span>{{ item.label }}</span><p>{{ item.description }}</p></article>
+    {% endfor %}
   </div>
 
-  <div class="automation-mockups" role="group" aria-label="자동화 대상 화면 예시">
-    <figure class="automation-mockup automation-mockup-before">
-      <figcaption>자동화 이전 · 수기 입력</figcaption>
-      <div class="mockup-window">
-        <div class="mockup-titlebar"><span></span><span></span><span></span></div>
-        <div class="mockup-form">
-          <div class="mockup-field"><label>거래처코드</label><div class="mockup-input">V-0000</div></div>
-          <div class="mockup-field"><label>품목코드</label><div class="mockup-input">I-0000</div></div>
-          <div class="mockup-field"><label>수량</label><div class="mockup-input">000</div></div>
-          <div class="mockup-field"><label>단가</label><div class="mockup-input">0,000</div></div>
-          <div class="mockup-field"><label>입고일자</label><div class="mockup-input">0000-00-00</div></div>
+  <ol class="automation-layers">
+    {% for layer in include.automation.layers %}
+      <li>
+        <span>{{ layer.count }}</span>
+        <div>
+          <h3>{{ layer.label }}</h3>
+          <p>{{ layer.description }}</p>
         </div>
-        <div class="mockup-actions"><span class="mockup-button">제출</span></div>
-      </div>
-    </figure>
-    <figure class="automation-mockup automation-mockup-after">
-      <figcaption>자동화 이후 · 검증 자동 적용</figcaption>
-      <div class="mockup-window">
-        <div class="mockup-titlebar"><span></span><span></span><span></span></div>
-        <div class="mockup-form">
-          <div class="mockup-field is-valid"><label>거래처코드</label><div class="mockup-input">V-0000</div><span class="mockup-check">✓</span></div>
-          <div class="mockup-field is-valid"><label>품목코드</label><div class="mockup-input">I-0000</div><span class="mockup-check">✓</span></div>
-          <div class="mockup-field is-valid"><label>수량</label><div class="mockup-input">000</div><span class="mockup-check">✓</span></div>
-          <div class="mockup-field is-valid"><label>단가</label><div class="mockup-input">0,000</div><span class="mockup-check">✓</span></div>
-          <div class="mockup-field is-valid"><label>입고일자</label><div class="mockup-input">0000-00-00</div><span class="mockup-check">✓</span></div>
-        </div>
-        <div class="mockup-status">검증 5/5 통과 · 자동 전송 대기</div>
-      </div>
-    </figure>
-  </div>
-
-  <ol class="automation-flow">
-    {% for step in include.automation.steps %}
-      <li><span>0{{ forloop.index }}</span><h3>{{ step.label }}</h3><p>{{ step.description }}</p></li>
+      </li>
     {% endfor %}
   </ol>
-  <p class="automation-result"><span>RESULT</span>{{ include.automation.result }}</p>
+
+  <div class="automation-case">
+    <h3>{{ include.automation.case.title }}</h3>
+    <p>{{ include.automation.case.description }}</p>
+  </div>
+
+  <div class="automation-savings">
+    <div class="automation-table-wrap">
+      <table>
+        <caption>{{ include.automation.savings.note }}</caption>
+        <thead>
+          <tr>
+            <th scope="col">부서</th>
+            <th scope="col">기능</th>
+            <th scope="col" class="num">월 절감(시간)</th>
+            <th scope="col">월 처리량</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for row in include.automation.savings.rows %}
+            <tr>
+              <td>{{ row.dept }}</td>
+              <td>{{ row.task }}</td>
+              <td class="num">{{ row.hours }}</td>
+              <td>{{ row.basis }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+        <tfoot>
+          <tr>
+            <th scope="row" colspan="2">합계 · 11종 · 5개 부서</th>
+            <th scope="row" class="num">{{ include.automation.savings.total_hours }}</th>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
 </section>

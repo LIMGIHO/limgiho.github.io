@@ -63,6 +63,19 @@ class TestTest2Portfolio(unittest.TestCase):
         self.assertIn("assets/portfolio/screenshots", products)
         self.assertIn("loading=\"lazy\"", products)
 
+    def test_mobile_contract_has_large_targets_without_horizontal_diagram_scroll(self):
+        source = (ROOT / "_sass/portfolio-test2/_responsive.scss").read_text(encoding="utf-8")
+
+        self.assertIn("@media (max-width: 760px)", source)
+        self.assertIn("min-height: 44px", source)
+        self.assertNotIn("overflow-x: auto", source)
+
+    def test_build_contains_route_and_direction_seed(self):
+        built = ROOT / "_site/test2/index.html"
+
+        self.assertTrue(built.exists())
+        self.assertIn("9d7999ee", built.read_text(encoding="utf-8"))
+
 
 if __name__ == "__main__":
     unittest.main()

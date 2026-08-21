@@ -1,7 +1,7 @@
 // 03 AUTOMATION
 .automation-brief {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
@@ -11,8 +11,7 @@
   background: var(--surface);
 }
 
-.automation-brief span,
-.automation-result span {
+.automation-brief span {
   display: block;
   margin-bottom: 8px;
   color: var(--muted);
@@ -25,169 +24,116 @@
   margin: 0;
 }
 
-.automation-mockups {
+.automation-layers {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
-  margin: 28px 0 0;
-}
-
-.automation-mockup {
-  margin: 0;
-}
-
-.automation-mockup figcaption {
-  margin-bottom: 8px;
-  color: var(--muted);
-  font-size: 0.74rem;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-}
-
-.mockup-window {
-  overflow: hidden;
-  border: 1px solid var(--rule);
-  border-radius: 9px;
-  background: var(--paper);
-}
-
-.mockup-titlebar {
-  display: flex;
-  gap: 6px;
-  padding: 9px 12px;
-  border-bottom: 1px solid var(--rule);
-  background: var(--surface);
-}
-
-.mockup-titlebar span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--rule);
-}
-
-.mockup-form {
-  display: grid;
-  gap: 10px;
-  padding: 16px;
-}
-
-.mockup-field {
-  display: grid;
-  grid-template-columns: 84px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 10px;
-}
-
-.mockup-field label {
-  color: var(--muted);
-  font-size: 0.72rem;
-  font-weight: 700;
-}
-
-.mockup-input {
-  padding: 6px 9px;
-  border: 1px solid var(--rule);
-  border-radius: 5px;
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: 0.76rem;
-}
-
-.automation-mockup-before .mockup-input {
-  background: var(--page);
-}
-
-.automation-mockup-after .mockup-field.is-valid .mockup-input {
-  border-color: var(--accent);
-  background: var(--accent-soft);
-}
-
-.mockup-check {
-  color: var(--accent);
-  font-size: 0.8rem;
-  font-weight: 800;
-}
-
-.mockup-actions {
-  padding: 0 16px 16px;
-}
-
-.mockup-button {
-  display: inline-block;
-  padding: 6px 14px;
-  border-radius: 5px;
-  background: var(--muted);
-  color: var(--paper);
-  font-size: 0.74rem;
-  font-weight: 750;
-}
-
-.mockup-status {
-  margin: 0 16px 16px;
-  padding: 8px 12px;
-  border-radius: 6px;
-  background: var(--accent-soft);
-  color: var(--accent-strong);
-  font-size: 0.76rem;
-  font-weight: 800;
-}
-
-@media (max-width: 760px) {
-  .automation-mockups {
-    grid-template-columns: 1fr;
-  }
-
-  .mockup-field {
-    grid-template-columns: 70px minmax(0, 1fr) auto;
-  }
-}
-
-.automation-flow {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
   margin: 28px 0 0;
   padding: 0;
   list-style: none;
 }
 
-.automation-flow li {
-  padding: 24px;
+.automation-layers li {
+  display: grid;
+  grid-template-columns: minmax(max-content, 0.55fr) minmax(0, 1.45fr);
+  gap: 14px;
+  padding: 22px;
   border: 1px solid var(--rule);
   border-radius: 9px;
 }
 
-.automation-flow span {
+.automation-layers > li > span {
+  align-self: start;
   color: var(--accent);
-  font-size: 0.72rem;
+  font-size: clamp(2rem, 4vw, 3.25rem);
   font-weight: 850;
+  line-height: normal;
+  white-space: nowrap;
 }
 
-.automation-flow h3 {
-  margin: 12px 0 8px;
+.automation-layers h3,
+.automation-case h3 {
+  margin: 0 0 8px;
   font-size: 1.2rem;
 }
 
-.automation-flow p {
+.automation-layers p,
+.automation-case p {
   margin: 0;
   color: var(--muted);
   font-size: 0.88rem;
 }
 
-.automation-result {
-  margin: 28px 0 0;
+.automation-case {
+  margin-top: 28px;
   padding: 24px;
+  border: 1px solid var(--rule);
   border-radius: 9px;
-  background: var(--accent-soft);
-  font-size: 1.05rem;
-  font-weight: 750;
+}
+
+.automation-savings {
+  margin-top: 28px;
+}
+
+.automation-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: 9px;
+}
+
+.automation-savings table {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.automation-savings caption {
+  padding: 16px 18px;
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+.automation-savings th,
+.automation-savings td {
+  padding: 11px 18px;
+  border-top: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+.automation-savings th {
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.automation-savings .num {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-weight: 800;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.automation-savings th.num,
+.automation-savings td.num {
+  width: 1%;
+}
+
+.automation-savings tfoot th {
+  color: var(--ink);
 }
 
 @media (max-width: 760px) {
   .automation-brief,
-  .automation-flow {
+  .automation-layers {
     grid-template-columns: 1fr;
+  }
+
+  .automation-layers li {
+    grid-template-columns: max-content minmax(0, 1fr);
   }
 }
 
@@ -196,29 +142,15 @@
     margin-bottom: 22px;
   }
 
-  .automation-brief article {
+  .automation-brief article,
+  .automation-layers li,
+  .automation-case {
     padding: 14px;
   }
 
-  .automation-mockup {
+  .automation-layers li,
+  .automation-case,
+  .automation-table-wrap {
     break-inside: avoid;
-  }
-
-  .automation-flow {
-    gap: 8px;
-    margin-top: 16px;
-  }
-
-  .automation-flow li {
-    padding: 16px;
-  }
-
-  .automation-flow h3 {
-    margin: 8px 0 5px;
-  }
-
-  .automation-result {
-    margin-top: 16px;
-    padding: 16px;
   }
 }

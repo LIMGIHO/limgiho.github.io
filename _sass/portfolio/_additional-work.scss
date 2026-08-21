@@ -1,0 +1,66 @@
+// 04 ADDITIONAL WORK
+
+.additional-work-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.additional-work-list article {
+  padding: 22px;
+  border: 1px solid var(--rule);
+  border-radius: 9px;
+}
+
+.additional-work-list h3 {
+  margin: 0 0 10px;
+  font-size: 1.08rem;
+}
+
+.additional-work-list p {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.work-tech-list {
+  color: var(--accent) !important;
+  font-weight: 750;
+}
+
+.work-screenshots {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.work-screenshots img {
+  width: 72px;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+}
+
+.work-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.work-links a {
+  padding: 5px 9px;
+  border: 1px solid var(--rule);
+  border-radius: 5px;
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+@media (max-width: 760px) {
+  .additional-work-list {
+    grid-template-columns: 1fr;
+  }
+
+}

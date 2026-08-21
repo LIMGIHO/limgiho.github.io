@@ -17,6 +17,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - applications/
   - docker-compose.yml
   - docs/
   - lib/
