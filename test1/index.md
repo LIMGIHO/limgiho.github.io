@@ -1,6 +1,6 @@
 ---
 layout: portfolio
 portfolio_profile: default
-portfolio_palette: product
-permalink: /test2/
+portfolio_palette: precision
+permalink: /test1/
 ---

@@ -1,7 +1,13 @@
 <section class="implementation-architecture" id="implementation-architecture" aria-labelledby="architecture-heading">
   <div class="subsection-heading architecture-heading">
     <h3 id="architecture-heading">시스템 구성</h3>
-    <p>구성요소를 선택하면 실제 구현 범위와 구성요소 사이의 계약을 확인할 수 있습니다.</p>
+    <ul class="architecture-principles">
+      <li>도메인 로직은 API에 모았습니다.</li>
+      <li>오래 걸리거나 실패할 수 있는 작업은 큐와 Worker로 뺐습니다.</li>
+      <li>Worker는 업무 로직을 갖지 않고 API의 같은 유스케이스를 호출합니다.</li>
+      <li>프로토콜이 제각각인 외부 연동은 어댑터 안에 가뒀습니다.</li>
+    </ul>
+    <p>구성요소를 누르면 각 판단의 구현과 계약을 볼 수 있습니다.</p>
   </div>
 
   <div class="architecture-legend" aria-label="아키텍처 범례">
@@ -89,6 +95,10 @@
     <div class="architecture-detail-rationale" data-architecture-rationale{% unless first_node.rationale %} hidden{% endunless %}>
       <p class="subsection-label">배경</p>
       <p data-architecture-detail="rationale">{{ first_node.rationale }}</p>
+    </div>
+    <div class="architecture-detail-writeup" data-architecture-writeup{% unless first_node.writeup %} hidden{% endunless %}>
+      <p class="subsection-label">더 읽기</p>
+      <a data-architecture-writeup-link href="{{ first_node.writeup.url }}" target="_blank" rel="noopener noreferrer">{{ first_node.writeup.label }}</a>
     </div>
   </section>
 

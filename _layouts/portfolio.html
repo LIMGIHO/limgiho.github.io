@@ -3,7 +3,7 @@
 <!doctype html>
 <html lang="ko">
   {% include portfolio/head.html portfolio=portfolio profile=profile %}
-  <body class="portfolio theme-{{ profile.theme }}">
+  <body class="portfolio theme-{{ profile.theme }}{% if page.portfolio_palette %} palette-{{ page.portfolio_palette }}{% endif %}">
     <a class="skip-link" href="#main-content">본문으로 이동</a>
     {% include portfolio/nav.html portfolio=portfolio %}
     <div class="portfolio-shell">
@@ -12,6 +12,7 @@
         {% include portfolio/journey.html journey=portfolio.journey %}
         {% include portfolio/flagship.html flagship=portfolio.flagship profile=profile %}
         {% include portfolio/automation.html automation=portfolio.automation %}
+        {% include portfolio/writings.html items=portfolio.writings %}
         {% if profile.show_additional_work %}
           {% include portfolio/additional-work.html items=portfolio.additional_work %}
         {% endif %}

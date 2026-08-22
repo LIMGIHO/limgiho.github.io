@@ -5,6 +5,25 @@
   border-top: 0;
 }
 
+.hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 32px;
+}
+
+.hero-intro {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.hero-aside {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
 .hero-eyebrow {
   margin: 0;
   color: var(--muted);
@@ -79,6 +98,7 @@
   color: var(--muted);
   font-size: 0.76rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -132,7 +152,18 @@
 
 .hero-contact a:hover,
 .hero-contact a:focus-visible {
-  color: var(--accent);
+  color: var(--accent-text);
+}
+
+.hero-aside .hero-actions {
+  margin: 0;
+}
+
+.hero-aside .hero-contact {
+  margin: 0;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
 }
 
 @media print {
@@ -144,6 +175,19 @@
 @media (max-width: 760px) {
   .portfolio-hero {
     padding: 32px 22px 28px;
+  }
+
+  .hero-top {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .hero-aside {
+    align-items: flex-start;
+  }
+
+  .hero-aside .hero-contact {
+    align-items: flex-start;
   }
 
   .hero-metrics {

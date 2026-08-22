@@ -19,6 +19,8 @@ function initArchitecture(root) {
   const detailRows = [...root.querySelectorAll('[data-architecture-detail-row]')];
   const structureField = root.querySelector('[data-architecture-detail="structure"]');
   const rationaleBlock = root.querySelector('[data-architecture-rationale]');
+  const writeupBlock = root.querySelector('[data-architecture-writeup]');
+  const writeupLink = root.querySelector('[data-architecture-writeup-link]');
   if (!dataElement || !triggers.length || !detailFields.length) return;
 
   let nodes;
@@ -72,6 +74,15 @@ function initArchitecture(root) {
 
     if (rationaleBlock) {
       rationaleBlock.hidden = !node.rationale;
+    }
+
+    if (writeupBlock && writeupLink) {
+      const writeup = node.writeup;
+      writeupBlock.hidden = !writeup;
+      if (writeup) {
+        writeupLink.href = writeup.url;
+        writeupLink.textContent = writeup.label;
+      }
     }
   }
 

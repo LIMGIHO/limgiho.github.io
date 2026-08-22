@@ -1,0 +1,17 @@
+<section class="portfolio-section writings-section" id="writings" aria-labelledby="writings-title" data-reveal>
+  <header class="section-heading">
+    <p class="section-number">04 · WRITING</p>
+    <h2 id="writings-title">기록</h2>
+  </header>
+
+  <div class="writings-list">
+    {% for item in include.items %}
+      <article>
+        <h3>{{ item.title }}</h3>
+        <p>{{ item.summary }}</p>
+        <p class="writing-facts">{{ item.facts | join: " · " }}</p>
+        <a class="writing-link" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">velog에서 읽기</a>
+      </article>
+    {% endfor %}
+  </div>
+</section>

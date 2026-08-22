@@ -13,6 +13,7 @@
 }
 
 .architecture-scope-list li {
+  min-width: 0;
   min-height: 112px;
   padding: 22px 15px;
   border-left: 1px solid var(--rule);
@@ -40,6 +41,7 @@
   color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
 .implementation-architecture {
@@ -49,6 +51,28 @@
 
 .architecture-heading {
   max-width: 760px;
+}
+
+.architecture-principles {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.architecture-principles li {
+  position: relative;
+  padding-left: 14px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.7;
+}
+
+.architecture-principles li::before {
+  content: "·";
+  position: absolute;
+  left: 2px;
+  color: var(--accent-text);
+  font-weight: 800;
 }
 
 .architecture-legend {
@@ -342,6 +366,32 @@
   color: var(--ink);
   font-size: 0.85rem;
   line-height: 1.6;
+}
+
+.architecture-detail-writeup {
+  grid-column: 1 / -1;
+  margin-top: 6px;
+  padding-top: 18px;
+  border-top: 1px solid var(--rule);
+}
+
+.architecture-detail-writeup[hidden] {
+  display: none;
+}
+
+.architecture-detail-writeup a {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--accent-text);
+  font-size: 0.85rem;
+  font-weight: 750;
+  line-height: 1.6;
+  text-decoration: none;
+}
+
+.architecture-detail-writeup a:hover,
+.architecture-detail-writeup a:focus-visible {
+  text-decoration: underline;
 }
 
 @media (max-width: 760px) {

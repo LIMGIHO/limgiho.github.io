@@ -18,6 +18,8 @@ The existing `portfolio.js` theme toggle remains unchanged. It continues to swit
 
 `_sass/portfolio/_tokens.scss` remains the only visual source for the new palettes. Each palette defines the supplied light and dark values for page, paper, surface, ink, muted, accent, accent-strong, accent-soft, rule, danger, diagram-tech, and group-fill. Dark `group-fill` values, which were not supplied, use the matching dark accent at a subtle 4–5% alpha so diagram boundary fills stay palette-specific without becoming a broad accent surface.
 
+Industrial light keeps the requested `--accent: #e05a1f` for signal strokes, borders, and large metrics. Its small text links and tabular values use the semantic `--accent-text: #b94717` alias so those text/background pairs meet WCAG AA without changing the named palette token.
+
 ## Retired implementation
 
 The old `/test2/` implementation is deleted:

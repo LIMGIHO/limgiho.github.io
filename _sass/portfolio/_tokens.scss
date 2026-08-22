@@ -13,6 +13,7 @@
   --ink: #e7edf5;
   --muted: #9db0c8;
   --accent: #38bdf8;
+  --accent-text: var(--accent);
   --accent-strong: #7dd3fc;
   --accent-soft: #12324a;
   --rule: #28425e;
@@ -30,6 +31,7 @@
   --ink: #262019;
   --muted: #6b6053;
   --accent: #9a4b08;
+  --accent-text: var(--accent);
   --accent-strong: #7c3a06;
   --accent-soft: #f6e3cc;
   --rule: #e2d6c1;
@@ -37,6 +39,97 @@
   --group-fill: rgba(255, 255, 255, 0.55);
   --diagram-tech: #4a4136;
   --font-mono: inherit;
+}
+
+.palette-precision.theme-editorial {
+  --page: #f3f6fa;
+  --paper: #ffffff;
+  --surface: #eef3f8;
+  --ink: #17202b;
+  --muted: #5c6877;
+  --accent: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-soft: #dbeafe;
+  --rule: #cdd6e1;
+  --danger: #c9362b;
+  --group-fill: rgba(37, 99, 235, 0.04);
+  --diagram-tech: #334155;
+}
+
+.palette-precision.theme-blueprint {
+  --page: #0b1220;
+  --paper: #111827;
+  --surface: #172033;
+  --ink: #e6edf7;
+  --muted: #9aa8bc;
+  --accent: #60a5fa;
+  --accent-strong: #93c5fd;
+  --accent-soft: #172b4d;
+  --rule: #2b3a50;
+  --danger: #fb7185;
+  --group-fill: rgba(96, 165, 250, 0.05);
+  --diagram-tech: #c5d0e0;
+}
+
+.palette-product.theme-editorial {
+  --page: #f5f7fa;
+  --paper: #ffffff;
+  --surface: #edf2f5;
+  --ink: #14213d;
+  --muted: #5d687a;
+  --accent: #0f766e;
+  --accent-strong: #115e59;
+  --accent-soft: #ccfbf1;
+  --rule: #d2dae3;
+  --danger: #c2413b;
+  --group-fill: rgba(15, 118, 110, 0.04);
+  --diagram-tech: #36465d;
+}
+
+.palette-product.theme-blueprint {
+  --page: #0a1220;
+  --paper: #111b2d;
+  --surface: #17253a;
+  --ink: #e7edf6;
+  --muted: #9aa7ba;
+  --accent: #2dd4bf;
+  --accent-strong: #5eead4;
+  --accent-soft: #123c38;
+  --rule: #2c3c53;
+  --danger: #fb7185;
+  --group-fill: rgba(45, 212, 191, 0.05);
+  --diagram-tech: #c6d1df;
+}
+
+.palette-industrial.theme-editorial {
+  --page: #eceff1;
+  --paper: #fafbfc;
+  --surface: #e2e7ea;
+  --ink: #1c2329;
+  --muted: #58636c;
+  --accent: #e05a1f;
+  --accent-strong: #b94717;
+  --accent-soft: #fce1d3;
+  --rule: #bcc6cc;
+  --danger: #b42318;
+  --accent-text: #b94717;
+  --group-fill: rgba(56, 69, 78, 0.04);
+  --diagram-tech: #38454e;
+}
+
+.palette-industrial.theme-blueprint {
+  --page: #11161a;
+  --paper: #181e23;
+  --surface: #222a30;
+  --ink: #edf1f3;
+  --muted: #a4afb7;
+  --accent: #ff7a33;
+  --accent-strong: #ff9a62;
+  --accent-soft: #3a261b;
+  --rule: #3b464e;
+  --danger: #ff5b5b;
+  --group-fill: rgba(255, 122, 51, 0.05);
+  --diagram-tech: #cbd3d8;
 }
 
 // 설계도 톤에서만 쓰는 옅은 격자 배경. 콘텐츠는 --paper 카드 위에 놓여
