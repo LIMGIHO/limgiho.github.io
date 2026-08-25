@@ -182,9 +182,3 @@
     max-width: none;
   }
 }
-
-@media print {
-  .document-flow {
-    break-inside: avoid;
-  }
-}

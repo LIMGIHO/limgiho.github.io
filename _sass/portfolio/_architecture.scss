@@ -394,6 +394,11 @@
   text-decoration: underline;
 }
 
+// 웹에서는 동적 선택 패널만 사용하고, 인쇄에서는 별첨 정적 카드만 노출한다.
+.architecture-print-appendix {
+  display: none;
+}
+
 @media (max-width: 760px) {
   .architecture-figure {
     padding: 10px;
@@ -496,5 +501,9 @@
 @media print {
   .architecture-map {
     display: block !important;
+  }
+
+  .architecture-detail {
+    display: grid !important;
   }
 }

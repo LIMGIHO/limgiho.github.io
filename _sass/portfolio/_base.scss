@@ -53,7 +53,7 @@ body.portfolio {
 
 @page {
   size: A4 portrait;
-  margin: 14mm 13mm 16mm;
+  margin: 12mm 10mm 12mm;
 }
 
 @media print {
@@ -70,16 +70,11 @@ body.portfolio {
   }
 
   .portfolio-section {
-    padding: 12mm 0;
+    padding: 7mm 0;
   }
 
-  .portfolio-hero,
-  .portfolio-section,
   .journey-item,
-  .architecture-figure,
-  .architecture-detail,
-  .automation-layers li,
-  .additional-work-list article {
+  .automation-layers li {
     break-inside: avoid;
   }
 

@@ -170,9 +170,3 @@
     max-width: none;
   }
 }
-
-@media print {
-  .delivery-flow {
-    break-inside: avoid;
-  }
-}

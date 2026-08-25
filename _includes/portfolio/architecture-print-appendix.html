@@ -1,0 +1,17 @@
+{% assign api_node = include.flagship.nodes | where: "id", "api" | first %}
+{% assign web_node = include.flagship.nodes | where: "id", "web" | first %}
+{% assign llm_node = include.flagship.nodes | where: "id", "local-llm" | first %}
+<section class="architecture-print-appendix" aria-labelledby="architecture-print-appendix-title">
+  <header class="section-heading">
+    <p class="section-number">별첨 · SYSTEM DETAIL</p>
+    <h2 id="architecture-print-appendix-title">시스템 구성 상세</h2>
+    <p>웹에서 구성요소를 선택해 확인하는 API·프론트·로컬 LLM의 상세 내용을 PDF용 정적 부록으로 옮겼습니다.</p>
+  </header>
+
+  {% include portfolio/architecture-print-detail.html node=api_node number=1 %}
+
+  <div class="architecture-print-detail-pair">
+    {% include portfolio/architecture-print-detail.html node=web_node number=3 %}
+    {% include portfolio/architecture-print-detail.html node=llm_node number=5 %}
+  </div>
+</section>

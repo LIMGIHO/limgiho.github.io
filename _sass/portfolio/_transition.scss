@@ -120,9 +120,3 @@
     max-width: none;
   }
 }
-
-@media print {
-  .architecture-transition {
-    break-inside: avoid;
-  }
-}

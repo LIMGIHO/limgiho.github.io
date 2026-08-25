@@ -1,0 +1,32 @@
+<article class="architecture-print-detail architecture-print-detail-{{ include.node.id }}">
+  <header class="architecture-print-detail-heading">
+    <p class="subsection-label">구현 상세 · {{ include.number | prepend: '0' }}</p>
+    <h3>{{ include.node.label }}</h3>
+    <p class="architecture-detail-tech">{{ include.node.tech }}</p>
+    {% if include.node.summary %}<p>{{ include.node.summary }}</p>{% endif %}
+  </header>
+
+  <dl class="architecture-print-detail-grid">
+    {% if include.node.implementation %}<div class="detail-wide"><dt>구현</dt><dd>{{ include.node.implementation }}</dd></div>{% endif %}
+    {% if include.node.structure %}<div class="detail-wide"><dt>구조</dt><dd class="architecture-detail-structure{% if include.node.structure_type == 'tree' %} architecture-detail-tree{% endif %}">{{ include.node.structure | escape }}</dd></div>{% endif %}
+    {% if include.node.operation %}<div><dt>운영</dt><dd>{{ include.node.operation }}</dd></div>{% endif %}
+    {% if include.node.inputs %}<div><dt>입력</dt><dd>{{ include.node.inputs }}</dd></div>{% endif %}
+    {% if include.node.outputs %}<div><dt>출력</dt><dd>{{ include.node.outputs }}</dd></div>{% endif %}
+    {% if include.node.contract %}<div><dt>계약</dt><dd>{{ include.node.contract }}</dd></div>{% endif %}
+    {% if include.node.deployment %}<div><dt>배포</dt><dd>{{ include.node.deployment }}</dd></div>{% endif %}
+  </dl>
+
+  {% if include.node.rationale %}
+    <div class="architecture-print-detail-rationale">
+      <p class="subsection-label">설계 배경</p>
+      <p>{{ include.node.rationale }}</p>
+    </div>
+  {% endif %}
+
+  {% if include.node.writeup %}
+    <div class="architecture-print-detail-writeup">
+      <p class="subsection-label">더 읽기</p>
+      <a href="{{ include.node.writeup.url }}">{{ include.node.writeup.label }}</a>
+    </div>
+  {% endif %}
+</article>

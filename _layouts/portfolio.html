@@ -16,6 +16,7 @@
         {% if profile.show_additional_work %}
           {% include portfolio/additional-work.html items=portfolio.additional_work %}
         {% endif %}
+        {% include portfolio/architecture-print-appendix.html flagship=portfolio.flagship %}
       </main>
       {% include portfolio/footer.html portfolio=portfolio %}
     </div>

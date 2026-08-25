@@ -17,7 +17,18 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
-  - applications/
+  - applications/**/README.md
+  - applications/**/build.sh
+  - applications/**/cover-letter.md
+  - applications/**/fit-analysis.md
+  - applications/**/job-posting.md
+  - applications/**/portfolio.pdf
+  - applications/**/resume.pdf
+  - applications/**/source
+  - applications/**/source/**
+  - applications/2026-08-03/kakaopay-fde/source/index.html
+  - applications/2026-08-03/kakaopay-fde/source/resume.css
+  - applications/**/verify.py
   - docker-compose.yml
   - docs/
   - lib/

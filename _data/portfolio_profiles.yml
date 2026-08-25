@@ -13,3 +13,11 @@ kakao:
   summary: 대규모 업무 화면과 도메인 경계를 설계하며 운영 가능한 프론트엔드 구조를 만들어 왔습니다.
   metrics: [work-screens, legacy-integration, lookup-time, migration-volume]
   show_additional_work: true
+
+kakaopay_server_senior_minor:
+  theme: editorial
+  eyebrow: SERVER · PLATFORM · RELIABILITY
+  headline: 복잡한 업무 흐름을 안정적인 서버 경계로 바꿉니다
+  summary: 운영 시스템을 API·Queue·Worker·Data 경계로 분리하고, 외부 연동과 장애·배포까지 운영해 온 서버·플랫폼 엔지니어입니다.
+  metrics: [legacy-integration, migration-volume, automation-hours, lookup-time]
+  show_additional_work: true
