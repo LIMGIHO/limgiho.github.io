@@ -1,5 +1,6 @@
 # Site
 version: 2
+lang: ko
 
 # Personal info
 name: 임기호
@@ -20,22 +21,18 @@ github_username: limgiho
 # velog_username: lasid84
 
 # About Section
-about_title: About Me
-about_profile_image: dunning-Kruger-Effect.webp
+about_title: 소개
 about_content: |
-  <p class="hero-kicker">"어떻게 하면 휴먼 에러를 없애고 시스템으로 자동화할 수 있을까?"를 치열하게 고민하고 구현하는 엔지니어입니다.</p>
+  <p class="hero-kicker">반복 입력과 수기 대조를 줄이는 업무 시스템을 만듭니다.</p>
 
-  Node.js, TypeScript, C#, .NET 기반의 소프트웨어 엔지니어입니다.
-  물류·제조 환경에서 시스템 통합, 업무 자동화, 데이터 처리, DB 전환, 배포 표준화를 수행해 왔습니다.
-  파편화된 운영 시스템을 하나의 플랫폼으로 통합하고, 반복 업무를 자동화하며,
-  데이터 정합성과 운영 안정성을 높이는 데 강점이 있습니다.
+  2010년부터 제조·물류 시스템을 개발하고 운영해 온 임기호입니다.
+  Node.js·TypeScript와 C#·.NET으로 업무 시스템을 만들고 데이터 이관과 외부 연동, 배포까지 맡아 왔습니다.
+  최근에는 LLM과 OCR을 통관 서류 검증에 적용했습니다.
 
-  <p class="hero-metrics">15종 레거시 시스템 통합 · 수작업 10분 → 5초 · 월 1,200시간 절감 · 1,000만 건 데이터 마이그레이션 자동화</p>
-
-  최근에는 **브라우저·온디바이스 LLM**으로 비용·프라이버시 제약을 푸는 방향에 관심을 갖고 [직접 구현하며 학습](https://velog.io/@lasid84/commentfilter-2)하고 있습니다.
+  [포트폴리오에서 설계와 구현 과정 보기](/portfolio/)
 
 content:
-  - title: Experience
+  - title: 경력
     layout: list
     content:
       - layout: left
@@ -47,10 +44,8 @@ content:
         caption: 2022.01 ~ 현재
         quote: 국제 종합 물류 기업
         description: |
-          - 물류 운영 시스템의 **풀스택 개발·운영**, **시스템 통합·자동화**, DB 전환, 배포 표준화를 수행했습니다. (사내 시스템 개발 및 운영 리드)
-          - 15종의 파편화된 레거시 시스템을 분석해 **5개 단위의 통합 플랫폼**(항공/해운 수출입 및 재무)으로 전환했습니다.
-          - 관세청 API 연동 및 **삼성 NERP RPA 봇**을 구축해 부서의 반복 수작업을 근본적으로 제거했습니다.
-          - **Oracle → PostgreSQL** 1,000만 건 마이그레이션, **NestJS 리팩토링**, **GitLab CI/CD 파이프라인**을 구축했습니다.
+          사내 시스템 개발과 운영을 리드합니다. 항공·해운 수출입과 재무 업무를 담당하며
+          부서마다 달랐던 처리 절차와 데이터 기준을 정리하고 팀의 코드 구조와 배포 기준을 마련했습니다.
 
       - layout: left
         title: ILJIN Global
@@ -60,41 +55,42 @@ content:
         caption: 2010.12 ~ 2022.01
         quote: 베어링 제조 기업
         description: |
-          - 공장 운영 시스템 리뉴얼 및 **생산 데이터 기반(MES/ERP)**운영 시스템 개발을 수행했습니다.
-          - 노후화된 VB6 기반 MES를 **C#·.NET으로 전면 재구축**하고 **SAP 실시간 연계**를 구현했습니다.
-          - 제천 및 슬로바키아 글로벌 공장 **MES 고도화 업그레이드 프로젝트**를 리드했습니다.
-          - 일 **100만 건 이상의 실시간 데이터**를 분석해 이상 징후를 즉각 조치하는 **SPC 알림 시스템**을 개발했습니다.
-          - 2017년 **과장 특진** 및 2021년 **최우수사원 표창**을 수상했습니다.
-
-  - title: 핵심 강점
-    layout: list
-    content:
-      - layout: left
-        border: weak
-        title: Legacy Modernization
-        description: |
-          C#, VB6, Oracle Forms 등 오래된 기반 기술로 만들어진 레거시 시스템을 **Nest.js, Next.js, PostgreSQL 중심의 모던 아키텍처**로 무중단 전환하여 안정성과 성능은 확보하고 유지보수성은 끌어올린 경험이 풍부합니다.
-
-      - layout: left
-        border: weak
-        title: Automation & Integration
-        description: |
-          **SAP, 관세청 API 연계부터 웹 스크래핑, RPA, AD/LDAP, gRPC, TCP Socket**까지. 공식/비공식 연동 및 프로토콜 경험에 구애받지 않고, 업무 흐름을 한곳으로 단순화하여 비즈니스 속도를 높입니다.
-
-      - layout: left
-        border: weak
-        title: Data & DB
-        description: |
-          **Oracle, MySQL, PostgreSQL 설계와 최적화** 역량을 보유하고 있으며, 특히 이기종 마이그레이션 상황에서 **1,000만 건의 대규모 데이터 무중단 이관 및 정합성 교차 검증** 스크립트를 직접 주도했습니다.
-
-      - layout: left
-        title: Reliability & Operations
-        description: |
-          어플리케이션 영역(**NestJS 기반 아키텍처 전환, TDD 체계**)부터 인프라 영역(**GitLab CI/CD 파이프라인, Docker Swarm, Portainer**)까지 포괄하여, 개발자 개인에 의존하지 않는 '검증, 추적, 롤백' 중심의 운영 문화를 도입합니다.
+          MES 개발팀에서 생산·납품·재고 데이터를 다루는 업무 시스템을 개발하고 운영했습니다.
+          국내외 공장의 MES 리뉴얼과 SAP 연동, 설비 데이터 수집을 담당했습니다.
 
   - title: 주요 프로젝트
     layout: list
     content:
+      - layout: left
+        border: weak
+        title: 통관 서류 검증 자동화
+        sub_title: KWE Korea
+        caption: 2026.06 - 2026.08
+        quote: Local LLM, Tesseract OCR, Vitest
+        description: |
+          미국·중국 통관 서류를 담당자가 수작업으로 대조하던 업무에 검증 시스템을 도입했습니다.
+
+          - 서류 9종의 품목·수량·금액 등 55개 항목에서 누락과 불일치를 자동으로 찾도록 구현했습니다.
+          - 1,130행의 설비 리스트를 업로드하고 회차별로 조회·편집하며 변경분을 확인할 수 있게 했습니다.
+          - 검증 결과 수정과 거래처 회신용 메일 생성을 연결했습니다.
+          - 월 약 22,000개 항목의 수작업 검증을 자동화해 **월 약 200시간을 절감**했습니다.
+
+      - layout: left
+        border: weak
+        title: 웹 기반 통합 사내 시스템 구축
+        sub_title: KWE Korea
+        caption: 2023.09 - 2026.07
+        quote: Express, Next.js, Turborepo, PostgreSQL, PL/pgSQL, PM2, Worker Threads
+        description: |
+          항공·해운·재무 업무가 개별 프로그램과 서로 다른 DB에 나뉘어 있어 같은 정보를 반복 입력하고 수기로 대조해야 했습니다.
+
+          - **15종 이상의 개별 시스템**을 항공·해운 수출입 및 재무 업무를 다루는 단일 웹 플랫폼으로 통합했습니다.
+          - 시스템마다 달랐던 데이터 기준과 처리 절차를 공통 업무 흐름으로 정리했습니다.
+          - 관세청 API와 스크래핑을 연동해 건당 약 10분 걸리던 조회를 **5초 이내**로 줄였습니다.
+          - 모노레포와 공용 라이브러리로 중복 코드를 줄이고 기능 변경의 영향 범위를 관리했습니다.
+
+          [시스템 구성과 설계 판단 보기](/portfolio/#implementation-architecture)
+
       - layout: left
         border: weak
         title: Docker Swarm 기반 CI/CD 표준 배포 체계 구축
@@ -102,72 +98,61 @@ content:
         caption: 2025.11 - 2025.12
         quote: GitLab CI/CD, Docker, Docker Swarm, Portainer
         description: |
-          **배경**  
-          PM2를 이용한 수작업 배포는 테스트 누락 위험이 높고, 서버 환경 불일치로 재현성이 떨어지며 체계적인 롤백이 어려웠습니다.
+          PM2 중심의 수동 배포는 서버 환경에 따라 결과가 달라졌고 테스트 누락 방지와 롤백 기준도 부족했습니다.
 
-          **성과**
-          - 테스트 → 빌드 → 배포 3단계 파이프라인 구성, 테스트 실패 시 후속 단계 자동 차단 (Test Gate)
-          - Kaniko 기반의 브랜치-SHA 컨테이너 이미지 관리를 통해 롤백의 안전성과 배포 이력 추적 역량 확보
-          - Portainer를 통해 다수 컨테이너의 상태 로그와 리소스를 실시간 모니터링하는 통합 환경 완성
+          - GitLab CI/CD를 테스트 → 빌드 → 배포 순서로 구성하고 테스트 실패 시 후속 단계를 차단했습니다.
+          - 브랜치·SHA 태그와 디제스트로 컨테이너 이미지를 식별해 같은 이미지를 다시 배포할 수 있도록 했습니다.
+          - 빌드·배포 로그와 아티팩트로 변경 이력을 추적하고 Portainer에서 서비스 상태와 로그를 확인하도록 구성했습니다.
 
       - layout: left
         border: weak
-        title: Backend 서비스 리팩토링 (Express -> NestJS)
+        title: 백엔드 리팩토링 (Express → NestJS)
         sub_title: KWE Korea
         caption: 2025.06 - 2025.10
         quote: Node.js, NestJS, PostgreSQL, Prisma, Redis, BullMQ
         description: |
-          **배경**  
-          Express 기반의 과거 서비스는 자유도가 높은 반면, 비즈니스/컨트롤러 경계가 혼재되어 테스트 작성이 매우 어려웠습니다.
+          기능이 늘면서 Express 서비스의 코드 구조가 제각각이 되었고 테스트를 작성하기도 어려웠습니다.
 
-          **성과**
-          - 비즈니스 로직을 도메인 주도의 모듈(DI) 아키텍처로 세분화하여 신규 기능에 대한 확장성 증진
-          - **Redis와 BullMQ를 도입**해 무거운 작업을 비동기 배치 파이프라인으로 분리하고, 인증 데이터 캐싱으로 DB 부하를 절감하여 자원 효율성 극대화
-          - TDD 기반의 단위/통합 테스트를 도입하여 기능 추가·수정 시 즉각적인 영향 범위 파악으로 릴리스 신뢰성 극대화
+          - NestJS의 도메인별 모듈과 DI로 코드 구조를 정리하고 인증·로깅 등 공통 로직을 재사용하도록 분리했습니다.
+          - Redis와 BullMQ로 무거운 작업을 비동기 배치로 옮기고 인증 데이터를 캐싱해 DB 부하를 줄였습니다.
+          - 팀 코드 컨벤션과 TDD 기반 개발 환경을 마련하고 단위·통합 테스트로 변경 영향을 검증하도록 했습니다.
 
       - layout: left
         border: weak
-        title: Web 기반 사내 시스템 전면 통합
-        sub_title: KWE Korea
-        caption: 2023.09 - 2025.05
-        quote: Express, Next.js, Turborepo, PostgreSQL, PM2
-        description: |
-          **배경**  
-          15종 이상의 파편화된 사내 프로그램과 3개의 이기종 DBMS가 혼용되어 유지보수 한계와 업무 혼선이 임계점에 달했습니다.
-
-          **성과**
-          - 분절된 레거시 시스템(C#, Oracle Forms, 구 VB 등)을 5개 핵심 비즈니스 도메인 위주의 단일 Web 플랫폼으로 통합 개편 주도
-          - Turborepo 기반 Monorepo 전략을 도입하여 API·UI·공통 모듈의 의존성을 일원화하고 사내 개발 생산성 혁신
-          - 관세청 및 화물 사이트 스크래핑 모듈로 통관/위치 정보를 자동화시켜, 1건당 수작업 10분 소요되던 과정을 5초 이내로 단축
-
-      - layout: left
-        border: weak
-        title: 삼성 NERP 업무 자동화
+        title: 고객사 ERP 연동 자동화
         sub_title: KWE Korea
         caption: 2024.08 - 2024.12
         quote: C# (.NET 4.5), WinForms, OCR, MySQL
         description: |
-          **배경**  
-          수작업에 크게 의존하는 삼성 시스템(NERP) 데이터 전송/입력으로 인해 잦은 인적 에러와 심각한 야근 발생.
+          고객사 시스템에 데이터를 입력하는 시간이 길어 업무팀의 야근이 잦았습니다.
 
-          **성과**
-          - 자체 문서 검증 프로세스를 거듭 탑재한 RPA/자동 연동 봇(Bot) 설계 및 구축
-          - 실무 부서의 데이터 처리량을 감당할 수준의 무인화로 **월 기준 1,200시간 상당의 막대한 수작업 절감**
+          - RPA로 문서 검증과 입력을 자동화해 **월 1,200시간을 절감**했습니다.
+          - 실시간 처리로 입력 누락과 오입력 가능성을 줄였습니다.
 
       - layout: left
         border: weak
-        title: 세금계산서 시스템 .NET 및 PostgreSQL 리뉴얼
+        title: 세금계산서 시스템 리뉴얼·DB 이관
         sub_title: KWE Korea
         caption: 2023.01 - 2023.07
-        quote: C# (.NET 6), gRPC, PostgreSQL, PL/pgSQL
+        quote: C# (.NET 6), gRPC, WinForms, PostgreSQL, PL/pgSQL
         description: |
-          **배경**  
-          기존 Oracle Forms 기반 시스템 기술지원 한계 극복 및 라이선스 비용 절감 필요.
+          Oracle Forms 기반 시스템의 유지보수 문제와 Oracle 라이선스 비용을 줄이기 위해 .NET 6과 PostgreSQL로 전환했습니다.
 
-          **성과**
-          - .NET 6 최신 백엔드로 인프라를 재구축하고, Oracle 에서 PostgreSQL 오픈소스 데이터베이스로 완전 이관
-          - 누적 1,000만 건 데이터에 대해 마이그레이션 스크립트 작성 및 양측 DB 간의 무결성 교차 검증 자동화
-          - 외부 스마트빌(SmartBill) 연동을 통한 국세청 즉시 신고 및 실시간 매입/매출 데이터 연동 환경 구현
+          - **1,000만 건의 데이터 이관을 자동화**하고 정합성을 검증했습니다.
+          - 스마트빌을 연동해 국세청 즉시 신고와 매입 데이터 실시간 처리를 구현했습니다.
+
+  - title: 이전 프로젝트
+    layout: list
+    content:
+      - layout: left
+        border: weak
+        title: 운반비 전산화
+        sub_title: ILJIN Global
+        caption: 2020.04 - 2020.07
+        quote: C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle, PL/SQL
+        description: |
+          8개 공장의 수기 운반비 관리를 전산화하고 처리 절차를 통일했습니다.
+          SAP를 연동해 운반비를 실시간으로 처리하도록 구현했으며 최우수사원 표창을 받았습니다.
 
       - layout: left
         border: weak
@@ -176,66 +161,60 @@ content:
         caption: 2019.01 - 2019.12
         quote: C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle, PL/SQL
         description: |
-          **성과**
-          - 기존 수작업 또는 단방향 배치 전송이던 것을 탈피해, 실시간 ERP(SAP) ↔ MES 양방향 재고 및 생산이동 연동
-          - BOM, Routing 등 핵심 생산 기준정보의 자동 마이그레이션 인터페이스 개발
+          SAP와 MES 사이의 생산·납품·재고 이동 데이터를 실시간으로 연동했습니다.
+          기준정보를 자동으로 이관해 수작업 전송과 중복 입력을 줄였습니다.
 
       - layout: left
         border: weak
-        title: 제천·슬로바키아 공장 MES 고도화
+        title: 제천·슬로바키아 공장 MES 리뉴얼
         sub_title: ILJIN Global
         caption: 2016.04 - 2017.12
-        quote: VB6 -> C#, WCF, Oracle PL/SQL
+        quote: VB6 → C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle 9i → 11g, PL/SQL
         description: |
-          **성과**
-          - 노후화된 VB6 클라이언트 환경을 C#/.NET WCF 기반 서비스로 최신화하여 관리 효율 증대
-          - 제조 현장에 제품 단위 바코드 기반 LOT 추적(Traceability) 망을 깔아 데이터 정밀도와 고객사 클레임 방어력 향상
+          VB6 기반 MES를 C#으로 리뉴얼하고 Oracle을 업그레이드했습니다.
+          LOT 단위 추적 시스템을 구축했으며 과장으로 특진했습니다.
 
       - layout: left
         title: SPC 이상현상 알림 시스템 개발
         sub_title: ILJIN Global
         caption: 2015.09
-        quote: VB6, Oracle PL/SQL
+        quote: VB6, Oracle PL/SQL, TCP Socket
         description: |
-          **성과**
-          - 공정 설비와의 TCP Socket 통신 모듈을 설계·구현했습니다.
-          - 일 평균 100만 건 이상 인입되는 생산 계측 데이터를 실시간 분석해 7가지 품질 파라미터 기준의 이상 징후를 감지하고 SMS 알림을 구현했습니다.
+          TCP 소켓 기반 설비 연동 모듈을 단독으로 설계·개발했습니다.
+          일평균 100만 건의 생산 데이터를 분석해 7가지 이상 징후를 감지하고 SMS와 현황판으로 알리도록 구현했습니다.
 
-  - title: Skill
+  - title: 기술
     layout: list
     content:
       - layout: left
         border: weak
-        title: Frontend
+        title: 백엔드
         description: |
-          **Next.js, React, Zustand / TypeScript**
-          **WinForms(C#)**
+          Node.js, TypeScript, Express, NestJS, Prisma, Redis, BullMQ<br>
+          C# (.NET Framework, .NET 6), gRPC, WCF
 
       - layout: left
         border: weak
-        title: Backend
+        title: 프론트엔드
         description: |
-          **Node.js (Express, NestJS), Prisma, Redis, BullMQ**  
-          **C# (.NET Framework, .NET 6), gRPC, WCF, WinForms**  
+          Next.js, React, React Native, Expo, WinForms
 
       - layout: left
         border: weak
-        title: Data
+        title: 데이터
         description: |
-          **PostgreSQL, Oracle, MySQL / PL/SQL, PL/pgSQL**  
-          데이터 정합성 보장, 튜닝 및 무중단 마이그레이션 프로세스 설계
+          PostgreSQL, Oracle, MySQL, PL/SQL, PL/pgSQL
 
       - layout: left
         border: weak
-        title: Operations & DevOps
+        title: 배포·운영
         description: |
-          **GitLab CI/CD, Docker, Docker Swarm, Portainer**  
-          PM2, Nginx, Turborepo 기반 모노레포 구축과 릴리스 배포 관리
+          GitLab CI/CD, Docker, Docker Swarm, Portainer, PM2, Turborepo
 
       - layout: left
-        title: Integration & Automation
+        title: 문서 처리·검증
         description: |
-          **SAP, 관세청 통관 API, 크롤링(Puppeteer), RPA 봇 설계, AD/LDAP 연동**
+          Local LLM, Tesseract OCR, Vitest
 
   - title: 개인 프로젝트
     layout: list
@@ -248,31 +227,20 @@ content:
         link2: https://merbl-filter.vercel.app/posts
         link2_text: 웹 버전
         description: |
-          **Android**: React Native, Expo, TypeScript, WebView
-          **Web**: Next.js, TypeScript, @xenova/transformers, @mlc-ai/web-llm, Web Worker
-          1인 개발로 앱 기획, 구현, 배포까지 수행했습니다. 네이버 블로그 글을 WebView로 열어 온디바이스에서 댓글 가시성을 조정하고, 좋아요 기준 필터와 차단 사용자 숨김 기능으로 유익한 댓글을 우선 노출할 수 있도록 했습니다.
-          Next.js 웹 버전을 신규 개발해, Transformers.js(MiniLM 임베딩 기반 few-shot 분류) + WebLLM(Qwen 2.5)을 Web Worker로 구동해 **브라우저 온디바이스에서 댓글 분류와 본문 요약**을 수행하도록 구현했습니다. 서버 LLM 비용 없이 사용자 데이터를 단말 밖으로 내보내지 않는 구조입니다. ([개발기](https://velog.io/@lasid84/commentfilter-1))
-
-      - layout: left
-        border: weak
-        title: 액션독 (Google Play)
-        link: https://play.google.com/store/apps/details?id=com.giholim.actiondog
-        link_text: 스토어 링크
-        description: |
-          React Native, Expo, TypeScript, Supabase, AdMob
-          1인 기획·개발 및 스토어 론칭한 3라인 매치 퍼즐 게임으로, 블록 하강·매치 판정·콤보 연쇄·게임오버 등 **게임 코어 엔진을 도메인 주도 아키텍처(4계층 분리)** 로 직접 설계·구현했습니다.
-          Google OAuth 로그인, Supabase 기반 글로벌 점수 랭킹, AdMob 광고 연동을 적용했습니다.
+          댓글 필터 앱과 웹 버전을 혼자 기획·개발·배포했습니다.
+          웹에서는 Transformers.js와 WebLLM을 Web Worker로 실행해 브라우저 안에서 댓글을 분류하고 본문을 요약합니다.
+          [개발 과정 보기](https://velog.io/@lasid84/commentfilter-1)
 
       - layout: left
         title: HealthDog (Google Play)
         link: https://play.google.com/store/apps/details?id=com.healthdog.app
         link_text: 스토어 링크
         description: |
-          운동 기록·조회·통계 기능 중심의 개인 프로젝트로, 현재 운영 중입니다.
-          Google OAuth 로그인, Firebase·Supabase 기반 데이터 동기화, RevenueCat 구독 결제 연동을 구현했습니다.
+          운동 기록·조회·통계 앱을 혼자 개발했습니다.
+          Google OAuth 로그인, Firebase·Supabase 데이터 동기화, AdMob 광고와 RevenueCat 구독 결제를 연동했습니다.
 
 # Footer
-footer_show_references: true
+footer_show_references: false
 
 # Build
 sass:
