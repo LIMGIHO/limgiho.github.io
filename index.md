@@ -1,5 +1,4 @@
 ---
-layout: portfolio
-portfolio_profile: default
-permalink: /
+# To change the default theme layout see: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+layout: default
 ---
