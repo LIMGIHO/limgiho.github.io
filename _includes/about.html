@@ -4,11 +4,28 @@
   <div class="row clearfix">
     {%- if site.about_profile_image -%}
       <div class="col-xs-12 col-sm-4 col-md-3 no-print">
-        <span class="profile-img" style="background-image: url({{ site.about_profile_image | relative_url }})"></span>
+        {%- if site.about_profile_image_caption -%}
+          <figure class="profile-figure">
+            <button type="button" class="profile-image-button" aria-label="이미지 확대 보기">
+              <img src="{{ site.about_profile_image | relative_url }}" alt="{{ site.about_profile_image_alt | default: site.about_profile_image_caption | escape }}">
+            </button>
+            <figcaption>{{ site.about_profile_image_caption | escape }}</figcaption>
+          </figure>
+          <dialog id="profile-modal" class="profile-modal" aria-label="그래프 확대 보기">
+            <div class="profile-modal-content">
+              <button type="button" class="profile-modal-close" aria-label="닫기">&times;</button>
+              <img src="{{ site.about_profile_image | relative_url }}" alt="{{ site.about_profile_image_alt | default: site.about_profile_image_caption | escape }}">
+              <p>{{ site.about_profile_image_caption | escape }}</p>
+            </div>
+          </dialog>
+        {%- else -%}
+          <span class="profile-img" style="background-image: url({{ site.about_profile_image | relative_url }})"></span>
+        {%- endif -%}
       </div>
     {%- endif -%}
     <div class="{{ 'col-xs-12 ' }}{%- if site.about_profile_image -%}col-sm-8 col-md-9 col-print-12{%- endif -%}">
-      {{ site.about_content | strip | markdownify }}
+      {%- assign about_content = site.data.about[site.about_variant] | default: site.data.about.general | default: site.about_content -%}
+      {{ about_content | strip | markdownify }}
     </div>
   </div>
 </div>

@@ -23,6 +23,42 @@
     margin-top: 56px;
 }
 
+.intro-container .profile-figure {
+    max-width: 260px;
+    margin: 0 auto 24px;
+}
+
+.profile-figure .profile-image-button {
+    display: block;
+    width: 190px;
+    max-width: 100%;
+    margin: 0 auto;
+    border-radius: 50%;
+    cursor: zoom-in;
+}
+
+.profile-image-button:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
+
+.profile-figure img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+}
+
+.profile-figure figcaption {
+    margin-top: 12px;
+    font-size: 1.45rem;
+    line-height: 1.65;
+    text-align: center;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+}
+
 .intro-container h3,
 .list-container h3,
 .text-container h3 {
@@ -129,7 +165,7 @@
 
 .intro-container .hero-kicker {
     margin: 0 0 1rem;
-    font-size: 1.9rem;
+    font-size: 2.1rem;
     font-weight: 700;
     line-height: 1.55;
     letter-spacing: -0.02em;
@@ -227,7 +263,7 @@ p.quote {
     }
 
     .intro-container .hero-kicker {
-        font-size: 1.7rem;
+        font-size: 1.9rem;
     }
 
     .intro-container .hero-metrics {

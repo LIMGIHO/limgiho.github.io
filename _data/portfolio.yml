@@ -3,7 +3,7 @@ person:
   email: lasid84@gmail.com
   phone: 010-5496-0663
   github_url: https://github.com/limgiho
-  resume_url: https://limgiho.github.io/assets/resume/lim-giho-resume.pdf
+  resume_url: /assets/resume/lim-giho-resume.pdf
 
 portfolio_note: 경력기술서에 담긴 대표 프로젝트의 문제 해결 과정과 설계 판단을 보충하는 자료입니다.
 
@@ -26,13 +26,13 @@ metrics:
   - id: automation-hours
     value: "월 1,227h"
     label: 반복 작업 절감 산정치
-    source: 최신 경력기술서의 업무 자동화 항목
+    source: 기존 포트폴리오의 본사 운영 시스템 입력 자동화 산정표
     section: automation
   - id: migration-volume
     value: "1,000만+"
-    label: 데이터 이관
-    source: 최신 경력기술서의 DB 리뉴얼 항목
-    section: flagship
+    label: 세금계산서 데이터 이관
+    source: 최신 경력기술서의 세금계산서 프로그램 리뉴얼
+    section: career-journey
 
 journey:
   - id: iljin-foundation
@@ -63,7 +63,7 @@ journey:
 flagship:
   id: integrated-platform
   title: 통합 업무 플랫폼 개발
-  period: 2023–현재
+  period: 2023.09–2026.07
   description: 분산되어 있던 운영 시스템을 웹·API·비동기 실행·외부 연동·데이터·배포 경계로 나누어 하나의 플랫폼으로 전환했습니다.
   scope_summary:
     - value: "15종"
@@ -240,7 +240,7 @@ flagship:
       kind: infra
       boundary: integration-data
       summary: 여러 DBMS에서 옮겨와 하나로 합친 운영 데이터
-      implementation: 흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다. 이관 대상은 1,000만 건이 넘습니다.
+      implementation: 흩어져 있던 운영 데이터를 스키마부터 다시 설계해 PostgreSQL 하나로 합쳤습니다.
       structure: 업무 스키마 · 마이그레이션
       operation: 스키마 변경은 마이그레이션 파일로 관리합니다.
       inputs: API의 데이터 접근
