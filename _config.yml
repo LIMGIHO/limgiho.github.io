@@ -10,6 +10,9 @@ baseurl: ""
 website: /assets/resume/lim-giho-resume.pdf
 website_title: 경력기술서
 website_link_text: PDF 다운로드
+portfolio_url: /portfolio/
+portfolio_title: 포트폴리오
+portfolio_link_text: 웹 포트폴리오 보기
 email: lasid84@gmail.com
 email_title: 이메일
 phone: 010-5496-0663

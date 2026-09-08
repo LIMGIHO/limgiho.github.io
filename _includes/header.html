@@ -133,6 +133,11 @@
           {{ site.website_title | default: "Web" }}: {% include a.html href=site.website %}{{ site.website_link_text | default: site.website | escape }}</a>
         </p>
       {%- endif -%}
+      {%- if site.portfolio_url -%}
+        <p>
+          {{ site.portfolio_title | default: "Portfolio" }}: <a href="{{ site.portfolio_url | relative_url }}">{{ site.portfolio_link_text | default: site.portfolio_url | escape }}</a>
+        </p>
+      {%- endif -%}
     </div>
   </div>
 </div>
