@@ -1,0 +1,284 @@
+source_date: "2026-10-03"
+source_document: 경력기술서_20260913 (4).pdf
+role: 백엔드 개발자
+pdf_url: /assets/resume/lim-giho-resume-20260913.pdf
+about: |
+  <p class="hero-kicker">반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다.</p>
+
+  제조·물류 현장에서 Node.js와 C#으로 서버를 개발하며, 여러 시스템에 흩어진 데이터와 업무 흐름을 연결해 왔습니다.
+
+  현재는 본인 포함 3인 개발팀의 전체 설계와 개발을 리드합니다. 매주 코드 리뷰를 진행하고 개발 기준을 정립하며,
+  외부 시스템 연동, Node.js 장애 분석, 비동기 처리와 배포 체계를 개선하고 있습니다.
+
+content:
+  - title: 경력
+    content:
+      - title: KWE Korea
+        sub_title: 디지털솔루션부 차장 (Lead Software Engineer)
+        caption: 2022.01 ~ 현재
+        link: https://www.kwe.com/
+        link_text: www.kwe.com
+        quote: 국제 종합 물류 기업
+        description: |
+          항공·해운·재무 업무를 다루는 사내 시스템의 설계·개발·운영을 리드합니다.
+          3인 개발팀에서 주간 코드 리뷰와 개발 기준 정립을 담당합니다.
+
+          - 외부 시스템 연동의 전체 구조를 설계하고 동료와 기능을 나눠 분석·구현했습니다.
+          - API/Worker 실행 구조와 CI/CD를 단독으로 구성했습니다.
+          - 현업과 데이터 기준을 정리하고 운영 장애의 원인을 분석해 개선했습니다.
+      - title: ILJIN Global
+        sub_title: MES 개발팀 과장 (Software Engineer)
+        caption: 2010.12 ~ 2022.01
+        link: https://www.iljin.com/
+        link_text: www.iljin.com
+        quote: 베어링 제조 기업
+        description: |
+          생산관리시스템(MES)을 개발하고 운영했습니다. 국내외 공장의 MES 리뉴얼,
+          SAP 연동, 생산·납품·재고 데이터 처리와 설비 알림 시스템을 담당했습니다.
+
+  - title: 최근 주요 프로젝트
+    content:
+      - title: 통관 서류 검증 자동화
+        sub_title: KWE Korea
+        caption: 2026.06 ~ 2026.08
+        responsibility: 문서 검증·입력·회신 업무 자동화 개발
+        quote: Local LLM, OCR(Tesseract), Vitest
+        description: |
+          미국·중국 통관 서류 9종의 55개 항목을 담당자가 수작업으로 대조하고 있어,
+          서류 간 누락과 불일치를 자동으로 확인하는 검증 시스템을 개발했습니다.
+
+          업체마다 다른 양식과 스캔본·엑셀·PDF를 처리하기 위해 문서 내용을 의미적으로 분석하는 데 LLM을 활용했습니다.
+
+          - 통관 서류 9종의 55개 대조 항목에서 누락과 불일치를 자동 탐지했습니다.
+          - 문서에서 추출한 데이터의 시스템 입력부터 회신 메일 생성·첨부까지 연결했습니다.
+          - 건당 서류 검토 시간을 **8분에서 3분**으로 줄였습니다. 월 100건에 건당 5분을 적용하면 **약 8.3시간 절감**으로 산정됩니다.
+      - title: 웹 기반 통합 사내 시스템 구축
+        sub_title: KWE Korea
+        caption: 2023.09 ~ 2026.07
+        responsibility: 전체 설계·개발 리드, 현업과 기준정보 정제
+        quote: Express, Next.js, Turborepo, PostgreSQL, PL/pgSQL, PM2, Worker Threads
+        description: |
+          항공·해운·재무 업무가 15종 이상의 개별 프로그램과 서로 다른 데이터베이스에 분산돼 있었습니다.
+          업무 단계마다 데이터 기준이 달라 같은 정보를 반복 입력하거나 수기로 대조해야 했으며,
+          시스템별 기술 스택이 달라 유지보수와 기능 확장에도 시간이 필요했습니다.
+
+          - **15종 이상의 개별 시스템**을 항공·해운 수출입 및 재무 중심의 단일 웹 플랫폼으로 통합했습니다.
+          - 5개 업무부가 개별 관리하던 거래처 정보 약 3만 건을 현업과 검토·정제하고 글로벌 코드 기준으로 통합했습니다.
+          - 관세청 API와 스크래핑을 연동해 건당 약 10분 걸리던 조회를 **5초 이내**로 줄였습니다.
+          - C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, 공용 라이브러리로 중복 코드를 정리했습니다.
+
+          당시 Express·PM2 중심으로 구축한 플랫폼은 아래의 NestJS 전환과 컨테이너 배포 체계로 이어졌습니다.
+          외부 연동과 OOM 대응은 같은 플랫폼의 후속 개선 사례입니다.
+      - title: 외부 시스템 연동 자동화와 인증 조정
+        sub_title: KWE Korea · 통합 플랫폼 개선 사례
+        caption: 통합 플랫폼 구축·운영 중 개선 · 2026.10 관측 보강
+        responsibility: 전체 구조 설계, 동료 1명과 외부 호출 75개 공동 분석·구현
+        quote: Node.js, TypeScript, HTTP, Puppeteer, Redis, PostgreSQL
+        description: |
+          Puppeteer 자동화가 화면과 부가 데이터를 반복 수집해 네트워크 사용량이 커졌습니다.
+          인증 방식·요청 순서·응답 형식을 분석하고 **75개 외부 호출을 12종의 업무 흐름**으로 구성해 HTTP 직접 호출로 전환했습니다.
+
+          - 하루 약 **800~900건의 운송장(BL)**을 생성·발행·확정·수입 확정 등 상태 변경에 따라 반복 수집합니다. BL 건수와 API 호출 수는 별개입니다.
+          - 두 컨테이너의 인증을 **Redis 락과 공유 세션**으로 조정했습니다. 락 획득 후 세션을 재조회해 다른 요청이 갱신한 세션을 재사용하고, 소유권 확인·주기적 갱신을 예방적으로 보강했습니다.
+          - **삼성 마감은 직접 구현**했습니다. 한 흐름에 묶여 있던 업무 운임 계산, 업로드 입력 변환, 외부 시스템의 차지 데이터 구성을 분리했습니다. 코드 리뷰에서 구조와 선택 이유를 공유하고 이후 개발 방향으로 정했습니다.
+          - 전환 후 네트워크 사용량은 **60~70Mbps에서 대체로 5Mbps 미만**으로 관측됐습니다. 동일 부하로 비교한 통제 실험 수치는 아닙니다.
+
+          **관측 보강 · 2026-10-02** — 글로벌 API 호출 로그를 DB에 저장하고 조회하는 화면을 추가했습니다.
+          초기 약 반나절 관측에서 시간당 8,000회·분당 최대 550회 호출을 확인했습니다.
+          장기 안정성과 인증 호출 감소 효과는 아직 확인하지 않았습니다. 상대 시스템의 인증·응답 규격이 바뀌면 연동도 수정해야 합니다.
+      - title: Node.js OOM 장애 분석과 조회 상한 적용
+        sub_title: KWE Korea · 통합 플랫폼 개선 사례
+        caption: 2026.08
+        responsibility: 3인 공동 장애 분석, 최종 원인 규명·결론 도출
+        quote: Node.js, V8, Prisma, PostgreSQL, 메모리 계측
+        additional_links:
+          - title: OOM 분석 회고
+            url: https://velog.io/@lasid84/nodejs-oom-postmortem
+        description: |
+          운영 API가 메모리 부족으로 반복 종료됐습니다. OCR 요청 직후 장애가 발생해 OCR을 먼저 의심하고
+          별도 프로세스로 분리했지만 재발했습니다.
+
+          프로세스 전체 메모리 사용량과 JavaScript 객체가 쓰는 메모리 사이에 큰 차이가 있어,
+          데이터베이스 조회 라이브러리 내부의 메모리 사용을 의심했습니다.
+          하지만 실제 설치된 버전·실행 구조와 측정 결과를 확인하면서 이 가설도 수정하고 조회 자체를 다시 살폈습니다.
+
+          - **54,565행을 한 번에 조회·가공**하는 경로를 찾았습니다. 응답을 만드는 동안 사용 중인 객체는 메모리에서 해제할 수 없어 조회량과 응답 가공 중 메모리 사용을 함께 살폈습니다.
+          - 조회를 **500행 단위**로 제한하고 화면에 무한스크롤을 적용했습니다.
+          - 적용 이후 서버가 멈춘 적은 없고 **서버 전체 메모리 사용률은 30~40%**로 안정됐습니다. 서버 전체의 운영 관측값이며 아래 모사 실험의 프로세스 단위 수치와 구분합니다.
+          - 별도 응답 처리 **모사 실험에서 480회·8라운드**를 반복했습니다. 메모리 회수(GC) 후 JavaScript 객체의 메모리 사용량(heapUsed)은 2.8MB, 프로세스 전체의 최대 메모리 사용량(peak RSS)은 약 122MB였습니다. 운영 API 전체나 동시 요청 부하 시험의 결과는 아닙니다.
+
+          발생 시점이 가깝다는 이유로 원인을 단정했던 접근을 바꾸고, 실제 버전·입력 크기와 가설을 반박할 수 있는 측정값부터 확인하게 됐습니다.
+      - title: Docker Swarm 기반 CI/CD 표준 배포 체계 구축
+        sub_title: KWE Korea
+        caption: 2025.11 ~ 2025.12
+        responsibility: CI/CD 설계·구축 및 후속 개선 단독 수행
+        quote: GitLab CI/CD, Docker, Docker Swarm, Portainer
+        description: |
+          기존 PM2 중심의 수동 배포는 서버 상태와 환경 차이에 따라 결과 재현이 어려웠고,
+          테스트 누락 방지와 배포 이력 추적·롤백 기준도 미흡했습니다.
+
+          - 테스트 → 빌드 → 배포 파이프라인을 구성하고 테스트 실패 시 후속 단계를 차단했습니다.
+          - 브랜치·SHA 태그와 디제스트로 이미지를 식별해 동일 이미지를 다시 배포할 수 있도록 했습니다.
+          - 빌드·배포 로그와 아티팩트로 변경 이력과 실패 원인을 추적했습니다.
+          - Portainer에서 서비스·태스크 상태와 로그, 재시작 반복 및 헬스 체크 실패를 확인했습니다.
+
+          **후속 개선 · 2026년 9월** — buildx 전환과 러너·캐시 구성을 정비했습니다.
+          앱별 잡을 단일 파이프라인에 포함하고 변경 경로에 따라 실행 여부를 결정하도록 했습니다.
+          메모리 증설로 테스트 지연이 개선되지 않아 단독·동시 실행 시간을 비교하며 병목을 다시 확인했습니다.
+          API 단위 테스트 잡은 **3분 27초에서 2분 25초**로 줄었습니다. 잡 로그의 전후 기록이며 반복 통제 실험의 평균은 아닙니다.
+      - title: 백엔드 서비스 리팩토링(Express → NestJS)
+        sub_title: KWE Korea
+        caption: 2025.06 ~ 2025.10
+        responsibility: 도메인 구조 정리·팀 개발 기준 정립, API/Worker 구조 단독 설계
+        quote: Node.js, NestJS, Prisma, PostgreSQL, Redis, BullMQ
+        description: |
+          기능이 늘면서 모듈 간 의존성이 복잡해지고 일관된 코드 구조 유지와 단위 테스트 적용이 어려워졌습니다.
+          NestJS로 전환하며 도메인별 모듈과 의존성을 정리하고, 팀 코드 컨벤션과 TDD 기반 개발 환경을 구축했습니다.
+
+          - 코드베이스를 도메인별 모듈로 나눠 신규 기능 개발과 유지보수에 필요한 구조를 정리했습니다.
+          - Redis와 BullMQ로 무거운 작업을 비동기 배치 파이프라인으로 분리하고, 인증 데이터를 캐싱해 DB 부하를 줄였습니다.
+          - DI와 데코레이터 등 NestJS 구조를 도입해 인증·로깅 등 공통 로직을 재사용하도록 했습니다.
+          - 단위·통합 테스트로 변경 영향 범위를 사전에 검증할 수 있는 구조를 마련했습니다.
+
+          **실행 구조** — 업무 로직은 API에 모으고 Worker는 큐를 소비해 API를 호출한 뒤 HTTP 응답을 기다립니다.
+          큐 이름과 요청 타입을 공유하고 DB에서 작업 상태를 관리합니다. DB 상태, 큐 재시도, 실행 락의 책임을 구분하고 종료된 작업은 재실행을 건너뜁니다.
+          외부 처리와 내부 완료 기록은 하나의 트랜잭션이 아니므로 응답 유실 등의 상황에서는 중복 실행 가능성이 남습니다.
+          코드 예외는 메일로 알림을 받고, 배치 최종 실패 상태는 직접 확인하고 있습니다.
+      - title: RPA 프로젝트 (삼성 NERP 연동)
+        sub_title: KWE Korea
+        caption: 2024.08 ~ 2024.12
+        responsibility: 문서 검증·데이터 입력 자동화 개발
+        quote: C# (.NET 4.5), WinForms, OCR, MySQL
+        description: |
+          삼성 시스템의 데이터 입력 작업에 시간이 많이 소요되어 업무팀의 야근이 빈번하게 발생했습니다.
+          문서 검증과 입력 과정을 자동화했습니다.
+
+          - 문서 검증·입력 자동화의 절감 시간은 기존 경력기술서에서 **월 1,200시간**으로 산정했습니다. 산정 근거는 현재 자료로 재확인하지 못했으며, 글로벌 시스템 자동화와 별도 프로젝트의 수치입니다.
+          - 실시간 처리로 입력 누락과 오입력 가능성을 줄였습니다.
+      - title: 세금계산서 프로그램 리뉴얼
+        sub_title: KWE Korea
+        caption: 2023.01 ~ 2023.07
+        responsibility: 업무 로직 재구현·DB 전환·데이터 이관 및 검증
+        quote: C# (.NET 6), gRPC, WinForms, PostgreSQL, PL/pgSQL
+        description: |
+          Oracle Forms 버전의 기술지원 종료로 유지보수가 어려워졌고,
+          Oracle 라이선스 비용과 확장 제약을 줄이기 위해 .NET 6 기반 리뉴얼과 PostgreSQL 전환을 추진했습니다.
+
+          - Oracle Forms 기반 세금계산서 업무 로직 전체를 PL/pgSQL로 재구현했습니다.
+          - Oracle에서 PostgreSQL로 전환해 라이선스 비용을 줄였습니다.
+          - **1,000만 건의 데이터 이관을 자동화**하고 정합성을 검증했습니다.
+          - 스마트빌 연동으로 국세청 즉시 신고 및 매입 데이터를 실시간으로 처리했습니다.
+
+  - title: 제조·MES 프로젝트
+    content:
+      - title: 운반비 전산화 구축
+        sub_title: ILJIN Global
+        caption: 2020.04 ~ 2020.07
+        responsibility: 운반비 업무 전산화·SAP 연동 개발
+        quote: C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle, PL/SQL
+        description: |
+          수기 작성·수작업 중심의 운반비 관리를 전산화했습니다.
+
+          - 8개 공장의 운반비 프로세스를 전산화해 수작업을 줄이고 처리 절차를 통일했습니다.
+          - SAP 연동으로 운반비를 실시간으로 처리하고 비용 투명성을 확보했습니다.
+          - 최우수사원 표창을 받았습니다.
+      - title: MES - SAP 연동 인터페이스 개발
+        sub_title: ILJIN Global
+        caption: 2019.01 ~ 2019.12
+        responsibility: MES·SAP 실적 및 기준정보 인터페이스 개발
+        quote: C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle, PL/SQL
+        description: |
+          생산·납품·재고 정보를 수작업으로 전송하고 중복 입력하면서 생기는 지연과 오류 가능성을 줄이기 위해 실시간 연동 인터페이스를 개발했습니다.
+
+          - ERP(SAP)와 MES 사이의 생산·납품·재고 이동 데이터를 실시간으로 연동했습니다.
+          - 기준정보를 자동 이관해 운영 오류와 수작업을 줄였습니다.
+      - title: 제천·슬로바키아 공장 MES 업그레이드
+        sub_title: ILJIN Global
+        caption: 2016.04 ~ 2017.12
+        responsibility: 국내외 공장 MES 리뉴얼·LOT 추적 시스템 개발
+        quote: VB6 → C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle 9i → 11g, PL/SQL
+        description: |
+          VB6 기반 MES의 기술지원 종료와 컴포넌트·개발 환경 제약을 해결하기 위해 C# 기반 리뉴얼과 데이터베이스 업그레이드를 수행했습니다.
+
+          - 제천·슬로바키아 공장의 MES를 리뉴얼했습니다.
+          - LOT 단위 추적 시스템을 구축해 품질 관리 프로세스를 개선했습니다.
+          - 과장으로 특진했습니다.
+      - title: SPC 이상현상 알림 시스템 개발
+        sub_title: ILJIN Global
+        caption: 2015.09
+        responsibility: TCP 소켓 기반 설비 알림 모듈 단독 설계·개발
+        quote: VB6, Oracle PL/SQL, TCP Socket
+        description: |
+          생산 품질 이슈를 실시간으로 감지하고 알리는 SPC 시스템을 구축했습니다.
+          공정 설비와 연계하는 TCP 소켓 기반 알림 모듈을 단독으로 설계·개발했습니다.
+
+          - 일평균 100만 건의 생산 데이터 환경에서 SQL로 7가지 이상 징후 판정 로직을 구현했습니다.
+          - SMS와 현황판으로 알림을 전달했습니다.
+
+  - title: 기술
+    content:
+      - title: 백엔드
+        description: |
+          Node.js, TypeScript, Express, NestJS, Prisma, Redis, BullMQ<br>
+          C# (.NET Framework, .NET 6), gRPC, WCF
+
+          물류 플랫폼의 Express·NestJS 서버, Redis 기반 인증 조정과 BullMQ 배치 처리에 사용했습니다.
+          C#은 제조 MES와 물류 업무 도구, gRPC·WCF는 시스템 간 연동에 사용했습니다.
+      - title: 프론트엔드
+        description: |
+          Next.js, React, React Native, Expo, WinForms
+
+          사내 웹 플랫폼과 개인 앱의 화면을 구현했습니다. WinForms로 제조·물류 업무 도구를 개발했습니다.
+      - title: 데이터
+        description: |
+          PostgreSQL, Oracle, MySQL, PL/SQL, PL/pgSQL
+
+          업무 로직과 인터페이스를 구현하고 Oracle → PostgreSQL 전환에서 1,000만 건을 이관·검증했습니다.
+      - title: 배포·운영
+        description: |
+          GitLab CI/CD, Docker, Docker Swarm, buildx, Portainer, PM2, Turborepo
+
+          초기 PM2 운영에서 컨테이너 배포로 전환하고 2026년 9월 빌드·러너·캐시를 개선했습니다.
+      - title: 문서 처리·검증
+        description: |
+          Local LLM, Tesseract OCR, Vitest
+
+          통관 문서의 누락·불일치 검증과 데이터 추출에 사용하고 단위·통합 테스트로 변경 영향을 확인했습니다.
+
+  - title: 개인 프로젝트
+    content:
+      - title: 댓글 필터 (Android · Web)
+        link: https://play.google.com/store/apps/details?id=com.giholim.commentfilter&hl=ko
+        link_text: Google Play
+        link2: https://merbl-filter.vercel.app/posts
+        link2_text: 웹 버전
+        additional_links:
+          - title: 개발 과정
+            url: https://velog.io/@lasid84/commentfilter-1
+        quote: React Native, Expo, TypeScript, WebView, Next.js, Transformers.js, WebLLM, Web Worker
+        description: |
+          앱 기획부터 구현과 배포까지 혼자 수행했습니다.
+          앱에서는 네이버 블로그 글을 WebView로 열어 온디바이스에서 댓글 가시성을 조절하고,
+          좋아요 기준 필터와 차단 사용자 숨김 기능을 적용했습니다.
+
+          Next.js 웹 버전에서는 Transformers.js와 WebLLM을 Web Worker로 구동해
+          브라우저 온디바이스에서 댓글을 분류하고 본문을 요약합니다.
+
+      - title: HealthDog
+        link: https://play.google.com/store/apps/details?id=com.healthdog.app
+        link_text: Google Play
+        quote: React Native, Expo, TypeScript, Google OAuth, Firebase, Supabase, AdMob, RevenueCat
+        description: |
+          운동 기록·조회·통계 기능 중심의 앱을 혼자 개발했습니다.
+          Google OAuth 로그인, Supabase·Firebase 데이터 저장 및 동기화,
+          AdMob 광고와 RevenueCat 구독 결제 등 운영에 필요한 외부 서비스를 연동했습니다.
+      - title: "액션독: 3라인 퍼즐 (Android)"
+        link: https://play.google.com/store/apps/details?id=com.giholim.actiondog
+        link_text: Google Play
+        quote: React Native, Expo, TypeScript, Google OAuth, Supabase, AdMob
+        description: |
+          3라인 매치 퍼즐 게임을 혼자 기획·개발하고 스토어에 출시했습니다.
+          블록 하강·매치 판정·콤보 연쇄·게임오버 등 게임 코어 엔진을
+          도메인 주도 아키텍처의 4계층으로 나눠 직접 설계·구현했습니다.
+
+          Google OAuth 로그인, Supabase 기반 글로벌 점수 랭킹, AdMob 광고를 연동했습니다.

@@ -1,7 +1,6 @@
-{% assign resume_profile = site.data.resume %}
+{% assign resume_profile = site.data.main_career | default: site.data.resume %}
 {% assign resume_role = page.resume_role | default: resume_profile.role | default: site.title %}
 {% assign resume_content = resume_profile.content | default: site.content %}
-{% assign resume_pdf = resume_profile.pdf_url | default: site.website %}
 <!doctype html>
 <html lang="ko">
   <head>
@@ -9,13 +8,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#faf9f6">
     <meta name="description" content="{{ site.name | escape }} — {{ resume_role | escape }}">
-    <title>{{ site.name | escape }} — 이름 안에서 이어지는 이력서</title>
+    <title>{{ site.name | escape }} — {{ resume_role | escape }} · 경력기술서</title>
     <link rel="icon" href="data:,">
     <link rel="canonical" href="{{ page.canonical_url | default: page.url | absolute_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/ink-resume.css' | relative_url }}">
   </head>
   <body>
-    <a class="skip-link" href="#resume">이력서 본문으로 건너뛰기</a>
+    <a class="skip-link" href="#resume">경력 본문으로 건너뛰기</a>
     <main>
       <div class="portal-track" id="portal-track">
         <div id="top" class="top-anchor" aria-hidden="true"></div>
@@ -23,14 +22,14 @@
         <header class="cover-header">
           <a class="identity" href="#resume">{{ site.name | escape }} <span>GIHO</span></a>
           <nav aria-label="빠른 접근">
-            <a href="{{ resume_pdf | relative_url }}">경력기술서 PDF <span aria-hidden="true">↗</span></a>
-            <a href="#resume">이력서 <span aria-hidden="true">↓</span></a>
+            <a href="{{ site.portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">포트폴리오 <span aria-hidden="true">↗</span></a>
+            <a href="#resume">경력 본문 <span aria-hidden="true">↓</span></a>
           </nav>
         </header>
         <h1 class="fallback-name">GIHO<span class="sr-only"> — {{ site.name | escape }}</span></h1>
         <canvas id="portrait-canvas" aria-hidden="true"></canvas>
         <div id="inside" class="portal-inside" aria-labelledby="inside-heading" inert>
-          <p class="inside-kicker">이력서</p>
+          <p class="inside-kicker">경력기술서</p>
           <h2 id="inside-heading" tabindex="-1">{{ site.name | escape }}</h2>
           <p class="inside-role">{{ resume_role | escape }}</p>
           <div class="inside-actions">
@@ -62,20 +61,19 @@
       <section class="resume" aria-labelledby="resume">
         <header class="resume-header">
           <div>
-            <p class="eyebrow">이력서</p>
+            <p class="eyebrow">경력기술서</p>
             <h2 id="resume" tabindex="-1">{{ site.name | escape }}</h2>
             <p class="resume-role">{{ resume_role | escape }}</p>
           </div>
           <div class="resume-contact">
-            <a class="pdf-link" href="{{ resume_pdf | relative_url }}">{{ site.website_title | escape }} <span>PDF ↗</span></a>
-            <a href="{{ site.portfolio_url | relative_url }}">{{ site.portfolio_link_text | escape }} ↗</a>
+            <a href="{{ site.portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">프로젝트 포트폴리오 ↗</a>
             <a href="mailto:{{ site.email | escape }}">{{ site.email | escape }}</a>
             <a href="tel:{{ site.phone | remove: '-' }}">{{ site.phone | escape }}</a>
-            <a href="https://github.com/{{ site.github_username | escape }}">GitHub ↗</a>
+            <a href="https://github.com/{{ site.github_username | escape }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
           </div>
         </header>
         <div class="resume-layout">
-          <nav class="resume-nav" aria-label="이력서 목차">
+          <nav class="resume-nav" aria-label="경력기술서 목차">
             <a href="#about">소개</a>
             {% for section in resume_content %}
               <a href="#section-{{ forloop.index }}">{{ section.title | escape }}</a>
@@ -84,7 +82,7 @@
           </nav>
           <div class="resume-sections">
             <section class="resume-section about-section" aria-labelledby="about">
-              <div class="section-heading"><span aria-hidden="true">00</span><h3 id="about" tabindex="-1">{{ site.about_title | escape }}</h3></div>
+              <div class="section-heading"><span aria-hidden="true">00</span><h3 id="about" tabindex="-1">소개</h3></div>
               <div class="about-layout">
                 <div class="about-prose">
                   {% assign about_content = resume_profile.about | default: site.data.about[site.about_variant] | default: site.data.about.general | default: site.about_content %}
@@ -110,10 +108,11 @@
                       <h4>{{ item.title | escape }}</h4>
                       {% if item.sub_title %}<p class="item-subtitle">{{ item.sub_title | escape }}</p>{% endif %}
                       {% if item.caption %}<p class="item-period">{{ item.caption | escape }}</p>{% endif %}
+                      {% if item.responsibility %}<p class="item-responsibility"><span>담당</span> {{ item.responsibility | escape }}</p>{% endif %}
                       <div class="item-links">
-                        {% if item.link %}<a href="{{ item.link | escape }}">{{ item.link_text | default: item.link | escape }} ↗</a>{% endif %}
-                        {% if item.link2 %}<a href="{{ item.link2 | escape }}">{{ item.link2_text | default: item.link2 | escape }} ↗</a>{% endif %}
-                        {% for link in item.additional_links %}<a href="{{ link.url | escape }}">{{ link.title | default: link.url | escape }} ↗</a>{% endfor %}
+                        {% if item.link %}<a href="{{ item.link | escape }}" target="_blank" rel="noopener noreferrer">{{ item.link_text | default: item.link | escape }} ↗</a>{% endif %}
+                        {% if item.link2 %}<a href="{{ item.link2 | escape }}" target="_blank" rel="noopener noreferrer">{{ item.link2_text | default: item.link2 | escape }} ↗</a>{% endif %}
+                        {% for link in item.additional_links %}<a href="{{ link.url | escape }}" target="_blank" rel="noopener noreferrer">{{ link.title | default: link.url | escape }} ↗</a>{% endfor %}
                       </div>
                     </div>
                     <div class="item-body">
@@ -129,8 +128,7 @@
         <footer class="resume-footer">
           <span>{{ site.name | escape }}</span>
           <nav aria-label="문서와 포트폴리오">
-            <a href="{{ resume_pdf | relative_url }}">경력기술서 PDF ↗</a>
-            <a href="{{ site.portfolio_url | relative_url }}">웹 포트폴리오 ↗</a>
+            <a href="{{ site.portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">프로젝트 포트폴리오 ↗</a>
             <a href="#top">맨 위로 ↑</a>
           </nav>
         </footer>
