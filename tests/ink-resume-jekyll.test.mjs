@@ -9,8 +9,8 @@ const html=()=>readFile(new URL('index.html',site),'utf8').catch(()=>'');
 test('the original Jekyll main URL uses the latest resume and remains canonical for the separate route',async()=>{
   const page=await html();assert.ok(page,'build the real Jekyll main page');
   assert.doesNotMatch(page,/\{[%{]/);assert.equal([...page.matchAll(/<article class="resume-item"/g)].length,22);
-  for(const fact of ['백엔드 개발자','디지털솔루션부','8.3시간','월 100건','60~70Mbps','5Mbps 미만','액션독','월 1,200시간','54,565행','500행','30~40%','480회','모사 실험','3분 27초','2분 25초','2026년 9월','2026-10-02','최우수사원','특진','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
-  assert.doesNotMatch(page,/Full-Stack|월 약 200시간|월 200시간|전략개발부/);
+  for(const fact of ['백엔드 개발자','디지털솔루션부','8.3시간','월 100건','60~70Mbps','5Mbps 미만','액션독','월 1,200시간','수만 건','500건','30~40%','모사 실험','3분 27초','2분 25초','2026년 9월','최우수사원','특진','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
+  assert.doesNotMatch(page,/Full-Stack|월 약 200시간|월 200시간|전략개발부|54,565행|BL 건수와 API 호출 수는 별개/);
   assert.doesNotMatch(page,/href="[^"]*\.pdf(?:[?#][^"]*)?"/);
   assert.match(page,/<link rel="canonical" href="https:\/\/limgiho\.github\.io\/">/);
   const alias=await readFile(new URL('resume/index.html',site),'utf8');
@@ -29,7 +29,7 @@ test('web links open independently while reading navigation stays local and all 
   }
   const surface=page.slice(page.indexOf('class="resume-surface"'));
   assert.doesNotMatch(surface,/<details|\binert\b|\shidden(?:\s|>|=)/);
-  assert.ok(page.includes('동료 1명'));assert.ok(page.includes('예방적'));assert.ok(page.includes('산정 근거'));
+  assert.ok(page.includes('동료 1명'));assert.ok(page.includes('세션을 다시 확인'));assert.ok(page.includes('기존 경력기술서 산정치'));
   assert.doesNotMatch(surface,/토스|지원 동기|검토본|ELK|loginPromises|exactly.once/i);
 });
 test('all ten source PDF work projects retain their periods and outcomes, alongside three personal products',async()=>{
@@ -40,7 +40,7 @@ test('all ten source PDF work projects retain their periods and outcomes, alongs
     ['웹 기반 통합 사내 시스템 구축','2023.09 ~ 2026.07','15종','5개 업무부','3만 건','10분','5초','C#','Express'],
     ['Docker Swarm 기반 CI/CD 표준 배포 체계 구축','2025.11 ~ 2025.12','실패','SHA','디제스트','Portainer'],
     ['백엔드 서비스 리팩토링(Express → NestJS)','2025.06 ~ 2025.10','Redis','BullMQ','DI','단위·통합 테스트'],
-    ['RPA 프로젝트 (삼성 NERP 연동)','2024.08 ~ 2024.12','월 1,200시간','입력 누락','산정 근거'],
+    ['RPA 프로젝트 (삼성 NERP 연동)','2024.08 ~ 2024.12','월 1,200시간','입력 누락','기존 경력기술서 산정치'],
     ['세금계산서 프로그램 리뉴얼','2023.01 ~ 2023.07','PL/pgSQL','라이선스','1,000만 건','정합성','스마트빌'],
     ['운반비 전산화 구축','2020.04 ~ 2020.07','8개 공장','SAP','최우수사원'],
     ['MES - SAP 연동 인터페이스 개발','2019.01 ~ 2019.12','생산·납품·재고','기준정보','이관'],
@@ -64,8 +64,8 @@ test('main career editing leaves the application full-career data independent',a
   const titles=JSON.parse(shared.stdout);
   assert.equal([...main.matchAll(/<article class="resume-item"/g)].length,22);
   assert.equal(titles.length,20);
-  assert.ok(main.includes('Node.js OOM 장애 분석과 조회 상한 적용'));
-  assert.ok(!titles.includes('Node.js OOM 장애 분석과 조회 상한 적용'));
+  assert.ok(main.includes('Node.js API 서버 메모리 장애 개선'));
+  assert.ok(!titles.includes('Node.js API 서버 메모리 장애 개선'));
   const application=await readFile(new URL('applications/toss-securities-nodejs/index.html',site),'utf8').catch(()=>null);
   if(application)assert.equal([...application.matchAll(/<article class="career-detail"/g)].length,20);
 });
