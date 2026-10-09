@@ -1,0 +1,12 @@
+daangn:
+  theme: daangn
+  theme_color: "#ff6f0f"
+  stylesheet: /assets/css/daangn.css
+  portfolio_url: /daangn/portfolio/
+  pdf_url: /assets/resume/lim-giho-daangn-local-jobs-v15.pdf
+  excluded_projects:
+    - RPA 프로젝트 (삼성 NERP 연동)
+  description_removals:
+    웹 기반 통합 사내 시스템 구축:
+      - "- C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, 공용 라이브러리로 중복 코드를 정리했습니다."
+      - "이후 NestJS로 백엔드를 전환하고 컨테이너 기반 배포 체계를 구축했습니다."

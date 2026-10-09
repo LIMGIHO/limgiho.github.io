@@ -5,20 +5,20 @@
   {% include portfolio/head.html portfolio=portfolio profile=profile %}
   <body class="portfolio theme-{{ profile.theme }}{% if page.portfolio_palette %} palette-{{ page.portfolio_palette }}{% endif %}">
     <a class="skip-link" href="#main-content">본문으로 이동</a>
-    {% include portfolio/nav.html portfolio=portfolio %}
+    {% include portfolio/nav.html portfolio=portfolio profile=profile %}
     <div class="portfolio-shell">
       <main id="main-content">
         {% include portfolio/hero.html portfolio=portfolio profile=profile %}
         {% include portfolio/journey.html journey=portfolio.journey %}
         {% include portfolio/flagship.html flagship=portfolio.flagship profile=profile %}
         {% include portfolio/automation.html automation=portfolio.automation %}
-        {% include portfolio/writings.html items=portfolio.writings %}
+        {% include portfolio/writings.html items=portfolio.writings profile=profile %}
         {% if profile.show_additional_work %}
           {% include portfolio/additional-work.html items=portfolio.additional_work %}
         {% endif %}
         {% include portfolio/architecture-print-appendix.html flagship=portfolio.flagship %}
       </main>
-      {% include portfolio/footer.html portfolio=portfolio %}
+      {% include portfolio/footer.html portfolio=portfolio profile=profile %}
     </div>
     <script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>
   </body>

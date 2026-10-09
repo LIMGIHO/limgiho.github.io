@@ -132,6 +132,39 @@
   --diagram-tech: #cbd3d8;
 }
 
+.palette-daangn.theme-editorial {
+  --page: #fff8f2;
+  --paper: #ffffff;
+  --surface: #fff1e6;
+  --ink: #242424;
+  --muted: #656565;
+  --accent: #ff6f0f;
+  --accent-text: #b94717;
+  --accent-strong: #b94717;
+  --accent-soft: #ffead9;
+  --hero-cta-ink: #242424;
+  --rule: #eadfd5;
+  --danger: #b42318;
+  --group-fill: rgba(255, 111, 15, 0.04);
+  --diagram-tech: #514237;
+}
+
+.palette-daangn.theme-blueprint {
+  --page: #181410;
+  --paper: #211c17;
+  --surface: #2c241d;
+  --ink: #fff8f2;
+  --muted: #c2b4a7;
+  --accent: #ff8a3d;
+  --accent-text: #ffab73;
+  --accent-strong: #ffab73;
+  --accent-soft: #493020;
+  --rule: #514033;
+  --danger: #ff7b72;
+  --group-fill: rgba(255, 138, 61, 0.05);
+  --diagram-tech: #dfcabb;
+}
+
 // 설계도 톤에서만 쓰는 옅은 격자 배경. 콘텐츠는 --paper 카드 위에 놓여
 // 대비에 영향을 주지 않는다.
 body.theme-blueprint {

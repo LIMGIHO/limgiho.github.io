@@ -9,8 +9,8 @@
 
     <div class="hero-aside">
       <div class="hero-actions">
-        <a class="hero-cta hero-cta-resume hero-cta-secondary" href="{{ include.portfolio.person.resume_url }}">경력기술서 PDF</a>
-        <a class="hero-cta hero-cta-portfolio" href="/">경력 소개</a>
+        <a class="hero-cta hero-cta-resume hero-cta-secondary" href="{{ include.profile.pdf_url | default: include.portfolio.person.resume_url | relative_url }}">{{ include.profile.pdf_link_text | default: '경력기술서 PDF' }}</a>
+        <a class="hero-cta hero-cta-portfolio" href="{{ include.profile.career_url | default: '/' | relative_url }}">{{ include.profile.career_link_text | default: '경력 소개' }}</a>
       </div>
       <div class="hero-contact">
         <a href="mailto:{{ include.portfolio.person.email }}">{{ include.portfolio.person.email }}</a>
@@ -22,6 +22,7 @@
   <ul class="hero-metrics">
     {% for metric_id in include.profile.metrics %}
       {% assign metric = include.portfolio.metrics | where: "id", metric_id | first %}
+      {% assign metric = include.profile.metric_overrides[metric_id] | default: metric %}
       {% if metric %}
         <li data-hero-metric="{{ metric.id }}">
           <a href="#{{ metric.section }}">

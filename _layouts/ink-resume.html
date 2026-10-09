@@ -1,4 +1,6 @@
 {% assign resume_profile = site.data.main_career | default: site.data.resume %}
+{% assign career_variant = site.data.career_profiles[page.career_profile] %}
+{% assign portfolio_url = career_variant.portfolio_url | default: site.portfolio_url %}
 {% assign resume_role = page.resume_role | default: resume_profile.role | default: site.title %}
 {% assign resume_content = resume_profile.content | default: site.content %}
 <!doctype html>
@@ -6,14 +8,15 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#faf9f6">
+    <meta name="theme-color" content="{{ career_variant.theme_color | default: '#faf9f6' }}">
     <meta name="description" content="{{ site.name | escape }} — {{ resume_role | escape }}">
     <title>{{ site.name | escape }} — {{ resume_role | escape }} · 경력기술서</title>
     <link rel="icon" href="data:,">
     <link rel="canonical" href="{{ page.canonical_url | default: page.url | absolute_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/ink-resume.css' | relative_url }}">
+    {% if career_variant.stylesheet %}<link rel="stylesheet" href="{{ career_variant.stylesheet | relative_url }}">{% endif %}
   </head>
-  <body>
+  <body{% if career_variant.theme %} class="theme-{{ career_variant.theme | escape }}"{% endif %}>
     <a class="skip-link" href="#resume">경력 본문으로 건너뛰기</a>
     <main>
       <div class="portal-track" id="portal-track">
@@ -22,7 +25,7 @@
         <header class="cover-header">
           <a class="identity" href="#resume">{{ site.name | escape }} <span>GIHO</span></a>
           <nav aria-label="빠른 접근">
-            <a href="{{ site.portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">포트폴리오 <span aria-hidden="true">↗</span></a>
+            <a href="{{ portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">포트폴리오 <span aria-hidden="true">↗</span></a>
             <a href="#resume">경력 본문 <span aria-hidden="true">↓</span></a>
           </nav>
         </header>
@@ -66,7 +69,8 @@
             <p class="resume-role">{{ resume_role | escape }}</p>
           </div>
           <div class="resume-contact">
-            <a href="{{ site.portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">프로젝트 포트폴리오 ↗</a>
+            <a href="{{ portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">프로젝트 포트폴리오 ↗</a>
+            {% if career_variant.pdf_url %}<a href="{{ career_variant.pdf_url | relative_url }}" target="_blank" rel="noopener noreferrer">제출용 이력서 PDF ↗</a>{% endif %}
             <a href="mailto:{{ site.email | escape }}">{{ site.email | escape }}</a>
             <a href="tel:{{ site.phone | remove: '-' }}">{{ site.phone | escape }}</a>
             <a href="https://github.com/{{ site.github_username | escape }}" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
@@ -103,6 +107,7 @@
               <section class="resume-section" aria-labelledby="section-{{ section_number }}">
                 <div class="section-heading"><span aria-hidden="true">0{{ section_number }}</span><h3 id="section-{{ section_number }}" tabindex="-1">{{ section.title | escape }}</h3></div>
                 {% for item in section.content %}
+                  {% unless career_variant.excluded_projects contains item.title %}
                   <article class="resume-item" data-source-item="{{ section_number }}-{{ forloop.index }}">
                     <div class="item-heading">
                       <h4>{{ item.title | escape }}</h4>
@@ -117,9 +122,14 @@
                     </div>
                     <div class="item-body">
                       {% if item.quote %}<p class="item-quote">{{ item.quote | escape }}</p>{% endif %}
-                      <div class="resume-prose">{{ item.description | strip | markdownify }}</div>
+                      {% assign item_description = item.description %}
+                      {% for removal in career_variant.description_removals[item.title] %}
+                        {% assign item_description = item_description | replace: removal, '' %}
+                      {% endfor %}
+                      <div class="resume-prose">{{ item_description | strip | markdownify }}</div>
                     </div>
                   </article>
+                  {% endunless %}
                 {% endfor %}
               </section>
             {% endfor %}
@@ -128,7 +138,7 @@
         <footer class="resume-footer">
           <span>{{ site.name | escape }}</span>
           <nav aria-label="문서와 포트폴리오">
-            <a href="{{ site.portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">프로젝트 포트폴리오 ↗</a>
+            <a href="{{ portfolio_url | relative_url }}" target="_blank" rel="noopener noreferrer">프로젝트 포트폴리오 ↗</a>
             <a href="#top">맨 위로 ↑</a>
           </nav>
         </footer>

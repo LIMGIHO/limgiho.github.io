@@ -6,6 +6,47 @@ default:
   metrics: [legacy-integration, work-screens, automation-hours, migration-volume]
   show_additional_work: true
 
+daangn:
+  theme: editorial
+  theme_color: "#ff6f0f"
+  eyebrow: BACKEND · PLATFORM · AUTOMATION
+  headline: 흩어진 업무와 데이터를 하나의 플랫폼으로 통합했습니다
+  summary: Node.js와 TypeScript로 항공·해운·재무 업무 시스템을 개발하고 운영합니다. 3인 개발팀에서 현업의 업무를 분석하고, 백엔드 설계와 반복 작업 자동화를 담당합니다.
+  career_url: /daangn/
+  career_link_text: 상세 경력기술서
+  pdf_url: /assets/resume/lim-giho-daangn-local-jobs-v15.pdf
+  pdf_link_text: 제출용 이력서 PDF
+  writing_overrides:
+    이틀 동안 운영 API가 다섯 번 죽었다:
+      summary: 대량 조회 중 발생한 메모리 장애를 분석하고, 페이지당 조회를 500건으로 제한했습니다. 변경 후 같은 장애는 재발하지 않았습니다.
+      facts:
+        - 수만 건 조회 원인 분석
+        - 페이지당 500건
+        - 변경 후 동일 장애 미재발
+  metrics: [legacy-integration, network-usage, review-time, pipeline-time]
+  metric_overrides:
+    legacy-integration:
+      id: legacy-integration
+      value: 15종+
+      label: 개별 업무 시스템 통합
+      section: flagship
+    network-usage:
+      id: network-usage
+      value: 5Mbps 미만
+      label: 외부 연동 · 기존 60~70Mbps
+      section: automation
+    review-time:
+      id: review-time
+      value: 8분 → 3분
+      label: 통관 1건 서류 검토
+      section: document-flow
+    pipeline-time:
+      id: pipeline-time
+      value: 12분 → 6분
+      label: 전체 CI/CD 파이프라인
+      section: delivery-flow
+  show_additional_work: true
+
 kakao:
   theme: editorial
   eyebrow: FRONTEND · PLATFORM · INTEGRATION

@@ -1,0 +1,47 @@
+/* 당근 지원용 경력기술서 */
+.theme-daangn {
+  color-scheme: light;
+  --paper: #ffffff;
+  --ink: #242424;
+  --muted: #656565;
+  --line: #e8e2dc;
+  --accent: #ff6f0f;
+  --accent-text: #b94717;
+  background: var(--paper);
+}
+
+.theme-daangn .resume-surface {
+  --paper: #ffffff;
+  --ink: #242424;
+  --muted: #656565;
+  --line: #e8e2dc;
+}
+
+.theme-daangn .resume-header {
+  border-bottom-color: var(--accent);
+}
+
+.theme-daangn .eyebrow,
+.theme-daangn .section-heading > span,
+.theme-daangn .resume-nav a[aria-current="location"] {
+  color: var(--accent-text);
+}
+
+.theme-daangn .resume-nav a[aria-current="location"]::before {
+  background: var(--accent);
+}
+
+.theme-daangn .resume-contact a,
+.theme-daangn .resume-prose a,
+.theme-daangn .item-links a {
+  text-decoration-color: var(--accent);
+}
+
+.theme-daangn .cover-header .identity span,
+.theme-daangn a:hover {
+  color: var(--accent-text);
+}
+
+.theme-daangn :focus-visible {
+  outline-color: var(--accent-text);
+}

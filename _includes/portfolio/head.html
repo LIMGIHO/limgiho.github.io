@@ -3,7 +3,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ include.portfolio.person.name }} · {{ include.profile.eyebrow }}</title>
   <meta name="description" content="{{ include.profile.summary | strip_html | escape }}">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="{{ include.profile.theme_color | default: '#ffffff' }}">
   <link rel="canonical" href="{{ page.url | absolute_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/portfolio.css' | relative_url }}">
   <link rel="shortcut icon" type="image/x-icon" href="{{ '/assets/favicon.ico' | relative_url }}">

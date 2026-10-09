@@ -5,6 +5,9 @@
 - 메인: `https://limgiho.github.io/`
 - 포트폴리오: `/portfolio/`
 - `/resume/`에서도 동일 이력서를 볼 수 있으며 canonical은 메인 `/`다.
+- 당근 상세 경력기술서: `/daangn/`, 프로젝트 포트폴리오: `/daangn/portfolio/`.
+
+당근 경력기술서는 `_data/career_profiles.yml`의 제외 항목·문장과 링크·스타일을 적용한다. 포트폴리오는 `_data/portfolio_profiles.yml`의 `daangn` 프로필을 사용한다. 두 페이지의 PDF 링크는 `assets/resume/lim-giho-daangn-local-jobs-v15.pdf`이며, v14의 본문·화면을 보존하고 웹 링크 4곳만 당근 경로로 변경했다.
 
 메인은 `index.md`에서 `_layouts/ink-resume.html`을 사용한다. `_data/main_career.yml`에 원본 PDF의 업무 프로젝트 10개·개인 프로젝트 3개와 2026-10-03까지 확인한 개선 경험을 포함한 22항목을 둔다. 표시 직무는 백엔드 개발자다. 지원 페이지가 참조하는 기존 `_data/resume.yml`은 보존한다. 본문을 전체 열람할 수 있어 메인에서 기존 경력기술서 PDF 링크는 제외했다. 원본 PDF 파일은 보존한다. 대조 및 검증 기록은 `docs/main-career-review.md`에 있다.
 
@@ -26,6 +29,7 @@ esbuild가 Node 모듈 경로에 설치되어 있으면 경로 인자를 생략�
 bundle exec jekyll build --destination _workspace/ink-resume-jekyll-site
 bundle exec jekyll build --destination _workspace/ink-resume-baseurl --baseurl /ink-resume-check
 node --test tests/ink-resume-jekyll.test.mjs tests/ink-resume-portal-controller.test.mjs tests/ink-resume-portal-model.test.mjs tests/ink-resume-portal-renderer.test.mjs tests/ink-resume-portal-nav.test.mjs
+node --test tests/daangn-pages.test.mjs
 ```
 
 기존 Bundler 환경의 설정을 사용한다. 통합 테스트는 실제 빌드의 메인/22항목/원본 프로젝트별 기간·성과/최신 사실/외부 링크 속성/로컬 자산/fragment/normal 및 baseurl canonical을 확인한다. controller/model/renderer/nav 회귀는 43개다. 원래 Fluid model도 비교 회귀의 기준 소스로 보관한다.

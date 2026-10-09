@@ -124,7 +124,7 @@
   border: 1px solid var(--accent);
   border-radius: 7px;
   background: var(--accent);
-  color: var(--paper);
+  color: var(--hero-cta-ink, var(--paper));
   font-size: 0.85rem;
   font-weight: 800;
   text-decoration: none;

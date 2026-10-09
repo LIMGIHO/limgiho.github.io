@@ -6,10 +6,11 @@
 
   <div class="writings-list">
     {% for item in include.items %}
+      {% assign writing = include.profile.writing_overrides[item.title] | default: item %}
       <article>
         <h3>{{ item.title }}</h3>
-        <p>{{ item.summary }}</p>
-        <p class="writing-facts">{{ item.facts | join: " · " }}</p>
+        <p>{{ writing.summary }}</p>
+        <p class="writing-facts">{{ writing.facts | join: " · " }}</p>
         <a class="writing-link" href="{{ item.url }}" target="_blank" rel="noopener noreferrer">velog에서 읽기</a>
       </article>
     {% endfor %}
