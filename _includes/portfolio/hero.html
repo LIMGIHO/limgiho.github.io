@@ -9,7 +9,9 @@
 
     <div class="hero-aside">
       <div class="hero-actions">
-        <a class="hero-cta hero-cta-resume hero-cta-secondary" href="{{ include.profile.pdf_url | default: include.portfolio.person.resume_url | relative_url }}">{{ include.profile.pdf_link_text | default: '경력기술서 PDF' }}</a>
+        {% unless include.profile.show_pdf_link == false %}
+          <a class="hero-cta hero-cta-resume hero-cta-secondary" href="{{ include.profile.pdf_url | default: include.portfolio.person.resume_url | relative_url }}">{{ include.profile.pdf_link_text | default: '경력기술서 PDF' }}</a>
+        {% endunless %}
         <a class="hero-cta hero-cta-portfolio" href="{{ include.profile.career_url | default: '/' | relative_url }}">{{ include.profile.career_link_text | default: '경력 소개' }}</a>
       </div>
       <div class="hero-contact">

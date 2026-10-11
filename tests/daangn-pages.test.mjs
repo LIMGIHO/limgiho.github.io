@@ -4,7 +4,6 @@ import {readFile, access} from 'node:fs/promises';
 
 const root = new URL('../', import.meta.url);
 const site = new URL('_workspace/ink-resume-jekyll-site/', root);
-const pdfPath = '/assets/resume/lim-giho-daangn-local-jobs-v16.pdf';
 const readPage = (path, build = site) => readFile(new URL(path, build), 'utf8').catch(() => '');
 
 test('Daangn career selects the requested content without changing the main career', async () => {
@@ -38,12 +37,12 @@ test('Daangn career selects the requested content without changing the main care
   assert.doesNotMatch(delivery, /3분 27초|2분 25초|실패 원인을 추적했습니다/);
 });
 
-test('Daangn pages link to each other and to the submission PDF with their own canonicals', async () => {
+test('Daangn pages link to each other without PDF links and retain their own canonicals', async () => {
   for (const [path, other] of [['daangn/', '/daangn/portfolio/'], ['daangn/portfolio/', '/daangn/']]) {
     const page = await readPage(`${path}index.html`);
     assert.ok(page, path);
     assert.ok(page.includes(`href="${other}"`), `cross-link: ${other}`);
-    assert.ok(page.includes(`href="${pdfPath}"`), 'submission PDF');
+    assert.doesNotMatch(page, /href="[^"]*\.pdf(?:[?#][^"]*)?"|제출용 이력서 PDF/);
     assert.ok(page.includes(`<link rel="canonical" href="https://limgiho.github.io/${path}">`), 'own canonical');
     assert.doesNotMatch(page, /href="(?:\/|\/portfolio\/|\/assets\/resume\/lim-giho-resume\.pdf)"/);
     assert.doesNotMatch(page, /\{[%{]/);
@@ -57,7 +56,7 @@ test('Daangn pages link to each other and to the submission PDF with their own c
       await access(target);
     }
   }
-  assert.equal((await readFile(new URL(pdfPath.slice(1), site))).subarray(0, 5).toString(), '%PDF-');
+  assert.ok((await readPage('portfolio/index.html')).includes('class="nav-resume"'), 'default portfolio keeps its PDF link');
 });
 
 test('Daangn portfolio highlights the four figures in the submission resume', async () => {

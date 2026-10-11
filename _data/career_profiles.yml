@@ -3,7 +3,6 @@ daangn:
   theme_color: "#ff6f0f"
   stylesheet: /assets/css/daangn.css
   portfolio_url: /daangn/portfolio/
-  pdf_url: /assets/resume/lim-giho-daangn-local-jobs-v16.pdf
   about: |
     <p class="hero-kicker">업무 흐름이 읽히고, 안심하고 바꿀 수 있는 코드를 지향합니다.</p>
 

@@ -7,7 +7,7 @@
 - `/resume/`에서도 동일 이력서를 볼 수 있으며 canonical은 메인 `/`다.
 - 당근 상세 경력기술서: `/daangn/`, 프로젝트 포트폴리오: `/daangn/portfolio/`.
 
-당근 경력기술서는 `_data/career_profiles.yml`의 소개·본문 대체 문안, 제외 항목과 링크·스타일을 적용한다. 포트폴리오는 `_data/portfolio_profiles.yml`의 `daangn` 프로필을 사용한다. 두 페이지의 PDF 링크는 `assets/resume/lim-giho-daangn-local-jobs-v16.pdf`이며, 사용자가 제공한 제출본을 그대로 제공한다. 2026-10-11 문안 변경은 `docs/application-drafts/daangn-page-copy-review.md`에 정리했다.
+당근 경력기술서는 `_data/career_profiles.yml`의 소개·본문 대체 문안, 제외 항목과 링크·스타일을 적용한다. 포트폴리오는 `_data/portfolio_profiles.yml`의 `daangn` 프로필을 사용한다. 사용자가 혼동을 줄이기 위해 PDF 링크 제거를 요청해, 두 당근 페이지에는 제출 PDF 링크를 표시하지 않는다. 포트폴리오는 `show_pdf_link: false`로 상단·소개·하단의 PDF 링크를 숨긴다. 기존 PDF 자산은 보존한다. 2026-10-11 변경은 `docs/application-drafts/daangn-page-copy-review.md`에 정리했다.
 
 메인은 `index.md`에서 `_layouts/ink-resume.html`을 사용한다. `_data/main_career.yml`에 원본 PDF의 업무 프로젝트 10개·개인 프로젝트 3개와 2026-10-03까지 확인한 개선 경험을 포함한 22항목을 둔다. 표시 직무는 백엔드 개발자다. 지원 페이지가 참조하는 기존 `_data/resume.yml`은 보존한다. 본문을 전체 열람할 수 있어 메인에서 기존 경력기술서 PDF 링크는 제외했다. 원본 PDF 파일은 보존한다. 대조 및 검증 기록은 `docs/main-career-review.md`에 있다.
 

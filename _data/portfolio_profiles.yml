@@ -14,8 +14,7 @@ daangn:
   summary: 항공·해운 수출입과 재무 업무를 다루는 사내 통합 플랫폼을 개발하고 운영합니다. 현업과 함께 업무 절차와 데이터 기준을 정리하고, 해외 본사 시스템 연동과 반복 업무 자동화를 담당합니다.
   career_url: /daangn/
   career_link_text: 상세 경력기술서
-  pdf_url: /assets/resume/lim-giho-daangn-local-jobs-v16.pdf
-  pdf_link_text: 제출용 이력서 PDF
+  show_pdf_link: false
   document_summary:
     - 업체마다 다른 서류 양식과 DOC·DOCX·엑셀·PDF·스캔본 등 다양한 접수 형식을 처리하기 위해, 문서 내용을 해석하고 필요한 항목을 추출하는 데 LLM을 활용했습니다.
     - 통관 1건의 서류 검토 시간을 8분에서 3분으로 줄였습니다.
