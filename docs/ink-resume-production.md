@@ -9,6 +9,8 @@
 
 당근 경력기술서는 `_data/career_profiles.yml`의 소개·본문 대체 문안, 제외 항목과 링크·스타일을 적용한다. 포트폴리오는 `_data/portfolio_profiles.yml`의 `daangn` 프로필을 사용한다. 사용자가 혼동을 줄이기 위해 PDF 링크 제거를 요청해, 두 당근 페이지에는 제출 PDF 링크를 표시하지 않는다. 포트폴리오는 `show_pdf_link: false`로 상단·소개·하단의 PDF 링크를 숨긴다. 기존 PDF 자산은 보존한다. 2026-10-11 변경은 `docs/application-drafts/daangn-page-copy-review.md`에 정리했다.
 
+메인과 `/resume/`은 `career_content_profile: daangn`으로 당근 버전의 소개·본문·제외 항목을 공유해 21항목을 표시한다. `_layouts/ink-resume.html`은 내용 프로필과 화면 프로필을 구분하므로 메인의 기존 색상과 `/portfolio/` 링크는 유지한다. 두 경력기술서의 본문은 `_data/career_profiles.yml`에서 함께 수정한다.
+
 메인은 `index.md`에서 `_layouts/ink-resume.html`을 사용한다. `_data/main_career.yml`에 원본 PDF의 업무 프로젝트 10개·개인 프로젝트 3개와 2026-10-03까지 확인한 개선 경험을 포함한 22항목을 둔다. 표시 직무는 백엔드 개발자다. 지원 페이지가 참조하는 기존 `_data/resume.yml`은 보존한다. 본문을 전체 열람할 수 있어 메인에서 기존 경력기술서 PDF 링크는 제외했다. 원본 PDF 파일은 보존한다. 대조 및 검증 기록은 `docs/main-career-review.md`에 있다.
 
 ## 정적 자산과 동작
