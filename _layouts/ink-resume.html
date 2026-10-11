@@ -111,7 +111,9 @@
                   <article class="resume-item" data-source-item="{{ section_number }}-{{ forloop.index }}">
                     <div class="item-heading">
                       <h4>{{ item.title | escape }}</h4>
-                      {% if item.sub_title %}<p class="item-subtitle">{{ item.sub_title | escape }}</p>{% endif %}
+                      {% unless career_variant.hidden_subtitles contains item.sub_title %}
+                        {% if item.sub_title %}<p class="item-subtitle">{{ item.sub_title | escape }}</p>{% endif %}
+                      {% endunless %}
                       {% if item.caption %}<p class="item-period">{{ item.caption | escape }}</p>{% endif %}
                       {% if item.responsibility %}<p class="item-responsibility"><span>담당</span> {{ item.responsibility | escape }}</p>{% endif %}
                       <div class="item-links">
