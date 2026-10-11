@@ -43,7 +43,7 @@ jobs:
           test -f _site/portfolio/index.html
           test -f _site/daangn/index.html
           test -f _site/daangn/portfolio/index.html
-          test -f _site/assets/resume/lim-giho-daangn-local-jobs-v15.pdf
+          test -f _site/assets/resume/lim-giho-daangn-local-jobs-v16.pdf
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

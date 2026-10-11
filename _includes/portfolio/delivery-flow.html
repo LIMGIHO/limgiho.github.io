@@ -1,6 +1,9 @@
 <section class="delivery-flow" id="delivery-flow" aria-labelledby="delivery-flow-title">
   <div class="subsection-heading">
     <h3 id="delivery-flow-title">{{ include.flow.title }}</h3>
+    {% for paragraph in include.profile.delivery_summary %}
+      <p>{{ paragraph }}</p>
+    {% endfor %}
     <p>{{ include.flow.description }}</p>
   </div>
 

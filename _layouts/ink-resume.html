@@ -89,7 +89,7 @@
               <div class="section-heading"><span aria-hidden="true">00</span><h3 id="about" tabindex="-1">소개</h3></div>
               <div class="about-layout">
                 <div class="about-prose">
-                  {% assign about_content = resume_profile.about | default: site.data.about[site.about_variant] | default: site.data.about.general | default: site.about_content %}
+                  {% assign about_content = career_variant.about | default: resume_profile.about | default: site.data.about[site.about_variant] | default: site.data.about.general | default: site.about_content %}
                   {{ about_content | strip | markdownify }}
                 </div>
                 {% if site.about_profile_image %}
@@ -122,7 +122,7 @@
                     </div>
                     <div class="item-body">
                       {% if item.quote %}<p class="item-quote">{{ item.quote | escape }}</p>{% endif %}
-                      {% assign item_description = item.description %}
+                      {% assign item_description = career_variant.description_overrides[item.title] | default: item.description %}
                       {% for removal in career_variant.description_removals[item.title] %}
                         {% assign item_description = item_description | replace: removal, '' %}
                       {% endfor %}

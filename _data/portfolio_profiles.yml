@@ -11,11 +11,19 @@ daangn:
   theme_color: "#ff6f0f"
   eyebrow: BACKEND · PLATFORM · AUTOMATION
   headline: 흩어진 업무와 데이터를 하나의 플랫폼으로 통합했습니다
-  summary: Node.js와 TypeScript로 항공·해운·재무 업무 시스템을 개발하고 운영합니다. 3인 개발팀에서 현업의 업무를 분석하고, 백엔드 설계와 반복 작업 자동화를 담당합니다.
+  summary: 항공·해운 수출입과 재무 업무를 다루는 사내 통합 플랫폼을 개발하고 운영합니다. 현업과 함께 업무 절차와 데이터 기준을 정리하고, 해외 본사 시스템 연동과 반복 업무 자동화를 담당합니다.
   career_url: /daangn/
   career_link_text: 상세 경력기술서
-  pdf_url: /assets/resume/lim-giho-daangn-local-jobs-v15.pdf
+  pdf_url: /assets/resume/lim-giho-daangn-local-jobs-v16.pdf
   pdf_link_text: 제출용 이력서 PDF
+  document_summary:
+    - 업체마다 다른 서류 양식과 DOC·DOCX·엑셀·PDF·스캔본 등 다양한 접수 형식을 처리하기 위해, 문서 내용을 해석하고 필요한 항목을 추출하는 데 LLM을 활용했습니다.
+    - 통관 1건의 서류 검토 시간을 8분에서 3분으로 줄였습니다.
+    - 시스템 등록·관리와 회신 메일 작성·파일 첨부를 자동화해 후속 업무에서 하루 약 1시간을 추가 절감했습니다.
+  delivery_summary:
+    - 초기 Kaniko 기반 배포 흐름을 아래 그림에 정리했습니다. 2026년 9월에는 Kaniko에서 buildx로 전환하고 러너·캐시 구성을 개선해 테스트·빌드·배포 전체 파이프라인 시간을 약 12분에서 6분으로 줄였습니다.
+    - 빌드·배포 로그와 아티팩트를 남겨 배포 이력과 실패 단계의 로그를 확인할 수 있도록 구성했습니다.
+    - Portainer를 도입해 서비스·태스크 상태와 컨테이너 로그를 한곳에서 확인하는 모니터링 환경을 구축했습니다.
   writing_overrides:
     이틀 동안 운영 API가 다섯 번 죽었다:
       summary: 대량 조회 중 발생한 메모리 장애를 분석하고, 페이지당 조회를 500건으로 제한했습니다. 변경 후 같은 장애는 재발하지 않았습니다.

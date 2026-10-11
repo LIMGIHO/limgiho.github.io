@@ -4,7 +4,7 @@ import {readFile, access} from 'node:fs/promises';
 
 const root = new URL('../', import.meta.url);
 const site = new URL('_workspace/ink-resume-jekyll-site/', root);
-const pdfPath = '/assets/resume/lim-giho-daangn-local-jobs-v15.pdf';
+const pdfPath = '/assets/resume/lim-giho-daangn-local-jobs-v16.pdf';
 const readPage = (path, build = site) => readFile(new URL(path, build), 'utf8').catch(() => '');
 
 test('Daangn career selects the requested content without changing the main career', async () => {
@@ -20,6 +20,22 @@ test('Daangn career selects the requested content without changing the main care
     assert.ok((await readPage('index.html')).includes(text), `main retains: ${text}`);
   }
   for (const text of ['15종', '3만 건', '8분', '500건', '액션독']) assert.ok(page.includes(text), text);
+  const main = await readPage('index.html');
+  const about = page.slice(page.indexOf('class="about-prose"'), page.indexOf('class="about-image"'));
+  assert.ok(about.includes('업무 흐름이 읽히고, 안심하고 바꿀 수 있는 코드'), 'Daangn philosophy introduction');
+  assert.ok(main.includes('반복 업무를 자동화하는 시스템을 만들고 운영해 온'), 'main keeps its introduction');
+  const articles = [...page.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
+  const company = articles.find(article => article.includes('<h4>KWE Korea</h4>'));
+  assert.ok(company.includes('항공·해운 수출입과 재무 업무를 다루는 사내 통합 플랫폼'), 'company summary');
+  assert.doesNotMatch(company, /동료|단독|3인|코드 리뷰/);
+  assert.ok(page.includes('후속 업무에서 하루 약 1시간'), 'follow-up savings');
+  assert.ok(page.includes('DOC·DOCX·엑셀·PDF·스캔본'), 'varied document formats');
+  assert.ok(page.includes('기능과 데이터도 여러 시스템에 나뉘어'), 'integration background');
+  assert.doesNotMatch(page, /8\.3시간|월 100건|30~40%|3인 공동 장애 분석/);
+  assert.ok(main.includes('월 100건'), 'Daangn content overrides stay scoped');
+  const delivery = articles.find(article => article.includes('<h4>Docker Swarm 기반 CI/CD 표준 배포 체계 구축</h4>'));
+  for (const text of ['약 12분에서 6분', '모니터링 환경을 구축', '실패 단계의 로그를 확인할 수 있도록']) assert.ok(delivery.includes(text), text);
+  assert.doesNotMatch(delivery, /3분 27초|2분 25초|실패 원인을 추적했습니다/);
 });
 
 test('Daangn pages link to each other and to the submission PDF with their own canonicals', async () => {
@@ -51,6 +67,12 @@ test('Daangn portfolio highlights the four figures in the submission resume', as
   for (const text of ['15종+', '5Mbps 미만', '60~70Mbps', '8분 → 3분', '12분 → 6분']) assert.ok(hero.includes(text), text);
   assert.ok(!hero.includes('1,227'), 'hero uses the submission figures');
   assert.ok(!page.includes('54,565'), 'OOM summary uses the useful page limit rather than the exact incident row count');
+  const documentFlow = page.slice(page.indexOf('<section class="document-flow"'), page.indexOf('<section class="delivery-flow"'));
+  assert.ok(documentFlow.includes('DOC·DOCX·엑셀·PDF·스캔본'), 'format context in portfolio');
+  assert.ok(documentFlow.includes('8분에서 3분'), 'review savings in portfolio');
+  assert.ok(documentFlow.includes('후속 업무에서 하루 약 1시간'), 'follow-up savings in portfolio');
+  const deliveryFlow = page.slice(page.indexOf('<section class="delivery-flow"'), page.indexOf('</section>', page.indexOf('<section class="delivery-flow"')));
+  for (const text of ['초기 Kaniko 기반', 'buildx로 전환', '약 12분에서 6분', '모니터링 환경을 구축']) assert.ok(deliveryFlow.includes(text), text);
 });
 
 test('nested Daangn routes and their assets retain the deployment baseurl', async () => {

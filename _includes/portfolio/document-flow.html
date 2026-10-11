@@ -1,6 +1,9 @@
 <section class="document-flow" id="document-flow" aria-labelledby="document-flow-title">
   <div class="subsection-heading">
     <h3 id="document-flow-title">{{ include.flow.title }}</h3>
+    {% for paragraph in include.profile.document_summary %}
+      <p>{{ paragraph }}</p>
+    {% endfor %}
     {% for paragraph in include.flow.description %}
       <p>{{ paragraph }}</p>
     {% endfor %}
