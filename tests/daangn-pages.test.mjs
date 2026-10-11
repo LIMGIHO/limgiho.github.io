@@ -21,12 +21,16 @@ test('Daangn career selects the requested content without changing the main care
   for (const text of ['15종', '3만 건', '8분', '500건', '액션독']) assert.ok(page.includes(text), text);
   const main = await readPage('index.html');
   const about = page.slice(page.indexOf('class="about-prose"'), page.indexOf('class="about-image"'));
-  assert.ok(about.includes('업무 흐름이 읽히고, 안심하고 바꿀 수 있는 코드'), 'Daangn philosophy introduction');
+  for (const text of ['실제 업무의 의미와 책임이 잘 드러나는지', '무리하게 공통화하지 않습니다.', '테스트와 코드 리뷰를 중요하게 생각합니다.', '로그와 실제 실행 환경을 다시 확인하며']) assert.ok(about.includes(text), text);
+  assert.doesNotMatch(about, /hero-kicker|업무 흐름이 읽히고|AI가 만든 코드/);
   assert.ok(main.includes('반복 업무를 자동화하는 시스템을 만들고 운영해 온'), 'main keeps its introduction');
   const articles = [...page.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
   const company = articles.find(article => article.includes('<h4>KWE Korea</h4>'));
   assert.ok(company.includes('항공·해운 수출입과 재무 업무를 다루는 사내 통합 플랫폼'), 'company summary');
-  assert.doesNotMatch(company, /동료|단독|3인|코드 리뷰/);
+  assert.ok(company.includes('3인 개발팀에서 매주 코드 리뷰를 진행하며 구현 방식과 주요 변경 사항을 함께 검토합니다.'), 'weekly code review');
+  assert.doesNotMatch(company, /동료|단독/);
+  const refactoring = articles.find(article => article.includes('<h4>백엔드 서비스 리팩토링(Express → NestJS)</h4>'));
+  assert.ok(refactoring.includes('후속 개선 과정에서 공통 Redis 락 모듈을 적용했지만, 업무마다 락 연장 여부와 실행 조건이 달라 공통화 범위를 재검토하고 책임을 분리했습니다.'), 'lock design follow-up');
   assert.ok(page.includes('후속 업무에서 하루 약 1시간'), 'follow-up savings');
   assert.ok(page.includes('DOC·DOCX·엑셀·PDF·스캔본'), 'varied document formats');
   assert.ok(page.includes('기능과 데이터도 여러 시스템에 나뉘어'), 'integration background');
