@@ -9,7 +9,7 @@ const html=()=>readFile(new URL('index.html',site),'utf8').catch(()=>'');
 test('the original Jekyll main URL uses the latest resume and remains canonical for the separate route',async()=>{
   const page=await html();assert.ok(page,'build the real Jekyll main page');
   assert.doesNotMatch(page,/\{[%{]/);assert.equal([...page.matchAll(/<article class="resume-item"/g)].length,21);
-  for(const fact of ['백엔드 개발자','디지털솔루션부','후속 업무에서 하루 약 1시간','60~70Mbps','5Mbps 미만','액션독','수만 건','500건','별도로 모사해','Heap·RSS','약 12분에서 6분','최우수사원','특진','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
+  for(const fact of ['백엔드 개발자','디지털솔루션부','후속 업무에서 하루 약 1시간','60~70Mbps','5Mbps 미만','액션독','수만 건','500건','별도로 모사해','heapUsed','약 12분에서 6분','최우수사원','특진','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
   assert.doesNotMatch(page,/Full-Stack|월 약 200시간|월 200시간|전략개발부|54,565행|BL 건수와 API 호출 수는 별개|30~40%|3인 공동 장애 분석|3분 27초|2분 25초|RPA 프로젝트 \(삼성 NERP 연동\)/);
   assert.doesNotMatch(page,/href="[^"]*\.pdf(?:[?#][^"]*)?"/);
   assert.match(page,/<link rel="canonical" href="https:\/\/limgiho\.github\.io\/">/);
@@ -39,7 +39,7 @@ test('selected work projects retain their periods and approved outcomes, alongsi
   const articles=[...page.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(m=>m[1]);
   const expected=[
     ['통관 서류 검증 자동화','2026.06 ~ 2026.08','9종','55개','8분','3분','하루 약 1시간'],
-    ['웹 기반 통합 사내 시스템 구축','2023.09 ~ 2026.07','15종','5개 업무부','3만 건','10분','5초'],
+    ['웹 기반 통합 사내 시스템 구축','2023.09 ~ 현재','15종','5개 업무부','3만 건','10분','5초'],
     ['Docker Swarm 기반 CI/CD 표준 배포 체계 구축','2025.11 ~ 2025.12','실패','이미지 태그','디제스트','Portainer','운영 환경을 정비','약 12분에서 6분'],
     ['백엔드 서비스 리팩토링(Express → NestJS)','2025.06 ~ 2025.10','Redis','BullMQ','API·Worker','단위·통합 테스트'],
     ['세금계산서 프로그램 리뉴얼','2023.01 ~ 2023.07','PL/pgSQL','라이선스','1,000만 건','정합성','스마트빌'],

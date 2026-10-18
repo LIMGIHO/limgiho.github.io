@@ -41,16 +41,16 @@ test('main and Daangn careers share the requested content while retaining their 
   assert.ok(company.includes('3인 개발팀에서 매주 코드 리뷰를 진행하며 구현 방식과 주요 변경 사항을 함께 검토합니다.'), 'weekly code review');
   assert.doesNotMatch(company, /동료|단독/);
   const refactoring = articles.find(article => article.includes('<h4>백엔드 서비스 리팩토링(Express → NestJS)</h4>'));
-  assert.equal([...refactoring.matchAll(/<li>/g)].length, 3, 'refactoring details use the three requested points');
-  for (const text of ['업무 도메인별 책임과 API·Worker의 역할을 정리했습니다.', '팀 코드 컨벤션과 단위·통합 테스트 환경을 구축했습니다.', 'BullMQ Worker는 작업 실행과 재시도를 담당하고, 실제 업무 처리는 API를 호출하도록 분리했습니다.', '공통 Redis 락의 설계 범위를 재검토하고 책임을 분리했습니다.']) assert.ok(refactoring.includes(text), text);
+  assert.equal([...refactoring.matchAll(/<li>/g)].length, 1, 'module overview is followed by the async lifecycle explanation');
+  for (const text of ['업무 도메인별 책임과 API·Worker의 역할을 정리했습니다.', '팀 코드 컨벤션과 단위·통합 테스트 환경을 구축했습니다.', 'BullMQ Worker는 작업 실행 요청과 재시도를 담당하도록 구성했습니다.', '업무 식별 키별 PostgreSQL advisory lock을 획득하고,']) assert.ok(refactoring.includes(text), text);
   assert.ok(page.includes('후속 업무에서 하루 약 1시간'), 'follow-up savings');
   assert.ok(page.includes('DOC·DOCX·엑셀·PDF·스캔본'), 'varied document formats');
-  assert.ok(page.includes('기능과 데이터도 여러 시스템에 나뉘어'), 'integration background');
+  assert.ok(page.includes('100개 이상의 프로그램 소스코드를 인계받았습니다.'), 'integration background');
   assert.doesNotMatch(page, /8\.3시간|월 100건|30~40%|3인 공동 장애 분석/);
   assert.doesNotMatch(main, /8\.3시간|월 100건|30~40%|3인 공동 장애 분석/);
   const memory = articles.find(article => article.includes('<h4>Node.js API 서버 메모리 장애 개선</h4>'));
   assert.equal([...memory.matchAll(/<li>/g)].length, 3, 'memory details use the three requested points');
-  for (const text of ['<strong>수만 건의 데이터를 한 번에 불러와 응답으로 가공하는 구조</strong>', '<strong>500건 단위 페이지네이션</strong>', '<strong>Heap·RSS와 GC 이후 메모리 변화</strong>', 'GC 이후 힙은 누적되지 않았고 RSS도 일정 범위에 수렴하는 것을 확인했습니다.']) assert.ok(memory.includes(text), text);
+  for (const text of ['<strong>수만 건의 데이터를 한 번에 불러와 응답으로 가공하는 구조</strong>', '<strong>500건 단위 페이지네이션</strong>', '<strong>힙 사용량(heapUsed)과 RSS</strong>', '모사한 응답 처리 경로에서는 지속적인 누수 징후가 관측되지 않았습니다.']) assert.ok(memory.includes(text), text);
   assert.doesNotMatch(memory, /조회 구조 개선 이후 동일 장애는 재발하지 않았습니다/);
   const delivery = articles.find(article => article.includes('<h4>Docker Swarm 기반 CI/CD 표준 배포 체계 구축</h4>'));
   assert.equal([...delivery.matchAll(/<li>/g)].length, 2, 'delivery details use the two requested points');
@@ -112,7 +112,7 @@ test('Daangn portfolio highlights the four figures in the submission resume', as
   assert.ok(documentFlow.includes('8분에서 3분'), 'review savings in portfolio');
   assert.ok(documentFlow.includes('후속 업무에서 하루 약 1시간'), 'follow-up savings in portfolio');
   const deliveryFlow = page.slice(page.indexOf('<section class="delivery-flow"'), page.indexOf('</section>', page.indexOf('<section class="delivery-flow"')));
-  for (const text of ['초기 Kaniko 기반', 'buildx로 전환', '약 12분에서 6분', '모니터링 환경을 구축']) assert.ok(deliveryFlow.includes(text), text);
+  for (const text of ['현재 buildx 기반', 'buildx로 전환', '약 12분에서 6분', '모니터링 환경을 구축']) assert.ok(deliveryFlow.includes(text), text);
 });
 
 test('nested Daangn routes and their assets retain the deployment baseurl', async () => {
