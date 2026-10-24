@@ -28,9 +28,8 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   const about = page.slice(page.indexOf('class="about-prose"'), page.indexOf('class="about-image"'));
   for (const text of ['업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다.', '비슷해 보이는 코드라도 업무에서 맡는 책임과 변경 이유를 살펴 공통화합니다.', '테스트로 기존 업무 동작이 유지되는지 확인하며 구조를 개선합니다.', '문제를 해결할 때는 제 판단도 검증의 대상으로 둡니다.']) assert.ok(about.includes(text), text);
   const mainAbout = main.slice(main.indexOf('class="about-prose"'), main.indexOf('class="about-image"'));
-  assert.ok(mainAbout.includes('반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다.'));
-  assert.doesNotMatch(mainAbout, /업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다\./);
-  assert.notEqual(mainAbout, about, 'main and Daangn use separate introductions');
+  for (const text of ['업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다.', '비슷해 보이는 코드라도 업무에서 맡는 책임과 변경 이유를 살펴 공통화합니다.', '테스트로 기존 업무 동작이 유지되는지 확인하며 구조를 개선합니다.', '문제를 해결할 때는 제 판단도 검증의 대상으로 둡니다.']) assert.ok(mainAbout.includes(text), text);
+  assert.doesNotMatch(mainAbout, /반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다\./);
   assert.doesNotMatch(main, /theme-daangn|\/assets\/css\/daangn\.css/);
   assert.ok(main.includes('href="/portfolio/"'), 'main keeps its portfolio route');
   assert.doesNotMatch(main, /href="\/daangn\/portfolio\/"/);

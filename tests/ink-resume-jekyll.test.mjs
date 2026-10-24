@@ -10,8 +10,13 @@ test('the original Jekyll main URL uses the latest resume and remains canonical 
   const page=await html();assert.ok(page,'build the real Jekyll main page');
   assert.doesNotMatch(page,/\{[%{]/);assert.equal([...page.matchAll(/<article class="resume-item"/g)].length,22);
   const about=page.slice(page.indexOf('class="about-prose"'),page.indexOf('class="about-image"'));
-  assert.ok(about.includes('반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다.'));
-  assert.doesNotMatch(about,/업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다\./);
+  for(const paragraph of [
+    '업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다.',
+    '비슷해 보이는 코드라도 업무에서 맡는 책임과 변경 이유를 살펴 공통화합니다. 함께 바뀌어야 하는 것은 모으고, 업무마다 달라지는 판단은 분리합니다.',
+    '테스트로 기존 업무 동작이 유지되는지 확인하며 구조를 개선합니다. 운영 중 반복되는 문제와 변경하기 어려운 부분을 찾아, 팀이 이해하고 고쳐 나갈 수 있는 코드로 다듬습니다.',
+    '문제를 해결할 때는 제 판단도 검증의 대상으로 둡니다. 예상과 실제 동작이 다르면 로그와 실행 환경을 다시 확인하고, 근거에 따라 판단을 바꿉니다.'
+  ])assert.ok(about.includes(paragraph),paragraph);
+  assert.doesNotMatch(about,/반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다\./);
   assert.ok(page.includes('RPA 프로젝트 (삼성 NERP 연동)'));
   for(const fact of ['백엔드 개발자','디지털솔루션부','후속 업무에서 하루 약 1시간','60~70Mbps','5Mbps 미만','액션독','수만 건','500건','별도로 모사해','heapUsed','약 12분에서 6분','최우수사원','특진','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
   assert.doesNotMatch(page,/Full-Stack|월 약 200시간|월 200시간|전략개발부|54,565행|BL 건수와 API 호출 수는 별개|30~40%|3인 공동 장애 분석|3분 27초|2분 25초/);
