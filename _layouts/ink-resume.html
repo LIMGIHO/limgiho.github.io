@@ -1,6 +1,5 @@
 {% assign resume_profile = site.data.main_career | default: site.data.resume %}
 {% assign career_variant = site.data.career_profiles[page.career_profile] %}
-{% assign career_content_variant = site.data.career_profiles[page.career_content_profile] | default: career_variant %}
 {% assign portfolio_url = career_variant.portfolio_url | default: site.portfolio_url %}
 {% assign resume_role = page.resume_role | default: resume_profile.role | default: site.title %}
 {% assign resume_content = resume_profile.content | default: site.content %}
@@ -90,7 +89,7 @@
               <div class="section-heading"><span aria-hidden="true">00</span><h3 id="about" tabindex="-1">소개</h3></div>
               <div class="about-layout">
                 <div class="about-prose">
-                  {% assign about_content = career_content_variant.about | default: resume_profile.about | default: site.data.about[site.about_variant] | default: site.data.about.general | default: site.about_content %}
+                  {% assign about_content = career_variant.about | default: resume_profile.about | default: site.data.about[site.about_variant] | default: site.data.about.general | default: site.about_content %}
                   {{ about_content | strip | markdownify }}
                 </div>
                 {% if site.about_profile_image %}
@@ -108,11 +107,11 @@
               <section class="resume-section" aria-labelledby="section-{{ section_number }}">
                 <div class="section-heading"><span aria-hidden="true">0{{ section_number }}</span><h3 id="section-{{ section_number }}" tabindex="-1">{{ section.title | escape }}</h3></div>
                 {% for item in section.content %}
-                  {% unless career_content_variant.excluded_projects contains item.title %}
+                  {% unless career_variant.excluded_projects contains item.title %}
                   <article class="resume-item" data-source-item="{{ section_number }}-{{ forloop.index }}">
                     <div class="item-heading">
                       <h4>{{ item.title | escape }}</h4>
-                      {% unless career_content_variant.hidden_subtitles contains item.sub_title %}
+                      {% unless career_variant.hidden_subtitles contains item.sub_title %}
                         {% if item.sub_title %}<p class="item-subtitle">{{ item.sub_title | escape }}</p>{% endif %}
                       {% endunless %}
                       {% if item.caption %}<p class="item-period">{{ item.caption | escape }}</p>{% endif %}
@@ -125,8 +124,8 @@
                     </div>
                     <div class="item-body">
                       {% if item.quote %}<p class="item-quote">{{ item.quote | escape }}</p>{% endif %}
-                      {% assign item_description = career_content_variant.description_overrides[item.title] | default: item.description %}
-                      {% for removal in career_content_variant.description_removals[item.title] %}
+                      {% assign item_description = career_variant.description_overrides[item.title] | default: item.description %}
+                      {% for removal in career_variant.description_removals[item.title] %}
                         {% assign item_description = item_description | replace: removal, '' %}
                       {% endfor %}
                       <div class="resume-prose">{{ item_description | strip | markdownify }}</div>

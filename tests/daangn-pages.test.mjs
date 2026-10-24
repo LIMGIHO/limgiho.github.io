@@ -6,35 +6,39 @@ const root = new URL('../', import.meta.url);
 const site = new URL('_workspace/ink-resume-jekyll-site/', root);
 const readPage = (path, build = site) => readFile(new URL(path, build), 'utf8').catch(() => '');
 
-test('main and Daangn careers share the requested content while retaining their own presentation', async () => {
+test('main and Daangn careers use separate profiles while retaining the requested content', async () => {
   const page = await readPage('daangn/index.html');
+  const main = await readPage('index.html');
   assert.ok(page, 'build /daangn/');
   assert.equal([...page.matchAll(/<article class="resume-item"/g)].length, 21);
+  assert.equal([...main.matchAll(/<article class="resume-item"/g)].length, 22);
   for (const text of [
     'RPA 프로젝트 (삼성 NERP 연동)',
     'C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, 공용 라이브러리로 중복 코드를 정리했습니다.',
     '이후 NestJS로 백엔드를 전환하고 컨테이너 기반 배포 체계를 구축했습니다.',
   ]) {
     assert.ok(!page.includes(text), `excluded: ${text}`);
-    assert.ok(!(await readPage('index.html')).includes(text), `main excludes: ${text}`);
+    assert.ok(main.includes(text), `main retains shared career data: ${text}`);
   }
   for (const text of ['15종', '3만 건', '8분', '500건', '액션독']) assert.ok(page.includes(text), text);
-  const main = await readPage('index.html');
   for (const subtitle of ['KWE Korea', 'KWE Korea · 통합 플랫폼 개선 사례']) {
     assert.ok(!page.includes(`<p class="item-subtitle">${subtitle}</p>`), `hidden project subtitle: ${subtitle}`);
-    assert.ok(!main.includes(`<p class="item-subtitle">${subtitle}</p>`), `main hides project subtitle: ${subtitle}`);
+    assert.ok(main.includes(`<p class="item-subtitle">${subtitle}</p>`), `main keeps the subtitle: ${subtitle}`);
   }
   const about = page.slice(page.indexOf('class="about-prose"'), page.indexOf('class="about-image"'));
-  for (const text of ['실제 업무의 의미와 책임이 잘 드러나는지', '무리하게 공통화하지 않습니다.', '테스트와 코드 리뷰를 중요하게 생각합니다.', '로그와 실제 실행 환경을 다시 확인하며']) assert.ok(about.includes(text), text);
-  assert.doesNotMatch(about, /hero-kicker|업무 흐름이 읽히고|AI가 만든 코드/);
+  for (const text of ['업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다.', '비슷해 보이는 코드라도 업무에서 맡는 책임과 변경 이유를 살펴 공통화합니다.', '테스트로 기존 업무 동작이 유지되는지 확인하며 구조를 개선합니다.', '문제를 해결할 때는 제 판단도 검증의 대상으로 둡니다.']) assert.ok(about.includes(text), text);
   const mainAbout = main.slice(main.indexOf('class="about-prose"'), main.indexOf('class="about-image"'));
-  assert.equal(mainAbout, about, 'main shares the Daangn introduction');
+  assert.ok(mainAbout.includes('반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다.'));
+  assert.doesNotMatch(mainAbout, /업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다\./);
+  assert.notEqual(mainAbout, about, 'main and Daangn use separate introductions');
   assert.doesNotMatch(main, /theme-daangn|\/assets\/css\/daangn\.css/);
   assert.ok(main.includes('href="/portfolio/"'), 'main keeps its portfolio route');
   assert.doesNotMatch(main, /href="\/daangn\/portfolio\/"/);
   const articles = [...page.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
   const mainArticles = [...main.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(match => match[1]);
-  assert.deepEqual(mainArticles, articles, 'main shares all Daangn career entries');
+  assert.notDeepEqual(mainArticles, articles, 'main and Daangn use different career entry sets');
+  assert.ok(mainArticles.some(article => article.includes('<h4>RPA 프로젝트 (삼성 NERP 연동)</h4>')));
+  assert.ok(!articles.some(article => article.includes('<h4>RPA 프로젝트 (삼성 NERP 연동)</h4>')));
   const company = articles.find(article => article.includes('<h4>KWE Korea</h4>'));
   assert.ok(company.includes('<p class="item-subtitle">디지털솔루션부 차장 (Lead Software Engineer)</p>'), 'company retains its role');
   assert.ok(company.includes('항공·해운 수출입과 재무 업무를 다루는 사내 통합 플랫폼'), 'company summary');

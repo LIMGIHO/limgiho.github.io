@@ -9,8 +9,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-RENDERED_PROFILES = {"default": Path("index.html"), "kakao": Path("applications/2026-08-03/kakaopay-fde/portfolio/index.html")}
-PDF_PROFILES = {"default": Path("assets/portfolio/lim-giho-portfolio.pdf"), "kakao": Path("applications/2026-08-03/kakaopay-fde/portfolio.pdf")}
+RENDERED_PROFILES = {"default": Path("portfolio/index.html"), "daangn": Path("daangn/portfolio/index.html")}
+PDF_PROFILES = {"default": Path("assets/portfolio/lim-giho-portfolio.pdf")}
 
 FORBIDDEN_PATTERNS = (
     re.compile(r"samsung|삼성|nerp", re.IGNORECASE),

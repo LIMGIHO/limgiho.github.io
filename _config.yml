@@ -264,6 +264,7 @@ exclude:
   - Gemfile
   - Gemfile.lock
   - README.md
+  - applications/
   - applications/**/README.md
   - applications/**/build.sh
   - applications/**/cover-letter.md

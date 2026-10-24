@@ -29,7 +29,7 @@
 - Consumes: built pages at `_workspace/ink-resume-jekyll-site/` and `_workspace/ink-resume-baseurl/`.
 - Produces: regression assertions that distinguish the main and Daangn profiles and reject application workspace output.
 
-- [ ] **Step 1: Update the main-page assertions**
+- [x] **Step 1: Update the main-page assertions**
 
 In `tests/ink-resume-jekyll.test.mjs`, change every main-page article count expectation from 21 to 22, including the main-career independence test. Add these assertions after loading `page`:
 
@@ -45,7 +45,7 @@ Keep the `/resume/` alias assertion comparing its articles with `/`.
 
 The application-route assertion must fail before the application directory is excluded; `README.md` is already excluded by the current config and is not a useful regression target.
 
-- [ ] **Step 2: Rewrite the cross-profile assertions**
+- [x] **Step 2: Rewrite the cross-profile assertions**
 
 In the first test in `tests/daangn-pages.test.mjs`, rename it to describe distinct content. Keep the Daangn page's count at 21 and assert the main page has 22. For each Daangn-excluded RPA text, assert it is absent from Daangn and present in the main page. Assert that Daangn's about text includes its headline while the main about includes the main headline; assert the two about sections differ. Keep the existing Daangn theme, link, canonical, project override, and portfolio checks.
 
@@ -57,7 +57,7 @@ assert.ok(mainAbout.includes('반복 업무를 자동화하는 시스템을 만�
 assert.notEqual(mainAbout, about, 'main and Daangn use separate introductions');
 ```
 
-- [ ] **Step 3: Run the focused tests to confirm the regression is exposed**
+- [x] **Step 3: Run the focused tests to confirm the regression is exposed**
 
 Run:
 
@@ -79,7 +79,7 @@ Expected: the tests fail because the main page still selects Daangn content and 
 - Consumes: `page.career_profile`, `_data/main_career.yml`, and `_data/career_profiles.yml`.
 - Produces: one selected profile object used for resume overrides, links, and theme, with main data as the fallback.
 
-- [ ] **Step 1: Set explicit route profiles**
+- [x] **Step 1: Set explicit route profiles**
 
 Set the front matter of `index.md` and `resume/index.html` to:
 
@@ -92,11 +92,11 @@ Keep each file's existing permalink, canonical URL, and title. Remove `career_co
 
 The Daangn page already selects `career_profile: daangn`; leave that value and its copy unchanged.
 
-- [ ] **Step 2: Remove the second profile lookup from the layout**
+- [x] **Step 2: Remove the second profile lookup from the layout**
 
 In `_layouts/ink-resume.html`, remove the `career_content_variant` assignment. Use `career_variant` in every existing content-override lookup: introduction, excluded projects, hidden subtitles, description overrides, and description removals. Keep `resume_profile` sourced from `site.data.main_career | default: site.data.resume`, and keep the existing fallback chain from the selected profile's `about` to `resume_profile.about`.
 
-- [ ] **Step 3: Run the focused tests again**
+- [x] **Step 3: Run the focused tests again**
 
 Run:
 
@@ -113,16 +113,17 @@ Expected: profile-content and introduction assertions pass; the Kakaopay-route a
 - Modify: `_config.yml`
 - Modify: `README.md`
 - Modify: `docs/ink-resume-production.md`
+- Modify: `scripts/verify-portfolio.py`
 
 **Interfaces:**
 - Consumes: the route/profile contract from Tasks 1–2.
 - Produces: an explicit Pages source boundary and an operational README for main, Daangn, and future company profiles.
 
-- [ ] **Step 1: Exclude application working packages from Jekyll output**
+- [x] **Step 1: Exclude application working packages from Jekyll output**
 
 Add `applications/` to the root `exclude` list in `_config.yml`. Keep curated page sources under `pages/applications/<slug>/`; a public application page must set an explicit permalink such as `/applications/<slug>/` and an explicit `career_profile`. Only deliberately selected public deliverables belong under `assets/applications/<slug>/`. Do not move, delete, or edit files in `applications/`.
 
-- [ ] **Step 2: Reorganize the root README around publishing**
+- [x] **Step 2: Reorganize the root README around publishing**
 
 Retain the current portfolio architecture notes, but make the README an entry point with these sections:
 
@@ -135,11 +136,15 @@ Retain the current portfolio architecture notes, but make the README an entry po
 
 Update or remove the outdated Kakaopay example route if it is no longer a curated public route. Keep the existing statement that public portfolio copy must not expose customer names, internal system names, private URLs, or connection information.
 
-- [ ] **Step 3: Correct the production notes**
+- [x] **Step 3: Correct the production notes**
 
 In `docs/ink-resume-production.md`, document that `/` and `/resume/` use the main profile and main career data, while `/daangn/` alone uses the Daangn resume profile. Remove the statement that main pages share the Daangn profile. Keep the current route map, assets, and validation commands accurate.
 
-- [ ] **Step 4: Run focused tests and inspect output paths**
+- [x] **Step 4: Align portfolio validation with active public routes**
+
+In `scripts/verify-portfolio.py`, change `RENDERED_PROFILES` to validate `portfolio/index.html` as `default` and `daangn/portfolio/index.html` as `daangn`. Change `PDF_PROFILES` to include only `assets/portfolio/lim-giho-portfolio.pdf`, the sole current public portfolio PDF. Remove the stale Kakao page and PDF paths; they are application-package sources and are excluded from the Pages build.
+
+- [x] **Step 5: Run focused tests and inspect output paths**
 
 Run:
 
@@ -147,7 +152,7 @@ Run:
 node --test tests/ink-resume-jekyll.test.mjs tests/daangn-pages.test.mjs
 ```
 
-Expected: all focused tests pass, including the assertion that `applications/` working files are absent from the built site.
+Expected: all focused tests and `python3 scripts/verify-portfolio.py --site-dir _workspace/ink-resume-jekyll-site` pass, including the assertion that `applications/` working files are absent from the built site.
 
 ### Task 4: Verify the complete site and review the final diff
 
@@ -158,7 +163,7 @@ Expected: all focused tests pass, including the assertion that `applications/` w
 - Consumes: final Jekyll output and the existing GitHub Pages route smoke checks.
 - Produces: verified main and Daangn pages, matching route behavior under a base URL, and a clean diff limited to the approved files.
 
-- [ ] **Step 1: Build standard and baseurl sites**
+- [x] **Step 1: Build standard and baseurl sites**
 
 Run:
 
@@ -169,7 +174,7 @@ bundle exec jekyll build --config _config.yml --destination _workspace/ink-resum
 
 Expected: both commands succeed; `/`, `/resume/`, `/portfolio/`, `/daangn/`, and `/daangn/portfolio/` exist, and `applications/` source packages do not appear in the output.
 
-- [ ] **Step 2: Run the existing resume, profile, and portfolio checks**
+- [x] **Step 2: Run the existing resume, profile, and portfolio checks**
 
 Run:
 
@@ -181,7 +186,7 @@ python3 scripts/verify-portfolio.py --site-dir _workspace/ink-resume-jekyll-site
 
 Expected: all commands pass.
 
-- [ ] **Step 3: Review the patch boundary**
+- [x] **Step 3: Review the patch boundary**
 
 Run:
 
@@ -190,4 +195,4 @@ git diff --check
 git status --short
 ```
 
-Expected: no whitespace errors; the feature diff contains only `_config.yml`, `README.md`, `docs/ink-resume-production.md`, `index.md`, `resume/index.html`, `_layouts/ink-resume.html`, and the two named tests. Do not stage or commit any pre-existing application deletions or untracked files.
+Expected: no whitespace errors; the feature diff contains only `_config.yml`, `README.md`, `docs/ink-resume-production.md`, `index.md`, `resume/index.html`, `_layouts/ink-resume.html`, `scripts/verify-portfolio.py`, and the two named tests. Do not stage or commit any pre-existing application deletions or untracked files.
