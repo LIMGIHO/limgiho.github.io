@@ -47,7 +47,7 @@ test('selected work projects retain their periods and approved outcomes, alongsi
   const page=await html();
   const articles=[...page.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(m=>m[1]);
   const expected=[
-    ['통관 서류 검증 자동화','2026.06 ~ 2026.08','9종','55개','8분','3분','하루 약 1시간'],
+    ['통관 서류 검증 자동화','2026.06 ~ 2026.09','9종','55개','8분','3분','하루 약 1시간'],
     ['웹 기반 통합 사내 시스템 구축','2023.09 ~ 현재','15종','5개 업무부','3만 건','10분','5초'],
     ['Docker Swarm 기반 CI/CD 표준 배포 체계 구축','2025.11 ~ 2025.12','실패','브랜치·SHA 태그','디제스트','Portainer','모니터링 환경을 구축','약 12분에서 6분'],
     ['백엔드 서비스 리팩토링(Express → NestJS)','2025.06 ~ 2025.10','Redis','BullMQ','API/Worker','단위·통합 테스트'],

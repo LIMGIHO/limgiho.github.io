@@ -41,7 +41,7 @@ content:
     content:
       - title: 통관 서류 검증 자동화
         sub_title: KWE Korea
-        caption: 2026.06 ~ 2026.08
+        caption: 2026.06 ~ 2026.09
         responsibility: 문서 검증·입력·회신 업무 자동화 개발
         quote: Local LLM, OCR(Tesseract), Vitest
         description: |

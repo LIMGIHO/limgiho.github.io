@@ -12,6 +12,10 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   assert.ok(page, 'build /daangn/');
   assert.equal([...page.matchAll(/<article class="resume-item"/g)].length, 21);
   assert.equal([...main.matchAll(/<article class="resume-item"/g)].length, 22);
+  for (const [profile, html] of [['Daangn', page], ['main', main]]) {
+    assert.ok(html.includes('2026.06 ~ 2026.09'), `${profile} project period`);
+    assert.ok(!html.includes('2026.06 ~ 2026.08'), `${profile} does not show the old period`);
+  }
   for (const text of [
     'RPA 프로젝트 (삼성 NERP 연동)',
     'C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, 공용 라이브러리로 중복 코드를 정리했습니다.',
