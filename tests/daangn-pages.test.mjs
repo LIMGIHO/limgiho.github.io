@@ -25,7 +25,7 @@ test('main and Daangn careers use separate profiles while retaining the requeste
     assert.ok(main.includes(text), `main retains shared career data: ${text}`);
   }
   for (const text of ['15종', '3만 건', '8분', '500건', '액션독']) assert.ok(page.includes(text), text);
-  for (const subtitle of ['KWE Korea', 'KWE Korea · 통합 플랫폼 개선 사례']) {
+  for (const subtitle of ['(주)케이더블유이코리아', '(주)케이더블유이코리아 · 통합 플랫폼 개선 사례']) {
     assert.ok(!page.includes(`<p class="item-subtitle">${subtitle}</p>`), `hidden project subtitle: ${subtitle}`);
     assert.ok(main.includes(`<p class="item-subtitle">${subtitle}</p>`), `main keeps the subtitle: ${subtitle}`);
   }
@@ -42,7 +42,7 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   assert.notDeepEqual(mainArticles, articles, 'main and Daangn use different career entry sets');
   assert.ok(mainArticles.some(article => article.includes('<h4>RPA 프로젝트 (삼성 NERP 연동)</h4>')));
   assert.ok(!articles.some(article => article.includes('<h4>RPA 프로젝트 (삼성 NERP 연동)</h4>')));
-  const company = articles.find(article => article.includes('<h4>KWE Korea</h4>'));
+  const company = articles.find(article => article.includes('<h4>(주)케이더블유이코리아</h4>'));
   assert.ok(company.includes('<p class="item-subtitle">디지털솔루션부 차장 (Lead Software Engineer)</p>'), 'company retains its role');
   assert.ok(company.includes('항공·해운 수출입과 재무 업무를 다루는 사내 통합 플랫폼'), 'company summary');
   assert.ok(company.includes('3인 개발팀에서 매주 코드 리뷰를 진행하며 구현 방식과 주요 변경 사항을 함께 검토합니다.'), 'weekly code review');
@@ -120,6 +120,15 @@ test('Daangn portfolio highlights the four figures in the submission resume', as
   assert.ok(documentFlow.includes('후속 업무에서 하루 약 1시간'), 'follow-up savings in portfolio');
   const deliveryFlow = page.slice(page.indexOf('<section class="delivery-flow"'), page.indexOf('</section>', page.indexOf('<section class="delivery-flow"')));
   for (const text of ['현재 buildx 기반', 'buildx로 전환', '약 12분에서 6분', '모니터링 환경을 구축']) assert.ok(deliveryFlow.includes(text), text);
+});
+
+test('main and Daangn portfolios use the registered company name', async () => {
+  for (const path of ['portfolio/index.html', 'daangn/portfolio/index.html']) {
+    const page = await readPage(path);
+    assert.ok(page, path);
+    assert.ok(page.includes('(주)케이더블유이코리아'), `${path}: registered company name`);
+    assert.doesNotMatch(page, /KWE Korea/);
+  }
 });
 
 test('nested Daangn routes and their assets retain the deployment baseurl', async () => {

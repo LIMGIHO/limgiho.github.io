@@ -49,13 +49,13 @@ journey:
     description: 노후 클라이언트를 현대화하고 국내외 공장의 추적성과 실시간 ERP 연계를 구축했습니다.
   - id: kwe-automation
     period: 2022–2023
-    company: KWE Korea
+    company: (주)케이더블유이코리아
     role: Lead Software Engineer
     title: 물류 업무 자동화와 데이터 전환
     description: 반복 입력, 외부 연동, 여러 DB의 데이터 이관을 검증 가능한 자동화 흐름으로 바꿨습니다.
   - id: kwe-platform
     period: 2023–현재
-    company: KWE Korea
+    company: (주)케이더블유이코리아
     role: Lead Software Engineer
     title: 통합 업무 플랫폼 개발 및 운영
     description: 15종 운영 시스템을 분석하고 웹·API·Worker·데이터 경계를 갖춘 단일 플랫폼으로 전환하고 있습니다.

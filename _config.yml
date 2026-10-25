@@ -39,7 +39,7 @@ content:
     content:
       - layout: left
         border: weak
-        title: KWE Korea
+        title: (주)케이더블유이코리아
         link: https://www.kwe.com/
         link_text: www.kwe.com
         sub_title: 전략개발부 차장 (Lead Software Engineer)
@@ -66,7 +66,7 @@ content:
       - layout: left
         border: weak
         title: 통관 서류 검증 자동화
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2026.06 - 2026.08
         quote: Local LLM, Tesseract OCR, Vitest
         description: |
@@ -83,7 +83,7 @@ content:
       - layout: left
         border: weak
         title: 웹 기반 통합 사내 시스템 구축
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2023.09 - 2026.07
         quote: Express, Next.js, Turborepo, PostgreSQL, PL/pgSQL, PM2, Worker Threads
         description: |
@@ -100,7 +100,7 @@ content:
       - layout: left
         border: weak
         title: Docker Swarm 기반 CI/CD 표준 배포 체계 구축
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2025.11 - 2025.12
         quote: GitLab CI/CD, Docker, Docker Swarm, Portainer
         description: |
@@ -114,7 +114,7 @@ content:
       - layout: left
         border: weak
         title: 백엔드 서비스 리팩토링(Express → NestJS)
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2025.06 - 2025.10
         quote: Node.js, NestJS, PostgreSQL, Prisma, Redis, BullMQ
         description: |
@@ -128,7 +128,7 @@ content:
       - layout: left
         border: weak
         title: RPA 프로젝트 (ERP 연동 자동화)
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2024.08 - 2024.12
         quote: C# (.NET 4.5), WinForms, OCR, MySQL
         description: |
@@ -140,7 +140,7 @@ content:
       - layout: left
         border: weak
         title: 세금계산서 프로그램 리뉴얼
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2023.01 - 2023.07
         quote: C# (.NET 6), gRPC, WinForms, PostgreSQL, PL/pgSQL
         description: |

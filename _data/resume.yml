@@ -12,7 +12,7 @@ about: |
 content:
   - title: 경력
     content:
-      - title: KWE Korea
+      - title: (주)케이더블유이코리아
         sub_title: 디지털솔루션부 차장 (Lead Software Engineer)
         caption: 2022.01 ~ 현재
         link: https://www.kwe.com/
@@ -34,7 +34,7 @@ content:
   - title: 주요 프로젝트
     content:
       - title: 통관 서류 검증 자동화
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2026.06 ~ 2026.08
         quote: Local LLM, OCR(Tesseract), Vitest
         description: |
@@ -47,7 +47,7 @@ content:
           - 문서에서 추출한 데이터의 시스템 입력부터 회신 메일 생성·첨부까지 연결했습니다.
           - 건당 서류 검토 시간을 **8분에서 3분**으로 줄여 **월 100건 기준 약 8.3시간**을 절감했습니다.
       - title: 웹 기반 통합 사내 시스템 구축
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2023.09 ~ 2026.07
         quote: Express, Next.js, Turborepo, PostgreSQL, PL/pgSQL, PM2, Worker Threads
         description: |
@@ -61,7 +61,7 @@ content:
           - C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, Puppeteer 기반 브라우저 자동화를 API 직접 호출 방식으로 개선했습니다.
           - 네트워크 사용량을 **60~70Mbps에서 대체로 5Mbps 미만**으로 줄였습니다.
       - title: Docker Swarm 기반 CI/CD 표준 배포 체계 구축
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2025.11 ~ 2025.12
         quote: GitLab CI/CD, Docker, Docker Swarm, Portainer
         description: |
@@ -73,7 +73,7 @@ content:
           - 빌드·배포 로그와 아티팩트로 변경 이력과 실패 원인을 추적했습니다.
           - Portainer에서 서비스·태스크 상태와 로그, 재시작 반복 및 헬스 체크 실패를 확인했습니다.
       - title: 백엔드 서비스 리팩토링(Express → NestJS)
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2025.06 ~ 2025.10
         quote: Node.js, NestJS, Prisma, PostgreSQL, Redis, BullMQ
         description: |
@@ -85,7 +85,7 @@ content:
           - DI와 데코레이터 등 NestJS 구조를 도입해 인증·로깅 등 공통 로직을 재사용하도록 했습니다.
           - 단위·통합 테스트로 변경 영향 범위를 사전에 검증할 수 있는 구조를 마련했습니다.
       - title: RPA 프로젝트 (삼성 NERP 연동)
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2024.08 ~ 2024.12
         quote: C# (.NET 4.5), WinForms, OCR, MySQL
         description: |
@@ -95,7 +95,7 @@ content:
           - 문서 검증·입력 자동화로 **월 1,200시간을 절감**했습니다.
           - 실시간 처리로 입력 누락과 오입력 가능성을 줄였습니다.
       - title: 세금계산서 프로그램 리뉴얼
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2023.01 ~ 2023.07
         quote: C# (.NET 6), gRPC, WinForms, PostgreSQL, PL/pgSQL
         description: |

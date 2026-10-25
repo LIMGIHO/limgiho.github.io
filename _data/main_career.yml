@@ -14,7 +14,7 @@ about: |
 content:
   - title: 경력
     content:
-      - title: KWE Korea
+      - title: (주)케이더블유이코리아
         sub_title: 디지털솔루션부 차장 (Lead Software Engineer)
         caption: 2022.01 ~ 현재
         link: https://www.kwe.com/
@@ -40,7 +40,7 @@ content:
   - title: 최근 주요 프로젝트
     content:
       - title: 통관 서류 검증 자동화
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2026.06 ~ 2026.09
         responsibility: 문서 검증·입력·회신 업무 자동화 개발
         quote: Local LLM, OCR(Tesseract), Vitest
@@ -58,7 +58,7 @@ content:
           - 현업 확인 기준 **통관 1건당 서류 검토 시간을 8분에서 3분**으로 줄였습니다.
           - 시스템 등록·회신 메일 작성·파일 첨부도 자동화해 **후속 업무에서 하루 약 1시간을 추가 절감**했습니다.
       - title: 웹 기반 통합 사내 시스템 구축
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2023.09 ~ 현재
         responsibility: 전체 설계·개발 리드, 현업과 기준정보 정제
         quote: Express, Next.js, Turborepo, PostgreSQL, PL/pgSQL, PM2, Worker Threads
@@ -77,7 +77,7 @@ content:
 
           이후 NestJS로 백엔드를 전환하고 컨테이너 기반 배포 체계를 구축했습니다.
       - title: 글로벌 업무 시스템 연동 자동화
-        sub_title: KWE Korea · 통합 플랫폼 개선 사례
+        sub_title: (주)케이더블유이코리아 · 통합 플랫폼 개선 사례
         caption: 통합 플랫폼 구축·운영 중 개선
         responsibility: 전체 구조 설계, 동료 1명과 외부 호출 75개 공동 분석·구현
         quote: Node.js, TypeScript, HTTP, Puppeteer, Redis, PostgreSQL
@@ -93,7 +93,7 @@ content:
           - 사용자 요청과 자동 배치에서 같은 인증 처리와 업무 API를 재사용하도록 구성했습니다.
           - 전환 후 운영에서 관측한 네트워크 사용량은 **60~70Mbps에서 대체로 5Mbps 미만**으로 줄었습니다.
       - title: Node.js API 서버 메모리 장애 개선
-        sub_title: KWE Korea · 통합 플랫폼 개선 사례
+        sub_title: (주)케이더블유이코리아 · 통합 플랫폼 개선 사례
         caption: 2026.08
         responsibility: 메모리 장애 분석과 조회 구조 개선
         quote: Node.js, V8, Prisma, PostgreSQL, 메모리 계측
@@ -110,7 +110,7 @@ content:
           - 조회 구조를 개선한 뒤, 응답 처리 과정을 별도로 모사해 객체 변환·JSON 직렬화·Buffer 생성 단계의 **힙 사용량(heapUsed)과 RSS**를 측정했습니다. 반복 실행에서도 GC 이후 힙 사용량은 누적되지 않았고 RSS는 초기 증가 이후 일정 범위에 수렴했습니다. 모사한 응답 처리 경로에서는 지속적인 누수 징후가 관측되지 않았습니다.
           - 조회 구조 개선 이후 동일 장애는 재발하지 않았습니다.
       - title: Docker Swarm 기반 CI/CD 표준 배포 체계 구축
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2025.11 ~ 2025.12
         responsibility: CI/CD 설계·구축 및 후속 개선 단독 수행
         quote: GitLab CI/CD, Docker, Docker Swarm, Portainer
@@ -127,7 +127,7 @@ content:
           앱별 잡을 한 파이프라인에 모으고 변경 경로에 따라 실행하도록 구성했습니다.
           테스트·빌드·배포 전체 파이프라인 시간을 **약 12분에서 6분**으로 줄였습니다.
       - title: 백엔드 서비스 리팩토링(Express → NestJS)
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2025.06 ~ 2025.10
         responsibility: 도메인 구조 정리·팀 개발 기준 정립, API/Worker 구조 단독 설계
         quote: Node.js, NestJS, Prisma, PostgreSQL, Redis, BullMQ
@@ -149,7 +149,7 @@ content:
           오류 원인과 요청 데이터를 남겨 지정한 작업을 다시 실행할 수 있도록 했습니다.
           등록 요청 시 DB에는 진행 중이지만 큐에는 없는 작업을 확인하면 기존 작업을 실패 처리하고 재등록하도록 했습니다.
       - title: RPA 프로젝트 (삼성 NERP 연동)
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2024.08 ~ 2024.12
         responsibility: 문서 검증·데이터 입력 자동화 개발
         quote: C# (.NET 4.5), WinForms, OCR, MySQL
@@ -160,7 +160,7 @@ content:
           - 문서 검증·입력 자동화로 **월 1,200시간을 절감**했습니다(기존 경력기술서 산정치).
           - 실시간 처리로 입력 누락과 오입력 가능성을 줄였습니다.
       - title: 세금계산서 프로그램 리뉴얼
-        sub_title: KWE Korea
+        sub_title: (주)케이더블유이코리아
         caption: 2023.01 ~ 2023.07
         responsibility: 업무 로직 재구현·DB 전환·데이터 이관 및 검증
         quote: C# (.NET 6), gRPC, WinForms, PostgreSQL, PL/pgSQL
