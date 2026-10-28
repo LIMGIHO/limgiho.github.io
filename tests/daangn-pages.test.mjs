@@ -127,6 +127,8 @@ test('main and Daangn portfolios use the registered company name', async () => {
     const page = await readPage(path);
     assert.ok(page, path);
     assert.ok(page.includes('(주)케이더블유이코리아'), `${path}: registered company name`);
+    assert.ok(page.includes('2023.09–2026.08'), `${path}: completed integration period is rendered`);
+    assert.ok(page.includes('2026.10'), `${path}: call improvement period is rendered`);
     assert.doesNotMatch(page, /KWE Korea/);
   }
 });
