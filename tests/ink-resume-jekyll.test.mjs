@@ -8,7 +8,7 @@ const html=()=>readFile(new URL('index.html',site),'utf8').catch(()=>'');
 
 test('the original Jekyll main URL uses the latest resume and remains canonical for the separate route',async()=>{
   const page=await html();assert.ok(page,'build the real Jekyll main page');
-  assert.doesNotMatch(page,/\{[%{]/);assert.equal([...page.matchAll(/<article class="resume-item"/g)].length,22);
+  assert.doesNotMatch(page,/\{[%{]/);assert.equal([...page.matchAll(/<article class="resume-item"/g)].length,23);
   const about=page.slice(page.indexOf('class="about-prose"'),page.indexOf('class="about-image"'));
   for(const paragraph of [
     '업무의 의미가 드러나고, 안심하고 바꿀 수 있는 코드를 지향합니다.',
@@ -18,7 +18,11 @@ test('the original Jekyll main URL uses the latest resume and remains canonical 
   ])assert.ok(about.includes(paragraph),paragraph);
   assert.doesNotMatch(about,/반복 업무를 자동화하는 시스템을 만들고 운영해 온 백엔드 개발자 임기호입니다\./);
   assert.ok(page.includes('RPA 프로젝트 (삼성 NERP 연동)'));
-  for(const fact of ['백엔드 개발자','디지털솔루션부','후속 업무에서 하루 약 1시간','60~70Mbps','5Mbps 미만','액션독','수만 건','500건','별도로 모사해','heapUsed','약 12분에서 6분','최우수사원','특진','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
+  const nerp=page.split('<h4>RPA 프로젝트 (삼성 NERP 연동)</h4>')[1].split('</article>')[0];
+  assert.doesNotMatch(nerp,/1,200|산정치/);
+  assert.doesNotMatch(page,/기존 경력기술서 산정치|회신 메일|최우수사원|통합하고 있습니다/);
+  for(const fact of ['20개 업무 규칙','월 100~600건','프리알럿','해운수입 업무의 신규 전산화','힙·RSS를 분석하고'])assert.ok(page.includes(fact),fact);
+  for(const fact of ['백엔드 개발자','디지털솔루션부','후속 업무에서 하루 약 1시간','60~70Mbps','5Mbps 미만','액션독','수만 건','500건','별도로 모사해','heapUsed','약 12분에서 6분','2020년 우수사원 선정','2017년 과장 조기 진급','TCP','1,000만 건'])assert.ok(page.includes(fact),fact);
   assert.doesNotMatch(page,/Full-Stack|월 약 200시간|월 200시간|전략개발부|54,565행|BL 건수와 API 호출 수는 별개|30~40%|3인 공동 장애 분석|3분 27초|2분 25초/);
   assert.doesNotMatch(page,/href="[^"]*\.pdf(?:[?#][^"]*)?"/);
   assert.match(page,/<link rel="canonical" href="https:\/\/limgiho\.github\.io\/">/);
@@ -48,13 +52,15 @@ test('selected work projects retain their periods and approved outcomes, alongsi
   const articles=[...page.matchAll(/<article class="resume-item"[^>]*>([\s\S]*?)<\/article>/g)].map(m=>m[1]);
   const expected=[
     ['통관 서류 검증 자동화','2026.06 ~ 2026.09','9종','55개','8분','3분','하루 약 1시간'],
-    ['웹 기반 통합 사내 시스템 구축','2023.09 ~ 현재','15종','5개 업무부','3만 건','10분','5초'],
+    ['웹 기반 통합 사내 시스템 구축','2023.09 ~ 2026.08','15종','5개 업무부','3만 건','10분','5초'],
+    ['글로벌 업무 시스템 연동 자동화','2025.06 ~ 2025.10','1,200시간','추산'],
+    ['호출 기록 분석과 반복 조회 개선','2026.10','약 29%','약 7천 건에서 5천 건','항공수출 업무 화면','0.5초','1시간'],
     ['Docker Swarm 기반 CI/CD 표준 배포 체계 구축','2025.11 ~ 2025.12','실패','브랜치·SHA 태그','디제스트','Portainer','모니터링 환경을 구축','약 12분에서 6분'],
     ['백엔드 서비스 리팩토링(Express → NestJS)','2025.06 ~ 2025.10','Redis','BullMQ','API/Worker','단위·통합 테스트'],
     ['세금계산서 프로그램 리뉴얼','2023.01 ~ 2023.07','PL/pgSQL','라이선스','1,000만 건','정합성','스마트빌'],
-    ['운반비 전산화 구축','2020.04 ~ 2020.07','8개 공장','SAP','최우수사원'],
+    ['운반비 전산화 구축','2020.04 ~ 2020.07','8개 공장','SAP'],
     ['MES - SAP 연동 인터페이스 개발','2019.01 ~ 2019.12','생산·납품·재고','기준정보','기준정보를 자동 이관'],
-    ['제천·슬로바키아 공장 MES 업그레이드','2016.04 ~ 2017.12','LOT','특진','Oracle 9i'],
+    ['제천·슬로바키아 공장 MES 업그레이드','2016.04 ~ 2017.12','LOT','Oracle 9i'],
     ['SPC 이상현상 알림 시스템 개발','2015.09','단독','100만 건','7가지','TCP','SMS'],
     ['댓글 필터 (Android · Web)','WebView','Transformers.js','WebLLM','Web Worker','혼자'],
     ['HealthDog','Google OAuth','Firebase','Supabase','AdMob','RevenueCat','혼자'],
@@ -72,7 +78,7 @@ test('main career editing leaves the application full-career data independent',a
   const shared=spawnSync('ruby',['-ryaml','-rjson','-e','puts JSON.generate(YAML.load_file("_data/resume.yml")["content"].flat_map { |group| group["content"].map { |item| item["title"] } })'],{encoding:'utf8'});
   assert.equal(shared.status,0,shared.stderr);
   const titles=JSON.parse(shared.stdout);
-  assert.equal([...main.matchAll(/<article class="resume-item"/g)].length,22);
+  assert.equal([...main.matchAll(/<article class="resume-item"/g)].length,23);
   assert.equal(titles.length,20);
   assert.ok(main.includes('Node.js API 서버 메모리 장애 개선'));
   assert.ok(!titles.includes('Node.js API 서버 메모리 장애 개선'));

@@ -2,6 +2,7 @@
   <header class="section-heading">
     <p class="section-number">03 · AUTOMATION</p>
     <h2 id="automation-title">{{ include.automation.title }}</h2>
+    <p>{{ include.automation.period }}</p>
     <p>앞 섹션 플랫폼이 연동하는 외부 시스템 8종 가운데 하나입니다. 화면이 쓰던 호출 규격을 알아내 업무 단위로 다시 묶었습니다.</p>
   </header>
 
@@ -28,7 +29,19 @@
     <p>{{ include.automation.case.description }}</p>
   </div>
 
+  <div class="automation-case" id="external-call-improvement">
+    <h3>{{ include.automation.improvements.title }}</h3>
+    <p><strong>{{ include.automation.improvements.result }}</strong></p>
+  </div>
+  <div class="automation-brief">
+    {% for item in include.automation.improvements.steps %}
+      <article><span>{{ item.label }}</span><p>{{ item.description }}</p></article>
+    {% endfor %}
+  </div>
+
   <div class="automation-savings">
+    <h3>업무 자동화의 절감 효과 추산</h3>
+    <p><a href="https://velog.io/@lasid84/RPA프로젝트구축" target="_blank" rel="noopener noreferrer">산정 근거와 개발 과정 ↗</a></p>
     <div class="automation-table-wrap">
       <table>
         <caption>{{ include.automation.savings.note }}</caption>
@@ -36,7 +49,7 @@
           <tr>
             <th scope="col">부서</th>
             <th scope="col">기능</th>
-            <th scope="col" class="num">월 절감(시간)</th>
+            <th scope="col" class="num">월 절감 예상(시간)</th>
             <th scope="col">월 처리량</th>
           </tr>
         </thead>

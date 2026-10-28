@@ -10,8 +10,8 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   const page = await readPage('daangn/index.html');
   const main = await readPage('index.html');
   assert.ok(page, 'build /daangn/');
-  assert.equal([...page.matchAll(/<article class="resume-item"/g)].length, 21);
-  assert.equal([...main.matchAll(/<article class="resume-item"/g)].length, 22);
+  assert.equal([...page.matchAll(/<article class="resume-item"/g)].length, 22);
+  assert.equal([...main.matchAll(/<article class="resume-item"/g)].length, 23);
   for (const [profile, html] of [['Daangn', page], ['main', main]]) {
     assert.ok(html.includes('2026.06 ~ 2026.09'), `${profile} project period`);
     assert.ok(!html.includes('2026.06 ~ 2026.08'), `${profile} does not show the old period`);
@@ -19,7 +19,7 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   for (const text of [
     'RPA 프로젝트 (삼성 NERP 연동)',
     'C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, 공용 라이브러리로 중복 코드를 정리했습니다.',
-    '이후 NestJS로 백엔드를 전환하고 컨테이너 기반 배포 체계를 구축했습니다.',
+    '통합 과정에서 NestJS로 백엔드를 전환하고 컨테이너 기반 배포 체계를 구축했습니다.',
   ]) {
     assert.ok(!page.includes(text), `excluded: ${text}`);
     assert.ok(main.includes(text), `main retains shared career data: ${text}`);
@@ -67,8 +67,8 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   assert.ok(sap.includes('SAP 기준정보를 MES에 자동 반영해 수작업 입력과 데이터 불일치 가능성을 줄였습니다.'), 'SAP master data wording');
   assert.doesNotMatch(sap, /기준정보를 자동 이관해 운영 오류와 수작업을 줄였습니다/);
   const mes = articles.find(article => article.includes('<h4>제천·슬로바키아 공장 MES 업그레이드</h4>'));
-  assert.equal([...mes.matchAll(/<li>/g)].length, 2, 'MES details use the two requested points');
-  for (const text of ['VB6 → C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle 9i → 11g, PL/SQL', '<strong>박스 단위까지 세분화</strong>', '원자재부터 생산 공정·완제품까지 이력을 연결해', '프로젝트 완료 후 과장으로 특진했습니다.']) assert.ok(mes.includes(text), text);
+  assert.equal([...mes.matchAll(/<li>/g)].length, 1, 'MES details describe the work; promotion is recorded in career history');
+  for (const text of ['VB6 → C# (.NET 4.5), ASP.NET, WinForms, WCF, Oracle 9i → 11g, PL/SQL', '<strong>박스 단위까지 세분화</strong>', '원자재부터 생산 공정·완제품까지 이력을 연결해']) assert.ok(mes.includes(text), text);
   const spc = articles.find(article => article.includes('<h4>SPC 이상현상 알림 시스템 개발</h4>'));
   for (const text of ['일평균 약 100만 건의 생산 데이터가 발생하는 환경에서', '<strong>7가지 SPC 이상 징후를 SQL로 판정하는 로직</strong>', '감지된 이상 징후를 SMS와 현황판으로 전달하도록 구성했습니다.']) assert.ok(spc.includes(text), text);
   assert.doesNotMatch(spc, /<li>/, 'SPC details use paragraphs');
@@ -104,7 +104,7 @@ test('Daangn pages link to each other without PDF links and retain their own can
       await access(target);
     }
   }
-  assert.ok((await readPage('portfolio/index.html')).includes('class="nav-resume"'), 'default portfolio keeps its PDF link');
+  assert.doesNotMatch(await readPage('portfolio/index.html'), /href="[^"]*\.pdf(?:[?#][^"]*)?"/, 'default portfolio directs readers to the current web career');
 });
 
 test('Daangn portfolio highlights the four figures in the submission resume', async () => {
