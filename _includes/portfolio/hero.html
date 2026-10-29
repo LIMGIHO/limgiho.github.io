@@ -17,6 +17,7 @@
       <div class="hero-contact">
         <a href="mailto:{{ include.portfolio.person.email }}">{{ include.portfolio.person.email }}</a>
         <a href="{{ include.portfolio.person.github_url }}">GitHub</a>
+        <a class="portfolio-print-url" href="{{ page.url | absolute_url }}">{{ site.url | remove: "https://" }}{{ page.url }}</a>
       </div>
     </div>
   </div>

@@ -153,3 +153,8 @@
     break-inside: avoid;
   }
 }
+
+.automation-section .section-heading h2 {
+  word-break: keep-all;
+  text-wrap: balance;
+}

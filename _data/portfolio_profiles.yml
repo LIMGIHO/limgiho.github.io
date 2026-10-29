@@ -5,6 +5,8 @@ default:
   summary: 레거시, 반복 업무, 데이터 단절을 통합 플랫폼과 자동화로 해결해 온 풀스택 엔지니어입니다.
   metrics: [legacy-integration, work-screens, external-call-reduction, migration-volume]
   show_pdf_link: false
+  delivery_summary:
+    - 2025.11~12에 GitLab CI/CD·Docker Swarm 기반 배포 체계를 구축했습니다. 2026.09에는 Kaniko에서 buildx로 전환하고 캐시·러너를 개선해 테스트·빌드·배포 시간을 약 12분에서 6분으로 줄였습니다.
   show_additional_work: true
 
 daangn:

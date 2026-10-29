@@ -716,3 +716,23 @@
     widows: 2;
   }
 }
+
+// 제출용 인쇄: 기존 자동화 표를 한 장에 보존하고 후속 개선은 다음 장으로 구분한다.
+.portfolio-print-url { display: none; }
+@media print {
+  .portfolio-print-url { display: block !important; }
+  .hero-cta-resume,
+  a[href*="/assets/resume/"] { display: none !important; }
+  .journey-item { gap: 38px !important; }
+  .automation-section { break-after: auto; }
+  .automation-section h2 { word-break: keep-all; }
+  .automation-savings { break-inside: avoid; }
+  .automation-savings tfoot { display: table-row-group; }
+  .external-call-print-group { break-before: page; padding-top: 10px; }
+  .external-call-print-group .automation-case { margin-top: 0 !important; }
+  .external-call-print-group .automation-case h3 { font-size: 1.25rem !important; }
+  .writings-section { break-before: auto; }
+  .writings-list { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .writings-list article { padding: 10px !important; }
+  .writings-list h3 { word-break: keep-all; }
+}

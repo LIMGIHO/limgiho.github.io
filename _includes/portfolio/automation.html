@@ -29,19 +29,9 @@
     <p>{{ include.automation.case.description }}</p>
   </div>
 
-  <div class="automation-case" id="external-call-improvement">
-    <h3>{{ include.automation.improvements.title }}</h3>
-    <p><strong>{{ include.automation.improvements.result }}</strong></p>
-  </div>
-  <div class="automation-brief">
-    {% for item in include.automation.improvements.steps %}
-      <article><span>{{ item.label }}</span><p>{{ item.description }}</p></article>
-    {% endfor %}
-  </div>
-
   <div class="automation-savings">
-    <h3>업무 자동화의 절감 효과 추산</h3>
-    <p><a href="https://velog.io/@lasid84/RPA프로젝트구축" target="_blank" rel="noopener noreferrer">산정 근거와 개발 과정 ↗</a></p>
+    <h3>기존 업무 자동화의 절감 효과 추산</h3>
+    <p><a href="https://velog.io/@lasid84/RPA프로젝트구축" target="_blank" rel="noopener noreferrer">기존 자동화 효과 산정 근거 ↗</a></p>
     <div class="automation-table-wrap">
       <table>
         <caption>{{ include.automation.savings.note }}</caption>
@@ -73,4 +63,16 @@
       </table>
     </div>
   </div>
+  <section class="external-call-print-group" aria-label="호출 기록 분석과 반복 조회 개선">
+    <div class="automation-case" id="external-call-improvement">
+      <h3>{{ include.automation.improvements.title }}</h3>
+      <p><strong>{{ include.automation.improvements.result }}</strong></p>
+    </div>
+    <div class="automation-brief">
+      {% for item in include.automation.improvements.steps %}
+        <article><span>{{ item.label }}</span><p>{{ item.description }}</p></article>
+      {% endfor %}
+    </div>
+
+  </section>
 </section>
