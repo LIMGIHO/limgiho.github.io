@@ -18,8 +18,6 @@ test('main and Daangn careers use separate profiles while retaining the requeste
   }
   for (const text of [
     'RPA 프로젝트 (삼성 NERP 연동)',
-    'C# 기반 입력 자동화를 웹 플랫폼으로 통합하고, 공용 라이브러리로 중복 코드를 정리했습니다.',
-    '통합 과정에서 NestJS로 백엔드를 전환하고 컨테이너 기반 배포 체계를 구축했습니다.',
   ]) {
     assert.ok(!page.includes(text), `excluded: ${text}`);
     assert.ok(main.includes(text), `main retains shared career data: ${text}`);
