@@ -19,9 +19,9 @@ metrics:
     source: 기존 아키텍처 Web 노드 역할 설명
     section: flagship
   - id: lookup-time
-    value: "10분 → 5초"
-    label: 외부 정보 조회
-    source: 최신 경력기술서의 Web 기반 사내 시스템 전면 통합 항목
+    value: "약 10분 → 약 5초"
+    label: 통관 확인·본사 입력
+    source: 사용자 확인 · 현업에서 확인한 통관 상태 확인·본사 입력 처리시간
     section: flagship
   - id: automation-hours
     value: "월 1,227h"
