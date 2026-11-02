@@ -8,6 +8,9 @@ const html=()=>readFile(new URL('index.html',site),'utf8').catch(()=>'');
 
 test('the original Jekyll main URL uses the latest resume and remains canonical for the separate route',async()=>{
   const page=await html();assert.ok(page,'build the real Jekyll main page');
+  assert.doesNotMatch(page,/class="portal-track"|id="portrait-canvas"|id="portal-stage"/,'the main page opens directly on the resume');
+  assert.ok(page.indexOf('class="resume-surface"')<page.indexOf('<section class="resume"'),'the resume is the first visible page content');
+  assert.doesNotMatch(page,/<script type="module" src="\/assets\/js\/ink-resume\.js"/,'the main page does not load the removed cover interaction');
   assert.doesNotMatch(page,/\{[%{]/);assert.equal([...page.matchAll(/<article class="resume-item"/g)].length,23);
   const about=page.slice(page.indexOf('class="about-prose"'),page.indexOf('class="about-image"'));
   for(const paragraph of [
@@ -98,7 +101,8 @@ test('the Jekyll page resolves its local runtime, stylesheet, PDF and fragments 
     await access(target);
     if(fragment&&target.pathname.endsWith('.html'))assert.ok((await readFile(target,'utf8')).includes(`id="${fragment}"`),href);
   }
-  assert.match(page,/<script type="module" src="\/assets\/js\/ink-resume\.js"/);
+  if(!page.includes('id="portal-track"'))assert.doesNotMatch(page,/<script type="module" src="\/assets\/js\/ink-resume\.js"/);
+  else assert.match(page,/<script type="module" src="\/assets\/js\/ink-resume\.js"/);
   const js=await readFile(new URL('assets/js/ink-resume.js',site),'utf8');
   assert.equal(spawnSync(process.execPath,['--input-type=module','--check'],{input:js}).status,0);
   assert.doesNotMatch(js,/\bimport\s*(?:\(|["'{*])/);
@@ -110,6 +114,6 @@ test('a real baseurl build retains its prefix for the Jekyll resume assets and l
   const page=await readFile(new URL('_workspace/ink-resume-baseurl/index.html',root),'utf8').catch(()=>'');
   assert.ok(page,'build with --baseurl /ink-resume-check');assert.doesNotMatch(page,/\{[%{]/);
   for(const [,href]of page.matchAll(/(?:href|src)="(\/[^" ]+)"/g))assert.ok(href.startsWith('/ink-resume-check/'),href);
-  assert.match(page,/src="\/ink-resume-check\/assets\/js\/ink-resume\.js"/);
+  assert.doesNotMatch(page,/src="[^\"]*assets\/js\/ink-resume\.js"/,'the cover script is omitted from the main page');
   assert.match(page,/<link rel="canonical" href="https:\/\/limgiho\.github\.io\/ink-resume-check\/">/);
 });

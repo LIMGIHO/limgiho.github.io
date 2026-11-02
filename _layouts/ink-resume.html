@@ -19,8 +19,9 @@
   <body{% if career_variant.theme %} class="theme-{{ career_variant.theme | escape }}"{% endif %}>
     <a class="skip-link" href="#resume">경력 본문으로 건너뛰기</a>
     <main>
+      <div id="top" class="top-anchor" aria-hidden="true"></div>
+      {% unless page.show_cover == false %}
       <div class="portal-track" id="portal-track">
-        <div id="top" class="top-anchor" aria-hidden="true"></div>
       <section class="cover portal-stage" id="portal-stage" aria-label="임기호의 이름 표지" tabindex="-1">
         <header class="cover-header">
           <a class="identity" href="#resume">{{ site.name | escape }} <span>GIHO</span></a>
@@ -59,6 +60,7 @@
         <noscript><p class="no-script">움직임 없이 보는 이름 표지입니다. 이력서는 아래에서 그대로 읽을 수 있습니다.</p></noscript>
       </section>
       </div>
+      {% endunless %}
 
       <div class="resume-surface">
       <section class="resume" aria-labelledby="resume">
@@ -147,7 +149,9 @@
       </section>
       </div>
     </main>
-    <p class="sr-only" id="status" aria-live="polite">이름 표지 아래에 전체 이력서가 있습니다.</p>
+    {% unless page.show_cover == false %}<p class="sr-only" id="status" aria-live="polite">이름 표지 아래에 전체 이력서가 있습니다.</p>{% endunless %}
+    {% unless page.show_cover == false %}
     <script type="module" src="{{ '/assets/js/ink-resume.js' | relative_url }}"></script>
+    {% endunless %}
   </body>
 </html>
