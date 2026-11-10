@@ -1,0 +1,191 @@
+{
+  "title": "문서 처리",
+  "description": [
+    "2026년 6~9월, 월 100~600건의 통관 업무에서 담당자마다 달랐던 검토 기준을 정리했습니다. 서류 9종의 55개 대조 항목을 20개 업무 규칙으로 표준화하고 자동 검증했습니다.",
+    "DOC·DOCX·엑셀·PDF·스캔본의 파일 형식별 추출과 LLM 호출을 분리하고, 문서별 추출 항목 설명과 few-shot 예시를 설정으로 관리했습니다. 검증 실패 사례와 처리 오류를 기록·분석해 추출 설정과 검증 로직을 개선했습니다.",
+    "현업 확인 기준 통관 서류 검토는 건당 8분에서 3분으로 줄었습니다. 인보이스·발주서·FDA 관련 서류에서 추출한 정보로 선적서를 작성하고, 프리알럿 메일 작성·관련 서류 첨부를 연결해 후속 업무에서 하루 약 1시간을 추가 절감했습니다."
+  ],
+  "boundary": {
+    "label": "사내망 내부 처리",
+    "description": "문서가 외부로 나가지 않습니다",
+    "x": 8,
+    "y": 8,
+    "width": 1104,
+    "height": 292
+  },
+  "nodes": [
+    {
+      "id": "doc-intake",
+      "label": "첨부 업로드",
+      "detail": "큐 등록",
+      "kind": "process",
+      "x": 24,
+      "y": 65,
+      "width": 150,
+      "height": 74
+    },
+    {
+      "id": "doc-layer",
+      "label": "텍스트 레이어 판정",
+      "detail": "",
+      "kind": "decision",
+      "x": 215,
+      "y": 65,
+      "width": 170,
+      "height": 74
+    },
+    {
+      "id": "doc-ocr",
+      "label": "스캔본 OCR",
+      "detail": "자식 프로세스 격리",
+      "kind": "process",
+      "x": 425,
+      "y": 170,
+      "width": 160,
+      "height": 74
+    },
+    {
+      "id": "doc-extract",
+      "label": "LLM 추출",
+      "detail": "사내망 추론",
+      "kind": "process",
+      "x": 425,
+      "y": 65,
+      "width": 170,
+      "height": 74
+    },
+    {
+      "id": "doc-verify",
+      "label": "추출 항목 확인·보정",
+      "detail": "정규식 · 업무 규칙",
+      "kind": "process",
+      "x": 665,
+      "y": 65,
+      "width": 170,
+      "height": 74
+    },
+    {
+      "id": "doc-success",
+      "label": "구조화 저장",
+      "detail": "부분 성공도 저장",
+      "kind": "pass",
+      "x": 900,
+      "y": 65,
+      "width": 180,
+      "height": 74
+    },
+    {
+      "id": "doc-retry",
+      "label": "재시도",
+      "detail": "최초 실행 포함 최대 3회",
+      "detail_extra": "지수 백오프",
+      "kind": "retry",
+      "x": 665,
+      "y": 215,
+      "width": 170,
+      "height": 74
+    },
+    {
+      "id": "doc-final-fail",
+      "label": "최종 실패 기록",
+      "detail": "재시도 안 함",
+      "kind": "fail",
+      "x": 900,
+      "y": 215,
+      "width": 180,
+      "height": 74
+    }
+  ],
+  "edges": [
+    {
+      "id": "intake-layer",
+      "from": "doc-intake",
+      "to": "doc-layer",
+      "kind": "flow",
+      "path": "M174 102 H215",
+      "label": "",
+      "label_x": 185,
+      "label_y": 94
+    },
+    {
+      "id": "layer-extract",
+      "from": "doc-layer",
+      "to": "doc-extract",
+      "kind": "flow",
+      "path": "M385 102 H425",
+      "label": "텍스트 있음",
+      "label_x": 350,
+      "label_y": 57
+    },
+    {
+      "id": "layer-ocr",
+      "from": "doc-layer",
+      "to": "doc-ocr",
+      "kind": "flow",
+      "path": "M300 139 V207 H425",
+      "label": "스캔본",
+      "label_x": 310,
+      "label_y": 165
+    },
+    {
+      "id": "ocr-extract",
+      "from": "doc-ocr",
+      "to": "doc-extract",
+      "kind": "flow",
+      "path": "M585 207 H615 V151 H555 V139",
+      "label": "",
+      "label_x": 0,
+      "label_y": 0
+    },
+    {
+      "id": "extract-verify",
+      "from": "doc-extract",
+      "to": "doc-verify",
+      "kind": "flow",
+      "path": "M595 102 H665",
+      "label": "",
+      "label_x": 0,
+      "label_y": 0
+    },
+    {
+      "id": "verify-success",
+      "from": "doc-verify",
+      "to": "doc-success",
+      "kind": "branch-pass",
+      "path": "M835 102 H900",
+      "label": "통과",
+      "label_x": 855,
+      "label_y": 94
+    },
+    {
+      "id": "verify-retry",
+      "from": "doc-verify",
+      "to": "doc-retry",
+      "kind": "branch-retry",
+      "path": "M750 139 V215",
+      "label": "재시도 가능",
+      "label_x": 760,
+      "label_y": 174
+    },
+    {
+      "id": "verify-final-fail",
+      "from": "doc-verify",
+      "to": "doc-final-fail",
+      "kind": "branch-fail",
+      "path": "M835 102 H865 V180 H990 V215",
+      "label": "값 없음",
+      "label_x": 900,
+      "label_y": 174
+    },
+    {
+      "id": "retry-loop",
+      "from": "doc-retry",
+      "to": "doc-extract",
+      "kind": "branch-retry",
+      "path": "M665 252 H195 V28 H425 V65",
+      "label": "재처리",
+      "label_x": 300,
+      "label_y": 242
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+hq-integration:
+  title: 본사 시스템 연동 방식 전환
+  short_title: 본사 연동 전환
+  category: 외부 시스템 연동
+  period: 2025.06–2025.10
+  technologies: Node.js · TypeScript · Puppeteer · Redis
+  responsibility: 전체 구조 설계 · 동료 1명과 요청 분석 및 구현
+  summary: 화면 자동화를 HTTP 직접 호출로 전환해 본사 시스템 연동의 회선 부담을 줄였습니다.
+  before: [업무 요청, Puppeteer, 화면·리소스 로딩, 본사 시스템]
+  after: [업무 요청, HTTP 직접 호출, 본사 시스템]
+  after_changed_steps: [2]
+  comparison_caption: 화면을 띄우던 방식에서 필요한 업무 데이터만 주고받는 방식으로 전환
+  outcome: 회선 사용량 60–70Mbps → 대체로 5Mbps 미만
+  outcome_context: HTTP 연동 전환 후 운영 관측치
+  scope: 12종 업무 흐름 전환
+  toc:
+    - {id: problem, title: 문제와 제약}
+    - {id: analysis, title: 요청·조건 분석}
+    - {id: implementation, title: 로그인 충돌 방지}
+    - {id: improvement, title: 운영 후 개선}
+
+document-automation:
+  title: 통관 서류 검증 자동화
+  short_title: 통관 서류 자동화
+  category: 문서 처리 · 업무 자동화
+  period: 2026.06–2026.09
+  technologies: NestJS · TypeScript · OCR · Local LLM · Vitest
+  responsibility: 전체 설계 및 개발 · 현업과 검토 기준 정리
+  summary: 담당자마다 달랐던 서류 검토 기준을 정리하고, 문서 간 불일치와 필요한 서류를 자동으로 확인하도록 구현했습니다.
+  before: [서류 접수, 담당자별 수작업 대조, 누락 시 재확인]
+  after: [서류 접수, 항목 추출·규칙 검증, 판정 근거 확인]
+  after_changed_steps: [2, 3]
+  comparison_caption: 개인의 경험에 의존하던 검토 기준을 공통 업무 규칙으로 정리
+  outcome: 통관 1건당 서류 검토 8분 → 3분
+  outcome_context: 특정 고객사 월 약 600건의 통관 업무 · 현업 확인 기준
+  scope: 서류 9종 · 업무 규칙 20개
+  toc:
+    - {id: problem, title: 문제와 검토 기준}
+    - {id: extraction, title: 문서 처리 흐름}
+    - {id: validation, title: 불일치·누락 확인}
+    - {id: outcome, title: 결과와 후속 업무}
+
+platform-integration:
+  title: 사내 웹 플랫폼 통합
+  short_title: 웹 플랫폼 통합
+  category: 플랫폼 설계 · 레거시 전환
+  period: 2023.09–2026.08
+  technologies: NestJS · Next.js · TypeScript · PostgreSQL
+  responsibility: 전체 구조 설계 · 백엔드 개발 · 코드 리뷰
+  summary: 항공·해운·재무 업무 시스템 15종 이상을 웹 플랫폼으로 통합했습니다.
+  show_comparison: false
+  before: [개별 업무 프로그램, 서로 다른 기술·DB, 기능·기준 별도 관리]
+  after: [통합 업무 화면, 도메인별 API, 공통 기준·연동 재사용]
+  comparison_caption: 기술과 데이터가 나뉜 시스템에서 팀이 함께 유지보수하는 플랫폼으로 전환
+  outcome: 15종 이상의 업무 시스템 통합
+  outcome_context: 항공·해운 수출입 및 재무 업무
+  scope: 5개 업무부 거래처 기준 정리
+  toc:
+    - {id: problem, title: 통합이 필요했던 이유}
+    - {id: structure, title: 시스템 구성}
+    - {id: operation, title: 바뀐 점}

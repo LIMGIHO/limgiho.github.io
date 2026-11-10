@@ -1,0 +1,19 @@
+{% assign comparison_columns = include.study.before | size %}
+{% assign after_columns = include.study.after | size %}
+{% assign middle_span = comparison_columns | minus: after_columns | plus: 1 %}
+<figure class="case-comparison" aria-label="전환 전후 비교" style="--comparison-columns: {{ comparison_columns }}">
+  <div class="comparison-row comparison-before">
+    <span class="comparison-label">BEFORE<span>전환 전</span></span>
+    <ol class="flow-steps">
+      {% for step in include.study.before %}<li>{{ step }}</li>{% endfor %}
+    </ol>
+  </div>
+  <div class="comparison-row comparison-after">
+    <span class="comparison-label">AFTER<span>전환 후</span></span>
+    <ol class="flow-steps">
+      {% for step in include.study.after %}<li{% if include.study.after_changed_steps contains forloop.index %} class="is-changed"{% endif %}{% if forloop.index == 2 %} style="--step-span: {{ middle_span }}"{% endif %}>{{ step }}</li>{% endfor %}
+    </ol>
+  </div>
+  <figcaption>{{ include.study.comparison_caption }}</figcaption>
+  <div class="case-result"><div><strong>{{ include.study.outcome }}</strong><small>{{ include.study.outcome_context }}</small></div><span>{{ include.study.scope }}</span></div>
+</figure>

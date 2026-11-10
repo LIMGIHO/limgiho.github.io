@@ -1,0 +1,44 @@
+<div class="case-document-flow">
+<figure class="document-flow-figure" tabindex="0" aria-label="문서 처리 흐름도, 좌우 스크롤 가능">
+    <svg class="document-flow-map" viewBox="0 0 1120 308" role="img" aria-labelledby="document-flow-map-title document-flow-map-description">
+      <title id="document-flow-map-title">수출 문서를 구조화 데이터로 바꾸는 사내망 내부 처리 흐름</title>
+      <desc id="document-flow-map-description">첨부 업로드부터 텍스트 레이어 유무에 따른 스캔본 OCR, 사내망 LLM 추출, 추출 항목 확인·보정, 재시도와 최종 실패 기록까지 처리되는 과정을 나타냅니다.</desc>
+      <defs>
+        <marker id="arrow-doc-flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-branch-pass" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-branch-retry" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-branch-fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+        <marker id="arrow-doc-observe" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z"></path></marker>
+      </defs>
+
+      <g class="document-flow-boundary">
+        {% assign b = include.flow.boundary %}
+        <rect x="{{ b.x }}" y="{{ b.y }}" width="{{ b.width }}" height="{{ b.height }}" rx="18"></rect>
+        <text class="boundary-label" x="{{ b.x | plus: 18 }}" y="{{ b.y | plus: 25 }}">{{ b.label }}</text>
+        <text class="boundary-description" x="{{ b.x | plus: 18 }}" y="{{ b.y | plus: 44 }}">{{ b.description }}</text>
+      </g>
+
+      <g class="document-flow-edges" aria-hidden="true">
+        {% for edge in include.flow.edges %}
+          <g class="document-flow-edge document-flow-edge-{{ edge.kind }}">
+            <path d="{{ edge.path }}" marker-end="url(#arrow-doc-{{ edge.kind }})"></path>
+            {% if edge.label != "" %}
+              <text x="{{ edge.label_x }}" y="{{ edge.label_y }}">{{ edge.label }}</text>
+            {% endif %}
+          </g>
+        {% endfor %}
+      </g>
+
+      <g class="document-flow-nodes">
+        {% for node in include.flow.nodes %}
+          <g class="document-flow-node document-flow-node-{{ node.kind }}">
+            <rect x="{{ node.x }}" y="{{ node.y }}" width="{{ node.width }}" height="{{ node.height }}" rx="10"></rect>
+            <text class="node-label" x="{{ node.x | plus: 14 }}" y="{{ node.y | plus: 27 }}">{{ node.label }}</text>
+            <text class="node-detail" x="{{ node.x | plus: 14 }}" y="{{ node.y | plus: 46 }}">{{ node.detail }}</text>
+            {% if node.detail_extra %}<text class="node-detail" x="{{ node.x | plus: 14 }}" y="{{ node.y | plus: 63 }}">{{ node.detail_extra }}</text>{% endif %}
+          </g>
+        {% endfor %}
+      </g>
+    </svg>
+  </figure>
+</div>

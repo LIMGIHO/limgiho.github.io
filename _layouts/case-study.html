@@ -1,0 +1,73 @@
+{% assign study = site.data.case_studies[page.case_study] %}
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ study.title | escape }} · 임기호</title>
+  <meta name="description" content="{{ study.summary | escape }}">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/case-study.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  {% if page.case_study == 'hq-integration' %}<link rel="stylesheet" href="{{ '/assets/css/hq-flow.css' | relative_url }}">{% endif %}
+  {% if page.case_study == 'document-automation' %}<link rel="stylesheet" href="{{ '/assets/css/document-overview.css' | relative_url }}">{% endif %}
+  <link rel="preload" href="{{ '/assets/fonts/SUIT-Variable.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+</head>
+<body class="case-study case-{{ page.case_study }}">
+  <a class="skip-link" href="#main-content">본문으로 이동</a>
+  <header class="case-header">
+    <a class="case-brand" href="{{ '/' | relative_url }}">임기호<span>Software Engineer</span></a>
+    <nav aria-label="사이트 메뉴">
+      <a href="{{ '/' | relative_url }}">웹 이력서</a>
+    </nav>
+  </header>
+  <div class="case-shell">
+    <aside class="case-sidebar" aria-label="프로젝트 탐색">
+      <details class="case-mobile-menu" open>
+        <summary>이 페이지 목차</summary>
+        <div class="case-sidebar-inner">
+          <p class="eyebrow">PROJECT NOTES</p>
+          <p class="sidebar-title">{{ study.short_title }}</p>
+          <nav class="case-toc" aria-label="페이지 목차">
+            <a href="#overview" data-case-toc aria-current="location">개요</a>
+            {% for item in study.toc %}<a href="#{{ item.id }}" data-case-toc>{{ item.title }}</a>{% endfor %}
+          </nav>
+          <nav class="case-projects" aria-label="프로젝트별 상세 페이지">
+            <p class="eyebrow">다른 프로젝트</p>
+            {% for entry in site.data.case_studies %}{% unless entry[0] == page.case_study %}
+            {% assign project_path = '/portfolio/' | append: entry[0] | append: '/' %}
+            <a href="{{ project_path | relative_url }}">{{ entry[1].short_title }} <span aria-hidden="true">↗</span></a>
+            {% endunless %}{% endfor %}
+          </nav>
+        </div>
+      </details>
+    </aside>
+    <main id="main-content" class="case-main">
+      <article>
+        <header id="overview" class="case-intro" data-case-section>
+          <p class="case-breadcrumb">프로젝트 <span aria-hidden="true">/</span> {{ study.category }}</p>
+          <h1>{{ study.title }}</h1>
+          <p class="case-meta">{{ study.period }}<span>{{ study.technologies }}</span></p>
+          <p class="case-responsibility">{{ study.responsibility }}</p>
+          {% unless page.case_study == 'hq-integration' or page.case_study == 'document-automation' %}<p class="case-lead">{{ study.summary }}</p>{% endunless %}
+          {% unless study.show_comparison == false %}{% if page.case_study == 'hq-integration' %}{% include case-study/hq-flow.html %}{% elsif page.case_study == 'document-automation' %}{% include case-study/document-overview.html %}{% else %}{% include case-study/comparison.html study=study %}{% endif %}{% endunless %}
+        </header>
+        <div class="case-body">{{ content }}</div>
+      </article>
+      <footer class="case-footer">
+        <p class="eyebrow">다른 프로젝트 이어 읽기</p>
+        <div class="related-projects">
+          {% for entry in site.data.case_studies %}{% unless entry[0] == page.case_study %}
+          {% assign project_path = '/portfolio/' | append: entry[0] | append: '/' %}
+          <a href="{{ project_path | relative_url }}"><span>{{ entry[1].category }}</span><strong>{{ entry[1].title }} ↗</strong></a>
+          {% endunless %}{% endfor %}
+        </div>
+        <p class="footer-credit">임기호<a class="back-top" href="#overview">맨 위로 ↑</a></p>
+      </footer>
+    </main>
+  </div>
+  {% if page.case_study == 'platform-integration' %}<script src="{{ '/assets/js/portfolio.js' | relative_url }}" defer></script>{% endif %}
+  <script src="{{ '/assets/js/case-study.js' | relative_url }}" defer></script>
+</body>
+</html>

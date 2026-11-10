@@ -1,0 +1,20 @@
+<figure class="session-figure">
+  <svg viewBox="0 0 620 360" role="img" aria-labelledby="session-title session-desc">
+    <title id="session-title">두 API 서버의 본사 요청과 세션 공유</title>
+    <desc id="session-desc">API 서버 A와 B는 본사 시스템에 각각 직접 요청합니다. 두 서버는 Redis에 저장된 세션을 공유하며, 인증 시 분산 락으로 중복 로그인을 제어합니다. Redis는 본사 요청을 중계하지 않습니다.</desc>
+    <defs><marker id="session-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z"/></marker></defs>
+    <g class="session-edges">
+      <path d="M240 62 H340 V128 H405" marker-end="url(#session-arrow)"/>
+      <path d="M240 180 H340 V150 H405" marker-end="url(#session-arrow)"/>
+      <path class="session-storage" d="M70 90 V285 H145" marker-start="url(#session-arrow)" marker-end="url(#session-arrow)"/>
+      <path class="session-storage" d="M200 208 V257" marker-start="url(#session-arrow)" marker-end="url(#session-arrow)"/>
+    </g>
+    <text class="edge-caption" x="359" y="102">HTTP 요청</text>
+    <text class="edge-caption" x="255" y="244">세션 공유 · 인증 락</text>
+    <g class="session-node"><rect x="38" y="34" width="202" height="56" rx="6"/><text x="139" y="68">API 서버 A</text></g>
+    <g class="session-node"><rect x="100" y="152" width="140" height="56" rx="6"/><text x="170" y="186">API 서버 B</text></g>
+    <g class="session-node session-headquarters"><rect x="405" y="105" width="180" height="68" rx="6"/><text x="495" y="145">본사 시스템</text></g>
+    <g class="session-node session-redis"><rect x="145" y="257" width="175" height="56" rx="6"/><text x="232" y="291">Redis</text></g>
+  </svg>
+  <figcaption>업무 요청은 본사로 직접 보내고, 인증에 필요한 세션은 Redis에서 공유합니다.</figcaption>
+</figure>

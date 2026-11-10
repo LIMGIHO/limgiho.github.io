@@ -1,0 +1,327 @@
+# 플랫폼 상세 페이지 전용 목표 구조. svg_path는 세로 압축을 좌표에 반영한 렌더링 경로.
+boundaries:
+- id: presentation
+  label: PRESENTATION
+  description: 사용자 업무 화면
+  x: 290
+  y: 16
+  width: 440
+  height: 190
+- id: external-systems
+  label: EXTERNAL SYSTEMS
+  description: 플랫폼 경계 밖
+  x: 30
+  y: 400
+  width: 270
+  height: 190
+- id: integration-data
+  label: DATA & INFERENCE
+  description: 영속 데이터와 사내망 추론
+  x: 310
+  y: 400
+  width: 420
+  height: 190
+- id: worker-project
+  label: WORKER PROJECT
+  description: 같은 프로젝트 · Relay와 Consumer 역할 분리
+  x: 780
+  y: 235
+  width: 390
+  height: 190
+- id: queue-infra
+  label: QUEUE
+  description: 작업 전달 · 재시도
+  x: 780
+  y: 440
+  width: 390
+  height: 180
+nodes:
+- id: api
+  label: API
+  tech: NestJS · TypeScript
+  icon: nestjs
+  icon_caption: NestJS
+  kind: app
+  boundary: application
+  summary: 업무 로직 실행과 DB 완료 기록을 담당
+  implementation: 사용자 요청과 Consumer의 내부 호출이 같은 도메인 서비스를 사용합니다. 업무 변경과 작업 생성이 함께 필요한 요청은 같은 DB 트랜잭션에 저장합니다. 작업 실행
+    시 완료 여부와 실행 권한을 확인하고, 결과와 DONE을 저장한 뒤 성공 응답을 반환합니다.
+  structure: "<모듈>/\n├─ adapter/\n│  ├─ controller/          HTTP 진입\n│  └─ dto/\n├─ application/\n│  └─ usecase/\n\
+    │     └─ <유스케이스>/\n│        ├─ *.usecase.ts   업무 기능 하나\n│        ├─ dto.ts\n│        └─ mapper.ts\n└─ infra/\n\
+    \   └─ repository/          읽기 · 쓰기 분리"
+  structure_type: tree
+  rationale: 초기 API는 Express로 자유도 높게 만들었고, 경계가 나뉘어 있지 않아 한 곳을 고치면 다른 곳이 깨졌습니다. NestJS와 클린 아키텍처를 도입해 모듈마다 방향을 고정했습니다.
+  writeup:
+    label: 이틀 동안 운영 API가 다섯 번 죽었다
+    url: https://velog.io/@lasid84/nodejs-oom-postmortem
+  operation: 내부 DB 작업은 업무 변경과 완료 기록을 같은 트랜잭션에 묶습니다. 본사 처리 성공 후 응답이 유실된 경우에는 외부 결과를 확인하며, 확인할 수 없는 작업을 무조건 다시 실행하지
+    않습니다.
+  inputs: Web·PDA REST 요청 · Worker 내부 배치 실행 요청
+  outputs: 업무 데이터 · 전달할 작업 · 완료 상태와 결과 · 외부 연동
+  contract: DTO · 작업 식별 키 · 실행 권한 · 단기 인증 토큰
+  deployment: API 컨테이너 수평 확장
+  x: 530
+  y: 250
+  width: 180
+  height: 100
+- id: pda
+  label: 현장 PDA 앱
+  tech: Next.js · PWA
+  icon: nextjs
+  icon_caption: Next.js
+  kind: app
+  boundary: presentation
+  summary: Web과 별도로 배포되는 현장 단말용 PWA
+  implementation: Web과 같은 Next.js 기반이지만 PWA로 패키징해 현장 단말에 설치형으로 배포하고, 독립된 파이프라인으로 빌드·배포합니다.
+  structure: Next.js · PWA manifest · API client
+  operation: Web과 별도 CI/CD 파이프라인으로 빌드·배포합니다.
+  inputs: 현장 작업자 입력
+  outputs: REST 요청
+  contract: TypeScript DTO · HTTP status
+  deployment: PDA 컨테이너 독립 배포
+  x: 310
+  y: 86
+  width: 185
+  height: 100
+- id: web
+  label: Web
+  tech: Next.js · React · TypeScript
+  icon: nextjs
+  icon_caption: Next.js
+  kind: app
+  boundary: presentation
+  summary: 5개 업무 도메인의 90여 개 화면
+  implementation: 화면 단위 로컬 슬라이스와 공통 도메인 슬라이스를 분리하고, 서버 상태와 화면 상태의 책임을 나눴습니다. 기능이 많은 화면은 그 안에서 기능별로 다시 나눴습니다.
+  structure: '<도메인 화면>/
+
+    ├─ _container/       화면 조합 · 상태 연결
+
+    ├─ _features/        업무 기능 묶음
+
+    │  └─ <기능>/
+
+    │     ├─ container/  기능 상태 · 이벤트
+
+    │     ├─ view/       기능 표현
+
+    │     └─ hooks/      기능별 훅
+
+    ├─ _hooks/           화면 공통 훅
+
+    └─ _store/           화면 상태'
+  structure_type: tree
+  rationale: 프론트도 경계가 나뉘어 있지 않아 한 곳을 고치면 다른 화면이 깨졌습니다. API와 같은 방식으로 클린 아키텍처를 옮겨보려 했지만 상태 관리와 훅이 레이어 구분에 얹히지 않았습니다.
+    여러 구성을 시험한 끝에 기능 슬라이스로 나누는 FSD로 정리했습니다.
+  operation: 화면과 기능이 폴더 단위로 갈려 있어 수정 범위가 그 폴더 안에 머뭅니다.
+  inputs: 사용자 입력 · 조회 조건 · 첨부 문서
+  outputs: REST 요청 · 업무 결과 화면 · 파일 다운로드
+  contract: TypeScript DTO · HTTP status · 공통 오류 형식
+  deployment: Web 컨테이너 독립 배포
+  x: 530
+  y: 86
+  width: 180
+  height: 100
+- id: external
+  label: 외부 시스템 8종
+  tech: EDI 전문 · 저울 TCP 소켓 · FTP · 스케줄 수집
+  kind: boundary
+  boundary: external-systems
+  summary: 플랫폼 밖에서 연동하는 시스템 8종
+  implementation: 요청·수집·수신 세 방향이고 프로토콜이 제각각이라 하나로 억지 추상화하지 않았습니다. 전문 형식과 응답 규칙은 상대 시스템이 정하고 플랫폼이 거기 맞춥니다. 본사 운영
+    시스템만은 연동 규격을 문서로 받을 수 없어, 화면이 주고받던 요청을 뜯어 직접 알아냈습니다.
+  structure: "요청형 EDI 전송\n· 수집형 스케줄러\n  (환율·선사·항구·운임 마스터, 공휴일, 요율)\n· TCP 클라이언트로 저울 데이터 수집\n· 파일 교환\n· 본사 운영 시스템\
+    \ 화면 호출 재현"
+  inputs: 플랫폼 요청 · 스케줄 수집
+  outputs: 전문 응답 · 마스터 데이터 · 저울 측정값
+  contract: EDI 810 전문 형식 · 소켓 프로토콜 · 파일 규격 · 직접 알아낸 HTTP 호출 규격
+  x: 48
+  y: 470
+  width: 234
+  height: 100
+- id: local-llm
+  label: 로컬 LLM
+  tech: 사내망 추론 서버 · 문서 추출 · OCR
+  kind: infra
+  boundary: integration-data
+  summary: 문서 추출을 사내망 안에서 처리
+  implementation: 추론 서버를 사내망 장비에 띄우고 HTTP로 호출합니다. 고객사 문서라 망 밖으로 나갈 수 없어 외부 API를 쓰지 않았습니다. JSON Schema로 LLM 출력 구조를
+    지정하고, 일부 추출 항목을 정규식과 업무 규칙으로 확인·보정합니다. 서류 간 누락과 불일치는 별도의 업무 규칙으로 검사합니다.
+  structure: '텍스트 레이어 판정
+
+    · 스캔본 OCR(전체 페이지 → 표 영역 재인식)
+
+    · JSON 응답 파싱 · 반복 추출 테스트'
+  operation: PDF에 텍스트 레이어가 있으면 그대로 읽고, 스캔본만 OCR로 처리합니다. 렌더 해상도는 실물 문서로 반복 측정해 정했습니다. 300dpi에서 나던 오인식이 400dpi에서 사라졌고
+    처리 시간은 거의 같았습니다.
+  inputs: 수출입 문서 · 추출 스키마
+  outputs: 검증된 구조화 데이터 · 실패 사유
+  contract: Internal HTTP · JSON Schema
+  deployment: 사내망 추론 서버 독립 운영
+  x: 330
+  y: 470
+  width: 185
+  height: 100
+- id: data
+  label: PostgreSQL
+  tech: 업무 데이터 · 작업 기록
+  kind: infra
+  boundary: integration-data
+  summary: 전달 상태와 업무 상태를 구분해 저장
+  implementation: 기존 작업 테이블의 jobId와 payload를 전달 기록으로 활용하는 설계입니다. 전달 상태(미전달/전달 확인)와 업무 상태(PENDING/RUNNING/DONE/FAILED)를
+    별도로 관리합니다. 업무 변경과 전달 의도를 함께 저장해야 하는 경우 동일 트랜잭션으로 커밋합니다.
+  structure: 't_batch_job_m: jobId · payload · 전달 상태 · 업무 상태 · 결과'
+  operation: 미전달 작업은 Relay가 다시 조회합니다. DONE은 재실행하지 않으며, 장기 RUNNING과 외부 결과 미확정 작업은 별도 복구·확인 대상으로 관리합니다.
+  inputs: API 업무·작업 저장 · Relay 전달 기록 조회·갱신
+  outputs: 미전달 작업 · 업무 상태 · 저장된 결과
+  contract: SQL · 트랜잭션 경계
+  x: 535
+  y: 470
+  width: 175
+  height: 100
+- id: queue
+  label: BullMQ
+  tech: Redis · 동일 jobId
+  icon: redis
+  icon_caption: Redis
+  kind: infra
+  boundary: queue-infra
+  summary: 같은 큐에 같은 jobId가 남아 있는 동안 중복 등록 억제
+  selection_reason: 3명이 화면·API·배치를 모두 개발하고 운영해야 했습니다. 기존 Node.js·Redis 환경에 맞고, 재시도와 동시 실행 제어 기능을 제공하는 BullMQ를 선택해 큐 처리 기능을 직접 구현하고 관리하는 부담을 줄였습니다.
+  implementation: Relay가 DB jobId를 그대로 BullMQ jobId로 사용합니다. 큐 등록 후 DB 전달 완료 기록 전에 중단되면 같은 ID로 재등록합니다. 큐에 해당 작업이
+    남아 있으면 새 작업은 추가되지 않습니다.
+  structure: queue-names · job type/status/mode · typed payload · cron catalog 생성 스크립트
+  operation: 완료 작업이 삭제되면 같은 ID로 다시 등록될 수 있으므로, 업무 API에서도 완료 상태를 확인합니다. 전달 확인은 업무 성공을 의미하지 않습니다.
+  inputs: Relay의 queue.add · 공용 작업 계약
+  outputs: Consumer에 전달되는 작업 · 재시도 · 큐 상태
+  contract: 공용 작업 계약 패키지 · typed payload
+  deployment: Redis 인프라 독립 운영
+  x: 795
+  y: 510
+  width: 150
+  height: 100
+- id: relay
+  label: Outbox Relay
+  tech: DB 조회 → 큐 등록
+  kind: app
+  boundary: worker-project
+  x: 795
+  y: 300
+  width: 170
+  height: 100
+  summary: DB에 남은 미전달 작업을 큐에 전달
+  implementation: FOR UPDATE SKIP LOCKED로 미전달 행을 잠그고, 같은 jobId로 큐 등록 후 전달 상태를 갱신해 커밋합니다. 큐 등록 중에는 DB 트랜잭션을 유지합니다.
+    업무 완료까지 기다리지는 않습니다.
+  structure: polling service · 전달 기록 repository · queue publisher
+  operation: 중간 종료로 DB 변경이 롤백되면 다음 조회에서 다시 처리합니다. DONE이 확인되면 재등록 없이 전달 기록만 정리합니다. Redis 대기 시간과 트랜잭션 시간을 제한하고, 오류·미전달
+    대기 시간을 관측합니다.
+  inputs: DB 미전달 작업 · 기존 jobId와 payload
+  outputs: BullMQ 등록 · DB 전달 확인 기록
+  contract: 동일 큐·동일 jobId · 행 잠금 · 전달 상태와 업무 상태 분리
+  deployment: Consumer와 같은 Worker 프로젝트
+  rationale: API의 DB 저장과 Redis 등록 사이에서 프로세스가 종료돼도 전달할 작업을 DB에서 다시 찾도록 합니다. 중복 전달 가능성은 API의 완료 확인과 업무별 멱등 처리로 다룹니다.
+- id: worker
+  label: Consumer
+  tech: BullMQ → 내부 API
+  icon: nestjs
+  icon_caption: NestJS
+  kind: app
+  boundary: worker-project
+  summary: 업무 API의 완료 기록을 확인한 뒤 큐 처리 종료
+  implementation: 큐 작업을 받아 인증된 내부 API를 호출합니다. 업무 로직은 API에 두고, API가 DB에 결과와 DONE을 커밋한 뒤 성공 응답을 보내면 Processor를 정상
+    반환합니다. 완료 저장을 completed 이벤트에만 맡기지 않습니다.
+  structure: queue consumer · internal API client · scheduler trigger
+  rationale: 전달과 실행의 역할을 구분하면서 기존 Worker 프로젝트를 유지합니다. Relay만 전달 기록에 접근하고, Consumer는 업무 로직을 API에 위임합니다.
+  operation: DB 완료 후 API 응답이 유실되면 재호출 시 저장된 결과를 반환합니다. RUNNING 회수와 외부 결과 미확정 복구는 업무별로 정하며, 단순 시간 초과만으로 재실행하지 않습니다.
+  inputs: BullMQ 작업 · 예약 실행
+  outputs: 내부 API 호출 · 완료 커밋 확인 후 큐 정상 종료
+  contract: 공용 작업 계약 패키지 · 단기 인증 토큰
+  deployment: Relay와 같은 Worker 프로젝트 · 역할별 서비스
+  x: 995
+  y: 300
+  width: 165
+  height: 100
+edges:
+- id: pda-api
+  from: pda
+  to: api
+  flow: sync
+  label: REST
+  path: M402 186 V218 H590 V250
+  label_x: 470
+  label_y: 208
+  svg_path: M402 120.9 L402 141.7 L590 141.7 L590 156.5
+- id: web-api
+  from: web
+  to: api
+  flow: sync
+  label: REST
+  path: M620 186 V250
+  label_x: 628
+  label_y: 222
+  svg_path: M620 120.9 L620 156.5
+- id: api-data
+  from: api
+  to: data
+  flow: sync
+  label: 업무·작업·완료 기록
+  path: M650 350 V470
+  label_x: 662
+  label_y: 372
+  svg_path: M650 227.5 L650 299.5
+- id: api-external
+  from: api
+  to: external
+  flow: sync
+  label: 프로토콜별 어댑터로 격리
+  path: M530 280 H250 V470
+  label_x: 330
+  label_y: 268
+  svg_path: M530 182 L250 182 L250 299.5
+- id: api-llm
+  from: api
+  to: local-llm
+  flow: sync
+  label: internal HTTP
+  path: M580 350 V380 H505 V470
+  label_x: 548
+  label_y: 368
+  svg_path: M580 227.5 L580 247 L505 247 L505 299.5
+- id: queue-worker
+  from: queue
+  to: worker
+  flow: async
+  label: 소비
+  path: M945 560 H975 V350 H995
+  label_x: 982
+  label_y: 455
+  svg_path: M945 364 L975 364 L975 227.5 L989 227.5
+- id: worker-api
+  from: worker
+  to: api
+  flow: sync
+  label: 실행 요청 · 완료 응답
+  path: M1082 300 V215 H755 V300 H720
+  label_x: 850
+  label_y: 200
+  svg_path: M1082 195 L1082 139.75 L755 139.75 L755 195 L716 195
+- id: data-relay
+  to: relay
+  flow: sync
+  label: 미전달 선점 · 전달 기록
+  path: M710 520 H750 V350 H795
+  label_x: 640
+  label_y: 435
+  from: data
+  svg_path: M710 338 L750 338 L750 227.5 L789 227.5
+- id: relay-queue
+  to: queue
+  flow: async
+  label: 동일 jobId로 전달
+  path: M870 400 V510
+  label_x: 795
+  label_y: 430
+  from: relay
+  svg_path: M870 260 L870 325.5
+planned: true
+description: Web·PDA 요청은 API가 처리합니다. API는 DB에 전달할 작업을 기록하고, Worker 프로젝트의 Relay가 이를 큐에 넣습니다. 같은 프로젝트의 Consumer는 큐
+  작업을 받아 API를 호출합니다. DB 업무 완료를 기록한 뒤 큐 처리를 끝내는 목표 구조입니다.
