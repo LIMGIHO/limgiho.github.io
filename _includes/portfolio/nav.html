@@ -5,6 +5,7 @@
   <div class="nav-inner">
     <a class="nav-brand" href="#main-content">{{ include.portfolio.person.name }}</a>
     <ul class="nav-links">
+      {% if page.show_case_index %}<li><a href="#case-index" data-nav-link="case-index">프로젝트 상세</a></li>{% endif %}
       <li><a href="#career-journey" data-nav-link="career-journey">경력</a></li>
       <li><a href="#flagship" data-nav-link="flagship">플랫폼</a></li>
       <li><a href="#automation" data-nav-link="automation">자동화</a></li>

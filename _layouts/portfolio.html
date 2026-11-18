@@ -9,6 +9,7 @@
     <div class="portfolio-shell">
       <main id="main-content">
         {% include portfolio/hero.html portfolio=portfolio profile=profile %}
+        {% if page.show_case_index %}{% include portfolio/case-index.html %}{% endif %}
         {% include portfolio/journey.html journey=portfolio.journey %}
         {% include portfolio/flagship.html flagship=portfolio.flagship profile=profile %}
         {% include portfolio/automation.html automation=portfolio.automation %}

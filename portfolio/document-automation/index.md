@@ -27,8 +27,8 @@ permalink: /portfolio/document-automation/
 {% include case-study/document-flow.html flow=site.data.document_case_flow %}
 
 <div class="document-ocr-case" markdown="0">
-<h3>해상도를 높였지만 품목 순번이 누락된 사례</h3>
-<p>같은 발주서를 해상도별로 비교하니, 400dpi에서 품목 순번 5개가 모두 누락됐습니다. 200·300dpi에서는 정상 추출돼 기본값을 200dpi로 정하고, 신뢰도가 낮은 페이지만 높은 해상도로 재시도하도록 했습니다.</p>
+<h3>고해상도가 항상 추출 정확도를 높이지는 않았던 사례</h3>
+<p>발주서 A에서는 200·300dpi일 때 품목 순번 5개를 모두 추출했지만, 400dpi에서는 하나도 추출하지 못했습니다. 발주서 B에서는 어느 해상도에서나 2개를 모두 추출했습니다. 이 비교를 바탕으로 기본값은 200dpi로 두고, 추출 신뢰도가 낮은 페이지만 해상도를 높여 다시 처리했습니다.</p>
 <table><thead><tr><th scope="col">확인 항목</th><th scope="col">200dpi</th><th scope="col">300dpi</th><th scope="col">400dpi</th></tr></thead><tbody><tr><th scope="row">발주서 A의 품목 순번 추출</th><td>5/5</td><td>5/5</td><td>0/5</td></tr><tr><th scope="row">발주서 B의 품목 순번 추출</th><td>2/2</td><td>2/2</td><td>2/2</td></tr></tbody></table>
 <p class="document-ocr-source">2026.09.01 발주서 2건 비교 · 추출된 품목 순번 수 / 해당 문서의 품목 수</p>
 </div>

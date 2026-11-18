@@ -1,0 +1,12 @@
+<section class="portfolio-section" id="case-index" aria-labelledby="case-index-title">
+  <header class="section-heading"><h2 id="case-index-title">프로젝트 상세</h2></header>
+  <div class="writings-list">
+    {% for entry in site.data.case_studies %}
+      {% assign study = entry[1] %}
+      <article>
+        <h3><a class="writing-link" href="{{ '/portfolio/' | append: entry[0] | append: '/' | relative_url }}">{{ study.title }}</a></h3>
+        <p>{{ study.summary }}</p>
+      </article>
+    {% endfor %}
+  </div>
+</section>

@@ -59,3 +59,20 @@ platform-integration:
     - {id: problem, title: 통합이 필요했던 이유}
     - {id: structure, title: 시스템 구성}
     - {id: operation, title: 바뀐 점}
+
+batch-monitoring:
+  title: 로그 모니터링
+  short_title: 로그 모니터링
+  category: 운영 관측 · 컨테이너 로그
+  period: 2026.11 구축 · 운영 중
+  technologies: NestJS · Next.js · Loki · Grafana Alloy · Docker Swarm · BullMQ · Redis
+  responsibility: 화면·조회 API 설계 및 개발 · 매일 운영하며 개선
+  summary: 컨테이너 로그를 Loki에 모아 서비스별 오류와 느린 요청을 확인하고, 같은 요청의 처리 기록을 시간순으로 조회합니다.
+  show_comparison: false
+  outcome: 전체 컨테이너 로그를 한 화면에서 조회
+  outcome_context: 2026.11 구축 · 매일 로그를 확인하며 개선 중
+  scope: 앱·레벨·기간·request_id 조회 · 같은 request_id의 로그 묶어 보기
+  toc:
+    - {id: why, title: 왜 만들었나}
+    - {id: all-logs, title: 전체 로그 화면}
+    - {id: reading, title: 매일 로그 확인과 개선}

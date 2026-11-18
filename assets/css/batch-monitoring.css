@@ -1,0 +1,14 @@
+.case-batch-monitoring .monitor-capture{margin:16px 0 0;padding:12px;border:1px solid var(--rule);border-radius:8px;background:var(--surface)}
+.case-batch-monitoring .monitor-capture img{display:block;width:100%;height:auto;border-radius:4px}
+.case-batch-monitoring .monitor-capture a{display:block;cursor:zoom-in}
+.case-batch-monitoring .log-flow{margin:18px 0 0;padding:12px;border:1px solid var(--rule);border-radius:8px;background:var(--surface)}
+.case-batch-monitoring .log-flow-scroll{overflow-x:auto}
+.case-batch-monitoring .log-flow svg{display:block;width:100%;min-width:520px;height:auto;font-family:inherit}
+.case-batch-monitoring .log-flow .lf-t{font-size:19px;fill:#1f2937}
+.case-batch-monitoring .log-flow .lf-s{font-size:19px;fill:#4b5563}
+.case-batch-monitoring .log-flow .lf-b{font-weight:700}
+.case-batch-monitoring .log-flow .lf-m{fill:#4b5563}
+.case-batch-monitoring .log-flow text[fill]{fill:revert-layer}
+.case-batch-monitoring .log-flow figcaption{margin:8px 0 0;color:var(--muted);font-size:13px}
+.case-batch-monitoring .log-flow-hint{display:none}
+@media (max-width:620px){.case-batch-monitoring .log-flow-hint{display:inline}}
