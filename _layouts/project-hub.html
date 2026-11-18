@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>임기호 · 백엔드 개발 포트폴리오</title>
+  <meta name="description" content="임기호 백엔드 개발 포트폴리오: 프로젝트 사례 네 가지">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="canonical" href="{{ page.url | absolute_url }}">
+  <style>@font-face{font-family:"SUIT";src:url("{{ '/assets/fonts/SUIT-Variable.woff2' | relative_url }}") format("woff2");font-weight:100 900;font-display:swap}</style>
+  <link rel="stylesheet" href="{{ '/assets/css/project-hub.css' | relative_url }}?v={{ site.time | date: '%s' }}">
+  <link rel="preload" href="{{ '/assets/fonts/SUIT-Variable.woff2' | relative_url }}" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="{{ '/assets/favicon.ico' | relative_url }}">
+</head>
+<body class="project-hub">
+  <a class="skip-link" href="#main-content">본문으로 이동</a>
+  <header class="hub-header">
+    <h1>임기호 · 백엔드 개발 포트폴리오</h1>
+    <a class="hub-resume" href="{{ '/' | relative_url }}">웹 이력서</a>
+  </header>
+  <main id="main-content" class="hub-main">
+    <section id="case-index" aria-labelledby="case-index-title">
+      <h2 id="case-index-title">프로젝트 사례</h2>
+      <ul class="hub-list">
+        {% for entry in site.data.case_studies %}
+          {% assign study = entry[1] %}
+          <li>
+            <a class="hub-item" href="{{ '/portfolio/' | append: entry[0] | append: '/' | relative_url }}">
+              <span class="hub-cat">{{ study.category }}</span>
+              <span class="hub-title">{{ study.title }}</span>
+              <span class="hub-sum">{{ study.summary }}</span>
+              <span class="hub-meta">{{ study.period }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

@@ -120,8 +120,8 @@ test('Daangn portfolio highlights the four figures in the submission resume', as
   for (const text of ['현재 buildx 기반', 'buildx로 전환', '약 12분에서 6분', '모니터링 환경을 구축']) assert.ok(deliveryFlow.includes(text), text);
 });
 
-test('main and Daangn portfolios use the registered company name', async () => {
-  for (const path of ['portfolio/index.html', 'daangn/portfolio/index.html']) {
+test('archived and Daangn portfolios use the registered company name', async () => {
+  for (const path of ['portfolio/archive/index.html', 'daangn/portfolio/index.html']) {
     const page = await readPage(path);
     assert.ok(page, path);
     assert.ok(page.includes('(주)케이더블유이코리아'), `${path}: registered company name`);
